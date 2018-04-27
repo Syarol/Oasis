@@ -1,0 +1,391 @@
+html {
+  overflow-x: hidden; 
+}
+
+body {
+  position: relative;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 100% 30% 50% 90% 30% 15%; 
+}
+
+html, body {
+  height: 100%;
+  width: 100%; 
+}
+
+header{
+	display: grid;
+	grid-template-rows: 1fr;
+	grid-template-columns: 20% 60% 20%;
+	align-items: center; 
+	width: 100%;
+	height: 10%;
+	position: fixed;
+	background-color: #FFF;
+	opacity: 0.9;
+	box-shadow:  0 0 1em #C0D1C4;
+	z-index: 10;
+}
+
+.logo-container{
+	display: flex;
+	font-size: 2em;
+	font-family: 'Do Hyeon', sans-serif;
+}
+
+.navigation{
+    margin: auto; 
+}
+
+a{
+	text-decoration: none;
+    color: black;
+}
+
+  #page_header nav {
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) 40%; 
+    font-family: 'Tajawal', sans-serif;
+}
+
+.cart-header-container{
+	display: grid;
+	grid-template-columns: 70% 30%;
+	justify-items: self-start;
+}
+
+#cart_open{
+	grid-column-start: 2;
+}
+
+#head_section{
+	background-position: center;
+  	background-size: cover;
+  	background-repeat: no-repeat;
+	background-image: url(images/books-bookstore-book-reading-159711.jpeg); 
+	display: flex;
+}
+
+.center-banner-text{
+	height: 40%;
+	margin: auto;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 60% 30% 10%;
+	align-items: center;
+	justify-items: center;
+}
+
+.center-banner-text span{
+	font-size: 4em;
+	font-family:  'Black Han Sans', sans-serif;
+	color: white;
+}
+
+.center-banner-text .button{
+	font-size: 1.3em;
+	font-family:  'Tajawal', sans-serif;
+	width: 30%;
+	height: 50%;
+	display: grid;
+	align-items: center;
+	justify-items: center;
+	background-color: #CCCFCDE6;
+}
+
+.welcome-sign-wrapper{
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 10% 80% 10%;	
+	align-items: center;	
+	justify-items: center;
+}
+
+.welcome-sign{
+	height: 100%;
+	width: 80%;
+	background-color: #f2f2f2;
+	grid-row-start: 2; 
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 10% 35% 5% 40% 10%;	
+	align-items: center;	
+	justify-items: center;
+	box-shadow:  0 0 2px #C0D1C4;
+	
+}
+
+.welcome-sign-wrapper h2{
+	margin: 0;
+	font-size: 2em;
+	grid-row-start: 2;
+	align-self: end;
+	font-family: 'Bree Serif', serif;
+}
+
+.welcome-sign-wrapper p{
+	grid-row-start: 4;
+	text-align: center;
+	font-family: 'Tajawal', sans-serif;
+}
+
+#new_arrival_section{
+	display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 20% 80%;
+}
+
+#new_arrival_controls_wrapper{
+	display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 35% 30% 35%;
+    align-items: center;
+	justify-content: center;
+}
+
+#new_arrival_controls{
+	grid-column-start: 2;
+	display: grid;
+	grid-template-rows: 1fr;
+	grid-template-columns: 15% 70% 15%;
+	align-items: center;
+	justify-items: center;
+}
+
+.left-control{
+	cursor: pointer;
+}
+
+#new_arrival_controls h2{
+	font-family: 'Tajawal', sans-serif;
+	font-size: 1.2em;
+}
+
+.right-control{
+	cursor: pointer;
+}
+
+#new_arrival_list{
+	display: grid;
+	grid-template-rows: 1fr;
+	grid-template-columns: 25% 25% 25% 25%; 
+}
+
+#new_arrival_list .arrival-item{
+	background-position: center;
+  	background-size: contain;
+  	background-repeat: no-repeat;
+	background-image: url(images/azimov.jpeg); 
+}
+
+#best_and_exclusive_section{
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 15% 85%;
+}
+
+#best_and_exclusive_section .title-container{
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr;
+	justify-items: center;
+	align-items: center;
+	font-family:  'Black Han Sans', sans-serif;
+}
+
+#best_and_exclusive_section .title-container:first-child{
+	background-color: #fff;
+	color: #5a5656;
+}
+
+#best_and_exclusive_section .title-container:nth-child(2){
+	background-color: black;
+}
+
+#best_and_exclusive_section .title-container:nth-child(2) span{
+	color: white;
+}
+
+.on-sale{
+	position: absolute;
+	left: -25px;
+	top: 10px;
+	transform: rotate(-45deg);
+	background: black;
+	font-family: Raleway,sans-serif;
+	font-weight: bold;
+	padding: 3px 30px;
+	font-size: 15px;
+	color: white;
+	z-index: 9;
+	clip-path: polygon(25% 0, 65% -5px, 100% 125%, 0% 100%) !important;
+}
+
+.photo-text-button-container{
+	position: relative;
+	display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 60% 30% 10%;
+    align-items: center;
+    justify-items: center;
+}
+
+.photo-text-button-container .button{
+	font-size: 1.3em;
+	font-family:  'Tajawal', sans-serif;
+	width: 30%;
+	display: grid;
+	align-items: center;
+	justify-items: center;
+	background-color: #CCCFCDE6;
+}
+
+.book-photo-container{
+	background-image: url(images/ready-player-one.jpg);
+	background-position: center;
+  	background-size: contain;
+  	background-repeat: no-repeat;
+  	height: 100%;
+	width: 100%;
+}
+
+.photo-text-button-container .text-container{
+	width: 80%;
+	text-align: justify;
+}
+
+.arrival-item{
+	position: relative;
+	background-image: url(images/fellowship-of-the-ring.jpg);
+	background-position: center;
+  	background-size: cover;
+  	background-repeat: no-repeat;
+}
+
+.exclusives-container{
+	display: grid;
+	grid-template-rows: 1fr 1fr;
+	grid-template-columns: 1fr 1fr; 
+}
+
+#find_product{
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 10% 80% 10%;	
+	align-items: center;	
+	justify-items: center;
+}
+
+.find-form{
+	grid-row-start: 2;
+	height: 80%;
+	width: 80%;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr 1fr;
+	align-items: center;
+	justify-items: center; 
+	background-color: #f2f2f2;
+	box-shadow:  0 0 2px #C0D1C4;
+	font-family:  'Tajawal', sans-serif;
+	font-size: 1.3em;
+}
+
+#find_product_form{
+	grid-row-start: 2;
+	display: grid;
+	grid-template-columns: 7.5% repeat(3, 20% 5%) 10% 7.5%;
+	width: 80%;
+	height: 40%;
+}
+
+#find_product_form input:first-child{
+	grid-column-start: 2;
+}
+
+#find_product_form select{
+	grid-column-start: 4;
+}
+
+#find_product_form input:nth-child(3){
+	grid-column-start: 6;
+}
+
+#find_product_form input:nth-child(4){
+	grid-column-start: 8;
+	font-family:  'Tajawal', sans-serif;
+	display: grid;
+	align-items: center;
+	justify-items: center;
+	background-color: #CCCFCDE6;
+	border: 0;
+}
+
+#find_product_form input[type=text], #find_product_form select {
+	border: 0;
+  	padding: 4px 0;
+  	border-bottom: 1px solid black;
+	background-color: transparent;
+	box-sizing: border-box;
+  	letter-spacing: 1px;
+}
+
+#find_product_form select {
+	-moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari and Chrome */
+    appearance:none;
+	background-image:
+    	linear-gradient(45deg, transparent 50%, gray 50%),
+    	linear-gradient(135deg, gray 50%, transparent 50%);
+  	background-position:
+    	calc(100% - 10px) calc(1em + 2px),
+    	calc(100% - 5px) calc(1em + 2px);
+  	background-size:
+    	5px 5px,
+    	5px 5px;
+  	background-repeat: no-repeat;
+}
+
+#find_product_form select:focus {
+  	background-image:
+    	linear-gradient(45deg, green 50%, transparent 50%),
+    	linear-gradient(135deg, transparent 50%, green 50%);
+  	background-position:
+    	calc(100% - 5px) 1em,
+    	calc(100% - 10px) 1em;
+  	background-size:
+    	5px 5px,
+    	5px 5px;
+  	background-repeat: no-repeat;
+  	border-color: green;
+  	outline: 0;
+}
+
+footer{
+	display: grid;
+	grid-template-rows: 1fr;
+	grid-template-columns: 2.5% 20% repeat(6, 3%) 27% repeat(4, 7.5%) 2.5%;
+	align-items: center;
+	justify-items: center;
+	background-color: #3C3C3C;
+	color: #dcdcdc;
+	font-family: 'Tajawal', sans-serif;
+}
+
+footer a{
+	color: #dcdcdc;
+	text-decoration: none;
+}
+
+footer span:first-child{
+	grid-column-start: 2;
+}
+
+footer a:nth-child(8){
+	grid-column-start: 10;
+}
