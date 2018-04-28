@@ -1,0 +1,206 @@
+html {
+  overflow-x: hidden; 
+}
+
+body {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 100% repeat(3, 50%) 15%; 
+}
+
+html, body {
+  height: 100%;
+  width: 100%; 
+}
+
+.grid-center-items{
+    display: grid;
+    align-items: center;
+    text-align: center;
+    justify-items: center;
+}
+
+.button{
+	font-family:  'Tajawal', sans-serif;
+	background-color: #CCCFCDE6;	
+}
+
+#search_top{
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url(images/pexels-photo-164005.jpeg);
+}
+
+.center-cover-no-repeat{
+	background-position: center;
+  	background-size: cover;
+  	background-repeat: no-repeat;
+}
+
+.search-top-wrapper h1{
+  font-size: 4em;
+  color: #242222;
+  font-family: 'Bree Serif', serif;
+}
+
+.search-top-wrapper form{
+  display: grid;
+  grid-template-columns: 1fr 60% 10px 125px 1fr;
+  width: 100%;
+}
+
+.search-top-wrapper form input[type=text]{
+  grid-column-start: 2;
+  border: 0;
+  padding: 4px;
+  border-bottom: 1px solid black;
+  background-color: transparent;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+  font-size: 1.2em;
+}
+
+.search-top-wrapper form input[type=submit]{
+  grid-column-start: 4;
+  border: 0;
+  font-size: 1.2em;
+}
+
+header{
+  grid-template-rows: 1fr;
+  grid-template-columns: 20% 60% 20%;
+  width: 100%;
+  height: 10%;
+  position: fixed;
+  background-color: #FFF;
+  opacity: 0.9;
+  box-shadow:  0 0 1em #C0D1C4;
+  z-index: 10;
+  justify-items: initial !important;
+}
+
+.logo-container{
+  display: flex;
+  font-size: 2em;
+  font-family: 'Do Hyeon', sans-serif;
+}
+
+.navigation{
+    margin: auto; 
+}
+
+a{
+  text-decoration: none;
+    color: black;
+}
+
+#page_header nav {
+    grid-template-columns: repeat(3, 1fr) 40%; 
+    font-family: 'Tajawal', sans-serif;
+}
+
+.cart-header-container{
+  display: grid;
+  grid-template-columns: 70% 30%;
+  justify-items: self-start;
+}
+
+#cart_open{
+  grid-column-start: 2;
+}
+
+.carousel-section{
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 20% 80%;  
+}
+
+.carousel-wrapper{
+  grid-template-rows: 1fr;
+  grid-template-columns: 35% 30% 35%;
+  justify-items: initial;
+}
+
+.carousel-controls{
+  grid-column-start: 2;
+  grid-template-rows: 1fr;
+  grid-template-columns: 15% 70% 15%;
+}
+
+.left-control{
+  cursor: pointer;
+}
+
+.carousel-controls h2{
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1.2em;
+}
+
+.right-control{
+  cursor: pointer;
+}
+
+#recommend_carousel{
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 25% 25% 25% 25% 25% 25%;
+}
+
+.carousel-item{
+  position: relative; 
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 85% 15%;
+}
+
+.recommend-picture{
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url(images/animal-farm.jpg);
+}
+
+.recommend-name{
+  font-family: 'Hind', sans-serif;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+footer{
+  grid-template-rows: 1fr;
+  grid-template-columns: 2.5% 20% repeat(6, 3%) 27% repeat(4, 7.5%) 2.5%;
+  background-color: #3C3C3C;
+  color: #dcdcdc;
+  font-family: 'Tajawal', sans-serif;
+}
+
+footer a{
+  color: #dcdcdc;
+  text-decoration: none;
+}
+
+footer span:first-child{
+  grid-column-start: 2;
+}
+
+footer a:nth-child(8){
+  grid-column-start: 10;
+}

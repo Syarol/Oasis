@@ -3,7 +3,6 @@ html {
 }
 
 body {
-  position: relative;
   margin: 0;
   display: grid;
   grid-template-columns: 1fr;
@@ -15,11 +14,27 @@ html, body {
   width: 100%; 
 }
 
-header{
+.grid-center-items{
 	display: grid;
+    align-items: center;
+    text-align: center;
+    justify-items: center;
+}
+
+.button{
+	font-family:  'Tajawal', sans-serif;
+	background-color: #CCCFCDE6;	
+}
+
+.center-cover-no-repeat{
+	background-position: center;
+  	background-size: cover;
+  	background-repeat: no-repeat;
+}
+
+header{
 	grid-template-rows: 1fr;
 	grid-template-columns: 20% 60% 20%;
-	align-items: center; 
 	width: 100%;
 	height: 10%;
 	position: fixed;
@@ -27,6 +42,7 @@ header{
 	opacity: 0.9;
 	box-shadow:  0 0 1em #C0D1C4;
 	z-index: 10;
+	justify-items: initial !important;
 }
 
 .logo-container{
@@ -44,11 +60,7 @@ a{
     color: black;
 }
 
-  #page_header nav {
-    justify-items: center;
-    align-items: center;
-    text-align: center;
-    display: grid;
+#page_header nav {
     grid-template-columns: repeat(3, 1fr) 40%; 
     font-family: 'Tajawal', sans-serif;
 }
@@ -64,9 +76,6 @@ a{
 }
 
 #head_section{
-	background-position: center;
-  	background-size: cover;
-  	background-repeat: no-repeat;
 	background-image: url(images/books-bookstore-book-reading-159711.jpeg); 
 	display: flex;
 }
@@ -74,11 +83,8 @@ a{
 .center-banner-text{
 	height: 40%;
 	margin: auto;
-	display: grid;
 	grid-template-columns: 1fr;
 	grid-template-rows: 60% 30% 10%;
-	align-items: center;
-	justify-items: center;
 }
 
 .center-banner-text span{
@@ -89,21 +95,13 @@ a{
 
 .center-banner-text .button{
 	font-size: 1.3em;
-	font-family:  'Tajawal', sans-serif;
 	width: 30%;
 	height: 50%;
-	display: grid;
-	align-items: center;
-	justify-items: center;
-	background-color: #CCCFCDE6;
 }
 
 .welcome-sign-wrapper{
-	display: grid;
 	grid-template-columns: 1fr;
 	grid-template-rows: 10% 80% 10%;	
-	align-items: center;	
-	justify-items: center;
 }
 
 .welcome-sign{
@@ -111,11 +109,8 @@ a{
 	width: 80%;
 	background-color: #f2f2f2;
 	grid-row-start: 2; 
-	display: grid;
 	grid-template-columns: 1fr;
 	grid-template-rows: 10% 35% 5% 40% 10%;	
-	align-items: center;	
-	justify-items: center;
 	box-shadow:  0 0 2px #C0D1C4;
 	
 }
@@ -141,20 +136,16 @@ a{
 }
 
 #new_arrival_controls_wrapper{
-	display: grid;
     grid-template-rows: 1fr;
     grid-template-columns: 35% 30% 35%;
-    align-items: center;
-	justify-content: center;
+    justify-items: initial;
 }
 
 #new_arrival_controls{
 	grid-column-start: 2;
-	display: grid;
 	grid-template-rows: 1fr;
 	grid-template-columns: 15% 70% 15%;
-	align-items: center;
-	justify-items: center;
+
 }
 
 .left-control{
@@ -190,11 +181,8 @@ a{
 }
 
 #best_and_exclusive_section .title-container{
-	display: grid;
 	grid-template-columns: 1fr;
 	grid-template-rows: 1fr;
-	justify-items: center;
-	align-items: center;
 	font-family:  'Black Han Sans', sans-serif;
 }
 
@@ -223,33 +211,23 @@ a{
 	font-size: 15px;
 	color: white;
 	z-index: 9;
-	clip-path: polygon(25% 0, 65% -5px, 100% 125%, 0% 100%) !important;
+	clip-path: polygon(26% 0, 65% -5px, 100% 125%, 0% 107%) !important;
 }
 
 .photo-text-button-container{
 	position: relative;
-	display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 60% 30% 10%;
-    align-items: center;
-    justify-items: center;
 }
 
 .photo-text-button-container .button{
 	font-size: 1.3em;
-	font-family:  'Tajawal', sans-serif;
 	width: 30%;
-	display: grid;
-	align-items: center;
-	justify-items: center;
-	background-color: #CCCFCDE6;
 }
 
 .book-photo-container{
 	background-image: url(images/ready-player-one.jpg);
-	background-position: center;
-  	background-size: contain;
-  	background-repeat: no-repeat;
+	background-size: contain !important;
   	height: 100%;
 	width: 100%;
 }
@@ -262,9 +240,6 @@ a{
 .arrival-item{
 	position: relative;
 	background-image: url(images/fellowship-of-the-ring.jpg);
-	background-position: center;
-  	background-size: cover;
-  	background-repeat: no-repeat;
 }
 
 .exclusives-container{
@@ -274,22 +249,16 @@ a{
 }
 
 #find_product{
-	display: grid;
 	grid-template-columns: 1fr;
 	grid-template-rows: 10% 80% 10%;	
-	align-items: center;	
-	justify-items: center;
 }
 
 .find-form{
 	grid-row-start: 2;
 	height: 80%;
 	width: 80%;
-	display: grid;
 	grid-template-columns: 1fr;
 	grid-template-rows: 1fr 1fr;
-	align-items: center;
-	justify-items: center; 
 	background-color: #f2f2f2;
 	box-shadow:  0 0 2px #C0D1C4;
 	font-family:  'Tajawal', sans-serif;
@@ -319,9 +288,6 @@ a{
 #find_product_form input:nth-child(4){
 	grid-column-start: 8;
 	font-family:  'Tajawal', sans-serif;
-	display: grid;
-	align-items: center;
-	justify-items: center;
 	background-color: #CCCFCDE6;
 	border: 0;
 }
@@ -367,11 +333,8 @@ a{
 }
 
 footer{
-	display: grid;
 	grid-template-rows: 1fr;
 	grid-template-columns: 2.5% 20% repeat(6, 3%) 27% repeat(4, 7.5%) 2.5%;
-	align-items: center;
-	justify-items: center;
 	background-color: #3C3C3C;
 	color: #dcdcdc;
 	font-family: 'Tajawal', sans-serif;
