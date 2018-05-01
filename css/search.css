@@ -1,0 +1,154 @@
+html {
+  overflow-x: hidden; 
+}
+
+body {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 20% 1fr;
+  grid-template-rows: 10% 10% 140% 15%; 
+}
+
+html, body {
+  height: 100%;
+  width: 100%; 
+}
+
+.grid-center-items{
+    display: grid;
+    align-items: center;
+    text-align: center;
+    justify-items: center;
+}
+
+.button{
+  border: 0;
+  padding: 5px;
+  font-size: 1em;
+	font-family:  'Tajawal', sans-serif;
+	background-color: #CCCFCDE6;	
+}
+
+
+header{
+  grid-template-rows: 1fr;
+  grid-template-columns: 20% 60% 20%;
+  width: 100%;
+  height: 10%;
+  position: fixed;
+  background-color: #FFF;
+  opacity: 0.9;
+  box-shadow:  0 0 1em #C0D1C4;
+  z-index: 10;
+  justify-items: initial !important;
+}
+
+.logo-container{
+  display: flex;
+  font-size: 2em;
+  font-family: 'Do Hyeon', sans-serif;
+}
+
+.navigation{
+    margin: auto; 
+}
+
+a{
+  text-decoration: none;
+    color: black;
+}
+
+#page_header nav {
+    grid-template-columns: repeat(3, 1fr) 40%; 
+    font-family: 'Tajawal', sans-serif;
+}
+
+.cart-header-container{
+  display: grid;
+  grid-template-columns: 70% 30%;
+  justify-items: self-start;
+}
+
+#cart_open{
+  grid-column-start: 2;
+}
+
+
+.search-bar{
+  grid-row-start: 2;
+  grid-column-start: 2;
+}
+
+.search-bar form{
+  display: grid;
+  grid-template-columns: 1fr 60% 10px 100px 1fr;
+  width: 100%;
+}
+
+.search-bar form input[type=text]{
+  grid-column-start: 2;
+  padding: 4px;
+  border: 1px solid black;
+  background-color: transparent;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+  font-size: 1.2em;
+  border-radius: 10px;
+  padding-left: 5px;
+}
+
+.search-bar form input[type=submit]{
+  grid-column-start: 4;
+  border-radius: 3px;
+}
+
+
+.search-filters{
+  position: fixed;
+  top: 12%;
+  left: 0;
+  width: 20%;
+  height: 86%;
+  border-right: 1px solid #605d5d99;
+  grid-template-rows: 7.5% 1fr; 
+  font-family: 'Tajawal', sans-serif;
+}
+
+.search-filters h3{
+  margin: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+footer{
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 4;
+  grid-template-rows: 1fr;
+  grid-template-columns: 2.5% 20% repeat(6, 3%) 27% repeat(4, 7.5%) 2.5%;
+  background-color: #3C3C3C;
+  color: #dcdcdc;
+  font-family: 'Tajawal', sans-serif;
+  z-index: 5;
+}
+
+footer a{
+  color: #dcdcdc;
+  text-decoration: none;
+}
+
+footer span:first-child{
+  grid-column-start: 2;
+}
+
+footer a:nth-child(8){
+  grid-column-start: 10;
+}

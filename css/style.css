@@ -24,6 +24,8 @@ html, body {
 .button{
 	font-family:  'Tajawal', sans-serif;
 	background-color: #CCCFCDE6;	
+	border: 0;
+	cursor: pointer;
 }
 
 .center-cover-no-repeat{
@@ -172,6 +174,7 @@ a{
   	background-size: contain;
   	background-repeat: no-repeat;
 	background-image: url(images/azimov.jpeg); 
+	background-color: white;
 }
 
 #best_and_exclusive_section{
@@ -235,6 +238,7 @@ a{
 .photo-text-button-container .text-container{
 	width: 80%;
 	text-align: justify;
+	font-family: 'Tajawal', sans-serif;
 }
 
 .arrival-item{
@@ -287,9 +291,6 @@ a{
 
 #find_product_form input:nth-child(4){
 	grid-column-start: 8;
-	font-family:  'Tajawal', sans-serif;
-	background-color: #CCCFCDE6;
-	border: 0;
 }
 
 #find_product_form input[type=text], #find_product_form select {
@@ -351,4 +352,137 @@ footer span:first-child{
 
 footer a:nth-child(8){
 	grid-column-start: 10;
+}
+
+
+#bestseller_modal_wrapper{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	display: none;
+	background-color: #000000b3;
+	z-index: 20;
+}
+
+.modal-container{
+	position: relative;
+	margin: auto;
+	width: 80%;
+	height: 90%;
+	background-color: #fff9;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 5% 10% 7.5% 5% 60% 7.5% 5%;
+	font-family: 'Lato', sans-serif;
+}
+
+.modal-container h3{
+	grid-row-start: 2;
+	grid-column-start: 1;
+	grid-column-end: 3; 
+	margin: 0;
+	font-size: 2em;
+	font-family: 'Bree Serif', serif !important;
+}
+
+.modal-photo{
+	grid-row-start: 3;
+	grid-row-end: 7;
+	grid-column-start: 1;
+	background-image: url(images/ready-player-one.jpg);
+	background-size: contain !important;
+	width: 90%;
+	height: 100%;
+}
+
+.modal-container .author{
+	grid-row-start: 3;
+	grid-column-start: 2;
+}
+
+.modal-container .category{
+	grid-row-start: 4;
+	grid-column-start: 2;
+}
+
+.modal-container .text-container{
+	grid-row-start: 5;
+	grid-column-start: 2;
+	width: 90%;
+	text-align: justify;
+}
+
+.modal-container .price{
+	grid-row-start: 6;
+	grid-column-start: 2;
+}
+
+.modal-container .button{
+	font-size: 1.2em;	
+}
+
+#close-modal {
+  float: right;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-weight: bold; 
+  color: black;
+  font-size: 28px;
+  transition: 1s; 
+}
+
+#close-modal:hover, #close-modal:focus{
+  color: #aaa;
+  text-decoration: none;
+  cursor: pointer; 
+}
+
+.arrival-item .arrival-item-inf {
+	width: 100%;
+	height: 100%;
+	transition: 1s;
+	background-color: #000000b3;
+	color: #dcdcdc;
+	-webkit-transform: translateX(100%);
+	transform: translateX(100%);
+	grid-template-columns: 1fr;
+	grid-template-rows: 20% 15% 7.5% 15% 7.5% 15% 20%;
+}
+
+.arrival-item:hover .arrival-item-inf,
+.arrival-item.active .arrival-item-inf{
+	-webkit-transform: translateX(0);
+	transform: translateX(0);
+}
+
+.arrival-item-inf h3{	
+	font-family: 'Bree Serif', serif;	
+	margin: 0;
+	font-size: 2em;
+	grid-row-start: 2;
+}
+
+.arrival-item-inf span:nth-child(2){
+	grid-row-start: 3;
+	font-size: .8em;
+}
+
+.arrival-item-inf span:nth-child(3){
+	grid-row-start: 4;
+	font-size: 1.4em;
+}
+
+.arrival-item-inf span:nth-child(4){
+	grid-row-start: 5;
+	font-size: .8em;
+}
+
+.arrival-item-inf span{
+	font-family: 'Tajawal', sans-serif;
+}
+
+.arrival-item button{
+	grid-row-start: 6;
+	font-size: 1.2em;
 }

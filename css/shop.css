@@ -153,6 +153,7 @@ a{
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 85% 15%;
+  background-color: #fff;
 }
 
 .recommend-picture{
@@ -170,7 +171,56 @@ a{
 
 
 
+.carousel-item .arrival-item-inf {
+  width: 100%;
+  height: 100%;
+  transition: 1s;
+  background-color: #000000b3;
+  color: #dcdcdc;
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
+  grid-template-columns: 1fr;
+  grid-template-rows: 20% 15% 7.5% 15% 7.5% 15% 20%;
+  position: absolute;
+}
 
+.carousel-item:hover .arrival-item-inf,
+.carousel-item.active .arrival-item-inf{
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+
+.arrival-item-inf h3{ 
+  font-family: 'Bree Serif', serif; 
+  margin: 0;
+  font-size: 2em;
+  grid-row-start: 2;
+}
+
+.arrival-item-inf span:nth-child(2){
+  grid-row-start: 3;
+  font-size: .8em;
+}
+
+.arrival-item-inf span:nth-child(3){
+  grid-row-start: 4;
+  font-size: 1.4em;
+}
+
+.arrival-item-inf span:nth-child(4){
+  grid-row-start: 5;
+  font-size: .8em;
+}
+
+.arrival-item-inf span{
+  font-family: 'Tajawal', sans-serif;
+}
+
+.arrival-item-inf button{
+  grid-row-start: 6;
+  font-size: 1.2em;
+  border: 0;
+}
 
 
 
