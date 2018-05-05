@@ -135,6 +135,7 @@ a{
 	display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 20% 80%;
+    position: relative;
 }
 
 #new_arrival_controls_wrapper{
@@ -152,6 +153,12 @@ a{
 
 .left-control{
 	cursor: pointer;
+	height: 1.2em;
+	transition: 1s;
+}
+
+.left-control:hover{
+	transform: scale(1.2);
 }
 
 #new_arrival_controls h2{
@@ -160,21 +167,38 @@ a{
 }
 
 .right-control{
+	transition: 1s;
 	cursor: pointer;
+	height: 1.2em;
+}
+
+.right-control:hover{
+	transform: scale(1.2);
 }
 
 #new_arrival_list{
-	display: grid;
+	/*display: grid;
 	grid-template-rows: 1fr;
-	grid-template-columns: 25% 25% 25% 25%; 
+	grid-template-columns: 25% 25% 25% 25%; */
+	overflow-y: hidden; 
+   	overflow-x: hidden;
+   	display: flex;
+	flex-wrap: nowrap;
+	height: 80%;
+	top: 20%;
+	position: absolute;
+	width: 100%;
 }
 
 #new_arrival_list .arrival-item{
+	flex: 1 0 25%;
+	min-width: 25%;
 	background-position: center;
   	background-size: contain;
   	background-repeat: no-repeat;
 	background-image: url(images/azimov.jpeg); 
 	background-color: white;
+	position: relative;
 }
 
 #best_and_exclusive_section{
@@ -369,7 +393,7 @@ footer a:nth-child(8){
 	margin: auto;
 	width: 80%;
 	height: 90%;
-	background-color: #fff9;
+	background-color: #fffc;
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-template-rows: 5% 10% 7.5% 5% 60% 7.5% 5%;
@@ -444,16 +468,14 @@ footer a:nth-child(8){
 	transition: 1s;
 	background-color: #000000b3;
 	color: #dcdcdc;
-	-webkit-transform: translateX(100%);
-	transform: translateX(100%);
+	margin-left: 100%;
 	grid-template-columns: 1fr;
 	grid-template-rows: 20% 15% 7.5% 15% 7.5% 15% 20%;
 }
 
 .arrival-item:hover .arrival-item-inf,
 .arrival-item.active .arrival-item-inf{
-	-webkit-transform: translateX(0);
-	transform: translateX(0);
+	margin-left: 0;
 }
 
 .arrival-item-inf h3{	
@@ -486,3 +508,4 @@ footer a:nth-child(8){
 	grid-row-start: 6;
 	font-size: 1.2em;
 }
+

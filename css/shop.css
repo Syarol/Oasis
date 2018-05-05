@@ -177,8 +177,7 @@ a{
   transition: 1s;
   background-color: #000000b3;
   color: #dcdcdc;
-  -webkit-transform: translateX(100%);
-  transform: translateX(100%);
+  margin-left: 100%;
   grid-template-columns: 1fr;
   grid-template-rows: 20% 15% 7.5% 15% 7.5% 15% 20%;
   position: absolute;
@@ -186,8 +185,7 @@ a{
 
 .carousel-item:hover .arrival-item-inf,
 .carousel-item.active .arrival-item-inf{
-  -webkit-transform: translateX(0);
-  transform: translateX(0);
+  margin-left: 0;
 }
 
 .arrival-item-inf h3{ 
