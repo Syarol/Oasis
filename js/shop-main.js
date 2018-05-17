@@ -14,14 +14,18 @@ import {getScrolledPercentage, Carousel} from './carousel.js';
  * Global variables
 */
 
-var closeBestsellerModal = document.getElementById('close-bestseller-modal');
-var arrivalCarouselMain = document.getElementById('new_arrival_list');
-var arrivalsLeft = document.getElementById('arrivals_left');
-var arrivalsRight = document.getElementById('arrivals_right');
+var recommendCarouselMain = document.getElementById('recommend_carousel');
+var bestsellersCarouselMain = document.getElementById('bestsellers_carousel');
+var arrivesCarouselMain = document.getElementById('arrives_carousel');
+
+var leftButtons = document.getElementsByClassName('left-control');
+var rightButtons = document.getElementsByClassName('right-control');
 var contactModal = document.getElementById('about_section_wrapper');
 var contactModalLink = document.getElementById('contact');
 var closeContactModal = document.getElementById('close-contact-modal');
-var arrivalCarousel;
+var recommendCarousel;
+var bestsellersCarousel;
+var arrivesCarousel;
 
 /**
  * Functions
@@ -64,7 +68,9 @@ window.loadMaps = () => {
 };
 
 document.addEventListener('DOMContentLoaded', function(){
-	arrivalCarousel = new Carousel(arrivalsRight, arrivalsLeft, arrivalCarouselMain);
+	recommendCarousel = new Carousel(rightButtons[0], leftButtons[0], recommendCarouselMain);
+	bestsellersCarousel = new Carousel(rightButtons[1], leftButtons[1], bestsellersCarouselMain);
+	arrivesCarousel = new Carousel(rightButtons[2], leftButtons[2], arrivesCarouselMain);
 
 	//if long name of book than make font-size smaller
 	for (let item of document.querySelectorAll('.arrival-item-inf h3')){
@@ -72,36 +78,19 @@ document.addEventListener('DOMContentLoaded', function(){
 	}
 });
 
-closeBestsellerModal.addEventListener('click', function(){
-	document.getElementById('bestseller_modal_wrapper').style.display = 'none';
-});
-
-document.getElementById('open_bestseller_modal').addEventListener('click', function(){
-	document.getElementById('bestseller_modal_wrapper').style.display = 'flex';
-});
-
 window.onclick = function(e) {
-	if (e.target == document.getElementById('bestseller_modal_wrapper')) {
-		document.getElementById('bestseller_modal_wrapper').style.display = 'none';
-	}
-
 	if (e.target == contactModal) {
 		contactModal.style.display = 'none';
 	}
 }; 
 
-
 contactModalLink.onclick = function(){
+	if(document.getElementById('googleMap') === null){
+		loadGoogleMap();
+	}
 	contactModal.style.display = 'flex';
 };
 
 closeContactModal.onclick = function(){
 	contactModal.style.display = 'none';
 };
-
-
-
-/*carousel.onscroll = () => {
-    var scrollPercentage = 100 * this.scrollLeft / (this.scrollWidth - this.clientWidth);
-    //console.log(scrollPercentage);
-};*/

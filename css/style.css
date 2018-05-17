@@ -180,8 +180,7 @@ a{
 	/*display: grid;
 	grid-template-rows: 1fr;
 	grid-template-columns: 25% 25% 25% 25%; */
-	overflow-y: hidden; 
-   	overflow-x: hidden;
+	overflow: hidden;
    	display: flex;
 	flex-wrap: nowrap;
 	height: 80%;
@@ -445,7 +444,7 @@ footer a:nth-child(8){
 	font-size: 1.2em;	
 }
 
-#close-modal {
+.close-modal {
   float: right;
   position: absolute;
   top: 10px;
@@ -456,7 +455,7 @@ footer a:nth-child(8){
   transition: 1s; 
 }
 
-#close-modal:hover, #close-modal:focus{
+.close-modal:hover, .close-modal:focus{
   color: #aaa;
   text-decoration: none;
   cursor: pointer; 
@@ -507,5 +506,124 @@ footer a:nth-child(8){
 .arrival-item button{
 	grid-row-start: 6;
 	font-size: 1.2em;
+}
+
+.modal-wrapper{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	z-index: 100;
+	left: 0;
+	top: 0;
+	overflow: hidden;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal{
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+	height: 90%;
+	position: relative;
+}
+
+#contact{
+	cursor: pointer;
+}
+
+
+#about_section_wrapper{
+	display: none; 
+}
+
+#about-section{
+	display: grid;
+	grid-template-rows: 10% 1fr;
+	grid-template-columns: 1fr;
+}
+
+#about-section h2{
+	margin: 0;
+	align-self: start;
+	text-align: center;
+	font-family: 'Bree Serif', serif;
+}
+
+#contacts-wrapper{
+	grid-row-start: 2;
+	width: 100%;
+	height: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-column-gap: 15px;
+	font-family: 'Tajawal', sans-serif;
+}
+
+#map-container{
+	grid-column-start: 1;
+	width: 100%;
+	height: 100%;
+	border: 2px solid #5f5c5c4d;
+}
+
+.contact-wrapper{
+	display: grid;
+	justify-items: center;
+	grid-template-rows: 30% 70% ;
+	width: 100%;
+	height: 100%;
+}
+
+.contacts-with-text{
+	width: 100%;
+	height: 100%;
+	grid-row-start: 1;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: 1fr 1fr;
+	font-size: 1.7em;
+}
+
+.contacts-with-text span{
+	font-size: .5em;
+	margin: auto;
+}
+
+.contact-time{
+	grid-column-start: 1;
+	grid-column-end: 4;
+	display: flex;
+	width: 60%;
+}
+
+.contact-form{
+	width: 100%;
+	height: 100%;
+	display: flex;
+}
+
+.contact-form form{
+	margin: auto;
+	width: 80%;
+	height: 90%;
+	display: grid;
+	grid-template-columns: 1fr;
+}
+
+.contact-form label{
+	font-size: .8em;
+}
+
+textarea{
+	resize: none;
+}
+
+.contact-form input[type=text], .contact-form input[type=e-mail], .contact-form textarea{
+	width: 100%;
+}
+
+.contact-form input[type=submit]{
+	width: 120px;
 }
 

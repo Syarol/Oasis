@@ -32,18 +32,18 @@
 	</section>
 
 	<section id="we_recommend" class="carousel-section">
-		<div class="carousel-wrapper grid-center-items">
+		<div class="carousel-controls-wrapper grid-center-items">
 			<div class="carousel-controls grid-center-items">
-				<span class="left-control">
+				<span class="control left-control">
 					<i class="fas fa-angle-left"></i>
 				</span>
 				<h2> WE RECOMMEND </h2>
-				<span class="right-control">
+				<span class="control right-control">
 					<i class="fas fa-angle-right"></i>
 				</span>
 			</div>
 		</div>
-		<div id="recommend_carousel">
+		<div id="recommend_carousel" class="carousel">
 			<div class="carousel-item">
 				<div class="arrival-item-inf grid-center-items">
 					<h3>Animal farm</h3>
@@ -119,18 +119,18 @@
 	</section>
 
 	<section id="bestsellers" class="carousel-section">
-		<div class="carousel-wrapper grid-center-items">
+		<div class="carousel-controls-wrapper grid-center-items">
 			<div class="carousel-controls grid-center-items">
-				<span class="left-control">
+				<span class="control left-control">
 					<i class="fas fa-angle-left"></i>
 				</span>
 				<h2> BESTSELLERS </h2>
-				<span class="right-control">
+				<span class="control right-control">
 					<i class="fas fa-angle-right"></i>
 				</span>
 			</div>
 		</div>
-		<div id="recommend_carousel">
+		<div id="bestsellers_carousel" class="carousel">
 			<div class="carousel-item">
 				<div class="arrival-item-inf grid-center-items">
 					<h3>Animal farm</h3>
@@ -207,18 +207,18 @@
 	</section>
 
 	<section id="new_arrives" class="carousel-section">
-		<div class="carousel-wrapper grid-center-items">
+		<div class="carousel-controls-wrapper grid-center-items">
 			<div class="carousel-controls grid-center-items">
-				<span class="left-control">
+				<span class="control left-control">
 					<i class="fas fa-angle-left"></i>
 				</span>
 				<h2> NEW ARRIVES</h2>
-				<span class="right-control">
+				<span class="control right-control">
 					<i class="fas fa-angle-right"></i>
 				</span>
 			</div>
 		</div>
-		<div id="recommend_carousel">
+		<div id="arrives_carousel" class="carousel">
 			<div class="carousel-item">
 				<div class="arrival-item-inf grid-center-items">
 					<h3>Animal farm</h3>
@@ -294,9 +294,6 @@
 		</div>
 	</section>
 
-
-
-
 	<footer class="grid-center-items">
 		<span>Copyright - Oleh Yaroshchuk 2018</span>
 
@@ -310,10 +307,44 @@
 		<a href="index.html"><span>Home</span></a>
 		<a href="shop.html"><span>Shop</span></a>
 		<a href="blog.html"><span>Blog</span></a>
-		<a href=""><span>Contact</span></a>
+		<span id="contact">Contact</span>
 	</footer>
 
+	<section id="about_section_wrapper" class="modal-wrapper">
+		<div id="about-section" class="modal">
+			<span id="close-contact-modal" class="close-modal" title="Close">&times;</span>
+			<h2>CONTACT US</h2>
+			<div id="contacts-wrapper">
+				<div id="map-container"></div>
+				<div class="contact-wrapper">
+					<div class="contacts-with-text grid-center-items">
+						<i class="fas fa-map-marker-alt"></i>
+						<i class="fas fa-paper-plane"></i>
+						<i class="fas fa-phone"></i>
+						<span>Kryviy Val str., 31, Lutsk, Volyn region, 43000</span>
+						<span>oasis@oasis.com</span>
+						<span>012345678</span>
+						<div class="contact-time">
+							<i class="far fa-clock"></i>
+							<span>Everyday 10am - 6pm</span>
+						</div>
+					</div>
+					<div class="contact-form">
+						<form>
+							<label>Your name (required)<input type="text" name="" required></label>
+							<label>Your Email (required)<input type="e-mail" name="" required></label>
+							<label>Subject<input type="text" name=""></label>
+							<label>Your Message<textarea name="" rows="5"></textarea></label>
+							<input type="submit" name="" value="Send">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
 	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-	<script src="js/index.js"></script>
+	<script type="module" src="js/shop-main.js"></script>
+
 </body>
 </html>
