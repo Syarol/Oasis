@@ -195,7 +195,7 @@ a{
 	background-position: center;
   	background-size: contain;
   	background-repeat: no-repeat;
-	background-image: url(images/azimov.jpeg); 
+	/*background-image: url(images/azimov.jpeg);*/ 
 	background-color: white;
 	position: relative;
 }
@@ -269,7 +269,7 @@ a{
 	background-image: url(images/fellowship-of-the-ring.jpg);
 }
 
-.exclusives-container{
+#exclusives_container{
 	display: grid;
 	grid-template-rows: 1fr 1fr;
 	grid-template-columns: 1fr 1fr; 
@@ -285,7 +285,7 @@ a{
 	height: 80%;
 	width: 80%;
 	grid-template-columns: 1fr;
-	grid-template-rows: 1fr 1fr;
+	grid-template-rows: 40% 1fr;
 	background-color: #f2f2f2;
 	box-shadow:  0 0 2px #C0D1C4;
 	font-family:  'Tajawal', sans-serif;
@@ -297,23 +297,29 @@ a{
 	display: grid;
 	grid-template-columns: 7.5% repeat(3, 20% 5%) 10% 7.5%;
 	width: 80%;
-	height: 40%;
+	height: 60%;
+	font-size: .8em;
 }
 
-#find_product_form input:first-child{
+#find_product_form label{
+	font-size: 0.7em;
+}
+
+#find_product_form div:first-child{
 	grid-column-start: 2;
 }
 
-#find_product_form select{
+#find_product_form div:nth-child(2){
 	grid-column-start: 4;
 }
 
-#find_product_form input:nth-child(3){
+#find_product_form div:nth-child(3){
 	grid-column-start: 6;
 }
 
-#find_product_form input:nth-child(4){
+#find_product_form div:nth-child(4){
 	grid-column-start: 8;
+	height: 100%;
 }
 
 #find_product_form input[type=text], #find_product_form select {
@@ -323,6 +329,11 @@ a{
 	background-color: transparent;
 	box-sizing: border-box;
   	letter-spacing: 1px;
+  	width: 100%;
+}
+
+#find_product_form input[type=submit]{
+	height: 70%;
 }
 
 #find_product_form select {

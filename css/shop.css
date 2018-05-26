@@ -60,6 +60,7 @@ html, body {
   box-sizing: border-box;
   letter-spacing: 1px;
   font-size: 1.2em;
+  color: white;
 }
 
 .search-top-wrapper form input[type=submit]{
