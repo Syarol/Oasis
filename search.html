@@ -5,32 +5,56 @@
 
 	<meta charset="utf-8">
 
-	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Black+Han+Sans|Bree+Serif|Hind" rel="stylesheet"> 
+	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Bree+Serif|Hind|Cabin" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous"> 
 	<link href="css/search.css" rel="stylesheet">
 </head>
 <body>
 	<header id="page_header" class="grid-center-items">
 		<div class="logo-container"><p class="navigation" scrollTo="#head-section">Oasis</p></div>
 		<nav class="grid-center-items">
-			<p class="navigation" scrollTo="#about-section"><a href="index.html">Home</a></p>
+			<p class="navigation" scrollTo="#about-section"><a href="index.php">Home</a></p>
 			<p class="navigation" scrollTo="#menu-section"><a href="blog.html">Blog</a></p>
-			<p class="navigation" scrollTo="#contact-section"><a href="shop.html">Shop</a></p>
+			<p class="navigation" scrollTo="#contact-section"><a href="shop.php">Shop</a></p>
+			<form class="grid-center-items" action="search.php" method="GET">
+				<input type="hidden" name="search-type" value="search-full">
+				<input type="text" name="query" placeholder="Search for">
+				<input class="button" type="submit" value="Search">
+			</form>
 		</nav>
 		<div class="cart-header-container">
 			<p id="cart_open" title="Click to open cart"><i class="fas fa-shopping-cart"></i><span class="count-inside-cart"></span></p>
 		</div>
 	</header> 
 
-	<div class="search-bar grid-center-items">
-		<form method="">
-			<input type="text" name="">
-			<input class="button" type="submit" name="" value="Search">
-		</form>
-	</div>
+	<section class="you-searched">
+		<span id="you_searched_text"></span>
+	</section>
 
-	<div class="search-filters grid-center-items">
-		<h3>Books</h3>
-	</div>
+	<section id="founded_section" class="grid-center-items">
+		<!-- <div class="search-bar grid-center-items">
+			<form action="search.php" method="GET">
+				<input type="text" name="query">
+				<input class="button" type="submit" value="Search">
+			</form>
+		</div> -->
+		
+	</section>
+
+	<aside class="search-filters grid-center-items">
+		<ul id="categories_list">
+			<h3><i class="far fa-plus-square"></i> Categories</h3>
+
+		</ul>
+		<ul id="authors_list">
+			<h3><i class="far fa-plus-square"></i> Authors</h3>
+
+		</ul>
+		<ul id="publishers_list">
+			<h3><i class="far fa-plus-square"></i> Publisher</h3>
+
+		</ul>
+	</aside>
 
 
 	<footer class="grid-center-items">
@@ -43,12 +67,13 @@
 		<a href=""><i class="fab fa-telegram-plane"></i></a>
 		<a href=""><i class="fab fa-instagram"></i></a>
 
-		<a href="index.html"><span>Home</span></a>
-		<a href="shop.html"><span>Shop</span></a>
+		<a href="index.php"><span>Home</span></a>
+		<a href="shop.php"><span>Shop</span></a>
 		<a href="blog.html"><span>Blog</span></a>
 		<a href=""><span>Contact</span></a>
 	</footer>
 
-	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+	<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script> -->
+	<script src="js/search.js"></script>
 </body>
 </html>

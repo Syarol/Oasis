@@ -12,7 +12,7 @@
 		function addCarouselItem($dom, $parent, $book){
 			$carouselItem = $dom->createElement("div");
 			$carouselItem->setAttribute('class', 'arrival-item carousel-item');
-			$carouselItem->setAttribute('style', 'backgroundImage: url(' + $book['thumbnailUrl'] +')');
+			$carouselItem->setAttribute('style', 'background-image:url('.$book['thumbnailUrl'].')');
 
 			$itemInf = $dom->createElement("div");
 			$itemInf->setAttribute('class', 'arrival-item-inf grid-center-items');
@@ -23,7 +23,7 @@
 		    $itemInf->appendChild($itemTitle);
 
 		    $itemAuthor = $dom->createElement("span");
-		    $itemAuthor->appendChild($dom->createTextNode($book['author'])); 
+		    $itemAuthor->appendChild($dom->createTextNode("by ".$book['author'])); 
 		    $itemInf->appendChild($itemAuthor);
 
 		    $itemPrice = $dom->createElement("span");
@@ -56,6 +56,7 @@
 		function addBestsellerPreviev($dom, $parent, $book){
 			$photo = $dom->createElement('div');
 			$photo->setAttribute('class', 'book-photo-container center-cover-no-repeat');
+			$photo->setAttribute('style', 'background-image:url('.$book['thumbnailUrl'].')');
 			$parent->appendChild($photo);
 
 			$text = $dom->createElement('span');
@@ -75,13 +76,13 @@
 			$title->appendChild($dom->createTextNode($book['title']));
 			$parent->appendChild($title);
 
-			$photo = $dom->createElement('div');
-			//add photo source
+			$photo = $dom->createElement('img');
+			$photo->setAttribute('src', $book['thumbnailUrl']);
 			$parent->appendChild($photo);
 
 			$author = $dom->createElement('span');
 			$author->setAttribute('class', 'author');
-			$author->appendChild($dom->createTextNode($book['author']));
+			$author->appendChild($dom->createTextNode("by ".$book['author']));
 			$parent->appendChild($author);
 
 			$categories = $dom->createElement('span');
@@ -104,6 +105,27 @@
 			$parent->appendChild($description);
 		}
 
+		function addCategoriesList($dom, $parent, $conn){
+			$sql = "SELECT categories FROM Catalog";
+			$result = $conn->query($sql);
+			$categoriesArray = [];
+			while($row = $result->fetch_assoc()) {
+				$arr = explode(',', $row['categories']);
+				foreach ($arr as $word) {
+		    		$word = trim($word);
+		    		if (!in_array($word, $categoriesArray)) {
+						$categoriesArray[] = $word;
+		    		}
+		    	}
+			}
+			sort($categoriesArray);
+
+			for ($i=0; $i < count($categoriesArray); $i++) { 
+			    $category = $dom->createElement("option");
+				$category->appendChild($dom->createTextNode($categoriesArray[$i])); 
+				$parent->appendChild($category);		
+			}
+		}
 
 
 	/**
@@ -134,6 +156,7 @@
 	$bestsellerPreview = $dom->getElementById('bestseller_preview');
 	$bestsellerModal = $dom->getElementById('bestseller_modal');
 	$exclusivesContainer = $dom->getElementById('exclusives_container');
+	$categorySelect = $dom->getElementById('category-select');
 
     while($row = $result->fetch_assoc()) {
     	switch ($row['specialMark']) {
@@ -150,7 +173,7 @@
     	}
     }
 
-	
+	addCategoriesList($dom, $categorySelect, $conn);
 
 
 

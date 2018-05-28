@@ -88,15 +88,15 @@
 	<section id="find_product" class="grid-center-items">
 		<div class="find-form grid-center-items">
 			<span>NEED TO FIND PARTICULAR PRODUCTS?</span>
-			<form id="find_product_form" action="" method="">
+			<form id="find_product_form" action="search.php" method="GET">
 				<div>
 					<label for="title-search">Book title</label>
 					<input type="text" name="title-search">
 				</div>
 				<div>
 					<label>Category</label>
-					<select name="category-select">
-
+					<select name="category-select" id="category-select">
+						<option selected>Choose category</option>
 					</select>
 				</div>
 				<div>
@@ -106,6 +106,7 @@
 				<div class="grid-center-items">
 					<input class="button grid-center-items" type="submit" name="" value="Search">
 				</div>
+				<input type="hidden" name="search-type" value="search-custom-small"/>
 			</form>
 		</div>
 	</section>

@@ -12,7 +12,7 @@
 		function addCarouselItem($dom, $parent, $book){
 			$carouselItem = $dom->createElement("div");
 			$carouselItem->setAttribute('class', 'carousel-item');
-			//$carouselItem->setAttribute('style', 'backgroundImage: url(' + $book['thumbnailUrl'] +')');
+			$carouselItem->setAttribute('style', 'background-image:url('.$book['thumbnailUrl'].')');
 
 			$itemInf = $dom->createElement("div");
 			$itemInf->setAttribute('class', 'arrival-item-inf grid-center-items');
@@ -41,9 +41,6 @@
 		    $itemInf->appendChild($itemButton);
 			$parent->appendChild($carouselItem);
 		}
-
-
-
 
 	/**
 	 * Main
