@@ -137,8 +137,9 @@ a{
 }
 
 .founded-item-photo{
-  width: 100%;
-  height: 100%;
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
 } 
 
 .founded-item h3{
@@ -202,9 +203,12 @@ a{
   border: 1px solid;
   position: sticky;
   top: 0;
+  background-color: #dbdbdb;
+  grid-column-start: 1;
+  grid-column-end: 3;
 }
 
-.search-filters ul{
+.search-filters form{
   width: 100%;
   margin: 0;
   padding: 0;
@@ -214,9 +218,14 @@ a{
   overflow-x: hidden;
   overflow-y: auto;
   max-height: 30px;
-  transition: max-height 1s 0s ease-in;
+  transition: max-height .5s ease-in;
   text-align: start;
+  display: grid;
+  grid-template-columns: 30px 1fr;
+}
 
+.search-filters li{
+  padding-left: 5px;
 }
 
 .search-filters i{
