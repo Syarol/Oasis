@@ -185,8 +185,15 @@
 			} 
 		} else{
 			if ($keywords[1] == '' && $keywords[2] == '' && $keywords[3] == '') {
-				# code...
-				echo "all";
+				$raw_results = $conn->query("SELECT * FROM Catalog WHERE (`title` LIKE '%".$keywords[0]."%') OR (`author` LIKE '%".$keywords[0]."%') OR (`description` LIKE '%".$keywords[0]."%') OR (`categories` LIKE '%".$keywords[0]."%')") or die($conn->error);
+			    if($raw_results->num_rows > 0){ 
+			        while($results = $raw_results->fetch_array()){
+			            addFoundedItem($dom, $results);
+			        }
+			    }
+			    else{ 
+			        echo "No results";
+			    }
 			} else if($keywords[1] != '' && $keywords[2] == '' && $keywords[3] == '') {
 				$myArray = explode(', ', $keywords[1]);
 				foreach($myArray as $word) { 
@@ -399,10 +406,13 @@
 		$itemPrice->appendChild($dom->createTextNode($book['price'])); 
 		$item->appendChild($itemPrice);
 
-		$itemButton = $dom->createElement("button");
-		$itemButton->setAttribute('class', 'button');
-		$itemButton->appendChild($dom->createTextNode("Add to cart")); 
+		$itemButton = $dom->createElement('input');
+			$itemButton->setAttribute('type', 'button');
+			$itemButton->setAttribute('name', $book['title']);
+			$itemButton->setAttribute('class', 'button');
+			$itemButton->setAttribute('value','Add to cart');
 	    $item->appendChild($itemButton);
+	    
 	/*	$itemShowMore = $dom->createElement("span");
 		$itemShowMore->appendChild($dom->createTextNode("Show more")); 
 		$item->appendChild($itemShowMore);*/
@@ -489,6 +499,11 @@
 	 * Main
 	*/
 
+	session_start();
+	if (!isset($_SESSION['inCart'])) {
+		$_SESSION['inCart'] = [];
+	}
+
 	$conn  = new mysqli("oasis", "root", "", "Oasis");
     if ($conn->connect_error) {
 	    die("Connection failed: " . $conn->connect_error);
@@ -525,7 +540,7 @@
 		case 'aside-search':
 			$keywords = [$_GET['query'], $_GET['checkbox-category'], $_GET['checkbox-author'], $_GET['checkbox-publisher']];
 			searchFullWithAside($dom, $conn, $keywords);
-			$searchTextPanel->appendChild($dom->createTextNode('Search Results: "'.$_GET['checkbox-category'].'"'));
+			$searchTextPanel->appendChild($dom->createTextNode('Search Results: "'.$_GET['checkbox-category'].' '.$_GET['checkbox-author'].' '.$_GET['checkbox-publisher'].' '.$_GET['query'].'"'));
 			break;
 		case 'search-custom-small':
 			$keywords = [$_GET['title-search'], $_GET['category-select'], $_GET['author-search']];

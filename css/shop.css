@@ -239,7 +239,7 @@ a{
   font-family: 'Tajawal', sans-serif;
 }
 
-.arrival-item-inf button{
+.arrival-item-inf input[type=button]{
   grid-row-start: 6;
   font-size: 1.2em;
   border: 0;

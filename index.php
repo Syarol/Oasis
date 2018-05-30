@@ -34,9 +34,11 @@
 		    $itemCategories->appendChild($dom->createTextNode($book['categories'])); 
 		    $itemInf->appendChild($itemCategories);
 
-		    $itemButton = $dom->createElement("button");
-		    $itemButton->setAttribute('class', 'button');
-		    $itemButton->appendChild($dom->createTextNode("Add to cart")); 
+		    $itemButton = $dom->createElement('input');
+			$itemButton->setAttribute('type', 'button');
+			$itemButton->setAttribute('name', $book['title']);
+			$itemButton->setAttribute('class', 'button');
+			$itemButton->setAttribute('value','Add to cart');
 
 		    $itemInf->appendChild($itemButton);
 			$parent->appendChild($carouselItem);
@@ -78,6 +80,7 @@
 
 			$photo = $dom->createElement('img');
 			$photo->setAttribute('src', $book['thumbnailUrl']);
+			$photo->setAttribute('class', 'modal-photo');
 			$parent->appendChild($photo);
 
 			$author = $dom->createElement('span');
@@ -98,9 +101,11 @@
 			$description = $dom->createElement('span');
 			$description->setAttribute('class', 'price');
 			$description->appendChild($dom->createTextNode($book['price']));
-				$button = $dom->createElement('span');
+				$button = $dom->createElement('input');
+				$button->setAttribute('type', 'button');
+				$button->setAttribute('name', $book['title']);
 				$button->setAttribute('class', 'button');
-				$button->appendChild($dom->createTextNode('Add to cart'));
+				$button->setAttribute('value','Add to cart');
 				$description->appendChild($button);
 			$parent->appendChild($description);
 		}
@@ -131,6 +136,11 @@
 	/**
 	 * Main
 	*/
+
+	session_start();
+	if (!isset($_SESSION['booksInCart'])) {
+		$booksInCart = $_SESSION['booksInCart'];
+	}
 
     $conn  = new mysqli("oasis", "root", "", "Oasis");
     if ($conn->connect_error) {

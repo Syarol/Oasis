@@ -26,10 +26,10 @@ var publishersListTitle = document.getElementById('publishers_list_title');
 
 function changePlusMinus(item){
 	if (item.className == 'far fa-minus-square') {
-			item.className = 'far fa-plus-square';
-		} else if(item.className == 'far fa-plus-square'){
-			item.className = 'far fa-minus-square';
-		}	
+		item.className = 'far fa-plus-square';
+	} else if(item.className == 'far fa-plus-square'){
+		item.className = 'far fa-minus-square';
+	}	
 }
 
 /**
@@ -41,7 +41,7 @@ categoriesListTitle.addEventListener('click', function(){
 		changePlusMinus(item);
 	}
 	if (categoriesList.style.maxHeight == '500px') {
-		categoriesList.style.maxHeight = '30px'
+		categoriesList.style.maxHeight = '30px';
 	} else categoriesList.style.maxHeight = '500px';
 });
 
@@ -50,7 +50,7 @@ authorsListTitle.addEventListener('click', function(){
 		changePlusMinus(item);
 	}
 	if (authorsList.style.maxHeight == '500px') {
-		authorsList.style.maxHeight = '30px'
+		authorsList.style.maxHeight = '30px';
 	} else authorsList.style.maxHeight = '500px';
 });
 
@@ -59,13 +59,13 @@ publishersListTitle.addEventListener('click', function(){
 		changePlusMinus(item);
 	}
 	if (publishersList.style.maxHeight == '500px') {
-		publishersList.style.maxHeight = '30px'
+		publishersList.style.maxHeight = '30px';
 	} else publishersList.style.maxHeight = '500px';
 });
 
 document.addEventListener('DOMContentLoaded',function() {
 	let categories = document.querySelectorAll('input[name="category"]');
-    for (let category of categories){
+	for (let category of categories){
 	    category.addEventListener('click', function(){
 	    	let hiddenInput = document.querySelector('input[name="checkbox-category"]');
 	    	if (category.checked) {
@@ -73,10 +73,10 @@ document.addEventListener('DOMContentLoaded',function() {
 	    	} else hiddenInput.value = hiddenInput.value.replace(category.value + ', ', '');
 	    	console.log(hiddenInput.value);
 	    });    	
-    }
+	}
 
-    let authors = document.querySelectorAll('input[name="author"]');
-    for (let author of authors){
+	let authors = document.querySelectorAll('input[name="author"]');
+	for (let author of authors){
 	    author.addEventListener('click', function(){
 	    	let hiddenInput = document.querySelector('input[name="checkbox-author"]');
 	    	if (author.checked) {
@@ -84,20 +84,17 @@ document.addEventListener('DOMContentLoaded',function() {
 	    	} else hiddenInput.value = hiddenInput.value.replace(author.value + ', ', '');
 	    	console.log(hiddenInput.value);
 	    });    	
-    }
+	}
 
-    let publishers = document.querySelectorAll('input[name="publisher"]');
-    for (let publisher of publishers){
+	let publishers = document.querySelectorAll('input[name="publisher"]');
+	for (let publisher of publishers){
 	    publisher.addEventListener('click', function(){
 	    	let hiddenInput = document.querySelector('input[name="checkbox-publisher"]');
 	    	if (publisher.checked) {
 	    		hiddenInput.value += publisher.value + ', ';
 	    	} else hiddenInput.value = hiddenInput.value.replace(publisher.value + ', ', '');
 	    	console.log(hiddenInput.value);
-	    });    	
-    }
-
-
-
+	    });
+	}
 });
 

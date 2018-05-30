@@ -34,9 +34,11 @@
 		    $itemCategories->appendChild($dom->createTextNode($book['categories'])); 
 		    $itemInf->appendChild($itemCategories);
 
-		    $itemButton = $dom->createElement("button");
-		    $itemButton->setAttribute('class', 'button');
-		    $itemButton->appendChild($dom->createTextNode("Add to cart")); 
+		    $itemButton = $dom->createElement('input');
+			$itemButton->setAttribute('type', 'button');
+			$itemButton->setAttribute('name', $book['title']);
+			$itemButton->setAttribute('class', 'button');
+			$itemButton->setAttribute('value','Add to cart'); 
 
 		    $itemInf->appendChild($itemButton);
 			$parent->appendChild($carouselItem);
@@ -65,6 +67,12 @@
 		$dom->loadHTML($html);
 		libxml_use_internal_errors(false); 
 	ob_end_clean();
+
+	session_start();
+	//if (!isset($_SESSION['booksInCart'])) {
+		$booksInCart = $_SESSION['booksInCart'];
+		echo "<script>".$booksInCart."</script>";
+//	}
 
 	$recommendCarousel = $dom->getElementById('recommend_carousel');
 	$bestsellersCarousel = $dom->getElementById('bestsellers_carousel');
