@@ -500,8 +500,8 @@
 	*/
 
 	session_start();
-	if (!isset($_SESSION['inCart'])) {
-		$_SESSION['inCart'] = [];
+	if (isset($_SESSION['booksInCart'])) {
+		$booksInCart = $_SESSION['booksInCart'];
 	}
 
 	$conn  = new mysqli("oasis", "root", "", "Oasis");

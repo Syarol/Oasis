@@ -138,7 +138,7 @@
 	*/
 
 	session_start();
-	if (!isset($_SESSION['booksInCart'])) {
+	if (isset($_SESSION['booksInCart'])) {
 		$booksInCart = $_SESSION['booksInCart'];
 	}
 
@@ -149,8 +149,6 @@
 
 	$sql = "SELECT * FROM Catalog";
 	$result = $conn->query($sql);
-
-
 
 	ob_start();
 		libxml_use_internal_errors(true);

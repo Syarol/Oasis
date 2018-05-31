@@ -48,6 +48,11 @@
 	 * Main
 	*/
 
+	session_start();
+	if (isset($_SESSION['booksInCart'])) {
+		$booksInCart = $_SESSION['booksInCart'];
+	}
+
     $conn  = new mysqli("oasis", "root", "", "Oasis");
     if ($conn->connect_error) {
 	    die("Connection failed: " . $conn->connect_error);
@@ -55,8 +60,6 @@
 
 	$sql = "SELECT * FROM Catalog";
 	$result = $conn->query($sql);
-
-
 
 	ob_start();
 		libxml_use_internal_errors(true);
@@ -67,12 +70,6 @@
 		$dom->loadHTML($html);
 		libxml_use_internal_errors(false); 
 	ob_end_clean();
-
-	session_start();
-	//if (!isset($_SESSION['booksInCart'])) {
-		$booksInCart = $_SESSION['booksInCart'];
-		echo "<script>".$booksInCart."</script>";
-//	}
 
 	$recommendCarousel = $dom->getElementById('recommend_carousel');
 	$bestsellersCarousel = $dom->getElementById('bestsellers_carousel');

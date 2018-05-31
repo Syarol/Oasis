@@ -34,7 +34,7 @@ var countInsideCart = document.getElementById('count_inside_cart');
 var modalContent = document.getElementById('modal_content');
 var cartHeader;
 var openCart = document.getElementById('cart_open');
-
+var intervalId;
 var plus = encodeURIComponent('+');
 var hashtag = encodeURIComponent('#');
 
@@ -65,18 +65,18 @@ class Cart{
 	}
 
 	newItemQuantityPart(parent, book){
-      let newItemQuantity = createElWithAttr('span', {class : 'cart-quantity'});
-      let newItemNumber = createElWithAttr('span', {class : 'cart-item-number'});
+		let newItemQuantity = createElWithAttr('span', {class : 'cart-quantity'});
+		let newItemNumber = createElWithAttr('span', {class : 'cart-item-number'});
 
-      cart.addPlus(newItemQuantity);
-      newItemNumber.textContent = book.count;
-      newItemQuantity.appendChild(newItemNumber);
-      cart.addMinus(newItemQuantity);
+		cart.addPlus(newItemQuantity);
+		newItemNumber.textContent = book.count;
+		newItemQuantity.appendChild(newItemNumber);
+		cart.addMinus(newItemQuantity);
 
-      parent.appendChild(newItemQuantity);
-    }
+		parent.appendChild(newItemQuantity);
+	}
 
-    getOverIndex(e){
+	getOverIndex(e){
 	    let target = e.target;
 	    while (target != this){
 	       	if (target){
@@ -89,18 +89,18 @@ class Cart{
 	    }
 	}
 
-    newItemRemoveButton(parent){
-      let newItemRemove = createElWithAttr('span', {class : 'cart-remove-item'}, {title : 'Click for remove'});
-      newItemRemove.textContent = closeModal.textContent;
-      newItemRemove.addEventListener('click', () => {
+	newItemRemoveButton(parent){
+		let newItemRemove = createElWithAttr('span', {class : 'cart-remove-item'}, {title : 'Click for remove'});
+		newItemRemove.textContent = closeModal.textContent;
+		newItemRemove.addEventListener('click', () => {
       	this.removeC();
       	updateAllDishTotal();
   	});
 
-      parent.appendChild(newItemRemove);
-    }
+		parent.appendChild(newItemRemove);
+	}
 
-    removeC(){
+	removeC(){
 	    let cartTableRow = document.getElementsByClassName('cart-table-row');
 	    cartTableRow[overIndex].remove();
 	    booksInCart.splice(overIndex - 1, 1);
@@ -114,7 +114,7 @@ class Cart{
 	    console.log(booksInCart);
 	}
 
-    addPlus(parentNode){
+	addPlus(parentNode){
 	    let spanItem = createElWithAttr('span', {class : 'cart-plus'}, {title : 'Add one'});
 	    let plus = createElWithAttr('i', {class : 'far fa-plus-square'});
 
@@ -240,83 +240,83 @@ class Cart{
 	  }
 
 	checkoutBack(){
-      cartHeader.textContent = 'Cart';
-      document.getElementById('checkout_container').remove();
-      cartTable.style.display = 'grid';
-      this.createButtons('list');
-    }
+		cartHeader.textContent = 'Cart';
+		document.getElementById('checkout_container').remove();
+		cartTable.style.display = 'grid';
+		this.createButtons('list');
+	}
 
-    openContactForm(){
-      document.getElementById('checkout_container').style.display = 'none';
-      cartHeader.textContent = 'Leave your contacts';
+	openContactForm(){
+		document.getElementById('checkout_container').style.display = 'none';
+		cartHeader.textContent = 'Leave your contacts';
 
-      let inputsContainer = createElWithAttr('form', {id : 'confirmation_form_container'});
-      modalContent.appendChild(inputsContainer);
+		let inputsContainer = createElWithAttr('form', {id : 'confirmation_form_container'});
+		modalContent.appendChild(inputsContainer);
 
-        createInputField(inputsContainer, {
-          type: 'text', 
-          container: {
-            id: 'first_name_input'}, 
-          input: {
-            required: true},
-          label: {
-            text: 'First name'}});
-        createInputField(inputsContainer, {
-          type: 'text', 
-          container: {
-            id: 'last_name_input'}, 
-          input: {
-            required: true},
-          label: {
-            text: 'Last name'}});
-        createInputField(inputsContainer, {
-          type: 'text', 
-          input: {
-            required: true},
-          label: {
-            text: 'Address'}});
-        createInputField(inputsContainer, {
-          type: 'tel', 
-          input: {
-            pattern: '[0-9]{6,12}', 
-            required: true},
-          label: {
-            text: 'Phone number'}});
-        createInputField(inputsContainer, {
-          type: 'email', 
-          input: {
-            required: true},
-          label: {
-            text: 'E-mail'}});
-        createInputField(inputsContainer, {
-          type: 'text',
-          label: {
-            text: 'Discount code (optional)'}});
+		createInputField(inputsContainer, {
+			type: 'text', 
+			container: {
+				id: 'first_name_input'}, 
+			input: {
+				required: true},
+			label: {
+				text: 'First name'}});
+		createInputField(inputsContainer, {
+			type: 'text', 
+			container: {
+				id: 'last_name_input'}, 
+			input: {
+				required: true},
+			label: {
+				text: 'Last name'}});
+		createInputField(inputsContainer, {
+			type: 'text', 
+			input: {
+				required: true},
+			label: {
+				text: 'Address'}});
+		createInputField(inputsContainer, {
+			type: 'tel', 
+			input: {
+				pattern: '[0-9]{6,12}', 
+				required: true},
+			label: {
+				text: 'Phone number'}});
+		createInputField(inputsContainer, {
+			type: 'email', 
+			input: {
+				required: true},
+			label: {
+				text: 'E-mail'}});
+		createInputField(inputsContainer, {
+			type: 'text',
+			label: {
+				text: 'Discount code (optional)'}});
 
-      this.createButtons('contact');
-    }
+		this.createButtons('contact');
+	}
 
-    toCheckout(){
-      document.getElementById('confirmation_form_container').remove();
-      cartHeader.textContent = 'Confirm order list';
-      document.getElementById('checkout_container').style.display = 'block';
-      this.createButtons('checkout');
-    }
+	toCheckout(){
+		document.getElementById('confirmation_form_container').remove();
+		cartHeader.textContent = 'Confirm order list';
+		document.getElementById('checkout_container').style.display = 'block';
+		this.createButtons('checkout');
+	}
 
-    thanksForOrder(){
-      document.getElementById('checkout_container').remove();
-      cartHeader.parentNode.remove();
-      this.inCart = [];
-      let cartTableRow = document.getElementsByClassName('cart-table-row');
-      while(cartTableRow.length > 2) {
-        cartTableRow[1].remove();
-      }
-      this.updateAllDishTotal();
-      document.getElementById('confirmation_form_container').remove();
-      document.getElementById('cart_buttons_container').remove();
+	thanksForOrder(){
+		document.getElementById('checkout_container').remove();
+		cartHeader.parentNode.remove();
+		this.inCart = [];
+		let cartTableRow = document.getElementsByClassName('cart-table-row');
+		while(cartTableRow.length > 2) {
+			cartTableRow[1].remove();
+		}
+		updateAllDishTotal();
+		document.getElementById('confirmation_form_container').remove();
+		document.getElementById('cart_buttons_container').remove();
 
-      addSentenceContainer(modalContent, 'cart-one-text-container', 'Thanks for Your order!');
-    }
+		addSentenceContainer(modalContent, 'cart-one-text-container', 'Thanks for Your order!');
+	}
 
 	close(){
 		let rows = document.getElementsByClassName('cart-table-row');
@@ -347,134 +347,134 @@ var cart;
 */
 
 function disableButtonIfEmptyInput(){
-  let requiredInputs = [...document.querySelectorAll('form input[required = true]')];
-  let button = document.getElementById('cart_buttons_container').children[1];
+	let requiredInputs = [...document.querySelectorAll('form input[required = true]')];
+	let button = document.getElementById('cart_buttons_container').children[1];
 
-  if (requiredInputs.some(el => el.value.length == 0)){
-    if (button.style.pointerEvents != 'none'){
-      button.style.pointerEvents = 'none';
-    }
-  } else if (requiredInputs.every(el => el.checkValidity())){
-    if (button.style.pointerEvents == 'none'){
-      button.style.pointerEvents = '';
-    }
-  }  
+	if (requiredInputs.some(el => el.value.length == 0)){
+		if (button.style.pointerEvents != 'none'){
+			button.style.pointerEvents = 'none';
+		}
+	} else if (requiredInputs.every(el => el.checkValidity())){
+		if (button.style.pointerEvents == 'none'){
+			button.style.pointerEvents = '';
+		}
+	}  
 }
 
 function createInputField(parent, attr){
-  let inputContainer;
-  if (attr.container && attr.container.id) {
-    inputContainer = createElWithAttr('div', {class : 'input', id: attr.container.id});
-  } else{
-    inputContainer = createElWithAttr('div', {class : 'input'});
-  }
+	let inputContainer;
+	if (attr.container && attr.container.id) {
+		inputContainer = createElWithAttr('div', {class : 'input', id: attr.container.id});
+	} else{
+		inputContainer = createElWithAttr('div', {class : 'input'});
+	}
 
-  let inputTag;
-  if (attr.input && attr.input.pattern) {
-    inputTag = createElWithAttr('input', {type : attr.type, pattern: attr.input.pattern});
-  }else{
-    inputTag = createElWithAttr('input', {type : attr.type});
-  }
+	let inputTag;
+	if (attr.input && attr.input.pattern) {
+		inputTag = createElWithAttr('input', {type : attr.type, pattern: attr.input.pattern});
+	}else{
+		inputTag = createElWithAttr('input', {type : attr.type});
+	}
   
-  if (attr.input && attr.input.required){
-    inputTag.setAttribute('required', attr.input.required);
-  }
+	if (attr.input && attr.input.required){
+		inputTag.setAttribute('required', attr.input.required);
+	}
   
-  inputContainer.appendChild(inputTag);
+	inputContainer.appendChild(inputTag);
 
-  if (attr.label && attr.label.text){
-    addTextElAndAppend(inputContainer, 'label', attr.label.text);
-  }
+	if (attr.label && attr.label.text){
+		addTextElAndAppend(inputContainer, 'label', attr.label.text);
+	}
 
-  let focusBorder = createElWithAttr('span', {class : 'focus-border'});
-  inputContainer.appendChild(focusBorder);
-  parent.appendChild(inputContainer);
+	let focusBorder = createElWithAttr('span', {class : 'focus-border'});
+	inputContainer.appendChild(focusBorder);
+	parent.appendChild(inputContainer);
 
-  inputTag.addEventListener('input', function(){
-    if (this.type == 'text'){
-      this.value = this.value.replace(/[0-9]/g, '');
-    } else if(this.type == 'tel' || this.type == 'number'){
-      this.value = this.value.replace(/\D/g, '');
-    }
-    deleteByLetter(inputContainer.getElementsByTagName('label')[0], cart.inputLabels);
-    disableButtonIfEmptyInput();
-  });
+	inputTag.addEventListener('input', function(){
+		if (this.type == 'text'){
+			this.value = this.value.replace(/[0-9]/g, '');
+		} else if(this.type == 'tel' || this.type == 'number'){
+			this.value = this.value.replace(/\D/g, '');
+		}
+		deleteByLetter(inputContainer.getElementsByTagName('label')[0], cart.inputLabels);
+		disableButtonIfEmptyInput();
+	});
 }
 
 function deleteByLetter(word, wordsArr){
-  clearInterval(intervalId);//clear previous interval
-  let index = getElementIndex(word.parentNode);//get parent index
-  if (word.parentNode.getElementsByTagName('input')[0].value.length != 0){ //if input not empty then:
-    if (word.textContent.length != 0){ //if label not empty, then delete her
-      intervalId = deleteWord();
-    }
-  } else{
-    if (word.textContent.length != 0){ //if label not empty, then write her from same index
-      intervalId = writeWord(word.textContent.length);
-    } else { //write label from begin
-      intervalId = writeWord(0);
-    }   
-  }  
+	clearInterval(intervalId);//clear previous interval
+	let index = getElementIndex(word.parentNode);//get parent index
+	if (word.parentNode.getElementsByTagName('input')[0].value.length != 0){ //if input not empty then:
+		if (word.textContent.length != 0){ //if label not empty, then delete her
+			intervalId = deleteWord();
+		}
+	} else{
+		if (word.textContent.length != 0){ //if label not empty, then write her from same index
+			intervalId = writeWord(word.textContent.length);
+		} else { //write label from begin
+			intervalId = writeWord(0);
+		}   
+	}  
 
 
 
-  function writeWord(i){
-    return setInterval(function(){
-      word.textContent += wordsArr[index].charAt(i); 
-      i++;
-      if (i >= wordsArr[index].length) clearInterval(intervalId);
-    }, 150);
-  }
+	function writeWord(i){
+		return setInterval(function(){
+			word.textContent += wordsArr[index].charAt(i); 
+			i++;
+			if (i >= wordsArr[index].length) clearInterval(intervalId);
+		}, 150);
+	}
 
-  function deleteWord(){
-    return setInterval(function(){
-      word.textContent = word.textContent.slice(0, -1); 
-      if (word.textContent.length == 0) clearInterval(intervalId);
-    }, 150);
-  }
+	function deleteWord(){
+		return setInterval(function(){
+			word.textContent = word.textContent.slice(0, -1); 
+			if (word.textContent.length == 0) clearInterval(intervalId);
+		}, 150);
+	}
 }
 
 function getElementIndex(node) {
-  let index = 0;
-  while ( (node = node.previousElementSibling) ){
-    index++;
-  }
-  return index;
+	let index = 0;
+	while ( (node = node.previousElementSibling) ){
+		index++;
+	}
+	return index;
 }
 
 function updateTotalOfDish(i){
-    let dishTotal = document.getElementsByClassName('cart-item-total');
-    let priceRegEx = Number(booksInCart[i].price.replace(/\$/, ''));
+	let dishTotal = document.getElementsByClassName('cart-item-total');
+	let priceRegEx = Number(booksInCart[i].price.replace(/\$/, ''));
 
-    booksInCart[i].total = booksInCart[i].count * priceRegEx;
-    dishTotal[i].textContent = '$' + booksInCart[i].total.toFixed(2);
+	booksInCart[i].total = booksInCart[i].count * priceRegEx;
+	dishTotal[i].textContent = '$' + booksInCart[i].total.toFixed(2);
 
-    updateAllDishTotal();
-  }
+	updateAllDishTotal();
+}
 
 function updateAllDishTotal(){
-    let temp = 0;
-    for (let book of booksInCart){
-      if(temp != 0){
-        temp += book.total;
-      } else temp = book.total;
-    }
+	let temp = 0;
+	for (let book of booksInCart){
+		if(temp != 0){
+			temp += book.total;
+		} else temp = book.total;
+	}
 
-    allCartDishTotal.textContent = '$' + temp.toFixed(2);
+	allCartDishTotal.textContent = '$' + temp.toFixed(2);
 
-    allDishesCount();    
-  }
+	allDishesCount();    
+}
 
 function allDishesCount(){
-    let allTotal = 0;
-    for (let book of booksInCart){
-      allTotal += book.count;
-    }
+	let allTotal = 0;
+	for (let book of booksInCart){
+		allTotal += book.count;
+	}
 
-    if (allTotal == 0){
-      countInsideCart.textContent = '';
-    } else countInsideCart.textContent = ' (' + allTotal + ')';    
-  }
+	if (allTotal == 0){
+		countInsideCart.textContent = '';
+	} else countInsideCart.textContent = ' (' + allTotal + ')';    
+}
 
 function addSentenceContainer(parent, newClass, text){
 	let div = createElWithAttr('div', {class : newClass});
@@ -499,19 +499,19 @@ function addTextElAndAppend(parent, el, text){
 }
 
 function createCartHeader(){
-    if (!document.getElementById('cart_header')) {
-      let cartHeaders = createElWithAttr('div', {id : 'cart_header'});
-      addTextElAndAppend(cartHeaders, 'h2', 'Cart');
-      modalContent.insertBefore(cartHeaders, cartTable);
-      cartHeader = document.querySelector('#cart_header h2');//declare at global scope
-    }
+	if (!document.getElementById('cart_header')) {
+		let cartHeaders = createElWithAttr('div', {id : 'cart_header'});
+		addTextElAndAppend(cartHeaders, 'h2', 'Cart');
+		modalContent.insertBefore(cartHeaders, cartTable);
+		cartHeader = document.querySelector('#cart_header h2');//declare at global scope
+	}
 }
 
 function newButton(parent, text, clickCallback){
-  let button = createElWithAttr('button', {class : 'cart-button'});
-  button.addEventListener('click', clickCallback);
-  addTextElAndAppend(button, 'span', text);
-  parent.appendChild(button);
+	let button = createElWithAttr('button', {class : 'cart-button'});
+	button.addEventListener('click', clickCallback);
+	addTextElAndAppend(button, 'span', text);
+	parent.appendChild(button);
 }
 
 function loadGoogleMap(){
@@ -523,8 +523,8 @@ function loadGoogleMap(){
 }
 
 function swapLastTwo(el){
-  let elChild = el.children;//return collection of rows
-  elChild[elChild.length-1].after(elChild[elChild.length-2]);//swap the last two 
+	let elChild = el.children;//return collection of rows
+	elChild[elChild.length-1].after(elChild[elChild.length-2]);//swap the last two 
 }
 
 function addToCartArray(book){
@@ -551,14 +551,14 @@ function addToCartArray(book){
 	   	replaced = replaced.replace(/\#/g, hashtag);
 
 	    var oReq = new XMLHttpRequest(); //Create the object
-	    oReq.open("GET", "get-data.php?title="+replaced, false);
+	    oReq.open('GET', 'get-data.php?title='+replaced, false);
 
 	    oReq.onreadystatechange = function () {
 	        if (oReq.readyState == 4 && oReq.status == 200) {
 	            let res = JSON.parse(this.responseText);
 	            booksInCart[current].author = res.author;
 	            booksInCart[current].price = res.price;
-	            booksInCart[current].total = Number(res.price.replace(/\$/, ''));;
+	            booksInCart[current].total = Number(res.price.replace(/\$/, ''));
 		        console.log(booksInCart);
 	            ++current; 
 	            if (current < booksInCart.length) AJAXget(booksInCart[current]); 
@@ -578,15 +578,15 @@ function addToCartArray(book){
 	let books = JSON.stringify(booksInCart);
 	let replaced = books.replace(/\+/g, plus);
 	   	replaced = replaced.replace(/\#/g, hashtag);
-		console.log(JSON.parse(books));
-		oRq.open("get", "variableBeetwenPages.php?books="+replaced, true);
-		oRq.send();
-		oRq.onreadystatechange = function () {
+	console.log(JSON.parse(books));
+	oRq.open('get', 'variableBeetwenPages.php?books='+replaced, true);
+	oRq.send();
+	oRq.onreadystatechange = function () {
 		    if (oRq.readyState == 4 && oRq.status == 200) {
 		    	console.log(this.responseText);
 		      	console.log(JSON.parse(this.responseText));
 		    }
-		};
+	};
 
 }
 
@@ -633,6 +633,19 @@ document.addEventListener('DOMContentLoaded', function(){
 			addToCartArray(this);
 		});
 	}	
+
+	var oRq = new XMLHttpRequest(); //Create the object
+	oRq.open('get', 'sendCartToJS.php', true);
+	oRq.send();
+	oRq.onreadystatechange = function () {
+		    if (oRq.readyState == 4 && oRq.status == 200) {
+		    	console.log(this.responseText);
+		      	console.log(JSON.parse(this.responseText));
+		      	booksInCart = JSON.parse(this.responseText);
+		      	updateAllDishTotal();
+		      	createCartHeader()
+		    }
+	};
 });
 
 closeBestsellerModal.addEventListener('click', function(){
@@ -654,7 +667,7 @@ window.onclick = function(e) {
 
 	if (e.target == modal) {
     	cart.close();
-    }
+	}
 }; 
 
 contactModalLink.onclick = function(){
@@ -668,10 +681,10 @@ closeContactModal.onclick = function(){
 cartTable.onmouseover = e => cart.getOverIndex(e);
 
 openCart.onclick = function() {
-  if (!cart){
-    cart = new Cart();
-  }
-  cart.open();
+	if (!cart){
+		cart = new Cart();
+	}
+	cart.open();
 };
 
 //close the modal
