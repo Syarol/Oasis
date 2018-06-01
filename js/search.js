@@ -20,6 +20,7 @@ var categoriesListTitle = document.getElementById('categories_list_title');
 var authorsListTitle = document.getElementById('authors_list_title');
 var publishersListTitle = document.getElementById('publishers_list_title');
 var contactModalLink = document.getElementById('contact');
+var foundedShowMore =  document.getElementById('founded_show_more');
 var closeContactModal = document.getElementById('close-contact-modal');
 var overIndex;
 var booksInCart = [];
@@ -35,6 +36,7 @@ var openCart = document.getElementById('cart_open');
 var intervalId;
 var plus = encodeURIComponent('+');
 var hashtag = encodeURIComponent('#');
+var at = encodeURIComponent('@');
 
 /**
  * Class
@@ -682,16 +684,54 @@ document.addEventListener('DOMContentLoaded',function() {
 		    }
 	};
 
-	window.onclick = function(e) {
+	let founded = document.getElementsByClassName('founded-item');
+	if (founded.length > 12){
+		for (let i = 12; i < founded.length; i++) {
+			founded[i].style.display = 'none';
+			foundedShowMore.style.display = 'block';
+		}
+	}
+}); 
+
+foundedShowMore.onclick = () => {
+	let founded = document.getElementsByClassName('founded-item');
+	if (founded.length > 12){
+		for (let i = 0; i < 12; i++) {
+			founded[i].style.display = 'none';
+		}
+		for (let i = 12; i < founded.length; i++) {
+			founded[i].style.display = 'grid';
+		}
+
+	}
+	foundedShowMore.style.display = 'none';
+	document.getElementById('founded_hide_more').style.display = 'block';
+};
+
+document.getElementById('founded_hide_more').onclick = () => {
+	let founded = document.getElementsByClassName('founded-item');
+	if (founded.length > 12){
+		for (let i = 0; i < 12; i++) {
+			founded[i].style.display = 'grid';
+		}
+
+		for (let i = 12; i < founded.length; i++) {
+			founded[i].style.display = 'none';
+		}
+	}
+	foundedShowMore.style.display = 'block';
+	document.getElementById('founded_hide_more').style.display = 'none';
+}
+
+window.onclick = function(e) {
 	if (e.target == contactModal) {
 		contactModal.style.display = 'none';
 	}
 
 	if (e.target == modal) {
     	cart.close();
-	}
-
-}; 
+    }
+};
 
 contactModalLink.onclick = function(){
 	if(document.getElementById('googleMap') === null){
@@ -716,7 +756,6 @@ openCart.onclick = function() {
 //close the modal
 closeModal.onclick = () => cart.close();
 
-});
 
 window.loadMaps = () => {
 	var map = new google.maps.Map(document.getElementById('map-container'), {
@@ -737,3 +776,29 @@ window.loadMaps = () => {
 		google.maps.event.trigger(map, 'resize');
 	});
 };
+
+document.getElementById('send_message').onclick = () =>{
+	let message = {};
+	message.name = document.querySelector('input[name=name]').value;
+	message.email = document.querySelector('input[name=email]').value.replace(/\@/g, at);
+	message.subject = document.querySelector('input[name=subject]').value;
+	message.message = document.querySelector('textarea[name=message]').value;
+
+	let messageString = JSON.stringify(message);
+
+	var oRq = new XMLHttpRequest(); //Create the object
+	oRq.open('get', 'sendMessage.php?message='+messageString, true);
+	oRq.send();
+	oRq.onreadystatechange = function () {
+		if (oRq.readyState == 4 && oRq.status == 200) {
+		    console.log(this.responseText);
+
+			document.querySelector('input[name=name]').value = '';
+			document.querySelector('input[name=email]').value = '';
+			document.querySelector('input[name=subject]').value = '';
+			document.querySelector('textarea[name=message]').value = '';
+
+			document.getElementById('about_section_wrapper').style.display = 'none';
+		}
+	};
+}

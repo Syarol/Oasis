@@ -615,7 +615,7 @@ footer a:nth-child(8){
 	display: flex;
 }
 
-.contact-form form{
+.contact-form div{
 	margin: auto;
 	width: 80%;
 	height: 90%;
@@ -635,8 +635,15 @@ textarea{
 	width: 100%;
 }
 
-.contact-form input[type=submit]{
-	width: 120px;
+.contact-form #send_message{
+  width: 120px;
+  text-align: center;
+  height: 25px;
+  transition: 1s;
+}
+
+.contact-form #send_message:hover{
+  background-color: #c5c5c5;
 }
 
 

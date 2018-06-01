@@ -37,7 +37,7 @@ var openCart = document.getElementById('cart_open');
 var intervalId;
 var plus = encodeURIComponent('+');
 var hashtag = encodeURIComponent('#');
-
+var at = encodeURIComponent('@');
 
 /**
  * Class
@@ -690,7 +690,31 @@ openCart.onclick = function() {
 //close the modal
 closeModal.onclick = () => cart.close();
 
+document.getElementById('send_message').onclick = () =>{
+	let message = {};
+	message.name = document.querySelector('input[name=name]').value;
+	message.email = document.querySelector('input[name=email]').value.replace(/\@/g, at);
+	message.subject = document.querySelector('input[name=subject]').value;
+	message.message = document.querySelector('textarea[name=message]').value;
 
+	let messageString = JSON.stringify(message);
+
+	var oRq = new XMLHttpRequest(); //Create the object
+	oRq.open('get', 'sendMessage.php?message='+messageString, true);
+	oRq.send();
+	oRq.onreadystatechange = function () {
+		if (oRq.readyState == 4 && oRq.status == 200) {
+		    console.log(this.responseText);
+
+			document.querySelector('input[name=name]').value = '';
+			document.querySelector('input[name=email]').value = '';
+			document.querySelector('input[name=subject]').value = '';
+			document.querySelector('textarea[name=message]').value = '';
+
+			document.getElementById('about_section_wrapper').style.display = 'none';
+		}
+	};
+}
 
 
 /*carousel.onscroll = () => {

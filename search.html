@@ -5,7 +5,7 @@
 
 	<meta charset="utf-8">
 
-	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Bree+Serif|Hind|Cabin" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Bree+Serif|Hind|Cabin|Mukta+Malar|Muli" rel="stylesheet">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous"> 
 	<link href="css/search.css" rel="stylesheet">
 </head>
@@ -35,13 +35,10 @@
 	</section>
 
 	<section id="founded_section" class="grid-center-items">
-		<!-- <div class="search-bar grid-center-items">
-			<form action="search.php" method="GET">
-				<input type="text" name="query">
-				<input class="button" type="submit" value="Search">
-			</form>
-		</div> -->
-		
+
+
+		<span id="founded_show_more">Show next</span>
+		<span id="founded_hide_more">Show previous</span>
 	</section>
 
 	<aside class="search-filters grid-center-items">
@@ -96,13 +93,13 @@
 						</div>
 					</div>
 					<div class="contact-form">
-						<form>
-							<label>Your name (required)<input type="text" name="" required></label>
-							<label>Your Email (required)<input type="e-mail" name="" required></label>
-							<label>Subject<input type="text" name=""></label>
-							<label>Your Message<textarea name="" rows="5"></textarea></label>
-							<input type="submit" name="" value="Send">
-						</form>
+						<div>
+							<label>Your name (required)<input type="text" name="name" required></label>
+							<label>Your Email (required)<input type="e-mail" name="email" required></label>
+							<label>Subject<input type="text" name="subject"></label>
+							<label>Your Message<textarea name="message" rows="5"></textarea></label>
+							<span id="send_message" class="button"> Send</span>
+						</div>
 					</div>
 				</div>
 			</div>

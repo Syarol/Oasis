@@ -22,6 +22,7 @@ html, body {
 }
 
 .button{
+  cursor: pointer;
   border: 0;
   padding: 5px;
   font-size: 1em;
@@ -120,6 +121,7 @@ a{
 
 
 #founded_section{
+  position: relative;
   grid-row-start: 2;
   grid-column-start: 2;
   grid-template-columns: repeat(4, 1fr);
@@ -239,9 +241,23 @@ a{
 
 
 
+#founded_hide_more{
+  display: none;
+  position: absolute;
+  bottom: 10px;
+  text-decoration: underline;
+  color: #3d3b3b;
+  cursor: pointer;  
+}
 
-
-
+#founded_show_more{
+  display: none;
+  position: absolute;
+  bottom: 10px;
+  text-decoration: underline;
+  color: #3d3b3b;
+  cursor: pointer;
+}
 
 footer{
   grid-column-start: 1;
@@ -382,7 +398,7 @@ footer a:nth-child(8){
   display: flex;
 }
 
-.contact-form form{
+.contact-form div{
   margin: auto;
   width: 80%;
   height: 90%;
@@ -402,8 +418,15 @@ textarea{
   width: 100%;
 }
 
-.contact-form input[type=submit]{
+.contact-form #send_message{
   width: 120px;
+  text-align: center;
+  height: 25px;
+  transition: 1s;
+}
+
+.contact-form #send_message:hover{
+  background-color: #c5c5c5;
 }
 
 
