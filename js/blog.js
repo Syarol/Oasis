@@ -5,24 +5,22 @@
  */
 
 /**
- * Imports
-*/
-
-import {getScrolledPercentage, Carousel} from './carousel.js';
-//import {Cart} from './cart.js';
-
-/**
  * Global variables
 */
 
-var closeBestsellerModal = document.getElementById('close-bestseller-modal');
-var arrivalCarouselMain = document.getElementById('new_arrival_list');
-var arrivalsLeft = document.getElementById('arrivals_left');
-var arrivalsRight = document.getElementById('arrivals_right');
+var recommendCarouselMain = document.getElementById('recommend_carousel');
+var bestsellersCarouselMain = document.getElementById('bestsellers_carousel');
+var arrivesCarouselMain = document.getElementById('arrives_carousel');
+
+var leftButtons = document.getElementsByClassName('left-control');
+var rightButtons = document.getElementsByClassName('right-control');
 var contactModal = document.getElementById('about_section_wrapper');
 var contactModalLink = document.getElementById('contact');
 var closeContactModal = document.getElementById('close-contact-modal');
-var arrivalCarousel;
+var recommendCarousel;
+var bestsellersCarousel;
+var arrivesCarousel;
+
 var overIndex;
 var booksInCart = [];
 
@@ -38,7 +36,6 @@ var intervalId;
 var plus = encodeURIComponent('+');
 var hashtag = encodeURIComponent('#');
 var at = encodeURIComponent('@');
-
 /**
  * Class
 */
@@ -432,8 +429,6 @@ function deleteByLetter(word, wordsArr){
 		}   
 	}  
 
-
-
 	function writeWord(i){
 		return setInterval(function(){
 			word.textContent += wordsArr[index].charAt(i); 
@@ -475,7 +470,7 @@ function updateAllDishTotal(){
 			temp += book.total;
 		} else temp = book.total;
 	}
-
+console.log(booksInCart);
 	allCartDishTotal.textContent = '$' + temp.toFixed(2);
 
 	allDishesCount();    
@@ -606,14 +601,13 @@ function addToCartArray(book){
 
 }
 
+if(document.getElementById('googleMap') === null){
+	loadGoogleMap();
+}
 
 /**
  * Event Listeners
 */
-
-if(document.getElementById('googleMap') === null){
-	loadGoogleMap();
-}
 
 window.loadMaps = () => {
 	var map = new google.maps.Map(document.getElementById('map-container'), {
@@ -635,9 +629,9 @@ window.loadMaps = () => {
 	});
 };
 
-document.addEventListener('DOMContentLoaded', function(){
-	arrivalCarousel = new Carousel(arrivalsRight, arrivalsLeft, arrivalCarouselMain);
+var readMoreModal = document.getElementById('read_more_modal');
 
+document.addEventListener('DOMContentLoaded', function(){
 	//if long name of book than make font-size smaller
 	for (let item of document.querySelectorAll('.arrival-item-inf h3')){
 		if (item.textContent.length > 12) item.style.fontSize  = '1em';
@@ -649,6 +643,15 @@ document.addEventListener('DOMContentLoaded', function(){
 			addToCartArray(this);
 		});
 	}	
+
+
+	for (let item of document.getElementsByClassName('button-read-more')){
+		item.addEventListener('click', function(){
+			console.log('ds');
+			readMoreModal.style.display = 'flex';
+		});
+	}
+
 
 	var oRq = new XMLHttpRequest(); //Create the object
 	oRq.open('get', 'sendCartToJS.php', true);
@@ -664,19 +667,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	};
 });
 
-closeBestsellerModal.addEventListener('click', function(){
-	document.getElementById('bestseller_modal_wrapper').style.display = 'none';
-});
-
-document.getElementById('open_bestseller_modal').addEventListener('click', function(){
-	document.getElementById('bestseller_modal_wrapper').style.display = 'flex';
-});
-
 window.onclick = function(e) {
-	if (e.target == document.getElementById('bestseller_modal_wrapper')) {
-		document.getElementById('bestseller_modal_wrapper').style.display = 'none';
-	}
-
 	if (e.target == contactModal) {
 		contactModal.style.display = 'none';
 	}
@@ -684,14 +675,27 @@ window.onclick = function(e) {
 	if (e.target == modal) {
     	cart.close();
 	}
+
+	if (e.target == readMoreModal) {
+    	readMoreModal.style.display = 'none';
+	}
 }; 
 
 contactModalLink.onclick = function(){
+	if(document.getElementById('googleMap') === null){
+		loadGoogleMap();
+	}
 	contactModal.style.display = 'flex';
 };
 
 closeContactModal.onclick = function(){
 	contactModal.style.display = 'none';
+};
+
+var closeReadMoreModal = document.getElementById('close_read_more_modal');
+
+closeReadMoreModal.onclick = function(){
+	readMoreModal.style.display = 'none';
 };
 
 cartTable.onmouseover = e => cart.getOverIndex(e);
@@ -733,9 +737,3 @@ document.getElementById('send_message').onclick = () =>{
 		};
 	}
 }
-
-
-/*carousel.onscroll = () => {
-    var scrollPercentage = 100 * this.scrollLeft / (this.scrollWidth - this.clientWidth);
-    //console.log(scrollPercentage);
-};*/

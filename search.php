@@ -391,6 +391,7 @@
 
 		$itemPhoto = $dom->createElement("img");
 		$itemPhoto->setAttribute('class', 'founded-item-photo');
+		$itemPhoto->setAttribute('pseudo', $book['title']);
 		$itemPhoto->setAttribute('src', $book['thumbnailUrl']);
 		$item->appendChild($itemPhoto);
 

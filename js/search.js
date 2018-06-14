@@ -13,6 +13,7 @@
  * Global variables
 */
 
+var closeBookModal = document.getElementById('close_book_modal');
 var categoriesList = document.getElementById('categories_list');
 var authorsList = document.getElementById('authors_list');
 var publishersList = document.getElementById('publishers_list');
@@ -38,6 +39,8 @@ var plus = encodeURIComponent('+');
 var hashtag = encodeURIComponent('#');
 var at = encodeURIComponent('@');
 
+var foundedPhotos;
+
 /**
  * Class
 */
@@ -52,8 +55,10 @@ class Cart{
 	open(){
 		modal.style.display = 'flex';
 		if (booksInCart.length == 0) {
+			cartHeader.style.display = 'none';
 			addSentenceContainer(modalContent, 'cart-one-text-container', 'Oops! Your cart is empty(');
 		} else {
+			cartHeader.style.display = 'block';
 			if (cartHeader.textContent != 'Cart'){
 				cartHeader.textContent = 'Cart';
 			}
@@ -111,6 +116,20 @@ class Cart{
 	    updateAllDishTotal();
 	    }
 	    console.log(booksInCart);
+
+	    var oRq = new XMLHttpRequest(); //Create the object
+		let books = JSON.stringify(booksInCart);
+		let replaced = books.replace(/\+/g, plus);
+		   	replaced = replaced.replace(/\#/g, hashtag);
+		console.log(JSON.parse(books));
+		oRq.open('get', 'variableBeetwenPages.php?books='+replaced, true);
+		oRq.send();
+		oRq.onreadystatechange = function () {
+			    if (oRq.readyState == 4 && oRq.status == 200) {
+			    	console.log(this.responseText);
+			      	console.log(JSON.parse(this.responseText));
+			    }
+		};
 	}
 
 	addPlus(parentNode){
@@ -691,6 +710,47 @@ document.addEventListener('DOMContentLoaded',function() {
 			foundedShowMore.style.display = 'block';
 		}
 	}
+
+foundedPhotos = document.getElementsByClassName('founded-item-photo');
+	for (let photo of foundedPhotos){
+		photo.addEventListener('click', function(){
+			let title = this.getAttribute('pseudo');	
+			let book = {};
+
+			function AJAXget(title) {
+				let replaced = title.replace(/\+/g, plus);
+			   	replaced = replaced.replace(/\#/g, hashtag);
+
+			    var oReq = new XMLHttpRequest(); //Create the object
+			    oReq.open('GET', 'get-data.php?title='+replaced, false);
+
+			    oReq.onreadystatechange = function () {
+			        if (oReq.readyState == 4 && oReq.status == 200) {
+			            let res = JSON.parse(this.responseText);
+			            book.author = res.author;
+			            book.description = res.description;
+			            book.thumbnailUrl = res.thumbnailUrl;
+			            book.categories = res.categories;
+			            book.price = res.price;
+			        }
+			    };
+
+			    oReq.send();
+			}
+
+			AJAXget(title);
+			document.getElementById('book_modal_wrapper').style.display = 'flex';
+			document.getElementById('book_title').textContent = title;
+			document.getElementById('book_photo').setAttribute('src', book.thumbnailUrl);
+			document.getElementById('book_author').textContent = book.author;
+			document.getElementById('book_categories').textContent = book.categories;
+			document.getElementById('book_description').textContent = book.description;
+			document.getElementById('book_price').textContent  = book.price;
+			document.getElementById('input_book_title').setAttribute('name', title);
+
+			console.log(book);
+		})
+	}
 }); 
 
 foundedShowMore.onclick = () => {
@@ -731,6 +791,10 @@ window.onclick = function(e) {
 	if (e.target == modal) {
     	cart.close();
     }
+
+    if (e.target == document.getElementById('book_modal_wrapper')) {
+		document.getElementById('book_modal_wrapper').style.display = 'none';
+	}
 };
 
 contactModalLink.onclick = function(){
@@ -781,24 +845,33 @@ document.getElementById('send_message').onclick = () =>{
 	let message = {};
 	message.name = document.querySelector('input[name=name]').value;
 	message.email = document.querySelector('input[name=email]').value.replace(/\@/g, at);
-	message.subject = document.querySelector('input[name=subject]').value;
-	message.message = document.querySelector('textarea[name=message]').value;
+	if (message.name != '' && message.email != '') {
+		message.subject = document.querySelector('input[name=subject]').value;
+		message.message = document.querySelector('textarea[name=message]').value;
 
-	let messageString = JSON.stringify(message);
+		let messageString = JSON.stringify(message);
 
-	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('get', 'sendMessage.php?message='+messageString, true);
-	oRq.send();
-	oRq.onreadystatechange = function () {
-		if (oRq.readyState == 4 && oRq.status == 200) {
-		    console.log(this.responseText);
+		var oRq = new XMLHttpRequest(); //Create the object
+		oRq.open('get', 'sendMessage.php?message='+messageString, true);
+		oRq.send();
+		oRq.onreadystatechange = function () {
+			if (oRq.readyState == 4 && oRq.status == 200) {
+			    console.log(this.responseText);
 
-			document.querySelector('input[name=name]').value = '';
-			document.querySelector('input[name=email]').value = '';
-			document.querySelector('input[name=subject]').value = '';
-			document.querySelector('textarea[name=message]').value = '';
+				document.querySelector('input[name=name]').value = '';
+				document.querySelector('input[name=email]').value = '';
+				document.querySelector('input[name=subject]').value = '';
+				document.querySelector('textarea[name=message]').value = '';
 
-			document.getElementById('about_section_wrapper').style.display = 'none';
-		}
-	};
+				document.getElementById('about_section_wrapper').style.display = 'none';
+			}
+		};
+	}
 }
+
+closeBookModal.addEventListener('click', function(){
+	console.log('fe');
+	document.getElementById('book_modal_wrapper').style.display = 'none';
+});
+
+

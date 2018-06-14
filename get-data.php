@@ -1,10 +1,4 @@
 <?php
-	/*session_start();
-	if (!isset($_SESSION['inCart'])) {
-		$_SESSION['inCart'] = [];
-	}
-*/
-	
     $conn  = new mysqli("oasis", "root", "", "Oasis");
     if ($conn->connect_error) {
 	    die("Connection failed: " . $conn->connect_error);

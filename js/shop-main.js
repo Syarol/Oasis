@@ -56,8 +56,10 @@ class Cart{
 	open(){
 		modal.style.display = 'flex';
 		if (booksInCart.length == 0) {
+			cartHeader.style.display = 'none';
 			addSentenceContainer(modalContent, 'cart-one-text-container', 'Oops! Your cart is empty(');
 		} else {
+			cartHeader.style.display = 'block';
 			if (cartHeader.textContent != 'Cart'){
 				cartHeader.textContent = 'Cart';
 			}
@@ -115,6 +117,20 @@ class Cart{
 	    updateAllDishTotal();
 	    }
 	    console.log(booksInCart);
+
+	    var oRq = new XMLHttpRequest(); //Create the object
+		let books = JSON.stringify(booksInCart);
+		let replaced = books.replace(/\+/g, plus);
+		   	replaced = replaced.replace(/\#/g, hashtag);
+		console.log(JSON.parse(books));
+		oRq.open('get', 'variableBeetwenPages.php?books='+replaced, true);
+		oRq.send();
+		oRq.onreadystatechange = function () {
+			    if (oRq.readyState == 4 && oRq.status == 200) {
+			    	console.log(this.responseText);
+			      	console.log(JSON.parse(this.responseText));
+			    }
+		};
 	}
 
 	addPlus(parentNode){
@@ -689,24 +705,26 @@ document.getElementById('send_message').onclick = () =>{
 	let message = {};
 	message.name = document.querySelector('input[name=name]').value;
 	message.email = document.querySelector('input[name=email]').value.replace(/\@/g, at);
-	message.subject = document.querySelector('input[name=subject]').value;
-	message.message = document.querySelector('textarea[name=message]').value;
+	if (message.name != '' && message.email != '') {
+		message.subject = document.querySelector('input[name=subject]').value;
+		message.message = document.querySelector('textarea[name=message]').value;
 
-	let messageString = JSON.stringify(message);
+		let messageString = JSON.stringify(message);
 
-	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('get', 'sendMessage.php?message='+messageString, true);
-	oRq.send();
-	oRq.onreadystatechange = function () {
-		if (oRq.readyState == 4 && oRq.status == 200) {
-		    console.log(this.responseText);
+		var oRq = new XMLHttpRequest(); //Create the object
+		oRq.open('get', 'sendMessage.php?message='+messageString, true);
+		oRq.send();
+		oRq.onreadystatechange = function () {
+			if (oRq.readyState == 4 && oRq.status == 200) {
+			    console.log(this.responseText);
 
-			document.querySelector('input[name=name]').value = '';
-			document.querySelector('input[name=email]').value = '';
-			document.querySelector('input[name=subject]').value = '';
-			document.querySelector('textarea[name=message]').value = '';
+				document.querySelector('input[name=name]').value = '';
+				document.querySelector('input[name=email]').value = '';
+				document.querySelector('input[name=subject]').value = '';
+				document.querySelector('textarea[name=message]').value = '';
 
-			document.getElementById('about_section_wrapper').style.display = 'none';
-		}
-	};
+				document.getElementById('about_section_wrapper').style.display = 'none';
+			}
+		};
+	} 	
 }

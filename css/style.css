@@ -426,6 +426,7 @@ footer a:nth-child(8){
 	grid-row-end: 7;
 	grid-column-start: 1;
 	background-size: contain !important;
+	object-fit: contain;
 	width: 90%;
 	height: 100%;
 }
