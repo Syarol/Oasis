@@ -482,7 +482,7 @@ function updateAllDishTotal(){
 			temp += book.total;
 		} else temp = book.total;
 	}
-console.log(booksInCart);
+	console.log(booksInCart);
 	allCartDishTotal.textContent = '$' + temp.toFixed(2);
 
 	allDishesCount();    
@@ -699,7 +699,7 @@ document.addEventListener('DOMContentLoaded',function() {
 		      	console.log(JSON.parse(this.responseText));
 		      	booksInCart = JSON.parse(this.responseText);
 		      	updateAllDishTotal();
-		      	createCartHeader()
+		      	createCartHeader();
 		    }
 	};
 
@@ -711,7 +711,7 @@ document.addEventListener('DOMContentLoaded',function() {
 		}
 	}
 
-foundedPhotos = document.getElementsByClassName('founded-item-photo');
+	foundedPhotos = document.getElementsByClassName('founded-item-photo');
 	for (let photo of foundedPhotos){
 		photo.addEventListener('click', function(){
 			let title = this.getAttribute('pseudo');	
@@ -749,7 +749,7 @@ foundedPhotos = document.getElementsByClassName('founded-item-photo');
 			document.getElementById('input_book_title').setAttribute('name', title);
 
 			console.log(book);
-		})
+		});
 	}
 }); 
 
@@ -781,7 +781,7 @@ document.getElementById('founded_hide_more').onclick = () => {
 	}
 	foundedShowMore.style.display = 'block';
 	document.getElementById('founded_hide_more').style.display = 'none';
-}
+};
 
 window.onclick = function(e) {
 	if (e.target == contactModal) {
@@ -790,9 +790,9 @@ window.onclick = function(e) {
 
 	if (e.target == modal) {
     	cart.close();
-    }
+	}
 
-    if (e.target == document.getElementById('book_modal_wrapper')) {
+	if (e.target == document.getElementById('book_modal_wrapper')) {
 		document.getElementById('book_modal_wrapper').style.display = 'none';
 	}
 };
@@ -867,7 +867,7 @@ document.getElementById('send_message').onclick = () =>{
 			}
 		};
 	}
-}
+};
 
 closeBookModal.addEventListener('click', function(){
 	console.log('fe');

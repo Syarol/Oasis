@@ -97,4 +97,4 @@ class Carousel{
  * Export
 */
 
-export {getScrolledPercentage, Carousel};
+export {Carousel};

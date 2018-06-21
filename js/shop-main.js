@@ -476,7 +476,7 @@ function updateAllDishTotal(){
 			temp += book.total;
 		} else temp = book.total;
 	}
-console.log(booksInCart);
+	console.log(booksInCart);
 	allCartDishTotal.textContent = '$' + temp.toFixed(2);
 
 	allDishesCount();    
@@ -662,7 +662,7 @@ document.addEventListener('DOMContentLoaded', function(){
 		      	console.log(JSON.parse(this.responseText));
 		      	booksInCart = JSON.parse(this.responseText);
 		      	updateAllDishTotal();
-		      	createCartHeader()
+		      	createCartHeader();
 		    }
 	};
 });
@@ -727,4 +727,4 @@ document.getElementById('send_message').onclick = () =>{
 			}
 		};
 	} 	
-}
+};
