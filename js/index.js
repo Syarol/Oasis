@@ -22,8 +22,8 @@ var arrivalsRight = document.getElementById('arrivals_right');
 var contactModal = document.getElementById('about_section_wrapper');
 var contactModalLink = document.getElementById('contact');
 var closeContactModal = document.getElementById('close-contact-modal');
+var bestsellerModalWrapper = document.getElementById('bestseller_modal_wrapper';
 var goodsInCart = [];
-
 var countInsideCart = document.getElementById('count_inside_cart');
 var openCart = document.getElementById('cart_open');
 var plus = encodeURIComponent('+');
@@ -130,12 +130,40 @@ function getCartFromServer(){
 		   	console.log(JSON.parse(this.responseText));
 		   	goodsInCart = JSON.parse(this.responseText);
 		   	if (!cart){
-				cart = new Cart(openCart);
+				cart = new Cart(openCart, goodsInCart);
 			}
 		   	updateAllGoodsTotal();
 			getGoodsInf();
 		}
 	};
+}
+
+function sendMessageToShop(){
+	let message = {};
+	message.name = document.querySelector('input[name=name]').value;
+	message.email = document.querySelector('input[name=email]').value.replace(/\@/g, at);
+	if (message.name != '' && message.email != '') {
+		message.subject = document.querySelector('input[name=subject]').value;
+		message.message = document.querySelector('textarea[name=message]').value;
+
+		let messageString = JSON.stringify(message);
+
+		var oRq = new XMLHttpRequest(); //Create the object
+		oRq.open('get', 'sendMessage.php?message='+messageString, true);
+		oRq.send();
+		oRq.onreadystatechange = function () {
+			if (oRq.readyState == 4 && oRq.status == 200) {
+			    console.log(this.responseText);
+
+				document.querySelector('input[name=name]').value = '';
+				document.querySelector('input[name=email]').value = '';
+				document.querySelector('input[name=subject]').value = '';
+				document.querySelector('textarea[name=message]').value = '';
+
+				document.getElementById('about_section_wrapper').style.display = 'none';
+			}
+		};
+	}
 }
 
 /**
@@ -162,7 +190,7 @@ window.loadMaps = () => {
 	});
 };
 
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', () => {
 	var arrivalCarousel = new Carousel(arrivalsRight, arrivalsLeft, arrivalCarouselMain);
 
 	//if long name of book than make font-size smaller
@@ -181,17 +209,13 @@ document.addEventListener('DOMContentLoaded', function(){
 	}
 });
 
-closeBestsellerModal.addEventListener('click', function(){
-	document.getElementById('bestseller_modal_wrapper').style.display = 'none';
-});
+closeBestsellerModal.onclick = () => bestsellerModalWrapper.style.display = 'none';
 
-document.getElementById('open_bestseller_modal').addEventListener('click', function(){
-	document.getElementById('bestseller_modal_wrapper').style.display = 'flex';
-});
+document.getElementById('open_bestseller_modal').onclick = () => bestsellerModalWrapper.style.display = 'flex';
 
-window.onclick = function(e) {
-	if (e.target == document.getElementById('bestseller_modal_wrapper')) {
-		document.getElementById('bestseller_modal_wrapper').style.display = 'none';
+document.onclick = function(e) {
+	if (e.target == bestsellerModalWrapper) {
+		bestsellerModalWrapper.style.display = 'none';
 	}
 
 	if (e.target == contactModal) {
@@ -199,41 +223,11 @@ window.onclick = function(e) {
 	}
 }; 
 
-contactModalLink.onclick = function(){
-	contactModal.style.display = 'flex';
-};
+contactModalLink.onclick = () => contactModal.style.display = 'flex';
 
-closeContactModal.onclick = function(){
-	contactModal.style.display = 'none';
-};
+closeContactModal.onclick = () => contactModal.style.display = 'none';
 
-document.getElementById('send_message').onclick = () =>{
-	let message = {};
-	message.name = document.querySelector('input[name=name]').value;
-	message.email = document.querySelector('input[name=email]').value.replace(/\@/g, at);
-	if (message.name != '' && message.email != '') {
-		message.subject = document.querySelector('input[name=subject]').value;
-		message.message = document.querySelector('textarea[name=message]').value;
-
-		let messageString = JSON.stringify(message);
-
-		var oRq = new XMLHttpRequest(); //Create the object
-		oRq.open('get', 'sendMessage.php?message='+messageString, true);
-		oRq.send();
-		oRq.onreadystatechange = function () {
-			if (oRq.readyState == 4 && oRq.status == 200) {
-			    console.log(this.responseText);
-
-				document.querySelector('input[name=name]').value = '';
-				document.querySelector('input[name=email]').value = '';
-				document.querySelector('input[name=subject]').value = '';
-				document.querySelector('textarea[name=message]').value = '';
-
-				document.getElementById('about_section_wrapper').style.display = 'none';
-			}
-		};
-	}
-};
+document.getElementById('send_message').onclick = () => sendMessageToShop();
 
 /**
  * Export

@@ -4,11 +4,11 @@
  * @Author Oleh Yaroshchuk 
  */
 
- /**
+/**
  * Import
 */
 
-import {goodsInCart} from './index.js';
+//import {goodsInCart} from './index.js';
 
 /**
  * Variables
@@ -18,7 +18,7 @@ var overIndex;
 var countInsideCart = document.getElementById('count_inside_cart');
 var plus = encodeURIComponent('+');
 var hashtag = encodeURIComponent('#');
-
+var goodsInCart;
 /**
  * Functions
 */
@@ -205,7 +205,8 @@ function getOverIndex(e, neededClassTarget){
 */
 
 class Cart{
-	constructor(entryPoint){
+	constructor(entryPoint, InCart){
+		goodsInCart = InCart;
 		this.inputLabels = ['First name', 'Last name', 'Address', 'Phone number', 'E-mail', 'Discount code (optional)'];
 
 		window.cartModalWrapper = createNewEl('section', document.body, {id : 'cart-modal'});
