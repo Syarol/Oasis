@@ -3,11 +3,19 @@
   "version": "1.0.0",
   "description": "Bookstore site",
   "main": "index.js",
-  "dependencies": {
-    "eslint": "^4.19.1",
-    "npm": "^6.0.1"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
-  "devDependencies": {},
+  "dependencies": {
+    "async": "^2.6.1",
+    "express": "^4.16.3",
+    "mysql": "^2.15.0",
+    "npm": "^6.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1"
+  },
   "author": "Oleh Yaroshchuk",
   "license": "MIT"
 }
