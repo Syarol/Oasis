@@ -158,11 +158,11 @@ function sendMessageToShop(){
 		message.subject = document.querySelector('input[name=subject]').value;
 		message.message = document.querySelector('textarea[name=message]').value;
 
-		let messageString = JSON.stringify(message);
-
 		var oRq = new XMLHttpRequest(); //Create the object
-		oRq.open('get', 'sendMessage.php?message='+messageString, true);
-		oRq.send();
+		oRq.open('post', '/sendMessage');
+		oRq.setRequestHeader("Content-Type", "application/json");
+		oRq.send(JSON.stringify(message));
+
 		oRq.onreadystatechange = function () {
 			if (oRq.readyState == 4 && oRq.status == 200) {
 			    console.log(this.responseText);

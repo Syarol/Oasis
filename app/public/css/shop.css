@@ -31,7 +31,7 @@ html, body {
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    background-image: url(/images/pexels-photo-164005.jpeg);
+    background-image: url(/assets/images/pexels-photo-164005.jpeg);
 }
 
 .center-cover-no-repeat{

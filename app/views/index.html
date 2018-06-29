@@ -20,16 +20,16 @@
 
 	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Black+Han+Sans|Bree+Serif|Lato" rel="stylesheet"> 
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous"> 
-	<link href="styles/style.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
 	<header id="page_header" class="grid-center-items">
 		<div class="logo-container"><p class="navigation" scrollTo="#head-section">Oasis</p></div>
 		<nav class="grid-center-items">
-			<p class="navigation" scrollTo="#about-section"><a href="index.php">Home</a></p>
-			<p class="navigation" scrollTo="#menu-section"><a href="blog.php">Blog</a></p>
-			<p class="navigation" scrollTo="#contact-section"><a href="shop.php">Shop</a></p>
+			<p class="navigation" scrollTo="#about-section"><a href="/">Home</a></p>
+			<p class="navigation" scrollTo="#menu-section"><a href="/blog">Blog</a></p>
+			<p class="navigation" scrollTo="#contact-section"><a href="/shop">Shop</a></p>
 		</nav>
 		<div class="cart-header-container">
 			<p id="cart_open" title="Click to open cart"><i class="fas fa-shopping-cart"></i><span id="count_inside_cart"></span></p>
@@ -39,7 +39,7 @@
 	<section id="head_section" class="center-cover-no-repeat">
 		<div class="center-banner-text grid-center-items">
 			<span>Welcome at Oasis</span>
-			<a href="shop.php" class="button grid-center-items">Shop now</a>
+			<a href="/shop" class="button grid-center-items">Shop now</a>
 		</div>
 	</section>
 
@@ -93,7 +93,7 @@
 	<section id="find_product" class="grid-center-items">
 		<div class="find-form grid-center-items">
 			<span>NEED TO FIND PARTICULAR PRODUCTS?</span>
-			<form id="find_product_form" action="search.php" method="GET">
+			<form id="find_product_form" action="/search" method="GET">
 				<div>
 					<label for="title-search">Book title</label>
 					<input type="text" name="title-search">
@@ -126,9 +126,9 @@
 		<a href="https://www.t.me/Oleh_Yaroshchuk"><i class="fab fa-telegram-plane"></i></a>
 		<a href="https://www.instagram.com/oleh_yaroshchuk/"><i class="fab fa-instagram"></i></a>
 
-		<a href="index.php"><span>Home</span></a>
-		<a href="shop.php"><span>Shop</span></a>
-		<a href="blog.php"><span>Blog</span></a>
+		<a href="/"><span>Home</span></a>
+		<a href="/shop"><span>Shop</span></a>
+		<a href="/blog"><span>Blog</span></a>
 		<span id="contact">Contact</span>
 	</footer>
 
@@ -165,8 +165,7 @@
 		</div>
 	</section>
 
-	<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script> -->
-	<script type="module" src="scripts/index.js"></script>
+	<script type="module" src="js/main.js"></script>
 
 </body>
 

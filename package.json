@@ -10,11 +10,13 @@
   "dependencies": {
     "async": "^2.6.1",
     "express": "^4.16.3",
+    "express-session": "^1.15.6",
     "mysql": "^2.15.0",
     "npm": "^6.1.0"
   },
   "devDependencies": {
-    "eslint": "^4.19.1"
+    "eslint": "^4.19.1",
+    "nodemon": "^1.17.5"
   },
   "author": "Oleh Yaroshchuk",
   "license": "MIT"

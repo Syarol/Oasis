@@ -5,66 +5,87 @@
 
 	<meta charset="utf-8">
 
-	<meta name="description" content="Amazing bookstore for your mind">
-
-	<!-- Google / Search Engine Tags -->
-	<meta itemprop="name" content="Oasis online-store">
-	<meta itemprop="description" content="Amazing bookstore for your mind">
-
 	<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
 	<link rel="icon" href="images/favicon.png" type="image/x-icon">
 
-	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Bree+Serif|Hind|Cabin|Mukta+Malar|Muli" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Black+Han+Sans|Bree+Serif|Hind" rel="stylesheet"> 
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous"> 
-	<link href="styles/search.css" rel="stylesheet">
+	<link href="css/shop.css" rel="stylesheet">
 </head>
 <body>
 	<header id="page_header" class="grid-center-items">
 		<div class="logo-container"><p class="navigation" scrollTo="#head-section">Oasis</p></div>
 		<nav class="grid-center-items">
-			<p class="navigation" scrollTo="#about-section"><a href="index.php">Home</a></p>
-			<p class="navigation" scrollTo="#menu-section"><a href="blog.php">Blog</a></p>
-			<p class="navigation" scrollTo="#contact-section"><a href="shop.php">Shop</a></p>
-			<form class="grid-center-items" action="search.php" method="GET">
-				<input type="hidden" name="search-type" value="aside-search">
-				<input type="hidden" name="checkbox-category" value="">
-				<input type="hidden" name="checkbox-author" value="">
-				<input type="hidden" name="checkbox-publisher" value="">
-				<input type="text" name="query" placeholder="Search for">
-				<input class="button" type="submit" value="Search">
-			</form>
+			<p class="navigation" scrollTo="#about-section"><a href="/">Home</a></p>
+			<p class="navigation" scrollTo="#menu-section"><a href="/blog">Blog</a></p>
+			<p class="navigation" scrollTo="#contact-section"><a href="/shop">Shop</a></p>
 		</nav>
 		<div class="cart-header-container">
 			<p id="cart_open" title="Click to open cart"><i class="fas fa-shopping-cart"></i><span id="count_inside_cart"></span></p>
 		</div>
 	</header> 
 
-	<section class="you-searched">
-		<span id="you_searched_text"></span>
+	<section id="search_top" class="grid-center-items">
+		<div class="search-top-wrapper grid-center-items">
+			<h1>Search by our catalog</h1>
+			<form action="/search" method="GET">
+				<input type="hidden" name="search-type" value="search-full">
+				<input type="text" name="query" placeholder="Search for">
+				<input class="button" type="submit" value="Let's found!">
+			</form>
+		</div>
 	</section>
 
-	<section id="founded_section" class="grid-center-items">
+	<section id="we_recommend" class="carousel-section">
+		<div class="carousel-controls-wrapper grid-center-items">
+			<div class="carousel-controls grid-center-items">
+				<span class="control left-control">
+					<i class="fas fa-angle-left"></i>
+				</span>
+				<h2> WE RECOMMEND </h2>
+				<span class="control right-control">
+					<i class="fas fa-angle-right"></i>
+				</span>
+			</div>
+		</div>
+		<div id="recommend_carousel" class="carousel">
 
-
-		<span id="founded_show_more">Show next</span>
-		<span id="founded_hide_more">Show previous</span>
+		</div>
 	</section>
 
-	<aside class="search-filters grid-center-items">
-		<form id="categories_list">
-			<h3 id="categories_list_title"><i class="far fa-plus-square"></i> Categories</h3>
+	<section id="bestsellers" class="carousel-section">
+		<div class="carousel-controls-wrapper grid-center-items">
+			<div class="carousel-controls grid-center-items">
+				<span class="control left-control">
+					<i class="fas fa-angle-left"></i>
+				</span>
+				<h2> BESTSELLERS </h2>
+				<span class="control right-control">
+					<i class="fas fa-angle-right"></i>
+				</span>
+			</div>
+		</div>
+		<div id="bestsellers_carousel" class="carousel">
 
-		</form>
-		<form id="authors_list">
-			<h3 id="authors_list_title"><i class="far fa-plus-square"></i> Authors</h3>
+		</div>
+	</section>
 
-		</form>
-		<form id="publishers_list">
-			<h3 id="publishers_list_title"><i class="far fa-plus-square"></i> Publisher</h3>
+	<section id="new_arrives" class="carousel-section">
+		<div class="carousel-controls-wrapper grid-center-items">
+			<div class="carousel-controls grid-center-items">
+				<span class="control left-control">
+					<i class="fas fa-angle-left"></i>
+				</span>
+				<h2> NEW ARRIVES</h2>
+				<span class="control right-control">
+					<i class="fas fa-angle-right"></i>
+				</span>
+			</div>
+		</div>
+		<div id="arrives_carousel" class="carousel">
 
-		</form>
-	</aside>
-
+		</div>
+	</section>
 
 	<footer class="grid-center-items">
 		<span>Copyright - Oleh Yaroshchuk 2018</span>
@@ -76,9 +97,9 @@
 		<a href="https://www.t.me/Oleh_Yaroshchuk"><i class="fab fa-telegram-plane"></i></a>
 		<a href="https://www.instagram.com/oleh_yaroshchuk/"><i class="fab fa-instagram"></i></a>
 
-		<a href="index.php"><span>Home</span></a>
-		<a href="shop.php"><span>Shop</span></a>
-		<a href="blog.php"><span>Blog</span></a>
+		<a href="/"><span>Home</span></a>
+		<a href="/shop"><span>Shop</span></a>
+		<a href="/blog"><span>Blog</span></a>
 		<span id="contact">Contact</span>
 	</footer>
 
@@ -115,23 +136,7 @@
 		</div>
 	</section>
 
-	<div id="book_modal_wrapper">
-		<div id="book_modal" class="modal-container grid-center-items">
-				<span id="close_book_modal" class="close-modal" title="Close">×</span>
+	<script type="module" src="js/shop-main.js"></script>
 
-				<h3 id="book_title"></h3>
-				<img id="book_photo" class="modal-photo">
-				<span id="book_author" class="author"></span>
-				<span id="book_categories" class="category"></span>
-				<span id="book_description" class="text-container"></span>
-				<span class="price">
-					<span id="book_price"></span>
-					<input id="input_book_title" name="" class="button" value="Add to cart" type="button">
-				</span>
-		</div>
-	</div>
-
-	<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script> -->
-	<script src="scripts/search.js" type="module"></script>
 </body>
 </html>

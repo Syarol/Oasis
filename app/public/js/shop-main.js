@@ -8,17 +8,25 @@
  * Imports
 */
 
+import {Carousel} from './carousel.js';
 import {Cart} from './cart.js';
 
 /**
  * Global variables
 */
 
+var recommendCarouselMain = document.getElementById('recommend_carousel');
+var bestsellersCarouselMain = document.getElementById('bestsellers_carousel');
+var arrivesCarouselMain = document.getElementById('arrives_carousel');
+var leftButtons = document.getElementsByClassName('left-control');
+var rightButtons = document.getElementsByClassName('right-control');
 var contactModal = document.getElementById('about_section_wrapper');
 var contactModalLink = document.getElementById('contact');
 var closeContactModal = document.getElementById('close-contact-modal');
+var recommendCarousel;
+var bestsellersCarousel;
+var arrivesCarousel;
 var goodsInCart = [];
-var readMoreModal = document.getElementById('read_more_modal');
 var countInsideCart = document.getElementById('count_inside_cart');
 var openCart = document.getElementById('cart_open');
 var plus = encodeURIComponent('+');
@@ -29,31 +37,6 @@ var cart;
 /**
  * Functions
 */
-
-function loadGoogleMap(){
-	let script = document.createElement('script');
-	script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAEgnNcLXu3TxudcgyN9DnQ7uUwWy1hIpI&callback=loadMaps';
-	script.type = 'text/javascript';
-	script.id ='googleMap';
-	document.getElementsByTagName('body')[0].append(script);
-}
-
-function getCartFromServer(){
-	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('get', 'sendCartToJS.php', true);
-	oRq.send();
-	oRq.onreadystatechange = function () {
-		if (oRq.readyState == 4 && oRq.status == 200) {
-		   	console.log(JSON.parse(this.responseText));
-		   	goodsInCart = JSON.parse(this.responseText);
-		   	if (!cart){
-				cart = new Cart(openCart, goodsInCart);
-			}
-		   	updateAllGoodsTotal();
-			getGoodsInf();
-		}
-	};
-}
 
 function updateAllGoodsTotal(){
 	let temp = 0;
@@ -74,6 +57,35 @@ function updateAllGoodsTotal(){
 		if (allTotal == 0) countInsideCart.textContent = '';
 		else countInsideCart.textContent = ' (' + allTotal + ')';    
 	} 
+}
+
+function loadGoogleMap(){
+	let script = document.createElement('script');
+	script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAEgnNcLXu3TxudcgyN9DnQ7uUwWy1hIpI&callback=loadMaps';
+	script.type = 'text/javascript';
+	script.id ='googleMap';
+	document.getElementsByTagName('body')[0].append(script);
+}
+
+
+function addToCartArray(goods){
+	if (goodsInCart.length != 0) {
+		let found = false;
+		for(let item of goodsInCart) {
+		    if (item.name == goods.name) {
+	    		item.count++; 
+		    	found = true;
+				break;
+			}
+		}
+		if (!found) {
+			goodsInCart.push({name: goods.name, count: 1});
+		}
+	} else goodsInCart.push({name: goods.name, count: 1});
+
+	getGoodsInf();
+	updateAllGoodsTotal();	
+	syncCartwithServer();	
 }
 
 function getGoodsInf(){
@@ -97,6 +109,39 @@ function getGoodsInf(){
 	}
 }
 
+function syncCartwithServer(){
+	var oRq = new XMLHttpRequest(); //Create the object
+	let goods = JSON.stringify(goodsInCart);
+	let replaced = goods.replace(/\+/g, plus);
+	   	replaced = replaced.replace(/\#/g, hashtag);
+	console.log(JSON.parse(goods));
+	oRq.open('get', 'variableBeetwenPages.php?books='+replaced, true);
+	oRq.send();
+	oRq.onreadystatechange = function () {
+		    if (oRq.readyState == 4 && oRq.status == 200) {
+		    	console.log(this.responseText);
+		      	console.log(JSON.parse(this.responseText));
+		    }
+	};
+}
+
+function getCartFromServer(){
+	var oRq = new XMLHttpRequest(); //Create the object
+	oRq.open('get', 'sendCartToJS.php', true);
+	oRq.send();
+	oRq.onreadystatechange = function () {
+		if (oRq.readyState == 4 && oRq.status == 200) {
+		   	console.log(JSON.parse(this.responseText));
+		   	goodsInCart = JSON.parse(this.responseText);
+		   	if (!cart){
+				cart = new Cart(openCart, goodsInCart);
+			}
+		   	updateAllGoodsTotal();
+			getGoodsInf();
+		}
+	};
+}
+
 function sendMessageToShop(){
 	let message = {};
 	message.name = document.querySelector('input[name=name]').value;
@@ -105,11 +150,11 @@ function sendMessageToShop(){
 		message.subject = document.querySelector('input[name=subject]').value;
 		message.message = document.querySelector('textarea[name=message]').value;
 
-		let messageString = JSON.stringify(message);
-
 		var oRq = new XMLHttpRequest(); //Create the object
-		oRq.open('get', 'sendMessage.php?message='+messageString, true);
-		oRq.send();
+		oRq.open('post', '/sendMessage');
+		oRq.setRequestHeader("Content-Type", "application/json");
+		oRq.send(JSON.stringify(message));
+		
 		oRq.onreadystatechange = function () {
 			if (oRq.readyState == 4 && oRq.status == 200) {
 			    console.log(this.responseText);
@@ -150,14 +195,18 @@ window.loadMaps = () => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+	recommendCarousel = new Carousel(rightButtons[0], leftButtons[0], recommendCarouselMain);
+	bestsellersCarousel = new Carousel(rightButtons[1], leftButtons[1], bestsellersCarouselMain);
+	arrivesCarousel = new Carousel(rightButtons[2], leftButtons[2], arrivesCarouselMain);
+
 	//if long name of book than make font-size smaller
 	for (let item of document.querySelectorAll('.arrival-item-inf h3')){
 		if (item.textContent.length > 12) item.style.fontSize  = '1em';
 	}
 
-	for (let item of document.getElementsByClassName('button-read-more')){
-		item.onclick = () => readMoreModal.style.display = 'flex';
-	}
+	for (let item of document.querySelectorAll('input[type=button]')){
+		item.onclick = () => addToCartArray(item);
+	}	
 
 	getCartFromServer();
 
@@ -166,25 +215,14 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 });
 
-document.onclick = function(e) {
-	if (e.target == contactModal) {
-		contactModal.style.display = 'none';
-	}
-
-	if (e.target == readMoreModal) {
-    	readMoreModal.style.display = 'none';
-	}
-}; 
+contactModal.onclick = () => contactModal.style.display = 'none';
 
 contactModalLink.onclick = () => contactModal.style.display = 'flex';
 
 closeContactModal.onclick = () => contactModal.style.display = 'none';
 
-var closeReadMoreModal = document.getElementById('close_read_more_modal');
-
-closeReadMoreModal.onclick = () => readMoreModal.style.display = 'none';
-
 document.getElementById('send_message').onclick = () => sendMessageToShop();
+
 
 /**
  * Export
