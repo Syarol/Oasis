@@ -40,7 +40,7 @@ function loadGoogleMap(){
 
 function getCartFromServer(){
 	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('get', 'sendCartToJS.php', true);
+	oRq.open('get', '/getCart', true);
 	oRq.send();
 	oRq.onreadystatechange = function () {
 		if (oRq.readyState == 4 && oRq.status == 200) {
@@ -107,7 +107,7 @@ function sendMessageToShop(){
 
 		var oRq = new XMLHttpRequest(); //Create the object
 		oRq.open('post', '/sendMessage');
-		oRq.setRequestHeader("Content-Type", "application/json");
+		oRq.setRequestHeader('Content-Type', 'application/json');
 		oRq.send(JSON.stringify(message));
 
 		oRq.onreadystatechange = function () {

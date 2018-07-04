@@ -115,8 +115,10 @@ function syncCartwithServer(){
 	let replaced = goods.replace(/\+/g, plus);
 	   	replaced = replaced.replace(/\#/g, hashtag);
 	console.log(JSON.parse(goods));
-	oRq.open('get', 'variableBeetwenPages.php?books='+replaced, true);
-	oRq.send();
+	oRq.open('get', '/sameCart', true);
+	oRq.setRequestHeader('Content-Type', 'application/json');
+	oRq.send(JSON.stringify(replaced));
+	
 	oRq.onreadystatechange = function () {
 		    if (oRq.readyState == 4 && oRq.status == 200) {
 		    	console.log(this.responseText);
@@ -127,7 +129,7 @@ function syncCartwithServer(){
 
 function getCartFromServer(){
 	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('get', 'sendCartToJS.php', true);
+	oRq.open('get', '/getCart', true);
 	oRq.send();
 	oRq.onreadystatechange = function () {
 		if (oRq.readyState == 4 && oRq.status == 200) {
@@ -152,7 +154,7 @@ function sendMessageToShop(){
 
 		var oRq = new XMLHttpRequest(); //Create the object
 		oRq.open('post', '/sendMessage');
-		oRq.setRequestHeader("Content-Type", "application/json");
+		oRq.setRequestHeader('Content-Type', 'application/json');
 		oRq.send(JSON.stringify(message));
 		
 		oRq.onreadystatechange = function () {

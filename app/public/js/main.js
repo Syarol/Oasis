@@ -10,6 +10,7 @@
 
 import {Carousel} from './carousel.js';
 import {Cart} from './cart.js';
+import {createNewEl} from './createNewElement.js';
 
 /**
  * Global variables
@@ -26,8 +27,6 @@ var bestsellerModalWrapper = document.getElementById('bestseller_modal_wrapper')
 var goodsInCart = [];
 var countInsideCart = document.getElementById('count_inside_cart');
 var openCart = document.getElementById('cart_open');
-var plus = encodeURIComponent('+');
-var hashtag = encodeURIComponent('#');
 var at = encodeURIComponent('@');
 var cart;
 
@@ -65,100 +64,148 @@ function loadGoogleMap(){
 }
 
 function addToCartArray(goods){
+	getCartFromServer();
+	cart.updateInCart(goodsInCart);
+
 	if (goodsInCart.length != 0) {
 		let found = false;
-		for(let item of goodsInCart) {
-		    if (item.name == goods.name) {
+		for (let item of goodsInCart) {
+		    if (item.title == goods.title) {
 	    		item.count++; 
+	    		item.total = Number(item.price.replace(/\$/, '')) * item.count;
 		    	found = true;
 				break;
 			}
 		}
 		if (!found) {
-			goodsInCart.push({name: goods.name, count: 1});
+			newItemInCart(goods);
 		}
-	} else goodsInCart.push({name: goods.name, count: 1});
-
-	getGoodsInf();
-	updateAllGoodsTotal();	
-	syncCartwithServer();	
-}
-
-function getGoodsInf(){
-	for (let item of goodsInCart){
-		let replaced = item.name.replace(/\+/g, plus);
-		   	replaced = replaced.replace(/\#/g, hashtag);
-
-		var oReq = new XMLHttpRequest(); //Create the object
-		oReq.open('GET', 'get-data.php?title='+replaced, false);
-
-		oReq.onreadystatechange = function () {
-		    if (oReq.readyState == 4 && oReq.status == 200) {
-		        let res = JSON.parse(this.responseText);
-		        item.author = res.author;
-		        item.price = res.price;
-		        item.total = Number(res.price.replace(/\$/, ''));
-		    }
-		};
-
-		oReq.send();
+	} else {
+		newItemInCart(goods);
 	}
+	//getGoodsInf();
+	updateAllGoodsTotal();	
+	syncCartwithServer();
+
+	function newItemInCart(item){
+		item.count = 1;
+		item.total = Number(item.price.replace(/\$/, ''));
+		goodsInCart.push(item);
+	}	
 }
+
+/*function getGoodsInf(){
+	for (let item of goodsInCart){
+
+/*var oReq = new XMLHttpRequest(); //Create the object
+		oReq.open('POST', '/getItemData', false);
+		oReq.setRequestHeader('Content-Type', 'application/json');
+		oReq.send(JSON.stringify({title: item.title}));
+
+		oReq.onload = function () {
+	        let res = JSON.parse(this.responseText);
+	        item.author = res.author;
+	        item.price = res.price;
+	        item.total = Number(res.price.replace(/\$/, '')) * item.count;
+		};
+	}
+}*/
 
 function syncCartwithServer(){
 	var oRq = new XMLHttpRequest(); //Create the object
 	let goods = JSON.stringify(goodsInCart);
-	let replaced = goods.replace(/\+/g, plus);
-	   	replaced = replaced.replace(/\#/g, hashtag);
-	console.log(JSON.parse(goods));
-	oRq.open('get', 'variableBeetwenPages.php?books='+replaced, true);
-	oRq.send();
-	oRq.onreadystatechange = function () {
-		    if (oRq.readyState == 4 && oRq.status == 200) {
-		    	console.log(this.responseText);
-		      	console.log(JSON.parse(this.responseText));
-		    }
+
+	oRq.open('post', '/sameCart');
+	oRq.setRequestHeader('Content-Type', 'application/json');
+	oRq.send(goods);
+
+	oRq.onload = function () {
+	  	//console.log(this.responseText);
+	   	console.log(JSON.parse(this.responseText));
 	};
 }
 
 function getCartFromServer(){
 	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('get', /*'sendCartToJS.php'*/'/getCart', true);
+	oRq.open('get', '/getCart', false);
 	oRq.send();
-	oRq.onreadystatechange = function () {
-		if (oRq.readyState == 4 && oRq.status == 200) {
-		   	console.log(JSON.parse(this.responseText));
-		   	goodsInCart = JSON.parse(this.responseText);
-		   	if (!cart){
-				cart = new Cart(openCart, goodsInCart);
-			}
-		   	updateAllGoodsTotal();
-			getGoodsInf();
-		}
+
+	oRq.onload = function () {
+	   	goodsInCart = JSON.parse(this.responseText);
+	   	console.log(goodsInCart);
+		//getGoodsInf();
+	   	updateAllGoodsTotal();
 	};
+}
+
+function getArrivalCarousel(){
+	var oRq = new XMLHttpRequest(); //Create the object
+	oRq.open('get', '/getArrivalCarousel');
+	oRq.send();
+	oRq.onload = function () {
+	   	console.log(JSON.parse(this.responseText));
+	   	for (let item of JSON.parse(this.responseText)){
+	   		carouselItem(arrivalCarouselMain, item);
+	    }
+	};
+
+	function carouselItem(parent, data){
+		createNewEl('div', parent, {
+			class: 'arrival-item carousel-item',
+			style: 'background-image:url(' + data.thumbnailUrl + ')',
+			nested: [
+				createNewEl('div', false, {
+					class: 'arrival-item-inf grid-center-items',
+					nested: [
+						createNewEl('h3', false, {
+							content: data.title
+						}),
+						createNewEl('span', false, {
+							content: 'by ' + data.author
+						}),
+						createNewEl('span', false, {
+							content: data.price
+						}),
+						createNewEl('span', false, {
+							content: data.categories
+						}),
+						createNewEl('input', false, {
+							type: 'button',
+							title: data.title,
+							class: 'button',
+							value: 'Add to cart',
+							callback: {click: {
+								call: () => addToCartArray(data)
+							}}
+						})
+					]
+				})
+			]
+		});
+	}
 }
 
 function sendMessageToShop(){
 	let message = {};
-	message.name = document.querySelector('input[name=name]').value;
-	message.email = document.querySelector('input[name=email]').value.replace(/\@/g, at);
-	if (message.name != '' && message.email != '') {
-		message.subject = document.querySelector('input[name=subject]').value;
-		message.message = document.querySelector('textarea[name=message]').value;
+	message.title = document.querySelector('input[title=title]').value;
+	message.email = document.querySelector('input[title=email]').value.replace(/\@/g, at);
+	if (message.title != '' && message.email != '') {
+		message.subject = document.querySelector('input[title=subject]').value;
+		message.message = document.querySelector('textarea[title=message]').value;
 
 		var oRq = new XMLHttpRequest(); //Create the object
 		oRq.open('post', '/sendMessage');
-		oRq.setRequestHeader("Content-Type", "application/json");
+		oRq.setRequestHeader('Content-Type', 'application/json');
 		oRq.send(JSON.stringify(message));
-		
+
 		oRq.onreadystatechange = function () {
 			if (oRq.readyState == 4 && oRq.status == 200) {
 			    console.log(this.responseText);
 
-				document.querySelector('input[name=name]').value = '';
-				document.querySelector('input[name=email]').value = '';
-				document.querySelector('input[name=subject]').value = '';
-				document.querySelector('textarea[name=message]').value = '';
+				document.querySelector('input[title=title]').value = '';
+				document.querySelector('input[title=email]').value = '';
+				document.querySelector('input[title=subject]').value = '';
+				document.querySelector('textarea[title=message]').value = '';
 
 				document.getElementById('about_section_wrapper').style.display = 'none';
 			}
@@ -191,18 +238,15 @@ window.loadMaps = () => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-	var arrivalCarousel = new Carousel(arrivalsRight, arrivalsLeft, arrivalCarouselMain);
+	getCartFromServer();
 
-	//if long name of book than make font-size smaller
-	for (let item of document.querySelectorAll('.arrival-item-inf h3')){
-		if (item.textContent.length > 12) item.style.fontSize  = '1em';
+	if (!cart){
+		cart = new Cart(openCart, goodsInCart);
 	}
 
-	for (let item of document.querySelectorAll('input[type=button]')){
-		item.onclick = () => addToCartArray(item);
-	}	
+	getArrivalCarousel();
 
-	getCartFromServer();
+	var arrivalCarousel = new Carousel(arrivalsRight, arrivalsLeft, arrivalCarouselMain);
 
 	if(document.getElementById('googleMap') === null){
 		loadGoogleMap();

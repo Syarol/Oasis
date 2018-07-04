@@ -1,0 +1,28 @@
+{
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "env": {
+        "node": 1,
+        "es6": true,
+        "browser": true
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+        "no-console": 0,
+        "no-useless-escape": 0,
+		"no-mixed-spaces-and-tabs": 0,
+        "indent": [
+            "error",
+            "tab"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
+    }
+}

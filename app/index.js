@@ -1,9 +1,12 @@
 const express	  = require('express');
 const path   	  = require('path');
 const session	  = require('express-session');
-const cart        = require('./lib/getCart');
+const getCart     = require('./lib/getCart');
 const sendMessage = require('./lib/sendMessage');
 const bodyParser  = require('body-parser');
+const getCatalogItems = require('./lib/getCatalogItems'); 
+const getItemData = require('./lib/getItemData');
+var getCatalog = new getCatalogItems();
 
 const app = express();
 
@@ -37,15 +40,28 @@ app.get('/search', function(req, res){
   res.sendFile(path.join(__dirname + '/views/search.html'));
 });
 
+app.post('/getItemData', function(req, res) {
+	getItemData(req, res);
+});
+
 app.get('/getCart', function(req, res) {
-	//cart.getContent(req, res);
+	getCart(req, res);
+});
+
+app.get('/getArrivalCarousel', function(req, res) {
+	getCatalog.arrivals(req, res);
+});
+
+app.post('/sameCart', function(req, res) {
+	let data = req.body;
+	req.session.booksInCart = data;
+	res.send(JSON.stringify(data));
 });
 
 app.post('/sendMessage', function(req, res) {
 	let message = req.body;
-	res.send(sendMessage.send(message));
+	res.send(sendMessage(message));
 });
-
 
 app.listen(3000);
 
