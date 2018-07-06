@@ -102,7 +102,7 @@ function addToCartArray(goods){
 		oReq.setRequestHeader('Content-Type', 'application/json');
 		oReq.send(JSON.stringify({title: item.title}));
 
-		oReq.onload = function () {
+		oReq.onreadystatechange  = function () {
 	        let res = JSON.parse(this.responseText);
 	        item.author = res.author;
 	        item.price = res.price;
@@ -122,15 +122,17 @@ function syncCartwithServer(){
 	oRq.onload = function () {
 	  	//console.log(this.responseText);
 	   	console.log(JSON.parse(this.responseText));
+	   	updateAllGoodsTotal();	
 	};
 }
 
 function getCartFromServer(){
 	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('get', '/getCart', false);
+	oRq.open('post', '/getCart', true);
 	oRq.send();
 
 	oRq.onload = function () {
+		//console.log(this.responseText);
 	   	goodsInCart = JSON.parse(this.responseText);
 	   	console.log(goodsInCart);
 		//getGoodsInf();
@@ -139,11 +141,12 @@ function getCartFromServer(){
 }
 
 function getArrivalCarousel(){
+	let type = encodeURIComponent('ARRIVALS');
 	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('get', '/getArrivalCarousel');
+	oRq.open('get', '/getSpecialMarked?type=' + type);
 	oRq.send();
 	oRq.onload = function () {
-	   	console.log(JSON.parse(this.responseText));
+	   	//console.log(JSON.parse(this.responseText));
 	   	for (let item of JSON.parse(this.responseText)){
 	   		carouselItem(arrivalCarouselMain, item);
 	    }
@@ -185,6 +188,142 @@ function getArrivalCarousel(){
 	}
 }
 
+function getBestsellerBook(){
+	let type = encodeURIComponent('BESTSELLER');
+	var oRq = new XMLHttpRequest(); //Create the object
+	oRq.open('get', '/getSpecialMarked?type=' + type);
+	oRq.send();
+	oRq.onload = function () {
+		let book = JSON.parse(this.responseText)[0];
+   		bestsellerPreview(document.getElementById('bestseller_preview'), book);
+   		bestsellerModal(document.getElementById('bestseller_modal'), book );
+	};
+
+	function bestsellerPreview(parent, data){
+		createNewEl('div', parent, {
+			class: 'book-photo-container center-cover-no-repeat',
+			style: 'background-image:url(' + data.thumbnailUrl + ')'
+		});
+		createNewEl('span', parent, {
+			class: 'text-container',
+			content: data.shortDescription
+		});
+		createNewEl('span', parent, {
+			id: 'open_bestseller_modal',
+			class: 'button grid-center-items',
+			content: 'Quick view',
+			callback: {click: {
+				call: () => bestsellerModalWrapper.style.display = 'flex'
+			}}
+		});
+	}
+
+	function bestsellerModal(parent, data){
+		createNewEl('h3', parent, {
+			content: data.title
+		});
+		createNewEl('img', parent, {
+			class: 'modal-photo',
+			src:  data.thumbnailUrl
+		});
+		createNewEl('span', parent, {
+			class: 'author',
+			content: 'by ' + data.author
+		});
+		createNewEl('span', parent, {
+			class: 'category',
+			content: data.categories
+		});
+		createNewEl('span', parent, {
+			class: 'text-container',
+			content: data.description
+		});
+		createNewEl('span', parent, {
+			class: 'price',
+			content: data.price,
+			nested:[
+				createNewEl('input', false, {
+					type: 'button',
+					name: data.title,
+					class: 'button',
+					value: 'Add to cart',
+					title: 'Add to cart',
+					callback: {click: {
+						call: () => addToCartArray(data)
+					}}
+				})
+			]
+		});
+	}
+}
+
+function getExclusiveBooks(){
+	let type = encodeURIComponent('EXCLUSIVE');
+	var oRq = new XMLHttpRequest(); //Create the object
+	oRq.open('get', '/getSpecialMarked?type=' + type);
+	oRq.send();
+	oRq.onload = function () {
+		let exclusiveBooksList = JSON.parse(this.responseText);
+	   	for (let item of exclusiveBooksList){
+	   		exclusiveBooks(document.getElementById('exclusives_container'), item);
+	    }
+	};
+
+	function exclusiveBooks(parent, data){
+		createNewEl('div', parent, {
+			class: 'arrival-item carousel-item',
+			style: 'background-image:url(' + data.thumbnailUrl + ')',
+			nested: [
+				createNewEl('div', false, {
+					class: 'arrival-item-inf grid-center-items',
+					nested: [
+						createNewEl('h3', false, {
+							content: data.title
+						}),
+						createNewEl('span', false, {
+							content: 'by ' + data.author
+						}),
+						createNewEl('span', false, {
+							content: data.price
+						}),
+						createNewEl('span', false, {
+							content: data.categories
+						}),
+						createNewEl('input', false, {
+							type: 'button',
+							title: data.title,
+							class: 'button',
+							value: 'Add to cart',
+							callback: {click: {
+								call: () => addToCartArray(data)
+							}}
+						}),
+						createNewEl('span', false, {
+							class: 'on-sale',
+							content: 'SALE!'
+						})
+					]
+				})
+			]
+		});
+	}
+}
+
+function getCategoriesList(){
+	var oRq = new XMLHttpRequest(); //Create the object
+	oRq.open('get', '/getCategoriesList');
+	oRq.send();
+	oRq.onload = function () {
+		console.log(this.responseText);
+		let categoriesList = JSON.parse(this.responseText);
+	   	for (let item of categoriesList){
+	   		createNewEl('option', document.getElementById('category-select'), {
+	   			content: item
+	   		});
+	    }
+	};
+}
+
 function sendMessageToShop(){
 	let message = {};
 	message.title = document.querySelector('input[title=title]').value;
@@ -212,6 +351,8 @@ function sendMessageToShop(){
 		};
 	}
 }
+
+
 
 /**
  * Event Listeners
@@ -248,6 +389,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	var arrivalCarousel = new Carousel(arrivalsRight, arrivalsLeft, arrivalCarouselMain);
 
+	getBestsellerBook();
+	getExclusiveBooks();
+	getCategoriesList();
+
 	if(document.getElementById('googleMap') === null){
 		loadGoogleMap();
 	}
@@ -255,8 +400,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 closeBestsellerModal.onclick = () => bestsellerModalWrapper.style.display = 'none';
-
-//document.getElementById('open_bestseller_modal').onclick = () => bestsellerModalWrapper.style.display = 'flex';
 
 document.onclick = function(e) {
 	if (e.target == bestsellerModalWrapper) {

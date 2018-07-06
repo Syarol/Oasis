@@ -142,7 +142,7 @@ function syncCartwithServer(){
 	oRq.setRequestHeader('Content-Type', 'application/json');
 	oRq.send(goods);
 
-	oRq.onload = function () {
+	oRq.onreadystatechange  = function () {
 	  	//console.log(this.responseText);
 	   	console.log(JSON.parse(this.responseText));
 	};

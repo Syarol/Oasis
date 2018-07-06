@@ -3,9 +3,9 @@ const session	  = require('express-session');
 
 const app = express();
 app.use(session({
-  secret: 'keyboard cat',
-  resave: true,
-  saveUninitialized: true
+	secret: 'keyboard cat',
+	resave: true,
+	saveUninitialized: true
 }));
 
 function getCart(req, res){
@@ -15,7 +15,7 @@ function getCart(req, res){
   		res.send(JSON.stringify(inCart));
   	} else {
   		req.session.booksInCart = [];
-  		res.send(JSON.stringify([]));
+  		res.send(JSON.stringify(req.session.booksInCart));
   	}
 }
 

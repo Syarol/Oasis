@@ -44,12 +44,17 @@ app.post('/getItemData', function(req, res) {
 	getItemData(req, res);
 });
 
-app.get('/getCart', function(req, res) {
+app.post('/getCart', function(req, res) {
 	getCart(req, res);
 });
 
-app.get('/getArrivalCarousel', function(req, res) {
-	getCatalog.arrivals(req, res);
+app.get('/getSpecialMarked', function(req, res){
+	console.log('52: ' + req.query.type);
+	getCatalog.specialMarked(res, req.query.type);
+});
+
+app.get('/getCategoriesList', function(req, res) {
+	getCatalog.categories(res);
 });
 
 app.post('/sameCart', function(req, res) {
