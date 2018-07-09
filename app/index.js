@@ -6,7 +6,9 @@ const sendMessage = require('./lib/sendMessage');
 const bodyParser  = require('body-parser');
 const getCatalogItems = require('./lib/getCatalogItems'); 
 const getItemData = require('./lib/getItemData');
+const searchInCatalog = require('./lib/searchInCatalog.js');
 var getCatalog = new getCatalogItems();
+var searchCatalog = new searchInCatalog();
 
 const app = express();
 
@@ -37,7 +39,11 @@ app.get('/shop', function(req, res){
 });
 
 app.get('/search', function(req, res){
-  res.sendFile(path.join(__dirname + '/views/search.html'));
+  	res.sendFile(path.join(__dirname + '/views/search.html'));
+});
+
+app.get('/getSearchResults', function(req, res){
+	//searchCatalog.full(query, res);
 });
 
 app.post('/getItemData', function(req, res) {
@@ -49,7 +55,7 @@ app.post('/getCart', function(req, res) {
 });
 
 app.get('/getSpecialMarked', function(req, res){
-	console.log('52: ' + req.query.type);
+	console.log('53: ' + req.query.type);
 	getCatalog.specialMarked(res, req.query.type);
 });
 

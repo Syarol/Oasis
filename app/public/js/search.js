@@ -9,6 +9,7 @@
 */
 
 import {Cart} from './cart.js';
+import {createNewEl} from './createNewElement.js';
 
 /**
  * Global variables
@@ -29,8 +30,6 @@ var goodsInCart = [];
 var contactModal = document.getElementById('about_section_wrapper');
 var countInsideCart = document.getElementById('count_inside_cart');
 var openCart = document.getElementById('cart_open');
-var plus = encodeURIComponent('+');
-var hashtag = encodeURIComponent('#');
 var at = encodeURIComponent('@');
 var foundedPhotos = document.getElementsByClassName('founded-item-photo');
 var cart;
@@ -77,88 +76,71 @@ function loadGoogleMap(){
 }
 
 function addToCartArray(goods){
+	getCartFromServer();
+	cart.updateInCart(goodsInCart);
+
 	if (goodsInCart.length != 0) {
 		let found = false;
-		for(let item of goodsInCart) {
-		    if (item.name == goods.name) {
+		for (let item of goodsInCart) {
+		    if (item.title == goods.title) {
 	    		item.count++; 
+	    		item.total = Number(item.price.replace(/\$/, '')) * item.count;
 		    	found = true;
 				break;
 			}
 		}
 		if (!found) {
-			goodsInCart.push({name: goods.name, count: 1});
+			newItemInCart(goods);
 		}
-	} else goodsInCart.push({name: goods.name, count: 1});
-
-	getGoodsInf();
-	updateAllGoodsTotal();	
-	syncCartwithServer();	
-}
-
-function getGoodsInf(){
-	for (let item of goodsInCart){
-		let replaced = item.name.replace(/\+/g, plus);
-		   	replaced = replaced.replace(/\#/g, hashtag);
-
-		var oReq = new XMLHttpRequest(); //Create the object
-		oReq.open('GET', 'get-data.php?title='+replaced, false);
-
-		oReq.onreadystatechange = function () {
-		    if (oReq.readyState == 4 && oReq.status == 200) {
-		        let res = JSON.parse(this.responseText);
-		        item.author = res.author;
-		        item.price = res.price;
-		        item.total = Number(res.price.replace(/\$/, ''));
-		    }
-		};
-
-		oReq.send();
+	} else {
+		newItemInCart(goods);
 	}
+	updateAllGoodsTotal();	
+	syncCartwithServer();
+
+	function newItemInCart(item){
+		item.count = 1;
+		item.total = Number(item.price.replace(/\$/, ''));
+		goodsInCart.push(item);
+	}	
 }
 
 function syncCartwithServer(){
 	var oRq = new XMLHttpRequest(); //Create the object
 	let goods = JSON.stringify(goodsInCart);
-	let replaced = goods.replace(/\+/g, plus);
-	   	replaced = replaced.replace(/\#/g, hashtag);
-	console.log(JSON.parse(goods));
-	oRq.open('get', '/sameCart', true);
+
+	oRq.open('post', '/sameCart');
 	oRq.setRequestHeader('Content-Type', 'application/json');
-	oRq.send(JSON.stringify(replaced));
-	
-	oRq.onreadystatechange = function () {
-		    if (oRq.readyState == 4 && oRq.status == 200) {
-		    	console.log(this.responseText);
-		      	console.log(JSON.parse(this.responseText));
-		    }
+	oRq.send(goods);
+
+	oRq.onload = function () {
+	  	//console.log(this.responseText);
+	   	console.log(JSON.parse(this.responseText));
+	   	updateAllGoodsTotal();	
+	   	getCartFromServer(); 
 	};
 }
 
 function getCartFromServer(){
 	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('get', '/getCart', true);
+	oRq.open('post', '/getCart', true);
 	oRq.send();
-	oRq.onreadystatechange = function () {
-		if (oRq.readyState == 4 && oRq.status == 200) {
-		   	console.log(JSON.parse(this.responseText));
-		   	goodsInCart = JSON.parse(this.responseText);
-		   	if (!cart){
-				cart = new Cart(openCart, goodsInCart);
-			}
-		   	updateAllGoodsTotal();
-			getGoodsInf();
-		}
+
+	oRq.onload = function () {
+		//console.log(this.responseText);
+	   	goodsInCart = JSON.parse(this.responseText);
+	   	console.log(goodsInCart);
+	   	updateAllGoodsTotal();
 	};
 }
 
 function sendMessageToShop(){
 	let message = {};
-	message.name = document.querySelector('input[name=name]').value;
-	message.email = document.querySelector('input[name=email]').value.replace(/\@/g, at);
-	if (message.name != '' && message.email != '') {
-		message.subject = document.querySelector('input[name=subject]').value;
-		message.message = document.querySelector('textarea[name=message]').value;
+	message.title = document.querySelector('input[title=title]').value;
+	message.email = document.querySelector('input[title=email]').value.replace(/\@/g, at);
+	if (message.title != '' && message.email != '') {
+		message.subject = document.querySelector('input[title=subject]').value;
+		message.message = document.querySelector('textarea[title=message]').value;
 
 		var oRq = new XMLHttpRequest(); //Create the object
 		oRq.open('post', '/sendMessage');
@@ -169,10 +151,10 @@ function sendMessageToShop(){
 			if (oRq.readyState == 4 && oRq.status == 200) {
 			    console.log(this.responseText);
 
-				document.querySelector('input[name=name]').value = '';
-				document.querySelector('input[name=email]').value = '';
-				document.querySelector('input[name=subject]').value = '';
-				document.querySelector('textarea[name=message]').value = '';
+				document.querySelector('input[title=title]').value = '';
+				document.querySelector('input[title=email]').value = '';
+				document.querySelector('input[title=subject]').value = '';
+				document.querySelector('textarea[title=message]').value = '';
 
 				document.getElementById('about_section_wrapper').style.display = 'none';
 			}
@@ -215,6 +197,18 @@ function setCheckboxListener(inputName, checkboxName){
 	}
 }
 
+function getFounded(){
+	var oRq = new XMLHttpRequest(); //Create the object
+	oRq.open('get', '/getSearchResults');
+	oRq.send();
+
+	oRq.onload = function () {
+	  	//console.log(this.responseText);
+	   	console.log(JSON.parse(this.responseText));
+	   	//renderFounded(item);
+	};
+}
+
 /**
  * Event Listeners
 */
@@ -226,9 +220,9 @@ authorsListTitle.onclick = () => sidelistOnClick(authorsList, '#authors_list');
 publishersListTitle.onclick = () => sidelistOnClick(publishersList, '#publishers_list');
 
 document.addEventListener('DOMContentLoaded', () => {
-	if(document.getElementById('googleMap') === null){
-		loadGoogleMap();
-	}
+	console.log(window.location.href);
+	getFounded();
+
 
 	setCheckboxListener('category', 'checkbox-category');
 	setCheckboxListener('author', 'checkbox-author');
@@ -248,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
-	for (let photo of foundedPhotos){
+	/*for (let photo of foundedPhotos){
 		photo.addEventListener('click', function(){
 			let title = this.getAttribute('pseudo');	
 			let book = {};
@@ -273,7 +267,12 @@ document.addEventListener('DOMContentLoaded', () => {
 			AJAXget(title);
 
 		});
+	}*/
+
+	if(document.getElementById('googleMap') === null){
+		loadGoogleMap();
 	}
+
 }); 
 
 foundedShowMore.onclick = () => {

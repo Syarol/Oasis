@@ -10,6 +10,7 @@
 
 import {Carousel} from './carousel.js';
 import {Cart} from './cart.js';
+import {createNewEl} from './createNewElement.js';
 
 /**
  * Global variables
@@ -23,14 +24,9 @@ var rightButtons = document.getElementsByClassName('right-control');
 var contactModal = document.getElementById('about_section_wrapper');
 var contactModalLink = document.getElementById('contact');
 var closeContactModal = document.getElementById('close-contact-modal');
-var recommendCarousel;
-var bestsellersCarousel;
-var arrivesCarousel;
 var goodsInCart = [];
 var countInsideCart = document.getElementById('count_inside_cart');
 var openCart = document.getElementById('cart_open');
-var plus = encodeURIComponent('+');
-var hashtag = encodeURIComponent('#');
 var at = encodeURIComponent('@');
 var cart;
 
@@ -67,80 +63,110 @@ function loadGoogleMap(){
 	document.getElementsByTagName('body')[0].append(script);
 }
 
-
 function addToCartArray(goods){
+	getCartFromServer();
+	cart.updateInCart(goodsInCart);
+
 	if (goodsInCart.length != 0) {
 		let found = false;
-		for(let item of goodsInCart) {
-		    if (item.name == goods.name) {
+		for (let item of goodsInCart) {
+		    if (item.title == goods.title) {
 	    		item.count++; 
+	    		item.total = Number(item.price.replace(/\$/, '')) * item.count;
 		    	found = true;
 				break;
 			}
 		}
 		if (!found) {
-			goodsInCart.push({name: goods.name, count: 1});
+			newItemInCart(goods);
 		}
-	} else goodsInCart.push({name: goods.name, count: 1});
-
-	getGoodsInf();
+	} else {
+		newItemInCart(goods);
+	}
 	updateAllGoodsTotal();	
-	syncCartwithServer();	
+	syncCartwithServer();
+
+	function newItemInCart(item){
+		item.count = 1;
+		item.total = Number(item.price.replace(/\$/, ''));
+		goodsInCart.push(item);
+	}	
 }
 
-function getGoodsInf(){
-	for (let item of goodsInCart){
-		let replaced = item.name.replace(/\+/g, plus);
-		   	replaced = replaced.replace(/\#/g, hashtag);
+function getCarousel(parent, mark){
+	let type = encodeURIComponent(mark);
+	var oRq = new XMLHttpRequest(); //Create the object
+	oRq.open('get', '/getSpecialMarked?type=' + type);
+	oRq.send();
+	oRq.onload = function () {
+	   	//console.log(JSON.parse(this.responseText));
+	   	for (let item of JSON.parse(this.responseText)){
+	   		carouselItem(parent, item);
+	    }
+	};
 
-		var oReq = new XMLHttpRequest(); //Create the object
-		oReq.open('GET', 'get-data.php?title='+replaced, false);
-
-		oReq.onreadystatechange = function () {
-		    if (oReq.readyState == 4 && oReq.status == 200) {
-		        let res = JSON.parse(this.responseText);
-		        item.author = res.author;
-		        item.price = res.price;
-		        item.total = Number(res.price.replace(/\$/, ''));
-		    }
-		};
-
-		oReq.send();
+	function carouselItem(parent, data){
+		createNewEl('div', parent, {
+			class: 'arrival-item carousel-item',
+			style: 'background-image:url(' + data.thumbnailUrl + ')',
+			nested: [
+				createNewEl('div', false, {
+					class: 'arrival-item-inf grid-center-items',
+					nested: [
+						createNewEl('h3', false, {
+							content: data.title
+						}),
+						createNewEl('span', false, {
+							content: 'by ' + data.author
+						}),
+						createNewEl('span', false, {
+							content: data.price
+						}),
+						createNewEl('span', false, {
+							content: data.categories
+						}),
+						createNewEl('input', false, {
+							type: 'button',
+							title: data.title,
+							class: 'button',
+							value: 'Add to cart',
+							callback: {click: {
+								call: () => addToCartArray(data)
+							}}
+						})
+					]
+				})
+			]
+		});
 	}
 }
 
 function syncCartwithServer(){
 	var oRq = new XMLHttpRequest(); //Create the object
 	let goods = JSON.stringify(goodsInCart);
-	let replaced = goods.replace(/\+/g, plus);
-	   	replaced = replaced.replace(/\#/g, hashtag);
-	console.log(JSON.parse(goods));
-	oRq.open('get', '/sameCart', true);
+
+	oRq.open('post', '/sameCart');
 	oRq.setRequestHeader('Content-Type', 'application/json');
-	oRq.send(JSON.stringify(replaced));
-	
-	oRq.onreadystatechange = function () {
-		    if (oRq.readyState == 4 && oRq.status == 200) {
-		    	console.log(this.responseText);
-		      	console.log(JSON.parse(this.responseText));
-		    }
+	oRq.send(goods);
+
+	oRq.onload = function () {
+	  	//console.log(this.responseText);
+	   	console.log(JSON.parse(this.responseText));
+	   	updateAllGoodsTotal();	
+	   	getCartFromServer();
 	};
 }
 
 function getCartFromServer(){
 	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('get', '/getCart', true);
+	oRq.open('post', '/getCart', true);
 	oRq.send();
-	oRq.onreadystatechange = function () {
-		if (oRq.readyState == 4 && oRq.status == 200) {
-		   	console.log(JSON.parse(this.responseText));
-		   	goodsInCart = JSON.parse(this.responseText);
-		   	if (!cart){
-				cart = new Cart(openCart, goodsInCart);
-			}
-		   	updateAllGoodsTotal();
-			getGoodsInf();
-		}
+
+	oRq.onload = function () {
+		//console.log(this.responseText);
+	   	goodsInCart = JSON.parse(this.responseText);
+	   	console.log(goodsInCart);
+	   	updateAllGoodsTotal();
 	};
 }
 
@@ -197,20 +223,19 @@ window.loadMaps = () => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-	recommendCarousel = new Carousel(rightButtons[0], leftButtons[0], recommendCarouselMain);
-	bestsellersCarousel = new Carousel(rightButtons[1], leftButtons[1], bestsellersCarouselMain);
-	arrivesCarousel = new Carousel(rightButtons[2], leftButtons[2], arrivesCarouselMain);
+	getCartFromServer();
 
-	//if long name of book than make font-size smaller
-	for (let item of document.querySelectorAll('.arrival-item-inf h3')){
-		if (item.textContent.length > 12) item.style.fontSize  = '1em';
+	if (!cart){
+		cart = new Cart(openCart, goodsInCart);
 	}
 
-	for (let item of document.querySelectorAll('input[type=button]')){
-		item.onclick = () => addToCartArray(item);
-	}	
+	getCarousel(recommendCarouselMain, 'RECOMMEND');
+	getCarousel(bestsellersCarouselMain, 'BESTSELLERS');
+	getCarousel(arrivesCarouselMain, 'ARRIVALS');
 
-	getCartFromServer();
+	let recommendCarousel = new Carousel(rightButtons[0], leftButtons[0], recommendCarouselMain);
+	let bestsellersCarousel = new Carousel(rightButtons[1], leftButtons[1], bestsellersCarouselMain);
+	let arrivesCarousel = new Carousel(rightButtons[2], leftButtons[2], arrivesCarouselMain);
 
 	if(document.getElementById('googleMap') === null){
 		loadGoogleMap();

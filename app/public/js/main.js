@@ -83,7 +83,6 @@ function addToCartArray(goods){
 	} else {
 		newItemInCart(goods);
 	}
-	//getGoodsInf();
 	updateAllGoodsTotal();	
 	syncCartwithServer();
 
@@ -93,23 +92,6 @@ function addToCartArray(goods){
 		goodsInCart.push(item);
 	}	
 }
-
-/*function getGoodsInf(){
-	for (let item of goodsInCart){
-
-/*var oReq = new XMLHttpRequest(); //Create the object
-		oReq.open('POST', '/getItemData', false);
-		oReq.setRequestHeader('Content-Type', 'application/json');
-		oReq.send(JSON.stringify({title: item.title}));
-
-		oReq.onreadystatechange  = function () {
-	        let res = JSON.parse(this.responseText);
-	        item.author = res.author;
-	        item.price = res.price;
-	        item.total = Number(res.price.replace(/\$/, '')) * item.count;
-		};
-	}
-}*/
 
 function syncCartwithServer(){
 	var oRq = new XMLHttpRequest(); //Create the object
@@ -123,6 +105,7 @@ function syncCartwithServer(){
 	  	//console.log(this.responseText);
 	   	console.log(JSON.parse(this.responseText));
 	   	updateAllGoodsTotal();	
+	   	getCartFromServer(); 
 	};
 }
 
@@ -140,15 +123,15 @@ function getCartFromServer(){
 	};
 }
 
-function getArrivalCarousel(){
-	let type = encodeURIComponent('ARRIVALS');
+function getCarousel(parent, mark){
+	let type = encodeURIComponent(mark);
 	var oRq = new XMLHttpRequest(); //Create the object
 	oRq.open('get', '/getSpecialMarked?type=' + type);
 	oRq.send();
 	oRq.onload = function () {
 	   	//console.log(JSON.parse(this.responseText));
 	   	for (let item of JSON.parse(this.responseText)){
-	   		carouselItem(arrivalCarouselMain, item);
+	   		carouselItem(parent, item);
 	    }
 	};
 
@@ -385,9 +368,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		cart = new Cart(openCart, goodsInCart);
 	}
 
-	getArrivalCarousel();
+	getCarousel(arrivalCarouselMain, 'ARRIVALS');
 
-	var arrivalCarousel = new Carousel(arrivalsRight, arrivalsLeft, arrivalCarouselMain);
+	let arrivalCarousel = new Carousel(arrivalsRight, arrivalsLeft, arrivalCarouselMain);
 
 	getBestsellerBook();
 	getExclusiveBooks();
