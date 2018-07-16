@@ -115,10 +115,8 @@ function getCartFromServer(){
 	oRq.send();
 
 	oRq.onload = function () {
-		//console.log(this.responseText);
 	   	goodsInCart = JSON.parse(this.responseText);
 	   	console.log(goodsInCart);
-		//getGoodsInf();
 	   	updateAllGoodsTotal();
 	};
 }

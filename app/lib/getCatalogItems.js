@@ -34,15 +34,15 @@ class getCatalogItems{
 			for (let item of result){
 				let splittedCategories;
 				switch(column){
-					case 'categories':
-						splittedCategories = item.categories.split(', ');
-						break;
-					case 'author':
-						splittedCategories = item.author.split(', ');
-						break;
-					case 'publisher':
-						splittedCategories = item.publisher;
-						break;
+				case 'categories':
+					splittedCategories = item.categories.split(', ');
+					break;
+				case 'author':
+					splittedCategories = item.author.split(', ');
+					break;
+				case 'publisher':
+					splittedCategories = item.publisher;
+					break;
 				}
 
 				if (splittedCategories !== null && typeof splittedCategories !== 'string'){

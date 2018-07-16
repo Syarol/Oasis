@@ -21,8 +21,6 @@ var goodsInCart = [];
 var readMoreModal = document.getElementById('read_more_modal');
 var countInsideCart = document.getElementById('count_inside_cart');
 var openCart = document.getElementById('cart_open');
-var plus = encodeURIComponent('+');
-var hashtag = encodeURIComponent('#');
 var at = encodeURIComponent('@');
 var cart;
 
@@ -40,18 +38,29 @@ function loadGoogleMap(){
 
 function getCartFromServer(){
 	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('get', '/getCart', true);
+	oRq.open('post', '/getCart');
 	oRq.send();
-	oRq.onreadystatechange = function () {
-		if (oRq.readyState == 4 && oRq.status == 200) {
-		   	console.log(JSON.parse(this.responseText));
-		   	goodsInCart = JSON.parse(this.responseText);
-		   	if (!cart){
-				cart = new Cart(openCart, goodsInCart);
-			}
-		   	updateAllGoodsTotal();
-			getGoodsInf();
-		}
+
+	oRq.onload = function () {
+	   	goodsInCart = JSON.parse(this.responseText);
+	   	console.log(goodsInCart);
+	   	updateAllGoodsTotal();
+	};
+}
+
+function syncCartwithServer(){
+	var oRq = new XMLHttpRequest(); //Create the object
+	let goods = JSON.stringify(goodsInCart);
+
+	oRq.open('post', '/sameCart');
+	oRq.setRequestHeader('Content-Type', 'application/json');
+	oRq.send(goods);
+
+	oRq.onload = function () {
+	  	//console.log(this.responseText);
+	   	console.log(JSON.parse(this.responseText));
+	   	updateAllGoodsTotal();	
+	   	getCartFromServer(); 
 	};
 }
 
@@ -74,27 +83,6 @@ function updateAllGoodsTotal(){
 		if (allTotal == 0) countInsideCart.textContent = '';
 		else countInsideCart.textContent = ' (' + allTotal + ')';    
 	} 
-}
-
-function getGoodsInf(){
-	for (let item of goodsInCart){
-		let replaced = item.name.replace(/\+/g, plus);
-		   	replaced = replaced.replace(/\#/g, hashtag);
-
-		var oReq = new XMLHttpRequest(); //Create the object
-		oReq.open('GET', 'get-data.php?title='+replaced, false);
-
-		oReq.onreadystatechange = function () {
-		    if (oReq.readyState == 4 && oReq.status == 200) {
-		        let res = JSON.parse(this.responseText);
-		        item.author = res.author;
-		        item.price = res.price;
-		        item.total = Number(res.price.replace(/\$/, ''));
-		    }
-		};
-
-		oReq.send();
-	}
 }
 
 function sendMessageToShop(){
@@ -150,16 +138,15 @@ window.loadMaps = () => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-	//if long name of book than make font-size smaller
-	for (let item of document.querySelectorAll('.arrival-item-inf h3')){
-		if (item.textContent.length > 12) item.style.fontSize  = '1em';
+	getCartFromServer();
+	
+	if (!cart){
+		cart = new Cart(openCart, goodsInCart);
 	}
 
 	for (let item of document.getElementsByClassName('button-read-more')){
 		item.onclick = () => readMoreModal.style.display = 'flex';
 	}
-
-	getCartFromServer();
 
 	if(document.getElementById('googleMap') === null){
 		loadGoogleMap();

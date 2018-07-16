@@ -10,25 +10,25 @@ var con = mysql.createConnection({
 class searchInCatalog{
 	full(fields, res){
 		
-		let sql = "SELECT * FROM Catalog WHERE ";
+		let sql = 'SELECT * FROM Catalog WHERE ';
 		console.log(Object.keys(fields)); 
 		switch (fields.searchType){
-			case 'search-full':
-				sql += "(title LIKE '%" + fields.query + "%') OR (author LIKE '%" + fields.query + "%') OR (description LIKE '%" + fields.query + "%') OR (categories LIKE '%" + fields.query + "%')";
+		case 'search-full':
+			sql += '(title LIKE \'%' + fields.query + '%\') OR (author LIKE \'%' + fields.query + '%\') OR (description LIKE \'%' + fields.query + '%\') OR (categories LIKE \'%' + fields.query + '%\')';
 			break;
-			case 'search-custom-small':
-				for (let property in fields){
-					if (fields[property] != 'Choose category' && property !='searchType'){
-						if (property == Object.keys(fields)[Object.keys(fields).length - 2]){//"-2" because 'search-type' is always last
-							sql += "(" + property + " LIKE '%" + fields[property] + "%')";
-						} else{
-							sql += "(" + property + " LIKE '%" + fields[property] + "%') AND";
-						}
+		case 'search-custom-small':
+			for (let property in fields){
+				if (fields[property] != 'Choose category' && property !='searchType'){
+					if (property == Object.keys(fields)[Object.keys(fields).length - 2]){//"-2" because 'search-type' is always last
+						sql += '(' + property + ' LIKE \'%' + fields[property] + '%\')';
+					} else{
+						sql += '(' + property + ' LIKE \'%' + fields[property] + '%\') AND';
 					}
 				}
+			}
 			break;
-			case 'aside-search':
-				sql = this.createSQLQuery(fields);
+		case 'aside-search':
+			sql = this.createSQLQuery(fields);
 			break;
 		}
  		
@@ -45,8 +45,8 @@ class searchInCatalog{
 	}
 
 	createSQLQuery(queryData){
-		let sql = "SELECT * FROM Catalog WHERE ";
-		let sqlForQuery = "((title LIKE '%" + queryData.query + "%') OR (author LIKE '%" + queryData.query + "%') OR (description LIKE '%" + queryData.query + "%') OR (categories LIKE '%" + queryData.query + "%'))";
+		let sql = 'SELECT * FROM Catalog WHERE ';
+		let sqlForQuery = '((title LIKE \'%' + queryData.query + '%\') OR (author LIKE \'%' + queryData.query + '%\') OR (description LIKE \'%' + queryData.query + '%\') OR (categories LIKE \'%' + queryData.query + '%\'))';
 
 
 		for (let property in queryData){
@@ -55,12 +55,12 @@ class searchInCatalog{
 
 				for (let arrItem of queryPropertyArr) {
 					if (sql.includes('LIKE'))
-						sql += " OR (" + property + " LIKE '%" + arrItem + "%')";
-					else sql += "(" + property + " LIKE '%" + arrItem + "%')";
+						sql += ' OR (' + property + ' LIKE \'%' + arrItem + '%\')';
+					else sql += '(' + property + ' LIKE \'%' + arrItem + '%\')';
 				}
 			} else if (queryData[property] != '' && property == 'query'){
 				if (sql.includes('LIKE'))
-					sql += " OR " + sqlForQuery;
+					sql += ' OR ' + sqlForQuery;
 				else sql += sqlForQuery;
 			}
 		}

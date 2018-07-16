@@ -25,13 +25,12 @@ var publishersListTitle = document.getElementById('publishers_list_title');
 var contactModalLink = document.getElementById('contact');
 var foundedShowMore =  document.getElementById('founded_show_more');
 var closeContactModal = document.getElementById('close-contact-modal');
-var overIndex;
 var goodsInCart = [];
 var contactModal = document.getElementById('about_section_wrapper');
 var countInsideCart = document.getElementById('count_inside_cart');
 var openCart = document.getElementById('cart_open');
 var at = encodeURIComponent('@');
-var foundedPhotos = document.getElementsByClassName('founded-item-photo');
+//var foundedPhotos = document.getElementsByClassName('founded-item-photo');
 var cart;
 
 /**
@@ -218,23 +217,23 @@ function getList(column, parent){
 	   			content: item
 	   		});
 	    }
-	}
+	};
 }
 
 function getSearchQueryFromURL(url){
 	let query = {};
 
-	var queryString = window.location.search.split('?')[1];
-    if (!queryString) {
-        document.getElementById('search-text').textContent = 'You need to search first';
-    } else {
-        var keyValuePairs = queryString.split('&');
-        for (let i of keyValuePairs) {
-            var keyValuePair = i.split('=');
-            var paramName = keyValuePair[0];
-            var paramValue = keyValuePair[1] || '';
-            query[paramName] = decodeURIComponent(paramValue.replace(/\+/g, ' '));
-        }
+	var queryString = url.split('?')[1];
+	if (!queryString) {
+		document.getElementById('search-text').textContent = 'You need to search first';
+	} else {
+		var keyValuePairs = queryString.split('&');
+		for (let i of keyValuePairs) {
+			var keyValuePair = i.split('=');
+			var paramName = keyValuePair[0];
+			var paramValue = keyValuePair[1] || '';
+			query[paramName] = decodeURIComponent(paramValue.replace(/\+/g, ' '));
+		}
 	}
 
 	return query;
@@ -286,6 +285,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	getFoundedAndRender(query);
 
 	getCartFromServer();
+
+	if (!cart){
+		cart = new Cart(openCart, goodsInCart);
+	}
 
 	getList('categories', 'categories_list');
 	getList('author', 'authors_list');
