@@ -26,17 +26,35 @@ class getCatalogItems{
 		});
 	}
 
-	categories(res){
-		let sql = 'SELECT categories FROM Catalog';
+	byColumn(column, res){
+		let sql = 'SELECT ' + column + ' FROM Catalog';
 		let categoriesArray = [];
 		con.query(sql, function (err, result) {
 		    if (err) throw err;
 			for (let item of result){
-				let splittedCategories = item.categories.split(', ');
-				for (let category of splittedCategories){
-					category.trim();
-					if (!categoriesArray.includes(category)){
-						categoriesArray.push(category);
+				let splittedCategories;
+				switch(column){
+					case 'categories':
+						splittedCategories = item.categories.split(', ');
+						break;
+					case 'author':
+						splittedCategories = item.author.split(', ');
+						break;
+					case 'publisher':
+						splittedCategories = item.publisher;
+						break;
+				}
+
+				if (splittedCategories !== null && typeof splittedCategories !== 'string'){
+					for (let category of splittedCategories){
+						category.trim();
+						if (!categoriesArray.includes(category)){
+							categoriesArray.push(category);
+						}
+					}
+				} else{
+					if (!categoriesArray.includes(splittedCategories)){
+						categoriesArray.push(splittedCategories);
 					}
 				}
 			}

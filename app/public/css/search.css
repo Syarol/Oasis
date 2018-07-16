@@ -97,7 +97,7 @@ a{
 }
 
 
-.you-searched{
+.search-text-wrapper{
   grid-row-start: 1;
   grid-column-start: 1;
   grid-column-end: 3;
@@ -110,7 +110,7 @@ a{
   height: 100%;
 }
 
-#you_searched_text{
+#search-text{
   grid-row-start: 2;
   margin: auto;
   font-size: 2em;

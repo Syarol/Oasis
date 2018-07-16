@@ -1,3 +1,5 @@
+'use strict'
+
 const express	  = require('express');
 const path   	  = require('path');
 const session	  = require('express-session');
@@ -17,6 +19,8 @@ app.use(express.static(__dirname + '/public'));
 app.use(session({
   secret: 'keyboard cat',
   resave: true,
+  secure: true,
+  HttpOnly: true,
   saveUninitialized: true
 }));
 app.use(bodyParser.json());
@@ -42,8 +46,9 @@ app.get('/search', function(req, res){
   	res.sendFile(path.join(__dirname + '/views/search.html'));
 });
 
-app.get('/getSearchResults', function(req, res){
-	//searchCatalog.full(query, res);
+app.post('/getSearchResults', function(req, res){
+	console.log('50: ' + req.body);
+	searchCatalog.full(req.body, res);
 });
 
 app.post('/getItemData', function(req, res) {
@@ -59,10 +64,6 @@ app.get('/getSpecialMarked', function(req, res){
 	getCatalog.specialMarked(res, req.query.type);
 });
 
-app.get('/getCategoriesList', function(req, res) {
-	getCatalog.categories(res);
-});
-
 app.post('/sameCart', function(req, res) {
 	let data = req.body;
 	req.session.booksInCart = data;
@@ -72,6 +73,10 @@ app.post('/sameCart', function(req, res) {
 app.post('/sendMessage', function(req, res) {
 	let message = req.body;
 	res.send(sendMessage(message));
+});
+
+app.get('/getList', function(req, res){
+	getCatalog.byColumn(req.query.column, res);
 });
 
 app.listen(3000);

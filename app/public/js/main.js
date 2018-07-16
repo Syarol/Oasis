@@ -294,7 +294,7 @@ function getExclusiveBooks(){
 
 function getCategoriesList(){
 	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('get', '/getCategoriesList');
+	oRq.open('get', '/getList?column=categories');
 	oRq.send();
 	oRq.onload = function () {
 		console.log(this.responseText);
@@ -334,8 +334,6 @@ function sendMessageToShop(){
 		};
 	}
 }
-
-
 
 /**
  * Event Listeners

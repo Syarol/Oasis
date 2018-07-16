@@ -25,13 +25,13 @@
 			<p class="navigation" scrollTo="#about-section"><a href="/">Home</a></p>
 			<p class="navigation" scrollTo="#menu-section"><a href="/blog">Blog</a></p>
 			<p class="navigation" scrollTo="#contact-section"><a href="/shop">Shop</a></p>
-			<form class="grid-center-items" action="search.php" method="GET">
-				<input type="hidden" name="search-type" value="aside-search">
-				<input type="hidden" name="checkbox-category" value="">
-				<input type="hidden" name="checkbox-author" value="">
-				<input type="hidden" name="checkbox-publisher" value="">
+			<form class="grid-center-items" action="/search" method="GET">
+				<input type="hidden" name="categories" value="">
+				<input type="hidden" name="author" value="">
+				<input type="hidden" name="publisher" value="">
 				<input type="text" name="query" placeholder="Search for">
 				<input class="button" type="submit" value="Search">
+				<input type="hidden" name="searchType" value="aside-search">
 			</form>
 		</nav>
 		<div class="cart-header-container">
@@ -39,8 +39,8 @@
 		</div>
 	</header> 
 
-	<section class="you-searched">
-		<span id="you_searched_text"></span>
+	<section class="search-text-wrapper">
+		<span id="search-text"></span>
 	</section>
 
 	<section id="founded_section" class="grid-center-items">
@@ -76,9 +76,9 @@
 		<a href="https://www.t.me/Oleh_Yaroshchuk"><i class="fab fa-telegram-plane"></i></a>
 		<a href="https://www.instagram.com/oleh_yaroshchuk/"><i class="fab fa-instagram"></i></a>
 
-		<a href="index.php"><span>Home</span></a>
-		<a href="shop.php"><span>Shop</span></a>
-		<a href="blog.php"><span>Blog</span></a>
+		<a href="/"><span>Home</span></a>
+		<a href="/shop"><span>Shop</span></a>
+		<a href="/blog"><span>Blog</span></a>
 		<span id="contact">Contact</span>
 	</footer>
 

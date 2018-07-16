@@ -123,11 +123,10 @@ function syncCartwithServer(){
 
 function getCartFromServer(){
 	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('post', '/getCart', true);
+	oRq.open('post', '/getCart');
 	oRq.send();
 
 	oRq.onload = function () {
-		//console.log(this.responseText);
 	   	goodsInCart = JSON.parse(this.responseText);
 	   	console.log(goodsInCart);
 	   	updateAllGoodsTotal();
@@ -182,31 +181,94 @@ function setBookDataToModal(data){
 	document.getElementById('input_book_title').setAttribute('name', data.title);
 }
 
-function addFiter(filterCategoryName, filterItem){
-	let hiddenInput = document.querySelector('input[name='+filterCategoryName+']');
-	if (filterItem.checked) {
-		hiddenInput.value += filterItem.value + ', ';
-	} else hiddenInput.value = hiddenInput.value.replace(filterItem.value + ', ', '');
-	console.log(hiddenInput.value);
+function getFoundedAndRender(query){
+	var oRq = new XMLHttpRequest(); //Create the object
+	oRq.open('post', '/getSearchResults');
+	oRq.setRequestHeader('Content-Type', 'application/json');
+	oRq.send(JSON.stringify(query));
+
+	oRq.onload = function () {
+	   	let founded = JSON.parse(this.responseText);
+	   	for (let item of founded) renderFoundedItem(item);
+	};
 }
 
-function setCheckboxListener(inputName, checkboxName){
-	let categories = document.querySelectorAll('input[name='+inputName+']');
-	for (let category of categories){
-	    category.onclick = () => addFiter(checkboxName, category);
+function getList(column, parent){
+	var oRq = new XMLHttpRequest(); //Create the object
+	oRq.open('get', '/getList?column=' + column);
+	oRq.send();
+	oRq.onload = function () {
+		let categoriesList = JSON.parse(this.responseText);
+	   	for (let item of categoriesList){
+	   		createNewEl('input', document.getElementById(parent), {
+	   			type: 'checkbox',
+	   			name: column,
+	   			value: item,
+	   			callback: {click:{
+	   				call: function (){
+	   					let hiddenInput = document.querySelector('input[name=' + column + ']');
+	   					if (this.checked) {
+	   						if (hiddenInput.value == '') hiddenInput.value += this.value;
+	   						else hiddenInput.value += ', ' + this.value ;
+						} else hiddenInput.value = hiddenInput.value.replace(this.value + ', ', '');
+	   				}
+	   			}}
+	   		});
+	   		createNewEl('span', document.getElementById(parent), {
+	   			content: item
+	   		});
+	    }
 	}
 }
 
-function getFounded(){
-	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('get', '/getSearchResults');
-	oRq.send();
+function getSearchQueryFromURL(url){
+	let query = {};
 
-	oRq.onload = function () {
-	  	//console.log(this.responseText);
-	   	console.log(JSON.parse(this.responseText));
-	   	//renderFounded(item);
-	};
+	var queryString = window.location.search.split('?')[1];
+    if (!queryString) {
+        document.getElementById('search-text').textContent = 'You need to search first';
+    } else {
+        var keyValuePairs = queryString.split('&');
+        for (let i of keyValuePairs) {
+            var keyValuePair = i.split('=');
+            var paramName = keyValuePair[0];
+            var paramValue = keyValuePair[1] || '';
+            query[paramName] = decodeURIComponent(paramValue.replace(/\+/g, ' '));
+        }
+	}
+
+	return query;
+}
+
+function renderFoundedItem(item){
+	createNewEl('div', document.getElementById('founded_section'), {
+ 		class: 'founded-item grid-center-items', 
+ 		nested: [
+ 			createNewEl('img', false, {
+ 				class: 'founded-item-photo',
+ 				pseudo: item.title,
+ 				src: item.thumbnailUrl
+ 			}),
+ 			createNewEl('h3', false, {
+ 				content: item.title
+ 			}),
+ 			createNewEl('span', false, {
+ 				content: 'by ' + item.author
+ 			}),
+ 			createNewEl('span', false, {
+ 				content: item.price
+ 			}),
+ 			createNewEl('input', false, {
+ 				type: 'button',
+ 				name: item.title,
+ 				class: 'button',
+ 				value: 'Add to cart',
+ 				callback: {click:{
+ 					call: () => addToCartArray(item)
+ 				}}
+ 			})
+ 		]
+ 	});
 }
 
 /**
@@ -220,19 +282,14 @@ authorsListTitle.onclick = () => sidelistOnClick(authorsList, '#authors_list');
 publishersListTitle.onclick = () => sidelistOnClick(publishersList, '#publishers_list');
 
 document.addEventListener('DOMContentLoaded', () => {
-	console.log(window.location.href);
-	getFounded();
-
-
-	setCheckboxListener('category', 'checkbox-category');
-	setCheckboxListener('author', 'checkbox-author');
-	setCheckboxListener('publisher', 'checkbox-publisher');
-
-	for (let item of document.querySelectorAll('input[type=button]')){
-		item.onclick = () => addToCartArray(item);
-	}		
+	let query = getSearchQueryFromURL(window.location.search);
+	getFoundedAndRender(query);
 
 	getCartFromServer();
+
+	getList('categories', 'categories_list');
+	getList('author', 'authors_list');
+	getList('publisher', 'publishers_list');
 
 	let founded = document.getElementsByClassName('founded-item');
 	if (founded.length > 12){
