@@ -10,6 +10,7 @@
 
 import {Cart} from './cart.js';
 import {createNewEl} from './createNewElement.js';
+import {GoogleMap} from './googleMap.js';
 
 /**
  * Global variables
@@ -64,14 +65,6 @@ function updateAllGoodsTotal(){
 		if (allTotal == 0) countInsideCart.textContent = '';
 		else countInsideCart.textContent = ' (' + allTotal + ')';    
 	} 
-}
-
-function loadGoogleMap(){
-	let script = document.createElement('script');
-	script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAEgnNcLXu3TxudcgyN9DnQ7uUwWy1hIpI&callback=loadMaps';
-	script.type = 'text/javascript';
-	script.id ='googleMap';
-	document.getElementsByTagName('body')[0].append(script);
 }
 
 function addToCartArray(goods){
@@ -329,9 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}*/
 
-	if(document.getElementById('googleMap') === null){
-		loadGoogleMap();
-	}
+	var locationMap = new GoogleMap();//connect and load map of shop location
 
 }); 
 
@@ -378,26 +369,6 @@ document.onclick = function(e) {
 contactModalLink.onclick = () => contactModal.style.display = 'flex';
 
 closeContactModal.onclick = () => contactModal.style.display = 'none';
-
-window.loadMaps = () => {
-	var map = new google.maps.Map(document.getElementById('map-container'), {
-		center: {lat:50.745151, lng:25.322764},
-		zoom: 17,
-		streetViewControl: false,
-		mapTypeControl: false,
-		fullscreenControl: false
-	});
-
-	var marker = new google.maps.Marker({
-		position: {lat:50.745151, lng:25.322764},
-		map: map,
-		title: 'Oasis bookstore'
-	});
-
-	google.maps.event.addDomListener(map, 'idle', function() {
-		google.maps.event.trigger(map, 'resize');
-	});
-};
 
 document.getElementById('send_message').onclick = () => sendMessageToShop();
 
