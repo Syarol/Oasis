@@ -23,7 +23,6 @@ var contactModalLink = document.getElementById('contact');
 var closeContactModal = document.getElementById('close-contact-modal');
 var goodsInCart = [];
 var readMoreModal = document.getElementById('read_more_modal');
-var countInsideCart = document.getElementById('count_inside_cart');
 var openCart = document.getElementById('cart_open');
 var serverInteraction;
 

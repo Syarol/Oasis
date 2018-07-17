@@ -137,20 +137,6 @@ function getOverIndex(e, neededClassTarget){
 	}
 }
 
-function syncCartwithServer(){
-	var oRq = new XMLHttpRequest(); //Create the object
-	let goods = JSON.stringify(goodsInCart);
-
-	oRq.open('post', '/sameCart');
-	oRq.setRequestHeader('Content-Type', 'application/json');
-	oRq.send(goods);
-
-	oRq.onreadystatechange  = function () {
-	  	//console.log(this.responseText);
-	   	console.log(JSON.parse(this.responseText));
-	};
-}
-
 /**
  * Class
 */
@@ -276,7 +262,7 @@ export default class Cart{
 	    }
 	    console.log(goodsInCart);
 	    updateAllGoodsTotal();
-	    syncCartwithServer();	
+	    serverInteraction.syncCart(goodsInCart);	
 	}
 
 	addPlus(){
@@ -304,7 +290,7 @@ export default class Cart{
 	          		break;
 	        	}
 		    }
-		    syncCartwithServer();
+		    serverInteraction.syncCart(goodsInCart);
 	    }
 	}
 
@@ -322,7 +308,7 @@ export default class Cart{
 		          	break;
 		        }
 	      	}
-	      	syncCartwithServer();
+	      	serverInteraction.syncCart(goodsInCart);
 	    };
 
 	    return createNewEl('span', false, {

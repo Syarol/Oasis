@@ -1,6 +1,8 @@
 /**
  * Oasis bookstore site
  *
+ * Main page
+ * 
  * @Author Oleh Yaroshchuk 
  */
 
@@ -12,6 +14,7 @@ import {Carousel} from './carousel.js';
 import Cart from './cart.js';
 import createNewEl from './createNewElement.js';
 import GoogleMap from './googleMap.js';
+import ServerInteract from './ServerInteraction.js';
 
 /**
  * Global variables
@@ -19,8 +22,6 @@ import GoogleMap from './googleMap.js';
 
 var closeBestsellerModal = document.getElementById('close-bestseller-modal');
 var arrivalCarouselMain = document.getElementById('new_arrival_list');
-//var arrivalsLeft = document.getElementById('arrivals_left');
-//var arrivalsRight = document.getElementById('arrivals_right');
 var contactModal = document.getElementById('about_section_wrapper');
 var contactModalLink = document.getElementById('contact');
 var closeContactModal = document.getElementById('close-contact-modal');
@@ -29,6 +30,7 @@ var goodsInCart = [];
 var countInsideCart = document.getElementById('count_inside_cart');
 var openCart = document.getElementById('cart_open');
 var cart;
+var serverInteraction;
 
 /**
  * Functions
@@ -56,7 +58,7 @@ function updateAllGoodsTotal(){
 }
 
 function addToCartArray(goods){
-	getCartFromServer();
+	serverInteraction.getCart();
 	cart.updateInCart(goodsInCart);
 
 	if (goodsInCart.length != 0) {
@@ -76,7 +78,7 @@ function addToCartArray(goods){
 		newItemInCart(goods);
 	}
 	updateAllGoodsTotal();	
-	syncCartwithServer();
+	serverInteraction.syncCart();
 
 	function newItemInCart(item){
 		item.count = 1;
@@ -85,92 +87,9 @@ function addToCartArray(goods){
 	}	
 }
 
-function syncCartwithServer(){
-	var oRq = new XMLHttpRequest(); //Create the object
-	let goods = JSON.stringify(goodsInCart);
-
-	oRq.open('post', '/sameCart');
-	oRq.setRequestHeader('Content-Type', 'application/json');
-	oRq.send(goods);
-
-	oRq.onload = function () {
-	  	//console.log(this.responseText);
-	   	console.log(JSON.parse(this.responseText));
-	   	updateAllGoodsTotal();	
-	   	getCartFromServer(); 
-	};
-}
-
-function getCartFromServer(){
-	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('post', '/getCart');
-	oRq.send();
-
-	oRq.onload = function () {
-	   	goodsInCart = JSON.parse(this.responseText);
-	   	console.log(goodsInCart);
-	   	updateAllGoodsTotal();
-	};
-}
-
-function getCarousel(parent, mark){
-	let type = encodeURIComponent(mark);
-	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('get', '/getSpecialMarked?type=' + type);
-	oRq.send();
-	oRq.onload = function () {
-	   	//console.log(JSON.parse(this.responseText));
-	   	for (let item of JSON.parse(this.responseText)){
-	   		carouselItem(parent, item);
-	    }
-	};
-
-	function carouselItem(parent, data){
-		createNewEl('div', parent, {
-			class: 'arrival-item carousel-item',
-			style: 'background-image:url(' + data.thumbnailUrl + ')',
-			nested: [
-				createNewEl('div', false, {
-					class: 'arrival-item-inf grid-center-items',
-					nested: [
-						createNewEl('h3', false, {
-							content: data.title
-						}),
-						createNewEl('span', false, {
-							content: 'by ' + data.author
-						}),
-						createNewEl('span', false, {
-							content: data.price
-						}),
-						createNewEl('span', false, {
-							content: data.categories
-						}),
-						createNewEl('input', false, {
-							type: 'button',
-							title: data.title,
-							class: 'button',
-							value: 'Add to cart',
-							event: {click: {
-								call: () => addToCartArray(data)
-							}}
-						})
-					]
-				})
-			]
-		});
-	}
-}
-
-function getBestsellerBook(){
-	let type = encodeURIComponent('BESTSELLER');
-	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('get', '/getSpecialMarked?type=' + type);
-	oRq.send();
-	oRq.onload = function () {
-		let book = JSON.parse(this.responseText)[0];
-   		bestsellerPreview(document.getElementById('bestseller_preview'), book);
-   		bestsellerModal(document.getElementById('bestseller_modal'), book );
-	};
+function renderBestseller(parent, data){
+   	bestsellerPreview(parent[0], data[0]);
+   	bestsellerModal(parent[1], data[0]);
 
 	function bestsellerPreview(parent, data){
 		createNewEl('div', parent, {
@@ -230,41 +149,30 @@ function getBestsellerBook(){
 	}
 }
 
-function getExclusiveBooks(){
-	let type = encodeURIComponent('EXCLUSIVE');
-	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('get', '/getSpecialMarked?type=' + type);
-	oRq.send();
-	oRq.onload = function () {
-		let exclusiveBooksList = JSON.parse(this.responseText);
-	   	for (let item of exclusiveBooksList){
-	   		exclusiveBooks(document.getElementById('exclusives_container'), item);
-	    }
-	};
-
-	function exclusiveBooks(parent, data){
+function renderExclusiveBooks(parent, data){
+	for (let item of data){
 		createNewEl('div', parent, {
 			class: 'arrival-item carousel-item',
-			style: 'background-image:url(' + data.thumbnailUrl + ')',
+			style: 'background-image:url(' + item.thumbnailUrl + ')',
 			nested: [
 				createNewEl('div', false, {
 					class: 'arrival-item-inf grid-center-items',
 					nested: [
 						createNewEl('h3', false, {
-							content: data.title
+							content: item.title
 						}),
 						createNewEl('span', false, {
-							content: 'by ' + data.author
+							content: 'by ' + item.author
 						}),
 						createNewEl('span', false, {
-							content: data.price
+							content: item.price
 						}),
 						createNewEl('span', false, {
-							content: data.categories
+							content: item.categories
 						}),
 						createNewEl('input', false, {
 							type: 'button',
-							title: data.title,
+							title: item.title,
 							class: 'button',
 							value: 'Add to cart',
 							event: {click: {
@@ -282,68 +190,32 @@ function getExclusiveBooks(){
 	}
 }
 
-function getCategoriesList(){
-	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('get', '/getList?column=categories');
-	oRq.send();
-	oRq.onload = function () {
-		console.log(this.responseText);
-		let categoriesList = JSON.parse(this.responseText);
-	   	for (let item of categoriesList){
-	   		createNewEl('option', document.getElementById('category-select'), {
-	   			content: item
-	   		});
-	    }
-	};
-}
-
-/*Send message to shop (form from contact modal)*/
-function sendMessageToShop(parent){
-	let message = {}; //initialization of message object
-
-	/*getting message main data*/
-	message.name = parent.querySelector('input[name=name]').value; 
-	message.email = parent.querySelector('input[name=email]').value;
-
-	/*if requested fields not empty then resume function*/
-	if (message.name != '' && message.email != '' && message.email.includes('@')) {
-		message.subject = parent.querySelector('input[name=subject]').value;
-		message.message = parent.querySelector('textarea[name=message]').value;
-
-		var xHr = new XMLHttpRequest(); //Create the object
-		xHr.open('post', '/sendMessage'); //initialization of query
-		xHr.setRequestHeader('Content-Type', 'application/json'); //setting HTTP header
-		xHr.send(JSON.stringify(message)); //send query
-		
-		/*when the request has been processed, then clear the fields*/
-		xHr.onload = function () {
-		    console.log(this.responseText);
-
-			parent.querySelector('input[name=name]').value = '';
-			parent.querySelector('input[name=email]').value = '';
-			parent.querySelector('input[name=subject]').value = '';
-			parent.querySelector('textarea[name=message]').value = '';
-
-			document.getElementById('about_section_wrapper').style.display = 'none';
-		};
+function renderCategoriesList(column, list, parent){
+	for (let item of list){
+	   	createNewEl('option', parent, {
+	   		content: item
+	   	});
 	}
 }
+
 /**
  * Event Listeners
 */
 
 document.addEventListener('DOMContentLoaded', () => {
-	getCartFromServer();
+	serverInteraction = new ServerInteract();
+	serverInteraction.getCart();
 
 	cart = new Cart(openCart, goodsInCart);
 
-	getCarousel(arrivalCarouselMain, 'ARRIVALS');
+	serverInteraction.getCarousel(arrivalCarouselMain, 'ARRIVALS');
 
 	new Carousel(document.getElementById('arrivals_right'), document.getElementById('arrivals_left'), arrivalCarouselMain);
 
-	getBestsellerBook();
-	getExclusiveBooks();
-	getCategoriesList();
+	serverInteraction.getSpecialMarked('BESTSELLER', [document.getElementById('bestseller_preview'), document.getElementById('bestseller_modal')], renderBestseller);
+	serverInteraction.getSpecialMarked('EXCLUSIVE', document.getElementById('exclusives_container'), renderExclusiveBooks);
+
+	serverInteraction.getList('categories', document.getElementById('category-select'), renderCategoriesList);
 
 	new GoogleMap();//connect and load map of shop location
 });
@@ -364,7 +236,7 @@ contactModalLink.onclick = () => contactModal.style.display = 'flex';
 
 closeContactModal.onclick = () => contactModal.style.display = 'none';
 
-document.getElementById('send_message').onclick = () => sendMessageToShop(document.getElementById('contact-form'));
+document.getElementById('send_message').onclick = () => serverInteraction.sendMessage(document.getElementById('contact-form'));
 
 /**
  * Export

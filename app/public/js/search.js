@@ -1,6 +1,8 @@
 /**
  * Oasis bookstore site
  *
+ * Search page
+ *
  * @Author Oleh Yaroshchuk 
  */
 
@@ -11,6 +13,7 @@
 import Cart from './cart.js';
 import createNewEl from './createNewElement.js';
 import GoogleMap from './googleMap.js';
+import ServerInteract from './ServerInteraction.js';
 
 /**
  * Global variables
@@ -32,6 +35,7 @@ var countInsideCart = document.getElementById('count_inside_cart');
 var openCart = document.getElementById('cart_open');
 //var foundedPhotos = document.getElementsByClassName('founded-item-photo');
 var cart;
+var serverInteraction;
 
 /**
  * Functions
@@ -67,7 +71,7 @@ function updateAllGoodsTotal(){
 }
 
 function addToCartArray(goods){
-	getCartFromServer();
+	serverInteraction.getCart();
 	cart.updateInCart(goodsInCart);
 
 	if (goodsInCart.length != 0) {
@@ -87,73 +91,13 @@ function addToCartArray(goods){
 		newItemInCart(goods);
 	}
 	updateAllGoodsTotal();	
-	syncCartwithServer();
+	serverInteraction.syncCart();
 
 	function newItemInCart(item){
 		item.count = 1;
 		item.total = Number(item.price.replace(/\$/, ''));
 		goodsInCart.push(item);
 	}	
-}
-
-function syncCartwithServer(){
-	var oRq = new XMLHttpRequest(); //Create the object
-	let goods = JSON.stringify(goodsInCart);
-
-	oRq.open('post', '/sameCart');
-	oRq.setRequestHeader('Content-Type', 'application/json');
-	oRq.send(goods);
-
-	oRq.onload = function () {
-	  	//console.log(this.responseText);
-	   	console.log(JSON.parse(this.responseText));
-	   	updateAllGoodsTotal();	
-	   	getCartFromServer(); 
-	};
-}
-
-function getCartFromServer(){
-	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('post', '/getCart');
-	oRq.send();
-
-	oRq.onload = function () {
-	   	goodsInCart = JSON.parse(this.responseText);
-	   	console.log(goodsInCart);
-	   	updateAllGoodsTotal();
-	};
-}
-
-/*Send message to shop (form from contact modal)*/
-function sendMessageToShop(parent){
-	let message = {}; //initialization of message object
-
-	/*getting message main data*/
-	message.name = parent.querySelector('input[name=name]').value; 
-	message.email = parent.querySelector('input[name=email]').value;
-
-	/*if requested fields not empty then resume function*/
-	if (message.name != '' && message.email != '' && message.email.includes('@')) {
-		message.subject = parent.querySelector('input[name=subject]').value;
-		message.message = parent.querySelector('textarea[name=message]').value;
-
-		var xHr = new XMLHttpRequest(); //Create the object
-		xHr.open('post', '/sendMessage'); //initialization of query
-		xHr.setRequestHeader('Content-Type', 'application/json'); //setting HTTP header
-		xHr.send(JSON.stringify(message)); //send query
-		
-		/*when the request has been processed, then clear the fields*/
-		xHr.onload = function () {
-		    console.log(this.responseText);
-
-			parent.querySelector('input[name=name]').value = '';
-			parent.querySelector('input[name=email]').value = '';
-			parent.querySelector('input[name=subject]').value = '';
-			parent.querySelector('textarea[name=message]').value = '';
-
-			document.getElementById('about_section_wrapper').style.display = 'none';
-		};
-	}
 }
 
 function sidelistOnClick(list, listId){
@@ -174,46 +118,6 @@ function setBookDataToModal(data){
 	document.getElementById('book_description').textContent = data.description;
 	document.getElementById('book_price').textContent  = data.price;
 	document.getElementById('input_book_title').setAttribute('name', data.title);
-}
-
-function getFoundedAndRender(query){
-	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('post', '/getSearchResults');
-	oRq.setRequestHeader('Content-Type', 'application/json');
-	oRq.send(JSON.stringify(query));
-
-	oRq.onload = function () {
-	   	let founded = JSON.parse(this.responseText);
-	   	for (let item of founded) renderFoundedItem(item);
-	};
-}
-
-function getList(column, parent){
-	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('get', '/getList?column=' + column);
-	oRq.send();
-	oRq.onload = function () {
-		let categoriesList = JSON.parse(this.responseText);
-	   	for (let item of categoriesList){
-	   		createNewEl('input', document.getElementById(parent), {
-	   			type: 'checkbox',
-	   			name: column,
-	   			value: item,
-	   			event: {click:{
-	   				call: function (){
-	   					let hiddenInput = document.querySelector('input[name=' + column + ']');
-	   					if (this.checked) {
-	   						if (hiddenInput.value == '') hiddenInput.value += this.value;
-	   						else hiddenInput.value += ', ' + this.value ;
-						} else hiddenInput.value = hiddenInput.value.replace(this.value + ', ', '');
-	   				}
-	   			}}
-	   		});
-	   		createNewEl('span', document.getElementById(parent), {
-	   			content: item
-	   		});
-	    }
-	};
 }
 
 function getSearchQueryFromURL(url){
@@ -266,6 +170,28 @@ function renderFoundedItem(item){
  	});
 }
 
+function renderList(column, list, parent){
+	for (let item of list){
+		createNewEl('input', document.getElementById(parent), {
+			type: 'checkbox',
+			name: column,
+			value: item,
+			event: {click:{
+				call: function (){
+					let hiddenInput = document.querySelector('input[name=' + column + ']');
+					if (this.checked) {
+						if (hiddenInput.value == '') hiddenInput.value += this.value;
+						else hiddenInput.value += ', ' + this.value ;
+					} else hiddenInput.value = hiddenInput.value.replace(this.value + ', ', '');
+			   	}
+		   	}}
+		});
+		createNewEl('span', document.getElementById(parent), {
+			content: item
+		});
+    }
+}
+
 /**
  * Event Listeners
 */
@@ -277,16 +203,16 @@ authorsListTitle.onclick = () => sidelistOnClick(authorsList, '#authors_list');
 publishersListTitle.onclick = () => sidelistOnClick(publishersList, '#publishers_list');
 
 document.addEventListener('DOMContentLoaded', () => {
+	serverInteraction = new ServerInteract();
+	
 	let query = getSearchQueryFromURL(window.location.search);
-	getFoundedAndRender(query);
-
-	getCartFromServer();
+	serverInteraction.getFoundedAndRender(query, renderFoundedItem);
 
 	cart = new Cart(openCart, goodsInCart);
 
-	getList('categories', 'categories_list');
-	getList('author', 'authors_list');
-	getList('publisher', 'publishers_list');
+	serverInteraction.getList('categories', 'categories_list', renderList);
+	serverInteraction.getList('author', 'authors_list', renderList);
+	serverInteraction.getList('publisher', 'publishers_list', renderList);
 
 	let founded = document.getElementsByClassName('founded-item');
 	if (founded.length > 12){
@@ -371,7 +297,7 @@ contactModalLink.onclick = () => contactModal.style.display = 'flex';
 
 closeContactModal.onclick = () => contactModal.style.display = 'none';
 
-document.getElementById('send_message').onclick = () => sendMessageToShop(document.getElementById('contact-form'));
+document.getElementById('send_message').onclick = () => serverInteraction.sendMessage(document.getElementById('contact-form'));
 
 closeBookModal.onclick = () => document.getElementById('book_modal_wrapper').style.display = 'none';
 
