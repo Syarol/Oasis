@@ -8,15 +8,16 @@
  * Import
 */
 
-import {createNewEl} from './createNewElement.js';
+import createNewEl from './createNewElement.js';
+import ServerInteract from './ServerInteraction.js';
 
 /**
  * Variables
 */
 
 var overIndex;
-var countInsideCart = document.getElementById('count_inside_cart');
 var goodsInCart;
+var serverInteraction;
 
 /**
  * Functions
@@ -111,6 +112,8 @@ function updateAllGoodsTotal(){
 			allTotal += item.count;
 		}
 
+		let countInsideCart = document.getElementById('count_inside_cart');
+
 		if (allTotal == 0) countInsideCart.textContent = '';
 		else countInsideCart.textContent = ' (' + allTotal + ')';    
 	} 
@@ -152,9 +155,11 @@ function syncCartwithServer(){
  * Class
 */
 
-class Cart{
+export default class Cart{
 	constructor(entryPoint, InCart){
-		goodsInCart = InCart;
+		serverInteraction = new ServerInteract();
+		goodsInCart = serverInteraction.getCart(InCart);
+
 		this.inputLabels = ['First name', 'Last name', 'Address', 'Phone number', 'E-mail', 'Discount code (optional)'];
 
 		window.cartModalWrapper = createNewEl('section', document.body, {id : 'cart-modal'});
@@ -244,7 +249,7 @@ class Cart{
 			class : 'cart-remove-item',
 			title : 'Click for remove',
 			content: '×',
-			callback:{
+			event:{
 				click: {
 					call: () => {
 				      	this.removeFromCart();
@@ -279,7 +284,7 @@ class Cart{
 	    	class : 'cart-plus',
 	    	title : 'Add one',
 	    	nested: [createNewEl('i', false, {class : 'far fa-plus-square'})],
-	    	callback: {
+	    	event: {
 	    		click: {
 	    			call: function(){
 				      incrementCartItem(this);
@@ -324,7 +329,7 @@ class Cart{
 	    	class : 'cart-minus',
 	    	title : 'Remove one',
 	    	nested: [createNewEl('i', false, {class : 'far fa-minus-square'})],
-	    	callback: {
+	    	event: {
 	    		click: {
 	    			call:  function(){
 				      decrementCartItem(this);
@@ -374,7 +379,7 @@ class Cart{
 	    	createNewEl('button', buttonsContainer, {
 	    		class: 'cart-button',
 	    		nested: [createNewEl('span', false, {content: 'Check out'})],
-	    		callback: {
+	    		event: {
 	    			click: {call: () => this.openCheckout()}
 	    		}
 	      	});
@@ -382,14 +387,14 @@ class Cart{
 	    	createNewEl('button', buttonsContainer, {
 	    		class: 'cart-button',
 	    		nested: [createNewEl('span', false, {content: 'Back'})],
-	    		callback: {
+	    		event: {
 	    			click: {call: () => this.checkoutBack()}
 	    		}
 	      	});
 	      	createNewEl('button', buttonsContainer, {
 	    		class: 'cart-button',
 	    		nested: [createNewEl('span', false, {content: 'Confirm'})],
-	    		callback: {
+	    		event: {
 	    			click: {call: () => this.openContactForm()}
 	    		}
 	      	});
@@ -397,14 +402,14 @@ class Cart{
 	    	createNewEl('button', buttonsContainer, {
 	    		class: 'cart-button',
 	    		nested: [createNewEl('span', false, {content: 'Back'})],
-	    		callback: {
+	    		event: {
 	    			click: {call: () => this.toCheckout()}
 	    		}
 	      	});
 	      	createNewEl('button', buttonsContainer, {
 	    		class: 'cart-button',
 	    		nested: [createNewEl('span', false, {content: 'Confirm'})],
-	    		callback: {
+	    		event: {
 	    			click: {call: () => this.thanksForOrder()}
 	    		}
 	      	});
@@ -539,8 +544,3 @@ class Cart{
 	}
 }
 
-/**
- * Export
-*/
-
-export {Cart};

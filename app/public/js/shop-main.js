@@ -9,9 +9,9 @@
 */
 
 import {Carousel} from './carousel.js';
-import {Cart} from './cart.js';
-import {createNewEl} from './createNewElement.js';
-import {GoogleMap} from './googleMap.js';
+import Cart from './cart.js';
+import createNewEl from './createNewElement.js';
+import GoogleMap from './googleMap.js';
 
 /**
  * Global variables
@@ -28,7 +28,6 @@ var closeContactModal = document.getElementById('close-contact-modal');
 var goodsInCart = [];
 var countInsideCart = document.getElementById('count_inside_cart');
 var openCart = document.getElementById('cart_open');
-var at = encodeURIComponent('@');
 var cart;
 
 /**
@@ -86,13 +85,13 @@ function addToCartArray(goods){
 	}	
 }
 
+
 function getCarousel(parent, mark){
 	let type = encodeURIComponent(mark);
-	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('get', '/getSpecialMarked?type=' + type);
-	oRq.send();
-	oRq.onload = function () {
-	   	//console.log(JSON.parse(this.responseText));
+	var xHr = new XMLHttpRequest(); //Create the object
+	xHr.open('get', '/getSpecialMarked?type=' + type);
+	xHr.send();
+	xHr.onload = function () {
 	   	for (let item of JSON.parse(this.responseText)){
 	   		carouselItem(parent, item);
 	    }
@@ -123,7 +122,7 @@ function getCarousel(parent, mark){
 							title: data.title,
 							class: 'button',
 							value: 'Add to cart',
-							callback: {click: {
+							event: {click: {
 								call: () => addToCartArray(data)
 							}}
 						})
@@ -135,14 +134,14 @@ function getCarousel(parent, mark){
 }
 
 function syncCartwithServer(){
-	var oRq = new XMLHttpRequest(); //Create the object
 	let goods = JSON.stringify(goodsInCart);
+	
+	var xHr = new XMLHttpRequest(); //Create the object
+	xHr.open('post', '/sameCart');
+	xHr.setRequestHeader('Content-Type', 'application/json');
+	xHr.send(goods);
 
-	oRq.open('post', '/sameCart');
-	oRq.setRequestHeader('Content-Type', 'application/json');
-	oRq.send(goods);
-
-	oRq.onload = function () {
+	xHr.onload = function () {
 	  	//console.log(this.responseText);
 	   	console.log(JSON.parse(this.responseText));
 	   	updateAllGoodsTotal();	
@@ -151,42 +150,46 @@ function syncCartwithServer(){
 }
 
 function getCartFromServer(){
-	var oRq = new XMLHttpRequest(); //Create the object
-	oRq.open('post', '/getCart', true);
-	oRq.send();
+	var xHr = new XMLHttpRequest(); //Create the object
+	xHr.open('post', '/getCart'); //initialization of query
+	xHr.send(); //send query
 
-	oRq.onload = function () {
-		//console.log(this.responseText);
+	/*when the request has been processed, ....*/
+	xHr.onload = function () {
 	   	goodsInCart = JSON.parse(this.responseText);
 	   	console.log(goodsInCart);
 	   	updateAllGoodsTotal();
 	};
 }
 
-function sendMessageToShop(){
-	let message = {};
-	message.name = document.querySelector('input[name=name]').value;
-	message.email = document.querySelector('input[name=email]').value.replace(/\@/g, at);
-	if (message.name != '' && message.email != '') {
-		message.subject = document.querySelector('input[name=subject]').value;
-		message.message = document.querySelector('textarea[name=message]').value;
+/*Send message to shop (form from contact modal)*/
+function sendMessageToShop(parent){
+	let message = {}; //initialization of message object
 
-		var oRq = new XMLHttpRequest(); //Create the object
-		oRq.open('post', '/sendMessage');
-		oRq.setRequestHeader('Content-Type', 'application/json');
-		oRq.send(JSON.stringify(message));
+	/*getting message main data*/
+	message.name = parent.querySelector('input[name=name]').value; 
+	message.email = parent.querySelector('input[name=email]').value;
+
+	/*if requested fields not empty then resume function*/
+	if (message.name != '' && message.email != '' && message.email.includes('@')) {
+		message.subject = parent.querySelector('input[name=subject]').value;
+		message.message = parent.querySelector('textarea[name=message]').value;
+
+		var xHr = new XMLHttpRequest(); //Create the object
+		xHr.open('post', '/sendMessage'); //initialization of query
+		xHr.setRequestHeader('Content-Type', 'application/json'); //setting HTTP header
+		xHr.send(JSON.stringify(message)); //send query
 		
-		oRq.onreadystatechange = function () {
-			if (oRq.readyState == 4 && oRq.status == 200) {
-			    console.log(this.responseText);
+		/*when the request has been processed, then clear the fields*/
+		xHr.onload = function () {
+		    console.log(this.responseText);
 
-				document.querySelector('input[name=name]').value = '';
-				document.querySelector('input[name=email]').value = '';
-				document.querySelector('input[name=subject]').value = '';
-				document.querySelector('textarea[name=message]').value = '';
+			parent.querySelector('input[name=name]').value = '';
+			parent.querySelector('input[name=email]').value = '';
+			parent.querySelector('input[name=subject]').value = '';
+			parent.querySelector('textarea[name=message]').value = '';
 
-				document.getElementById('about_section_wrapper').style.display = 'none';
-			}
+			document.getElementById('about_section_wrapper').style.display = 'none';
 		};
 	}
 }
@@ -198,19 +201,17 @@ function sendMessageToShop(){
 document.addEventListener('DOMContentLoaded', () => {
 	getCartFromServer();
 
-	if (!cart){
-		cart = new Cart(openCart, goodsInCart);
-	}
+	cart = new Cart(openCart, goodsInCart);
 
 	getCarousel(recommendCarouselMain, 'RECOMMEND');
 	getCarousel(bestsellersCarouselMain, 'BESTSELLERS');
 	getCarousel(arrivesCarouselMain, 'ARRIVALS');
 
-	let recommendCarousel = new Carousel(rightButtons[0], leftButtons[0], recommendCarouselMain);
-	let bestsellersCarousel = new Carousel(rightButtons[1], leftButtons[1], bestsellersCarouselMain);
-	let arrivesCarousel = new Carousel(rightButtons[2], leftButtons[2], arrivesCarouselMain);
+	new Carousel(rightButtons[0], leftButtons[0], recommendCarouselMain);
+	new Carousel(rightButtons[1], leftButtons[1], bestsellersCarouselMain);
+	new Carousel(rightButtons[2], leftButtons[2], arrivesCarouselMain);
 
-	var locationMap = new GoogleMap();//connect and load map of shop location
+	new GoogleMap();//connect and load map of shop location
 });
 
 contactModal.onclick = () => contactModal.style.display = 'none';
@@ -219,7 +220,7 @@ contactModalLink.onclick = () => contactModal.style.display = 'flex';
 
 closeContactModal.onclick = () => contactModal.style.display = 'none';
 
-document.getElementById('send_message').onclick = () => sendMessageToShop();
+document.getElementById('send_message').onclick = () => sendMessageToShop(document.getElementById('contact-form'));
 
 
 /**

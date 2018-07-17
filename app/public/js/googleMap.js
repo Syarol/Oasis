@@ -1,6 +1,4 @@
 /**
- * Oasis bookstore site
- *
  * Module for connecting and loading map of shop location
  *
  * @Author Oleh Yaroshchuk 
@@ -10,7 +8,7 @@
  * Class
 */
 
-class GoogleMap{
+export default class GoogleMap{
 	constructor(){
 		this.loadGoogleMap(); //load and appends google map script to page
 
@@ -26,7 +24,7 @@ class GoogleMap{
 			});
 
 			/*marker properties*/
-			let marker = new google.maps.Marker({
+			new google.maps.Marker({
 				position: {lat:50.745151, lng:25.322764},
 				map: map,
 				title: 'Oasis bookstore'
@@ -42,9 +40,3 @@ class GoogleMap{
 		document.getElementsByTagName('body')[0].append(script); //appends to page
 	}
 }
-
-/**
- * Export
-*/
-
-export {GoogleMap};

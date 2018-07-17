@@ -8,9 +8,9 @@
  * Imports
 */
 
-import {Cart} from './cart.js';
-import {createNewEl} from './createNewElement.js';
-import {GoogleMap} from './googleMap.js';
+import Cart from './cart.js';
+import createNewEl from './createNewElement.js';
+import GoogleMap from './googleMap.js';
 
 /**
  * Global variables
@@ -30,7 +30,6 @@ var goodsInCart = [];
 var contactModal = document.getElementById('about_section_wrapper');
 var countInsideCart = document.getElementById('count_inside_cart');
 var openCart = document.getElementById('cart_open');
-var at = encodeURIComponent('@');
 //var foundedPhotos = document.getElementsByClassName('founded-item-photo');
 var cart;
 
@@ -125,30 +124,34 @@ function getCartFromServer(){
 	};
 }
 
-function sendMessageToShop(){
-	let message = {};
-	message.title = document.querySelector('input[title=title]').value;
-	message.email = document.querySelector('input[title=email]').value.replace(/\@/g, at);
-	if (message.title != '' && message.email != '') {
-		message.subject = document.querySelector('input[title=subject]').value;
-		message.message = document.querySelector('textarea[title=message]').value;
+/*Send message to shop (form from contact modal)*/
+function sendMessageToShop(parent){
+	let message = {}; //initialization of message object
 
-		var oRq = new XMLHttpRequest(); //Create the object
-		oRq.open('post', '/sendMessage');
-		oRq.setRequestHeader('Content-Type', 'application/json');
-		oRq.send(JSON.stringify(message));
+	/*getting message main data*/
+	message.name = parent.querySelector('input[name=name]').value; 
+	message.email = parent.querySelector('input[name=email]').value;
 
-		oRq.onreadystatechange = function () {
-			if (oRq.readyState == 4 && oRq.status == 200) {
-			    console.log(this.responseText);
+	/*if requested fields not empty then resume function*/
+	if (message.name != '' && message.email != '' && message.email.includes('@')) {
+		message.subject = parent.querySelector('input[name=subject]').value;
+		message.message = parent.querySelector('textarea[name=message]').value;
 
-				document.querySelector('input[title=title]').value = '';
-				document.querySelector('input[title=email]').value = '';
-				document.querySelector('input[title=subject]').value = '';
-				document.querySelector('textarea[title=message]').value = '';
+		var xHr = new XMLHttpRequest(); //Create the object
+		xHr.open('post', '/sendMessage'); //initialization of query
+		xHr.setRequestHeader('Content-Type', 'application/json'); //setting HTTP header
+		xHr.send(JSON.stringify(message)); //send query
+		
+		/*when the request has been processed, then clear the fields*/
+		xHr.onload = function () {
+		    console.log(this.responseText);
 
-				document.getElementById('about_section_wrapper').style.display = 'none';
-			}
+			parent.querySelector('input[name=name]').value = '';
+			parent.querySelector('input[name=email]').value = '';
+			parent.querySelector('input[name=subject]').value = '';
+			parent.querySelector('textarea[name=message]').value = '';
+
+			document.getElementById('about_section_wrapper').style.display = 'none';
 		};
 	}
 }
@@ -196,7 +199,7 @@ function getList(column, parent){
 	   			type: 'checkbox',
 	   			name: column,
 	   			value: item,
-	   			callback: {click:{
+	   			event: {click:{
 	   				call: function (){
 	   					let hiddenInput = document.querySelector('input[name=' + column + ']');
 	   					if (this.checked) {
@@ -255,7 +258,7 @@ function renderFoundedItem(item){
  				name: item.title,
  				class: 'button',
  				value: 'Add to cart',
- 				callback: {click:{
+ 				event: {click:{
  					call: () => addToCartArray(item)
  				}}
  			})
@@ -279,9 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	getCartFromServer();
 
-	if (!cart){
-		cart = new Cart(openCart, goodsInCart);
-	}
+	cart = new Cart(openCart, goodsInCart);
 
 	getList('categories', 'categories_list');
 	getList('author', 'authors_list');
@@ -322,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}*/
 
-	var locationMap = new GoogleMap();//connect and load map of shop location
+	new GoogleMap();//connect and load map of shop location
 
 }); 
 
@@ -370,7 +371,7 @@ contactModalLink.onclick = () => contactModal.style.display = 'flex';
 
 closeContactModal.onclick = () => contactModal.style.display = 'none';
 
-document.getElementById('send_message').onclick = () => sendMessageToShop();
+document.getElementById('send_message').onclick = () => sendMessageToShop(document.getElementById('contact-form'));
 
 closeBookModal.onclick = () => document.getElementById('book_modal_wrapper').style.display = 'none';
 

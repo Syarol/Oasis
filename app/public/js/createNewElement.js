@@ -16,18 +16,20 @@
  *		content:'hello',
  *		class: 'your-class', 
  *		nested: [createNewEl("span", false, {content: "World!"})],
- *		callback: {click: {
+ *		event: {click: {
  *			call : function(){console.log('Hello world!');}
  *		}}
  *	});
  * In example was created span element that have 'your-class' class, 'hello' text inside tags, nested span element with 'World!' text and callback for 'click' event. Also, created element not appended to anyone
 */
 
-function createNewEl(tagNme, appendTo, ...attr){
-	let el = document.createElement(tagNme);
-	if (attr.length !=0){
-		attr = attr[0];
-		for (var key in attr) {
+export default function createNewEl(tagNme, appendTo, ...attr){
+	let el = document.createElement(tagNme); //creates element
+	if (attr.length !=0){ //if attr not empty
+		attr = attr[0]; //move attr outside array
+
+		/*sets element properties for every key. Also appends child nodes and eventlisteners */
+		for (let key in attr) {
 			switch (key){
 			case 'nested':
 				for (let nested of attr.nested){
@@ -37,9 +39,9 @@ function createNewEl(tagNme, appendTo, ...attr){
 			case 'content':
 				el.textContent = attr.content;
 				break;
-			case 'callback':
-				for (let callbackKey in attr.callback) {
-					el.addEventListener(callbackKey, attr.callback[callbackKey].call);
+			case 'event':
+				for (let callbackKey in attr.event) {
+					el.addEventListener(callbackKey, attr.event[callbackKey].call);
 				}
 				break;
 			default:
@@ -48,14 +50,10 @@ function createNewEl(tagNme, appendTo, ...attr){
 			}
 		}
 	}
-	if (appendTo != false){
+
+	/*if parent setted then append*/
+	if (appendTo != false){ 
 		appendTo.appendChild(el);
 	}
 	return el;
 }
-
-/**
- * Export
-*/
-
-export {createNewEl};
