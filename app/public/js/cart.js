@@ -148,20 +148,20 @@ export default class Cart{
 
 		this.inputLabels = ['First name', 'Last name', 'Address', 'Phone number', 'E-mail', 'Discount code (optional)'];
 
-		window.cartModalWrapper = createNewEl('section', document.body, {id : 'cart-modal'});
-		window.cartModalContent = createNewEl('div', cartModalWrapper, {id : 'modal-content'});
-		window.closeCartModal = createNewEl('span', cartModalContent, {
+		this.cartModalWrapper = createNewEl('section', document.body, {id : 'cart-modal'});
+		this.cartModalContent = createNewEl('div', this.cartModalWrapper, {id : 'modal-content'});
+		this.closeCartModal = createNewEl('span', this.cartModalContent, {
 			content:'×', 
 			id : 'close-modal', 
 			title: 'Close'
 		});
-		window.cartHeader = createNewEl('div', cartModalContent, {
+		this.cartHeader = createNewEl('div', this.cartModalContent, {
 			id : 'cart-header',
 			nested: [createNewEl('h2', false, {content: 'Cart'})]
 		});
-		window.cartModalTable = createNewEl('div', cartModalContent, {id : 'cart-table'});
+		this.cartModalTable = createNewEl('div', this.cartModalContent, {id : 'cart-table'});
 
-		createNewEl('span', cartModalTable, {
+		createNewEl('span', this.cartModalTable, {
 			class: 'cart-table-row cart-first-row',
 			nested: [
 				createNewEl('span', false, {content : 'Name'}),
@@ -169,7 +169,7 @@ export default class Cart{
 				createNewEl('span', false, {content : 'Price'}),
 				createNewEl('span', false, {content : 'Total'})]
 		});
-		let lastRow = createNewEl('span', cartModalTable, {
+		let lastRow = createNewEl('span', this.cartModalTable, {
 			class: 'cart-table-row cart-last-row',
 			nested: [
 				createNewEl('span', false, {class: 'cart-item-total', content: 'Total'})]
@@ -178,14 +178,14 @@ export default class Cart{
 		window.cartAllGoodsTotal = createNewEl('span', lastRow, {id: 'cart-total', title: 'Your total'});
 
 		window.onclick = e => {
-			if (e.target == cartModalWrapper) {
+			if (e.target == this.cartModalWrapper) {
     			this.close();
 			}
 		}; 
 
-		cartModalTable.onmouseover = e => getOverIndex(e, 'cart-table-row');
+		this.cartModalTable.onmouseover = e => getOverIndex(e, 'cart-table-row');
 
-		closeCartModal.onclick = () => this.close();
+		this.closeCartModal.onclick = () => this.close();
 
 		entryPoint.onclick = () => {
 			this.open();
@@ -197,20 +197,20 @@ export default class Cart{
 	}
 
 	open(){
-		cartModalWrapper.style.display = 'flex';
+		this.cartModalWrapper.style.display = 'flex';
 		console.log(goodsInCart);
 		if (goodsInCart.length == 0) {
-			cartHeader.style.display = 'none';
-			createNewEl('div', cartModalContent, {
+			this.cartHeader.style.display = 'none';
+			createNewEl('div', this.cartModalContent, {
 				class: 'cart-one-text-container',
 				nested: [createNewEl('h2', false, {content: 'Oops! Your cart is empty('})]
 			});
 		} else {
-			cartHeader.style.display = 'block';
-			if (cartHeader.textContent != 'Cart'){
-				cartHeader.textContent = 'Cart';
+			this.cartHeader.style.display = 'block';
+			if (this.cartHeader.querySelector('h2').textContent != 'Cart'){
+				this.cartHeader.querySelector('h2').textContent = 'Cart';
 			}
-			cartModalTable.style.display = 'grid';
+			this.cartModalTable.style.display = 'grid';
 			this.createButtons('list');
 			this.openTable();
 		}
@@ -251,12 +251,12 @@ export default class Cart{
 	    cartModalTableRow[overIndex].remove();
 	    goodsInCart.splice(overIndex - 1, 1);
 	    if (goodsInCart.length === 0) {
-	      	createNewEl('div', cartModalContent, {
+	      	createNewEl('div', this.cartModalContent, {
 	      		class: 'cart-one-text-container',
 	      		nested: [createNewEl('h2', false, {content:'Oops! Your cart is empty('})]
 	     	});
-	      	cartHeader.style.display = 'none';
-	      	cartModalTable.style.display = 'none';
+	      	this.cartHeader.style.display = 'none';
+	      	this.cartModalTable.style.display = 'none';
 	      	document.getElementById('cart-buttons-container').style.display = 'none';
 	    	
 	    }
@@ -330,7 +330,7 @@ export default class Cart{
 	openTable(){
 		console.log(goodsInCart);
 		for (let book of goodsInCart){
-		    createNewEl('span', cartModalTable, {
+		    createNewEl('span', this.cartModalTable, {
 		    	class : 'cart-table-row',
 		    	nested: [
 		    		this.newItemRemoveButton(),
@@ -348,7 +348,7 @@ export default class Cart{
 		    		})
 		    	]
 		    });
-		    swapLastTwo(cartModalTable);
+		    swapLastTwo(this.cartModalTable);
 		}
 
 	   //updateAllGoodsTotal();
@@ -359,7 +359,7 @@ export default class Cart{
 	      document.getElementById('cart-buttons-container').remove();
 	    }
 
-	    let buttonsContainer = createNewEl('div', cartModalContent, {id : 'cart-buttons-container'}); 
+	    let buttonsContainer = createNewEl('div', this.cartModalContent, {id : 'cart-buttons-container'}); 
 	    
 	    if (part == 'list'){
 	    	createNewEl('button', buttonsContainer, {
@@ -404,11 +404,11 @@ export default class Cart{
 	}
 
   	openCheckout(){
-	    cartModalTable.style.display = 'none';
+	    this.cartModalTable.style.display = 'none';
 	    document.getElementById('cart-buttons-container').remove();
-	    cartHeader.textContent = 'Confirm order list';
+	    this.cartHeader.querySelector('h2').textContent = 'Confirm order list';
 
-	    let checkOutContainer = createNewEl('div', cartModalContent, {id : 'checkout-container'});
+	    let checkOutContainer = createNewEl('div', this.cartModalContent, {id : 'checkout-container'});
 	    let orderList = createNewEl('div', checkOutContainer, {class : 'order-list'});
 
 	    createNewEl('span', orderList, {content: 'Product'});
@@ -424,17 +424,17 @@ export default class Cart{
 	}
 
 	checkoutBack(){
-		cartHeader.textContent = 'Cart';
+		this.cartHeader.querySelector('h2').textContent = 'Cart';
 		document.getElementById('checkout-container').remove();
-		cartModalTable.style.display = 'grid';
+		this.cartModalTable.style.display = 'grid';
 		this.createButtons('list');
 	}
 
 	openContactForm(){
 		document.getElementById('checkout-container').style.display = 'none';
-		cartHeader.textContent = 'Leave your contacts';
+		this.cartHeader.querySelector('h2').textContent = 'Leave your contacts';
 
-		let inputsContainer = createNewEl('form', cartModalContent, {id : 'confirmation-form-container'});
+		let inputsContainer = createNewEl('form', this.cartModalContent, {id : 'confirmation-form-container'});
 
 		createInputField(inputsContainer, {
 			container: {
@@ -483,15 +483,15 @@ export default class Cart{
 
 	toCheckout(){
 		document.getElementById('confirmation-form-container').remove();
-		cartHeader.textContent = 'Confirm order list';
+		this.cartHeader.querySelector('h2').textContent = 'Confirm order list';
 		document.getElementById('checkout-container').style.display = 'block';
 		this.createButtons('checkout');
 	}
 
 	thanksForOrder(){
 		document.getElementById('checkout-container').remove();
-		cartHeader.parentNode.remove();
-		this.inCart = [];
+		this.cartHeader.style.display = 'none';
+		goodsInCart = [];
 		let cartModalTableRow = document.getElementsByClassName('cart-table-row');
 		while(cartModalTableRow.length > 2) {
 			cartModalTableRow[1].remove();
@@ -500,7 +500,7 @@ export default class Cart{
 		document.getElementById('confirmation-form-container').remove();
 		document.getElementById('cart-buttons-container').remove();
 
-		createNewEl('div', cartModalContent, {class: 'cart-one-text-container', 
+		createNewEl('div', this.cartModalContent, {class: 'cart-one-text-container', 
 			nested: [createNewEl('h2', false, {content: 'Thanks for Your order!'})]
 		});
 	}
@@ -513,8 +513,8 @@ export default class Cart{
 				i--;
 			}
 		}
-		cartModalWrapper.style.display = 'none';
-		cartModalTable.style.display = 'none';
+		this.cartModalWrapper.style.display = 'none';
+		this.cartModalTable.style.display = 'none';
 		if (document.getElementById('cart-buttons-container')){
 			document.getElementById('cart-buttons-container').remove();
 		}

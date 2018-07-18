@@ -12,9 +12,9 @@
 
 import {Carousel} from './carousel.js';
 import Cart from './cart.js';
-import createNewEl from './createNewElement.js';
 import GoogleMap from './googleMap.js';
 import ServerInteract from './ServerInteraction.js';
+import RenderElements from './RenderElements.js';
 
 /**
  * Global variables
@@ -92,15 +92,17 @@ function addToCartArray(goods){
 /**
  * Event Listeners
 */
-
+ 
 document.addEventListener('DOMContentLoaded', () => {
 	serverInteraction = new ServerInteract();
 
 	cart = new Cart(openCart, goodsInCart);
 
-	serverInteraction.getCarousel(recommendCarouselMain, 'RECOMMEND', addToCartArray);
-	serverInteraction.getCarousel(bestsellersCarouselMain, 'BESTSELLERS', addToCartArray);
-	serverInteraction.getCarousel(arrivesCarouselMain, 'ARRIVALS', addToCartArray);
+	let Render = new RenderElements(addToCartArray); 
+
+	serverInteraction.getSpecialMarked('RECOMMEND', recommendCarouselMain, Render.carouselItems, addToCartArray);
+	serverInteraction.getSpecialMarked('BESTSELLERS', bestsellersCarouselMain, Render.carouselItems, addToCartArray);
+	serverInteraction.getSpecialMarked('ARRIVALS', arrivesCarouselMain, Render.carouselItems, addToCartArray);
 
 	new Carousel(rightButtons[0], leftButtons[0], recommendCarouselMain);
 	new Carousel(rightButtons[1], leftButtons[1], bestsellersCarouselMain);

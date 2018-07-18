@@ -12,9 +12,9 @@
 
 import {Carousel} from './carousel.js';
 import Cart from './cart.js';
-import createNewEl from './createNewElement.js';
 import GoogleMap from './googleMap.js';
 import ServerInteract from './ServerInteraction.js';
+import RenderElements from './RenderElements.js';
 
 /**
  * Global variables
@@ -30,7 +30,7 @@ var goodsInCart = [];
 var countInsideCart = document.getElementById('count_inside_cart');
 var openCart = document.getElementById('cart_open');
 var cart;
-var serverInteraction;
+var ServerInteraction;
 
 /**
  * Functions
@@ -58,7 +58,7 @@ function updateAllGoodsTotal(){
 }
 
 function addToCartArray(goods){
-	serverInteraction.getCart();
+	ServerInteraction.getCart();
 	cart.updateInCart(goodsInCart);
 
 	if (goodsInCart.length != 0) {
@@ -78,7 +78,7 @@ function addToCartArray(goods){
 		newItemInCart(goods);
 	}
 	updateAllGoodsTotal();	
-	serverInteraction.syncCart();
+	ServerInteraction.syncCart();
 
 	function newItemInCart(item){
 		item.count = 1;
@@ -87,135 +87,26 @@ function addToCartArray(goods){
 	}	
 }
 
-function renderBestseller(parent, data){
-   	bestsellerPreview(parent[0], data[0]);
-   	bestsellerModal(parent[1], data[0]);
-
-	function bestsellerPreview(parent, data){
-		createNewEl('div', parent, {
-			class: 'book-photo-container center-cover-no-repeat',
-			style: 'background-image:url(' + data.thumbnailUrl + ')'
-		});
-		createNewEl('span', parent, {
-			class: 'text-container',
-			content: data.shortDescription
-		});
-		createNewEl('span', parent, {
-			id: 'open_bestseller_modal',
-			class: 'button grid-center-items',
-			content: 'Quick view',
-			event: {click: {
-				call: () => bestsellerModalWrapper.style.display = 'flex'
-			}}
-		});
-	}
-
-	function bestsellerModal(parent, data){
-		createNewEl('h3', parent, {
-			content: data.title
-		});
-		createNewEl('img', parent, {
-			class: 'modal-photo',
-			src:  data.thumbnailUrl
-		});
-		createNewEl('span', parent, {
-			class: 'author',
-			content: 'by ' + data.author
-		});
-		createNewEl('span', parent, {
-			class: 'category',
-			content: data.categories
-		});
-		createNewEl('span', parent, {
-			class: 'text-container',
-			content: data.description
-		});
-		createNewEl('span', parent, {
-			class: 'price',
-			content: data.price,
-			nested:[
-				createNewEl('input', false, {
-					type: 'button',
-					name: data.title,
-					class: 'button',
-					value: 'Add to cart',
-					title: 'Add to cart',
-					event: {click: {
-						call: () => addToCartArray(data)
-					}}
-				})
-			]
-		});
-	}
-}
-
-function renderExclusiveBooks(parent, data){
-	for (let item of data){
-		createNewEl('div', parent, {
-			class: 'arrival-item carousel-item',
-			style: 'background-image:url(' + item.thumbnailUrl + ')',
-			nested: [
-				createNewEl('div', false, {
-					class: 'arrival-item-inf grid-center-items',
-					nested: [
-						createNewEl('h3', false, {
-							content: item.title
-						}),
-						createNewEl('span', false, {
-							content: 'by ' + item.author
-						}),
-						createNewEl('span', false, {
-							content: item.price
-						}),
-						createNewEl('span', false, {
-							content: item.categories
-						}),
-						createNewEl('input', false, {
-							type: 'button',
-							title: item.title,
-							class: 'button',
-							value: 'Add to cart',
-							event: {click: {
-								call: () => addToCartArray(data)
-							}}
-						}),
-						createNewEl('span', false, {
-							class: 'on-sale',
-							content: 'SALE!'
-						})
-					]
-				})
-			]
-		});
-	}
-}
-
-function renderCategoriesList(column, list, parent){
-	for (let item of list){
-	   	createNewEl('option', parent, {
-	   		content: item
-	   	});
-	}
-}
-
 /**
  * Event Listeners
 */
 
 document.addEventListener('DOMContentLoaded', () => {
-	serverInteraction = new ServerInteract();
-	serverInteraction.getCart();
+	ServerInteraction = new ServerInteract();
+	ServerInteraction.getCart();
 
 	cart = new Cart(openCart, goodsInCart);
 
-	serverInteraction.getCarousel(arrivalCarouselMain, 'ARRIVALS');
+	let Render = new RenderElements(addToCartArray); 
+
+	ServerInteraction.getSpecialMarked('ARRIVALS', arrivalCarouselMain, Render.carouselItems, addToCartArray);
 
 	new Carousel(document.getElementById('arrivals_right'), document.getElementById('arrivals_left'), arrivalCarouselMain);
 
-	serverInteraction.getSpecialMarked('BESTSELLER', [document.getElementById('bestseller_preview'), document.getElementById('bestseller_modal')], renderBestseller);
-	serverInteraction.getSpecialMarked('EXCLUSIVE', document.getElementById('exclusives_container'), renderExclusiveBooks);
+	ServerInteraction.getSpecialMarked('BESTSELLER', [document.getElementById('bestseller_preview'), document.getElementById('bestseller_modal')], Render.bestseller, addToCartArray);
+	ServerInteraction.getSpecialMarked('EXCLUSIVE', document.getElementById('exclusives_container'), Render.exclusiveBooks, addToCartArray);
 
-	serverInteraction.getList('categories', document.getElementById('category-select'), renderCategoriesList);
+	ServerInteraction.getList('categories', document.getElementById('category-select'), Render.categoriesList);
 
 	new GoogleMap();//connect and load map of shop location
 });
@@ -236,7 +127,7 @@ contactModalLink.onclick = () => contactModal.style.display = 'flex';
 
 closeContactModal.onclick = () => contactModal.style.display = 'none';
 
-document.getElementById('send_message').onclick = () => serverInteraction.sendMessage(document.getElementById('contact-form'));
+document.getElementById('send_message').onclick = () => ServerInteraction.sendMessage(document.getElementById('contact-form'));
 
 /**
  * Export

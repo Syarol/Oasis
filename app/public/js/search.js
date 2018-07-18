@@ -11,9 +11,9 @@
 */
 
 import Cart from './cart.js';
-import createNewEl from './createNewElement.js';
 import GoogleMap from './googleMap.js';
 import ServerInteract from './ServerInteraction.js';
+import RenderElements from './RenderElements.js';
 
 /**
  * Global variables
@@ -71,7 +71,7 @@ function updateAllGoodsTotal(){
 }
 
 function addToCartArray(goods){
-	serverInteraction.getCart();
+	serverInteraction.getCart(goodsInCart);
 	cart.updateInCart(goodsInCart);
 
 	if (goodsInCart.length != 0) {
@@ -91,7 +91,7 @@ function addToCartArray(goods){
 		newItemInCart(goods);
 	}
 	updateAllGoodsTotal();	
-	serverInteraction.syncCart();
+	serverInteraction.syncCart(goodsInCart);
 
 	function newItemInCart(item){
 		item.count = 1;
@@ -139,59 +139,6 @@ function getSearchQueryFromURL(url){
 	return query;
 }
 
-function renderFoundedItem(item){
-	createNewEl('div', document.getElementById('founded_section'), {
- 		class: 'founded-item grid-center-items', 
- 		nested: [
- 			createNewEl('img', false, {
- 				class: 'founded-item-photo',
- 				pseudo: item.title,
- 				src: item.thumbnailUrl
- 			}),
- 			createNewEl('h3', false, {
- 				content: item.title
- 			}),
- 			createNewEl('span', false, {
- 				content: 'by ' + item.author
- 			}),
- 			createNewEl('span', false, {
- 				content: item.price
- 			}),
- 			createNewEl('input', false, {
- 				type: 'button',
- 				name: item.title,
- 				class: 'button',
- 				value: 'Add to cart',
- 				event: {click:{
- 					call: () => addToCartArray(item)
- 				}}
- 			})
- 		]
- 	});
-}
-
-function renderList(column, list, parent){
-	for (let item of list){
-		createNewEl('input', document.getElementById(parent), {
-			type: 'checkbox',
-			name: column,
-			value: item,
-			event: {click:{
-				call: function (){
-					let hiddenInput = document.querySelector('input[name=' + column + ']');
-					if (this.checked) {
-						if (hiddenInput.value == '') hiddenInput.value += this.value;
-						else hiddenInput.value += ', ' + this.value ;
-					} else hiddenInput.value = hiddenInput.value.replace(this.value + ', ', '');
-			   	}
-		   	}}
-		});
-		createNewEl('span', document.getElementById(parent), {
-			content: item
-		});
-    }
-}
-
 /**
  * Event Listeners
 */
@@ -205,14 +152,17 @@ publishersListTitle.onclick = () => sidelistOnClick(publishersList, '#publishers
 document.addEventListener('DOMContentLoaded', () => {
 	serverInteraction = new ServerInteract();
 	
+	let Render = new RenderElements(); 
+	
 	let query = getSearchQueryFromURL(window.location.search);
-	serverInteraction.getFoundedAndRender(query, renderFoundedItem);
+	serverInteraction.getFoundedAndRender(query, Render.founded, addToCart);
 
 	cart = new Cart(openCart, goodsInCart);
 
-	serverInteraction.getList('categories', 'categories_list', renderList);
-	serverInteraction.getList('author', 'authors_list', renderList);
-	serverInteraction.getList('publisher', 'publishers_list', renderList);
+
+	serverInteraction.getList('categories', 'categories_list', Render.checkList);
+	serverInteraction.getList('author', 'authors_list', Render.checkList);
+	serverInteraction.getList('publisher', 'publishers_list', Render.checkList);
 
 	let founded = document.getElementsByClassName('founded-item');
 	if (founded.length > 12){

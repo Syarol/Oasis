@@ -5,12 +5,6 @@
  */
 
 /**
- * Imports
-*/
-
-import createNewEl from './createNewElement.js';
-
-/**
  * Functions
 */
 
@@ -42,9 +36,6 @@ function updateAllGoodsTotal(goodsInCart){
 */
 
 export default class ServerInteract{
-	constructor(){
-	}
-
 	/*Receives cart contents*/
 	getCart(inCart){
 		var xHr = new XMLHttpRequest(); //Create the object
@@ -64,98 +55,55 @@ export default class ServerInteract{
 	/*Synchronizes cart beetwen client and server*/
 	syncCart(goodsInCart){
 		let goods = JSON.stringify(goodsInCart); //converts array to string
-		
+
 		var xHr = new XMLHttpRequest(); //Create the object
 		xHr.open('post', '/sameCart'); //initialization of query
 		xHr.setRequestHeader('Content-Type', 'application/json'); //setting HTTP header
 		xHr.send(goods); //send query 
 
+		/*when the request has been processed receive cart contents*/
 		xHr.onload = () => {
 		   	console.log(JSON.parse(xHr.responseText));
-		   	updateAllGoodsTotal(goodsInCart);	
-		   	this.getCart();
+		   	this.getCart(goodsInCart);
 		};
 	}
 
-	getCarousel(parent, mark, addToCartArray){
-		var xHr = new XMLHttpRequest(); //Create the object
-		xHr.open('get', '/getSpecialMarked?type=' + mark); //initialization of query
-		xHr.send();//send query
-
-		xHr.onload = function () {
-		   	for (let item of JSON.parse(this.responseText)){
-		   		carouselItem(parent, item);
-		    }
-		};
-
-		function carouselItem(parent, data){
-			createNewEl('div', parent, {
-				class: 'arrival-item carousel-item',
-				style: 'background-image:url(' + data.thumbnailUrl + ')',
-				nested: [
-					createNewEl('div', false, {
-						class: 'arrival-item-inf grid-center-items',
-						nested: [
-							createNewEl('h3', false, {
-								content: data.title
-							}),
-							createNewEl('span', false, {
-								content: 'by ' + data.author
-							}),
-							createNewEl('span', false, {
-								content: data.price
-							}),
-							createNewEl('span', false, {
-								content: data.categories
-							}),
-							createNewEl('input', false, {
-								type: 'button',
-								title: data.title,
-								class: 'button',
-								value: 'Add to cart',
-								event: {click: {
-									call: () => addToCartArray(data)
-								}}
-							})
-						]
-					})
-				]
-			});
-		}
-	}
-
-	getFoundedAndRender(query, renderFunction){
+	/*Found and render goods*/
+	getFoundedAndRender(query, renderFunction, addToCart){
 		var oRq = new XMLHttpRequest(); //Create the object
-		oRq.open('post', '/getSearchResults');
+		oRq.open('post', '/getSearchResults'); //initialization of query
 		oRq.setRequestHeader('Content-Type', 'application/json');
-		oRq.send(JSON.stringify(query));
+		oRq.send(JSON.stringify(query)); //send query 
 
+		/*when the request has been processed render founded*/
 		oRq.onload = function () {
-		   	let founded = JSON.parse(this.responseText);
-		   	for (let item of founded) renderFunction(item);
+		   	renderFunction(JSON.parse(this.responseText), addToCart);
 		};
 	}
 
+	/*Found and render goods details list by specified colum (categories, author, publiser)*/
 	getList(column, parent, renderFunction){
 		var xHr = new XMLHttpRequest(); //Create the object
-		xHr.open('get', '/getList?column=' + column);
-		xHr.send();
+		xHr.open('get', '/getList?column=' + column); //initialization of query
+		xHr.send(); //send query 
+
+		/*when the request has been processed render founded*/
 		xHr.onload = function (){
-			let categoriesList = JSON.parse(this.responseText);
-		   	renderFunction(column, categoriesList, parent);
+		   	renderFunction(JSON.parse(this.responseText), parent, column);
 		};
 	}
 
-	getSpecialMarked(type, parent, renderFunction){
+	/*Found and render special marked goods*/
+	getSpecialMarked(type, parent, renderFunction, addToCart){
 		var oRq = new XMLHttpRequest(); //Create the object
-		oRq.open('get', '/getSpecialMarked?type=' + type);
-		oRq.send();
+		oRq.open('get', '/getSpecialMarked?type=' + type); //initialization of query
+		oRq.send(); //send query 
+
+		/*when the request has been processed render founded*/
 		oRq.onload = function () {
-			let data = JSON.parse(this.responseText);
-	   		renderFunction(parent, data);
+	   		renderFunction(parent, JSON.parse(this.responseText), addToCart);
 		};
 	}
-
 
 	/*Send message to shop (form from contact modal)*/
 	sendMessage(parent){
