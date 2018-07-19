@@ -2,6 +2,7 @@
  * Function for creating new DOM Elemnts
  *
  * @Author Oleh Yaroshchuk 
+ * GitHub : https://github.com/Syarol
  */
 
 /** 

@@ -4,6 +4,7 @@
  * Blog page
  *
  * @Author Oleh Yaroshchuk 
+ * GitHub : https://github.com/Syarol
  */
 
 /**
@@ -61,9 +62,3 @@ var closeReadMoreModal = document.getElementById('close_read_more_modal');
 closeReadMoreModal.onclick = () => readMoreModal.style.display = 'none';
 
 document.getElementById('send_message').onclick = () => ServerInteraction.sendMessage(document.getElementById('contact-form'));
-
-/**
- * Export
-*/
-
-export {goodsInCart};

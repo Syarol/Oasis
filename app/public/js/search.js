@@ -4,6 +4,7 @@
  * Search page
  *
  * @Author Oleh Yaroshchuk 
+ * GitHub : https://github.com/Syarol
  */
 
 /**
@@ -31,7 +32,6 @@ var foundedShowMore =  document.getElementById('founded_show_more');
 var closeContactModal = document.getElementById('close-contact-modal');
 var goodsInCart = [];
 var contactModal = document.getElementById('about_section_wrapper');
-var countInsideCart = document.getElementById('count_inside_cart');
 var openCart = document.getElementById('cart_open');
 //var foundedPhotos = document.getElementsByClassName('founded-item-photo');
 var cart;
@@ -105,9 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	cart = new Cart(openCart, goodsInCart);
 	
 	let query = getSearchQueryFromURL(window.location.search);
-	ServerInteraction.getFoundedAndRender(query, Render.founded, cart, ServerInteraction);
-
-
+	ServerInteraction.getFoundedAndRender(query, Render.founded, cart);
 
 	ServerInteraction.getList('categories', 'categories_list', Render.checkList);
 	ServerInteraction.getList('author', 'authors_list', Render.checkList);
@@ -199,9 +197,3 @@ closeContactModal.onclick = () => contactModal.style.display = 'none';
 document.getElementById('send_message').onclick = () => ServerInteraction.sendMessage(document.getElementById('contact-form'));
 
 closeBookModal.onclick = () => document.getElementById('book_modal_wrapper').style.display = 'none';
-
-/**
- * Export
-*/
-
-export {goodsInCart};

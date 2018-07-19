@@ -2,6 +2,7 @@
  * Module with functions that interact with server 
  *
  * @Author Oleh Yaroshchuk 
+ * GitHub : https://github.com/Syarol
  */
 
 /**
@@ -69,7 +70,7 @@ export default class ServerInteract{
 	}
 
 	/*Found and render goods*/
-	getFoundedAndRender(query, renderFunction, cart, ServerInteraction){
+	getFoundedAndRender(query, renderFunction, cart){
 		var xHr = new XMLHttpRequest(); //Create the object
 		xHr.open('post', '/getSearchResults'); //initialization of query
 		xHr.setRequestHeader('Content-Type', 'application/json');
@@ -77,7 +78,7 @@ export default class ServerInteract{
 
 		/*when the request has been processed render founded*/
 		xHr.onload = () => {
-		   	renderFunction(JSON.parse(xHr.responseText), cart, ServerInteraction);
+		   	renderFunction(JSON.parse(xHr.responseText), cart);
 		};
 	}
 
@@ -94,14 +95,14 @@ export default class ServerInteract{
 	}
 
 	/*Found and render special marked goods*/
-	getSpecialMarked(type, parent, renderFunction, cart, serverInteraction){
+	getSpecialMarked(type, parent, renderFunction, cart){
 		var xHr = new XMLHttpRequest(); //Create the object
 		xHr.open('get', '/getSpecialMarked?type=' + type); //initialization of query
 		xHr.send(); //send query 
 
 		/*when the request has been processed render founded*/
 		xHr.onload = () => {
-	   		renderFunction(parent, JSON.parse(xHr.responseText), cart, serverInteraction);
+	   		renderFunction(parent, JSON.parse(xHr.responseText), cart);
 		};
 	}
 

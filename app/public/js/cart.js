@@ -2,6 +2,7 @@
  * Cart
  *
  * @Author Oleh Yaroshchuk 
+ * GitHub : https://github.com/Syarol
  */
 
 /**
@@ -196,7 +197,7 @@ export default class Cart{
 		goodsInCart = data;
 	}
 
-	addToCartArray(goods, serverInteraction){
+	addToCartArray(goods){
 		console.log(this);
 		serverInteraction.getCart(goodsInCart);
 		this.updateInCart(goodsInCart);

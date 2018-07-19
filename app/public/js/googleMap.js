@@ -2,6 +2,7 @@
  * Module for connecting and loading map of shop location
  *
  * @Author Oleh Yaroshchuk 
+ * GitHub : https://github.com/Syarol
  */
 
 /**
