@@ -69,15 +69,15 @@ export default class ServerInteract{
 	}
 
 	/*Found and render goods*/
-	getFoundedAndRender(query, renderFunction, addToCart){
-		var oRq = new XMLHttpRequest(); //Create the object
-		oRq.open('post', '/getSearchResults'); //initialization of query
-		oRq.setRequestHeader('Content-Type', 'application/json');
-		oRq.send(JSON.stringify(query)); //send query 
+	getFoundedAndRender(query, renderFunction, cart, ServerInteraction){
+		var xHr = new XMLHttpRequest(); //Create the object
+		xHr.open('post', '/getSearchResults'); //initialization of query
+		xHr.setRequestHeader('Content-Type', 'application/json');
+		xHr.send(JSON.stringify(query)); //send query 
 
 		/*when the request has been processed render founded*/
-		oRq.onload = function () {
-		   	renderFunction(JSON.parse(this.responseText), addToCart);
+		xHr.onload = () => {
+		   	renderFunction(JSON.parse(xHr.responseText), cart, ServerInteraction);
 		};
 	}
 
@@ -94,14 +94,14 @@ export default class ServerInteract{
 	}
 
 	/*Found and render special marked goods*/
-	getSpecialMarked(type, parent, renderFunction, addToCart){
-		var oRq = new XMLHttpRequest(); //Create the object
-		oRq.open('get', '/getSpecialMarked?type=' + type); //initialization of query
-		oRq.send(); //send query 
+	getSpecialMarked(type, parent, renderFunction, cart, serverInteraction){
+		var xHr = new XMLHttpRequest(); //Create the object
+		xHr.open('get', '/getSpecialMarked?type=' + type); //initialization of query
+		xHr.send(); //send query 
 
 		/*when the request has been processed render founded*/
-		oRq.onload = function () {
-	   		renderFunction(parent, JSON.parse(this.responseText), addToCart);
+		xHr.onload = () => {
+	   		renderFunction(parent, JSON.parse(xHr.responseText), cart, serverInteraction);
 		};
 	}
 

@@ -32,77 +32,22 @@ var goodsInCart = [];
 var countInsideCart = document.getElementById('count_inside_cart');
 var openCart = document.getElementById('cart_open');
 var cart;
-var serverInteraction;
-
-/**
- * Functions
-*/
-
-function updateAllGoodsTotal(){
-	let temp = 0;
-	for (let item of goodsInCart){
-		temp += item.total;
-	}
-
-	cartAllGoodsTotal.textContent = '$' + temp.toFixed(2);
-
-	allGoodsCount();   
-
-	function allGoodsCount(){
-		let allTotal = 0;
-		for (let item of goodsInCart){
-			allTotal += item.count;
-		}
-
-		if (allTotal == 0) countInsideCart.textContent = '';
-		else countInsideCart.textContent = ' (' + allTotal + ')';    
-	} 
-}
-
-function addToCartArray(goods){
-	serverInteraction.getCart(goodsInCart);
-	cart.updateInCart(goodsInCart);
-
-	if (goodsInCart.length != 0) {
-		let found = false;
-		for (let item of goodsInCart) {
-		    if (item.title == goods.title) {
-	    		item.count++; 
-	    		item.total = Number(item.price.replace(/\$/, '')) * item.count;
-		    	found = true;
-				break;
-			}
-		}
-		if (!found) {
-			newItemInCart(goods);
-		}
-	} else {
-		newItemInCart(goods);
-	}
-	updateAllGoodsTotal();	
-	serverInteraction.syncCart(goodsInCart);
-
-	function newItemInCart(item){
-		item.count = 1;
-		item.total = Number(item.price.replace(/\$/, ''));
-		goodsInCart.push(item);
-	}	
-}
+var ServerInteraction;
 
 /**
  * Event Listeners
 */
  
 document.addEventListener('DOMContentLoaded', () => {
-	serverInteraction = new ServerInteract();
+	ServerInteraction = new ServerInteract();
 
 	cart = new Cart(openCart, goodsInCart);
 
-	let Render = new RenderElements(addToCartArray); 
+	let Render = new RenderElements(); 
 
-	serverInteraction.getSpecialMarked('RECOMMEND', recommendCarouselMain, Render.carouselItems, addToCartArray);
-	serverInteraction.getSpecialMarked('BESTSELLERS', bestsellersCarouselMain, Render.carouselItems, addToCartArray);
-	serverInteraction.getSpecialMarked('ARRIVALS', arrivesCarouselMain, Render.carouselItems, addToCartArray);
+	ServerInteraction.getSpecialMarked('RECOMMEND', recommendCarouselMain, Render.carouselItems, cart, ServerInteraction);
+	ServerInteraction.getSpecialMarked('BESTSELLERS', bestsellersCarouselMain, Render.carouselItems, cart, ServerInteraction);
+	ServerInteraction.getSpecialMarked('ARRIVALS', arrivesCarouselMain, Render.carouselItems, cart, ServerInteraction);
 
 	new Carousel(rightButtons[0], leftButtons[0], recommendCarouselMain);
 	new Carousel(rightButtons[1], leftButtons[1], bestsellersCarouselMain);
@@ -117,7 +62,7 @@ contactModalLink.onclick = () => contactModal.style.display = 'flex';
 
 closeContactModal.onclick = () => contactModal.style.display = 'none';
 
-document.getElementById('send_message').onclick = () => serverInteraction.sendMessage(document.getElementById('contact-form'));
+document.getElementById('send_message').onclick = () => ServerInteraction.sendMessage(document.getElementById('contact-form'));
 
 
 /**

@@ -15,9 +15,9 @@ import createNewEl from './createNewElement.js';
 */
 
 export default class RenderElements{
-	bestseller(parent, data, addToCart){
+	bestseller(parent, data, cart, serverInteraction){
 	   	bestsellerPreview(parent[0], data[0]);
-	   	bestsellerModal(parent[1], data[0]);
+	   	bestsellerModal(parent[1], data[0], cart, serverInteraction);
 
 		function bestsellerPreview(parent, data){
 			createNewEl('div', parent, {
@@ -33,12 +33,12 @@ export default class RenderElements{
 				class: 'button grid-center-items',
 				content: 'Quick view',
 				event: {click: {
-					call: () => bestsellerModalWrapper.style.display = 'flex'
+					call: () => document.getElementById('bestseller_modal_wrapper').style.display = 'flex'
 				}}
 			});
 		}
 
-		function bestsellerModal(parent, data){
+		function bestsellerModal(parent, data, cart, serverInteraction){
 			createNewEl('h3', parent, {
 				content: data.title
 			});
@@ -69,7 +69,7 @@ export default class RenderElements{
 						value: 'Add to cart',
 						title: 'Add to cart',
 						event: {click: {
-							call: () => addToCart(data)
+							call: () => cart.addToCartArray(data, serverInteraction)
 						}}
 					})
 				]
@@ -77,7 +77,7 @@ export default class RenderElements{
 		}
 	}
 
-	exclusiveBooks(parent, data, addToCart){
+	exclusiveBooks(parent, data, cart, serverInteraction){
 		for (let item of data){
 			createNewEl('div', parent, {
 				class: 'arrival-item carousel-item',
@@ -104,7 +104,7 @@ export default class RenderElements{
 								class: 'button',
 								value: 'Add to cart',
 								event: {click: {
-									call: () => addToCart(data)
+									call: () => cart.addToCartArray(item, serverInteraction)
 								}}
 							}),
 							createNewEl('span', false, {
@@ -127,7 +127,7 @@ export default class RenderElements{
 		}
 	}
 
-	carouselItems(parent, data, addToCart){
+	carouselItems(parent, data, cart, serverInteraction){
 		for (let item of data){
 			createNewEl('div', parent, {
 				class: 'arrival-item carousel-item',
@@ -154,7 +154,7 @@ export default class RenderElements{
 								class: 'button',
 								value: 'Add to cart',
 								event: {click: {
-									call: () => addToCart(item)
+									call: () => cart.addToCartArray(item, serverInteraction)
 								}}
 							})
 						]
@@ -164,7 +164,8 @@ export default class RenderElements{
 		}
 	}
 
-	founded(data, addToCart){
+	founded(data, cart, serverInteraction){
+		console.log(cart);
 		for (let item of data){
 			createNewEl('div', document.getElementById('founded_section'), {
 		 		class: 'founded-item grid-center-items', 
@@ -189,7 +190,7 @@ export default class RenderElements{
 		 				class: 'button',
 		 				value: 'Add to cart',
 		 				event: {click:{
-		 					call: () => addToCart(item)
+		 					call: () => cart.addToCartArray(item, serverInteraction)
 		 				}}
 		 			})
 		 		]

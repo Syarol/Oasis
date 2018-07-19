@@ -33,61 +33,6 @@ var cart;
 var ServerInteraction;
 
 /**
- * Functions
-*/
-
-function updateAllGoodsTotal(){
-	let temp = 0;
-	for (let item of goodsInCart){
-		temp += item.total;
-	}
-
-	cartAllGoodsTotal.textContent = '$' + temp.toFixed(2);
-
-	allGoodsCount();   
-
-	function allGoodsCount(){
-		let allTotal = 0;
-		for (let item of goodsInCart){
-			allTotal += item.count;
-		}
-
-		if (allTotal == 0) countInsideCart.textContent = '';
-		else countInsideCart.textContent = ' (' + allTotal + ')';    
-	} 
-}
-
-function addToCartArray(goods){
-	ServerInteraction.getCart();
-	cart.updateInCart(goodsInCart);
-
-	if (goodsInCart.length != 0) {
-		let found = false;
-		for (let item of goodsInCart) {
-		    if (item.title == goods.title) {
-	    		item.count++; 
-	    		item.total = Number(item.price.replace(/\$/, '')) * item.count;
-		    	found = true;
-				break;
-			}
-		}
-		if (!found) {
-			newItemInCart(goods);
-		}
-	} else {
-		newItemInCart(goods);
-	}
-	updateAllGoodsTotal();	
-	ServerInteraction.syncCart();
-
-	function newItemInCart(item){
-		item.count = 1;
-		item.total = Number(item.price.replace(/\$/, ''));
-		goodsInCart.push(item);
-	}	
-}
-
-/**
  * Event Listeners
 */
 
@@ -97,14 +42,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	cart = new Cart(openCart, goodsInCart);
 
-	let Render = new RenderElements(addToCartArray); 
+	let Render = new RenderElements(); 
 
-	ServerInteraction.getSpecialMarked('ARRIVALS', arrivalCarouselMain, Render.carouselItems, addToCartArray);
+	ServerInteraction.getSpecialMarked('ARRIVALS', arrivalCarouselMain, Render.carouselItems, cart, ServerInteraction);
 
 	new Carousel(document.getElementById('arrivals_right'), document.getElementById('arrivals_left'), arrivalCarouselMain);
 
-	ServerInteraction.getSpecialMarked('BESTSELLER', [document.getElementById('bestseller_preview'), document.getElementById('bestseller_modal')], Render.bestseller, addToCartArray);
-	ServerInteraction.getSpecialMarked('EXCLUSIVE', document.getElementById('exclusives_container'), Render.exclusiveBooks, addToCartArray);
+	ServerInteraction.getSpecialMarked('BESTSELLER', [document.getElementById('bestseller_preview'), document.getElementById('bestseller_modal')], Render.bestseller, cart, ServerInteraction);
+	ServerInteraction.getSpecialMarked('EXCLUSIVE', document.getElementById('exclusives_container'), Render.exclusiveBooks, cart, ServerInteraction);
 
 	ServerInteraction.getList('categories', document.getElementById('category-select'), Render.categoriesList);
 

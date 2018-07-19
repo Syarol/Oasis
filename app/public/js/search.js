@@ -35,7 +35,7 @@ var countInsideCart = document.getElementById('count_inside_cart');
 var openCart = document.getElementById('cart_open');
 //var foundedPhotos = document.getElementsByClassName('founded-item-photo');
 var cart;
-var serverInteraction;
+var ServerInteraction;
 
 /**
  * Functions
@@ -46,57 +46,6 @@ function changePlusMinus(item){
 		item.className = 'far fa-plus-square';
 	} else if(item.className == 'far fa-plus-square'){
 		item.className = 'far fa-minus-square';
-	}	
-}
-
-function updateAllGoodsTotal(){
-	let temp = 0;
-	for (let item of goodsInCart){
-		temp += item.total;
-	}
-
-	cartAllGoodsTotal.textContent = '$' + temp.toFixed(2);
-
-	allGoodsCount();   
-
-	function allGoodsCount(){
-		let allTotal = 0;
-		for (let item of goodsInCart){
-			allTotal += item.count;
-		}
-
-		if (allTotal == 0) countInsideCart.textContent = '';
-		else countInsideCart.textContent = ' (' + allTotal + ')';    
-	} 
-}
-
-function addToCartArray(goods){
-	serverInteraction.getCart(goodsInCart);
-	cart.updateInCart(goodsInCart);
-
-	if (goodsInCart.length != 0) {
-		let found = false;
-		for (let item of goodsInCart) {
-		    if (item.title == goods.title) {
-	    		item.count++; 
-	    		item.total = Number(item.price.replace(/\$/, '')) * item.count;
-		    	found = true;
-				break;
-			}
-		}
-		if (!found) {
-			newItemInCart(goods);
-		}
-	} else {
-		newItemInCart(goods);
-	}
-	updateAllGoodsTotal();	
-	serverInteraction.syncCart(goodsInCart);
-
-	function newItemInCart(item){
-		item.count = 1;
-		item.total = Number(item.price.replace(/\$/, ''));
-		goodsInCart.push(item);
 	}	
 }
 
@@ -150,19 +99,19 @@ authorsListTitle.onclick = () => sidelistOnClick(authorsList, '#authors_list');
 publishersListTitle.onclick = () => sidelistOnClick(publishersList, '#publishers_list');
 
 document.addEventListener('DOMContentLoaded', () => {
-	serverInteraction = new ServerInteract();
+	ServerInteraction = new ServerInteract();
 	
 	let Render = new RenderElements(); 
+	cart = new Cart(openCart, goodsInCart);
 	
 	let query = getSearchQueryFromURL(window.location.search);
-	serverInteraction.getFoundedAndRender(query, Render.founded, addToCart);
-
-	cart = new Cart(openCart, goodsInCart);
+	ServerInteraction.getFoundedAndRender(query, Render.founded, cart, ServerInteraction);
 
 
-	serverInteraction.getList('categories', 'categories_list', Render.checkList);
-	serverInteraction.getList('author', 'authors_list', Render.checkList);
-	serverInteraction.getList('publisher', 'publishers_list', Render.checkList);
+
+	ServerInteraction.getList('categories', 'categories_list', Render.checkList);
+	ServerInteraction.getList('author', 'authors_list', Render.checkList);
+	ServerInteraction.getList('publisher', 'publishers_list', Render.checkList);
 
 	let founded = document.getElementsByClassName('founded-item');
 	if (founded.length > 12){
@@ -247,7 +196,7 @@ contactModalLink.onclick = () => contactModal.style.display = 'flex';
 
 closeContactModal.onclick = () => contactModal.style.display = 'none';
 
-document.getElementById('send_message').onclick = () => serverInteraction.sendMessage(document.getElementById('contact-form'));
+document.getElementById('send_message').onclick = () => ServerInteraction.sendMessage(document.getElementById('contact-form'));
 
 closeBookModal.onclick = () => document.getElementById('book_modal_wrapper').style.display = 'none';
 

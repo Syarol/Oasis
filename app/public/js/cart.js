@@ -196,6 +196,37 @@ export default class Cart{
 		goodsInCart = data;
 	}
 
+	addToCartArray(goods, serverInteraction){
+		console.log(this);
+		serverInteraction.getCart(goodsInCart);
+		this.updateInCart(goodsInCart);
+
+		if (goodsInCart.length != 0) {
+			let found = false;
+			for (let item of goodsInCart) {
+			    if (item.title == goods.title) {
+		    		item.count++; 
+		    		item.total = Number(item.price.replace(/\$/, '')) * item.count;
+			    	found = true;
+					break;
+				}
+			}
+			if (!found) {
+				newItemInCart(goods);
+			}
+		} else {
+			newItemInCart(goods);
+		}
+		updateAllGoodsTotal();	
+		serverInteraction.syncCart(goodsInCart);
+
+		function newItemInCart(item){
+			item.count = 1;
+			item.total = Number(item.price.replace(/\$/, ''));
+			goodsInCart.push(item);
+		}	
+	}
+
 	open(){
 		this.cartModalWrapper.style.display = 'flex';
 		console.log(goodsInCart);

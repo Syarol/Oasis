@@ -24,14 +24,14 @@ var closeContactModal = document.getElementById('close-contact-modal');
 var goodsInCart = [];
 var readMoreModal = document.getElementById('read_more_modal');
 var openCart = document.getElementById('cart_open');
-var serverInteraction;
+var ServerInteraction;
 
 /**
  * Event Listeners
 */
 
 document.addEventListener('DOMContentLoaded', () => {
-	serverInteraction = new ServerInteract();
+	ServerInteraction = new ServerInteract();
 
 	new Cart(openCart, goodsInCart);
 
@@ -60,7 +60,7 @@ var closeReadMoreModal = document.getElementById('close_read_more_modal');
 
 closeReadMoreModal.onclick = () => readMoreModal.style.display = 'none';
 
-document.getElementById('send_message').onclick = () => serverInteraction.sendMessage(document.getElementById('contact-form'));
+document.getElementById('send_message').onclick = () => ServerInteraction.sendMessage(document.getElementById('contact-form'));
 
 /**
  * Export
