@@ -36,9 +36,9 @@ var ServerInteraction;
 */
  
 document.addEventListener('DOMContentLoaded', () => {
-	ServerInteraction = new ServerInteract();
-
 	cart = new Cart(openCart, goodsInCart);
+	
+	ServerInteraction = new ServerInteract();
 
 	let Render = new RenderElements(); 
 

@@ -204,7 +204,6 @@ export default class RenderElements{
 
 	/*render founded goods*/
 	founded(data, cart){
-		console.log(cart);
 		/*render founded goods one by one*/
 		for (let item of data){
 			/*goods wrapper block*/
@@ -215,7 +214,20 @@ export default class RenderElements{
 		 			createNewEl('img', false, {
 		 				class: 'founded-item-photo',
 		 				pseudo: item.title,
-		 				src: item.thumbnailUrl
+		 				src: item.thumbnailUrl,
+		 				/*on photo click open modal window with information about goods*/
+		 				event: {click: {
+		 					call: () => {
+								document.getElementById('book_modal_wrapper').style.display = 'flex'; //open modal window
+								document.getElementById('book_title').textContent = item.title; //show goods title
+								document.getElementById('book_photo').setAttribute('src', item.thumbnailUrl); //show goods image
+								document.getElementById('book_author').textContent = item.author; //show goods author
+								document.getElementById('book_categories').textContent = item.categories; //show goods categories
+								document.getElementById('book_description').textContent = item.description; //show goods description
+								document.getElementById('book_price').textContent  = item.price; //show goods prise
+								document.getElementById('input_book_title').setAttribute('name', JSON.stringify(item)); //set goods data in 'add to cart' button (needs to addding to cart operation)
+							}
+		 				}}
 		 			}),
 		 			/*goods title*/
 		 			createNewEl('h3', false, {

@@ -33,7 +33,6 @@ var closeContactModal = document.getElementById('close-contact-modal');
 var goodsInCart = [];
 var contactModal = document.getElementById('about_section_wrapper');
 var openCart = document.getElementById('cart_open');
-//var foundedPhotos = document.getElementsByClassName('founded-item-photo');
 var cart;
 var ServerInteraction;
 
@@ -56,17 +55,6 @@ function sidelistOnClick(list, listId){
 	if (list.style.maxHeight == '500px') {
 		list.style.maxHeight = '30px';
 	} else list.style.maxHeight = '500px';
-}
-
-function setBookDataToModal(data){
-	document.getElementById('book_modal_wrapper').style.display = 'flex';
-	document.getElementById('book_title').textContent = data.title;
-	document.getElementById('book_photo').setAttribute('src', data.thumbnailUrl);
-	document.getElementById('book_author').textContent = data.author;
-	document.getElementById('book_categories').textContent = data.categories;
-	document.getElementById('book_description').textContent = data.description;
-	document.getElementById('book_price').textContent  = data.price;
-	document.getElementById('input_book_title').setAttribute('name', data.title);
 }
 
 function getSearchQueryFromURL(url){
@@ -99,10 +87,10 @@ authorsListTitle.onclick = () => sidelistOnClick(authorsList, '#authors_list');
 publishersListTitle.onclick = () => sidelistOnClick(publishersList, '#publishers_list');
 
 document.addEventListener('DOMContentLoaded', () => {
-	ServerInteraction = new ServerInteract();
-	
-	let Render = new RenderElements(); 
 	cart = new Cart(openCart, goodsInCart);
+	
+	ServerInteraction = new ServerInteract();
+	let Render = new RenderElements(); 
 	
 	let query = getSearchQueryFromURL(window.location.search);
 	ServerInteraction.getFoundedAndRender(query, Render.founded, cart);
@@ -118,33 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			foundedShowMore.style.display = 'block';
 		}
 	}
-
-	/*for (let photo of foundedPhotos){
-		photo.addEventListener('click', function(){
-			let title = this.getAttribute('pseudo');	
-			let book = {};
-
-			function AJAXget(title) {
-				let replaced = title.replace(/\+/g, plus);
-			   	replaced = replaced.replace(/\#/g, hashtag);
-
-			    var oReq = new XMLHttpRequest(); //Create the object
-			    oReq.open('GET', 'get-data.php?title='+replaced, false);
-
-			    oReq.onreadystatechange = function () {
-			        if (oReq.readyState == 4 && oReq.status == 200) {
-			            let res = JSON.parse(this.responseText);
-			            setBookDataToModal(res);
-			        }
-			    };
-
-			    oReq.send();
-			}
-
-			AJAXget(title);
-
-		});
-	}*/
 
 	new GoogleMap();//connect and load map of shop location
 
@@ -197,3 +158,5 @@ closeContactModal.onclick = () => contactModal.style.display = 'none';
 document.getElementById('send_message').onclick = () => ServerInteraction.sendMessage(document.getElementById('contact-form'));
 
 closeBookModal.onclick = () => document.getElementById('book_modal_wrapper').style.display = 'none';
+
+document.getElementById('input_book_title').onclick = function() {cart.addToCartArray(JSON.parse(this.getAttribute('name')));}; 

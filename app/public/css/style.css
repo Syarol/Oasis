@@ -352,6 +352,7 @@ img{
     	5px 5px,
     	5px 5px;
   	background-repeat: no-repeat;
+  	transition: 1s;
 }
 
 #find_product_form select:focus {

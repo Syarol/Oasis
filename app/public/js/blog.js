@@ -32,9 +32,9 @@ var ServerInteraction;
 */
 
 document.addEventListener('DOMContentLoaded', () => {
-	ServerInteraction = new ServerInteract();
-
 	new Cart(openCart, goodsInCart);
+	
+	ServerInteraction = new ServerInteract();
 
 	for (let item of document.getElementsByClassName('button-read-more')){
 		item.onclick = () => readMoreModal.style.display = 'flex';

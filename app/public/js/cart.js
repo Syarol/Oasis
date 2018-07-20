@@ -9,8 +9,8 @@
  * Import
 */
 
-import createNewEl from './createNewElement.js';
-import ServerInteract from './ServerInteraction.js';
+import createNewEl from './createNewElement.js'; //for creating new DOM elements
+import ServerInteract from './ServerInteraction.js'; //for swap data between server and client
 
 /**
  * Variables
@@ -94,16 +94,16 @@ function updateGoodsTotal(i){
 	goodsInCart[i].total = goodsInCart[i].count * priceRegEx;
 	dishTotal[i].textContent = '$' + goodsInCart[i].total.toFixed(2);
 
-	updateAllGoodsTotal();
+	updateAllGoodsTotal(goodsInCart);
 }
 
-function updateAllGoodsTotal(){
+function updateAllGoodsTotal(goodsInCart){
 	let temp = 0;
 	for (let item of goodsInCart){
 		temp += item.total;
 	}
 
-	cartAllGoodsTotal.textContent = '$' + temp.toFixed(2);
+	this.cartAllGoodsTotal.textContent = '$' + temp.toFixed(2);
 
 	allGoodsCount();   
 
@@ -143,9 +143,18 @@ function getOverIndex(e, neededClassTarget){
 */
 
 export default class Cart{
-	constructor(entryPoint, InCart){
+	constructor(entryPoint, inCart){
 		serverInteraction = new ServerInteract();
-		goodsInCart = serverInteraction.getCart(InCart);
+
+		serverInteraction.getCart(inCart).then(
+			function(res){
+				console.log(res);
+				goodsInCart = res;
+			},
+			function(err){
+				console.log(err);
+			}
+		);
 
 		this.inputLabels = ['First name', 'Last name', 'Address', 'Phone number', 'E-mail', 'Discount code (optional)'];
 
@@ -176,7 +185,7 @@ export default class Cart{
 				createNewEl('span', false, {class: 'cart-item-total', content: 'Total'})]
 		});
 
-		window.cartAllGoodsTotal = createNewEl('span', lastRow, {id: 'cart-total', title: 'Your total'});
+		this.cartAllGoodsTotal = createNewEl('span', lastRow, {id: 'cart-total', title: 'Your total'});
 
 		window.onclick = e => {
 			if (e.target == this.cartModalWrapper) {
@@ -193,14 +202,8 @@ export default class Cart{
 		};
 	}
 
-	updateInCart(data){
-		goodsInCart = data;
-	}
-
 	addToCartArray(goods){
-		console.log(this);
 		serverInteraction.getCart(goodsInCart);
-		this.updateInCart(goodsInCart);
 
 		if (goodsInCart.length != 0) {
 			let found = false;
@@ -218,7 +221,6 @@ export default class Cart{
 		} else {
 			newItemInCart(goods);
 		}
-		updateAllGoodsTotal();	
 		serverInteraction.syncCart(goodsInCart);
 
 		function newItemInCart(item){
@@ -271,7 +273,7 @@ export default class Cart{
 				click: {
 					call: () => {
 				      	this.removeFromCart();
-				      	updateAllGoodsTotal();
+				      	updateAllGoodsTotal(goodsInCart);
 				  	}
 				}
 			}
@@ -293,7 +295,6 @@ export default class Cart{
 	    	
 	    }
 	    console.log(goodsInCart);
-	    updateAllGoodsTotal();
 	    serverInteraction.syncCart(goodsInCart);	
 	}
 
@@ -383,7 +384,7 @@ export default class Cart{
 		    swapLastTwo(this.cartModalTable);
 		}
 
-	   //updateAllGoodsTotal();
+	   //updateAllGoodsTotal(goodsInCart);
 	}
 
 	createButtons(part){
@@ -450,7 +451,7 @@ export default class Cart{
 	      createNewEl('span', orderList, {content: '$' + book.total.toFixed(2)});
 	    }
 	    createNewEl('span', orderList, {content: 'Total'});
-	    createNewEl('span', orderList, {content: cartAllGoodsTotal.textContent});  
+	    createNewEl('span', orderList, {content: this.cartAllGoodsTotal.textContent});  
 
 	    this.createButtons('checkout');
 	}
@@ -528,7 +529,7 @@ export default class Cart{
 		while(cartModalTableRow.length > 2) {
 			cartModalTableRow[1].remove();
 		}
-		updateAllGoodsTotal();
+		updateAllGoodsTotal(goodsInCart);
 		document.getElementById('confirmation-form-container').remove();
 		document.getElementById('cart-buttons-container').remove();
 

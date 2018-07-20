@@ -15,7 +15,7 @@ function updateAllGoodsTotal(goodsInCart){
 		temp += item.total;
 	}
 
-	cartAllGoodsTotal.textContent = '$' + temp.toFixed(2);
+	document.getElementById('cart-total').textContent = '$' + temp.toFixed(2);
 
 	allGoodsCount();   
 
@@ -39,18 +39,21 @@ function updateAllGoodsTotal(goodsInCart){
 export default class ServerInteract{
 	/*Receives cart contents*/
 	getCart(inCart){
-		var xHr = new XMLHttpRequest(); //Create the object
-		xHr.open('post', '/getCart'); //initialization of query
-		xHr.send(); //send query
+		return new Promise(function(resolve, reject){
+			var xHr = new XMLHttpRequest(); //Create the object
+			xHr.open('post', '/getCart'); //initialization of query
+			xHr.send(); //send query
 
-		/*when the request has been processed*/
-		xHr.onload = function () {
-		   	inCart = JSON.parse(this.responseText); //save cart contents in variable
-		   	console.log(inCart);
-		   	updateAllGoodsTotal(inCart); //update count of goods inside cart
-		};
+			/*when the request has been processed*/
+			xHr.onload = function () {
+			   	inCart = JSON.parse(this.responseText); //save cart contents in variable
+			   	console.log(inCart);
+			   	updateAllGoodsTotal(inCart); //update count of goods inside cart
+			   	resolve(inCart); //returns variable with cart contents
+			};
 
-		return inCart; //returns variable with cart contents
+			xHr.onerror = function() { reject(Error('Network Error')); }; //on error return error message
+		});
 	}
 
 	/*Synchronizes cart beetwen client and server*/
@@ -65,7 +68,7 @@ export default class ServerInteract{
 		/*when the request has been processed receive cart contents*/
 		xHr.onload = () => {
 		   	console.log(JSON.parse(xHr.responseText));
-		   	this.getCart(goodsInCart);
+		   	updateAllGoodsTotal(JSON.parse(xHr.responseText)); //update count of goods inside cart
 		};
 	}
 
