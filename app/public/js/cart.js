@@ -103,7 +103,7 @@ function updateAllGoodsTotal(goodsInCart){
 		temp += item.total;
 	}
 
-	this.cartAllGoodsTotal.textContent = '$' + temp.toFixed(2);
+	cartAllGoodsTotal.textContent = '$' + temp.toFixed(2);
 
 	allGoodsCount();   
 
@@ -185,7 +185,7 @@ export default class Cart{
 				createNewEl('span', false, {class: 'cart-item-total', content: 'Total'})]
 		});
 
-		this.cartAllGoodsTotal = createNewEl('span', lastRow, {id: 'cart-total', title: 'Your total'});
+		window.cartAllGoodsTotal = createNewEl('span', lastRow, {id: 'cart-total', title: 'Your total'});
 
 		window.onclick = e => {
 			if (e.target == this.cartModalWrapper) {
@@ -451,7 +451,7 @@ export default class Cart{
 	      createNewEl('span', orderList, {content: '$' + book.total.toFixed(2)});
 	    }
 	    createNewEl('span', orderList, {content: 'Total'});
-	    createNewEl('span', orderList, {content: this.cartAllGoodsTotal.textContent});  
+	    createNewEl('span', orderList, {content: cartAllGoodsTotal.textContent});  
 
 	    this.createButtons('checkout');
 	}

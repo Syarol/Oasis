@@ -10,7 +10,7 @@
 */
 
 import createNewEl from './createNewElement.js'; //for creating new DOM elements
-import {Carousel} from './carousel.js'; //for creating carousel
+import Carousel from './carousel.js'; //for creating carousel
 
 /**
  * Class
@@ -144,7 +144,6 @@ export default class RenderElements{
 
 	/*render list of goods categories*/
 	categoriesList(list, parent){
-		console.log(list);
 		/*adds every category as option element*/
 		for (let item of list){
 		   	createNewEl('option', parent, {
@@ -155,51 +154,53 @@ export default class RenderElements{
 
 	/*render carousel*/
 	carouselItems(parent, data, cart){
-		/*for first render elements of carousel one by one without repeating*/
-		for (let item of data){
-			/*goods image with nested block of goods main information*/
-			createNewEl('div', parent.getElementsByClassName('carousel')[0], {
-				class: 'arrival-item carousel-item',
-				style: 'background-image:url(' + item.thumbnailUrl + ')', //goods image
-				nested: [
-				/*block that wrapped main information*/
-					createNewEl('div', false, {
-						class: 'arrival-item-inf grid-center-items',
-						nested: [
-							/*goods image*/
-							createNewEl('h3', false, {
-								content: item.title
-							}),
-							/*goods author*/
-							createNewEl('span', false, {
-								content: 'by ' + item.author
-							}),
-							/*goods price*/
-							createNewEl('span', false, {
-								content: item.price
-							}),
-							/*goods categories*/
-							createNewEl('span', false, {
-								content: item.categories
-							}),
-							/*button of adding to cart (on click)*/
-							createNewEl('input', false, {
-								type: 'button',
-								title: item.title,
-								class: 'button',
-								value: 'Add to cart',
-								event: {click: {
-									call: () => cart.addToCartArray(item)
-								}}
-							})
-						]
-					})
-				]
-			});
+		/*for render elements of carousel one by one three times*/
+		for (let i = 0; i < 3; i++){
+			for (let item of data){
+				/*goods image with nested block of goods main information*/
+				createNewEl('div', parent.getElementsByClassName('carousel')[0], {
+					class: 'arrival-item carousel-item',
+					style: 'background-image:url(' + item.thumbnailUrl + ')', //goods image
+					nested: [
+					/*block that wrapped main information*/
+						createNewEl('div', false, {
+							class: 'arrival-item-inf grid-center-items',
+							nested: [
+								/*goods image*/
+								createNewEl('h3', false, {
+									content: item.title
+								}),
+								/*goods author*/
+								createNewEl('span', false, {
+									content: 'by ' + item.author
+								}),
+								/*goods price*/
+								createNewEl('span', false, {
+									content: item.price
+								}),
+								/*goods categories*/
+								createNewEl('span', false, {
+									content: item.categories
+								}),
+								/*button of adding to cart (on click)*/
+								createNewEl('input', false, {
+									type: 'button',
+									goods: JSON.stringify({title:item.title, price: item.price}),
+									class: 'button',
+									value: 'Add to cart',
+									event: {click: {
+										call: () => cart.addToCartArray(item)
+									}}
+								})
+							]
+						})
+					]
+				});
+			}
 		}
 
 		/*creates the carousel of rendered elements*/
-		new Carousel(parent.getElementsByClassName('right-control')[0], parent.getElementsByClassName('left-control')[0], parent.getElementsByClassName('carousel')[0]);
+		new Carousel(parent.getElementsByClassName('right-control')[0], parent.getElementsByClassName('left-control')[0], parent.getElementsByClassName('carousel')[0]/*, cart.addToCartArray*/);
 	}
 
 	/*render founded goods*/

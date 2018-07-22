@@ -204,7 +204,7 @@ img{
 
 #new_arrival_list .arrival-item{
 	flex: 1 0 25%;
-	min-width: 25%;
+	/*min-width: 25%;*/
 }
 
 #best_and_exclusive_section{
