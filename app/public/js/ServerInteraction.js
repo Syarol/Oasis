@@ -74,15 +74,19 @@ export default class ServerInteract{
 
 	/*Found and render goods*/
 	getFoundedAndRender(query, renderFunction, cart){
-		var xHr = new XMLHttpRequest(); //Create the object
-		xHr.open('post', '/getSearchResults'); //initialization of query
-		xHr.setRequestHeader('Content-Type', 'application/json');
-		xHr.send(JSON.stringify(query)); //send query 
+		return new Promise(function(resolve, reject){
+			var xHr = new XMLHttpRequest(); //Create the object
+			xHr.open('post', '/getSearchResults'); //initialization of query
+			xHr.setRequestHeader('Content-Type', 'application/json');
+			xHr.send(JSON.stringify(query)); //send query 
 
-		/*when the request has been processed render founded*/
-		xHr.onload = () => {
-		   	renderFunction(JSON.parse(xHr.responseText), cart);
-		};
+			/*when the request has been processed render founded*/
+			xHr.onload = () => {
+			   	renderFunction(JSON.parse(xHr.responseText), cart);
+			};
+
+			xHr.onerror = function() { reject(Error('Network Error')); }; //on error return error message
+		});
 	}
 
 	/*Found and render goods details list by specified colum (categories, author, publiser)*/

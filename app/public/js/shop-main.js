@@ -12,23 +12,17 @@
 */
 
 import Cart from './cart.js';
-import GoogleMap from './googleMap.js';
-import ServerInteract from './ServerInteraction.js';
-import RenderElements from './RenderElements.js';
+import GoogleMap from './googleMap.js'; //for connecting and loading map of shop location
+import ServerInteract from './ServerInteraction.js'; //for swap data between server and client
+import RenderElements from './RenderElements.js'; //for render DOM elements
 
 /**
  * Global variables
 */
 
-var recommendCarouselMain = document.getElementById('we_recommend');
-var bestsellersCarouselMain = document.getElementById('bestsellers');
-var arrivesCarouselMain = document.getElementById('new_arrives');
 var contactModal = document.getElementById('about_section_wrapper');
-var contactModalLink = document.getElementById('contact');
-var closeContactModal = document.getElementById('close-contact-modal');
 var goodsInCart = [];
 var openCart = document.getElementById('cart_open');
-var cart;
 var ServerInteraction;
 
 /**
@@ -36,23 +30,23 @@ var ServerInteraction;
 */
  
 document.addEventListener('DOMContentLoaded', () => {
-	cart = new Cart(openCart, goodsInCart);
+	let cart = new Cart(openCart, goodsInCart);
 	
 	ServerInteraction = new ServerInteract();
 
 	let Render = new RenderElements(); 
 
-	ServerInteraction.getSpecialMarked('RECOMMEND', recommendCarouselMain, Render.carouselItems, cart);
-	ServerInteraction.getSpecialMarked('BESTSELLERS', bestsellersCarouselMain, Render.carouselItems, cart);
-	ServerInteraction.getSpecialMarked('ARRIVALS', arrivesCarouselMain, Render.carouselItems, cart);
+	ServerInteraction.getSpecialMarked('RECOMMEND', document.getElementById('we_recommend'), Render.carouselItems, cart);
+	ServerInteraction.getSpecialMarked('BESTSELLERS', document.getElementById('bestsellers'), Render.carouselItems, cart);
+	ServerInteraction.getSpecialMarked('ARRIVALS', document.getElementById('new_arrives'), Render.carouselItems, cart);
 
 	new GoogleMap();//connect and load map of shop location
 });
 
 contactModal.onclick = () => contactModal.style.display = 'none';
 
-contactModalLink.onclick = () => contactModal.style.display = 'flex';
+document.getElementById('contact').onclick = () => contactModal.style.display = 'flex';
 
-closeContactModal.onclick = () => contactModal.style.display = 'none';
+document.getElementById('close-contact-modal').onclick = () => contactModal.style.display = 'none';
 
 document.getElementById('send_message').onclick = () => ServerInteraction.sendMessage(document.getElementById('contact-form'));

@@ -1,124 +1,55 @@
 /**
- * Carousel
+ * Carousel module
  *
  * @Author Oleh Yaroshchuk 
+ * GitHub : https://github.com/Syarol
  */
-
-/**
- * Functions
-*/
-
-function getScrolledPercentage(item){
-	return 100 * item.scrollLeft / (item.scrollWidth - item.clientWidth);
-}
 
 /**
  * Class
 */
 
 export default class Carousel{
-	constructor (rightButton, leftButton, carousel/*, buttonFunction*/){
-		this.rightButton = rightButton;
-		this.leftButton = leftButton;
-		this.carousel = carousel;
-
-		this.carouselItems = Array.from(carousel.getElementsByClassName('carousel-item')).map(function(i){return i});
-		this.carouselLenght = this.carouselItems.length;
-
+	constructor (rightButton, leftButton, carousel){
 		/*deletes unneeded '#text' node from childNodes list*/
- 		for (let child of this.carousel.childNodes){
- 			if (child.nodeType == 3) {
-		        this.carousel.removeChild(child);
+ 		for (let child of carousel.childNodes){ //check every child of carousel
+ 			if (child.nodeType == 3) { //if needed then delete
+		        carousel.removeChild(child);
 		    }
  		}
-console.log(this.carouselLenght/3);
-	/*	for (let item of this.carouselItems){
-			let newCarouselItem = this.carousel.appendChild(item.cloneNode(true));
 
-			newCarouselItem.getElementsByClassName('button')[0].onclick = () => {
-				buttonFunction(JSON.parse(newCarouselItem.querySelector('[type=button]').getAttribute('goods')));
-			};
-		}
-		for (let i = this.carouselItems.length - 1; i >= 0; i--){
-			let newCarouselItem = this.carousel.insertBefore(this.carouselItems[i].cloneNode(true), this.carousel.firstChild);
-			
-			newCarouselItem.querySelector('[type=button]').onclick = () => {
-				buttonFunction(JSON.parse(newCarouselItem.querySelector('[type=button]').getAttribute('goods')));
-			};
-		}*/
+		var carouselLenght = carousel.childNodes.length; //get cunt of carousel items
 
-		this.carousel.scrollLeft = this.carouselLenght/3 * (document.body.clientWidth/4);
+		carousel.scrollLeft = carouselLenght/3 * (carousel.clientWidth/4); //set initial view position
 
-		this.rightButton.onclick = () => {
-				this.onRightBorderClose();
-			this.scrollToRight();
-			/*if (getScrolledPercentage(this.carousel) >= 60){
-				this.scrollToRight();
-			}*/
+		/*on right button click move first carousel element to end and simulate swipe*/
+		rightButton.onclick = () => {
+			carousel.appendChild(carousel.childNodes[0]); //move element from first position to last
+			carousel.scrollLeft = carousel.scrollLeft - carousel.clientWidth/4; //create indent for animation 
+			this.scrollToRight(carousel); //animation of swipe
 		};
 
-		this.leftButton.onclick = () => {
-				this.onLeftBorderClose();
-			this.scrollToLeft();
-			/*if (getScrolledPercentage(this.carousel) <= 30){
-				this.scrollToLeft();
-			}*/
+		/*on right button click move last carousel element to start and simulate swipe*/
+		leftButton.onclick = () => {
+			carousel.insertBefore(carousel.childNodes[carouselLenght - 1], carousel.firstChild); // move element from last position to first
+			carousel.scrollLeft = carousel.scrollLeft + carousel.clientWidth/4; //create indent for animation 
+			this.scrollToLeft(carousel); //animation of swipe
 		};
 	}
 
-	scrollToRight(){
-		this.carousel.scrollBy({ 
-			left: document.body.clientWidth/4, 
-			behavior: 'smooth' 
+	/*carousel horizontal scroll to right side*/
+	scrollToRight(carousel){
+		carousel.scrollBy({ 
+			left: carousel.clientWidth/4, //scroll pixels count
+			behavior: 'smooth' //scroll type
 		});
 	}
 
-	scrollToLeft(){
-		this.carousel.scrollBy({ 
-			left: -document.body.clientWidth/4, 
-			behavior: 'smooth' 
+	/*carousel horizontal scroll to left side*/
+	scrollToLeft(carousel){
+		carousel.scrollBy({ 
+			left: -carousel.clientWidth/4, //scroll pixels count
+			behavior: 'smooth' //scroll type
 		});
-	}
-
-	onLeftBorderClose(){
-		//for(let i = 0; i < 2; i++){
-			let item = this.carousel.insertBefore(this.carousel.childNodes[this.carousel.childNodes.length - 1], this.carousel.firstChild);
-			this.carousel.scrollLeft = this.carousel.scrollLeft + document.body.clientWidth/4;
-			/*item.style.width = '0';
-			item.style.width = '25%';*/
-		//}
-		/*for (let i = 0; i < this.carouselLenght; i++){
-			this.carousel.insertBefore(this.carouselItems[i].cloneNode(true), this.carousel.firstChild);
-		}
-
-		for (let i = 0; i < this.carouselLenght; i++){
-			let deletedNode = this.carousel.removeChild(this.carousel.lastChild);
-			if (deletedNode.nodeName == '#text') {
-				this.carousel.removeChild(this.carousel.lastChild);
-			}
-		}
-
-		this.carousel.scrollLeft += this.carouselLenght * (document.body.clientWidth/4) - document.body.clientWidth/2 ;*/
-	}
-
-	onRightBorderClose(){
-		//for(let i = 0; i < 2; i++){
-			this.carousel.appendChild(this.carousel.childNodes[0]);
-			this.carousel.scrollLeft = this.carousel.scrollLeft - document.body.clientWidth/4;
-			/*item.style.width = '0';
-			item.style.width = '25%';*/
-		//}
-		/*for (let i = 0; i < this.carouselLenght; i++){
-			this.carousel.appendChild(this.carouselItems[i].cloneNode(true));
-		}
-
-		for (let i = 0; i < this.carouselLenght; i++){
-			let deletedNode = this.carousel.removeChild(this.carousel.firstChild);
-			if (deletedNode.nodeName == '#text') {
-				this.carousel.removeChild(this.carousel.firstChild);
-			}
-		}*/
-
-		//this.carousel.scrollLeft -= this.carouselLenght * (document.body.clientWidth/4) - document.body.clientWidth/2;
 	}
 }

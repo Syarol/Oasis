@@ -76,6 +76,23 @@ function getSearchQueryFromURL(url){
 	return query;
 }
 
+function showSearchQuery(query, foundedLength){
+	let searchText = foundedLength + ' results ';
+	if (query.query && query.query != '') {
+		searchText += 'for "' + query.query + '"';	
+	}
+	for (let property in query){
+		if (property != 'searchType' && property != 'query' && query[property] != '') {
+			if (searchText.includes('of')) {
+				searchText += ' and "' + property + '" : "' + query[property] + '"';
+			} else{
+				searchText += ' of "' + property + '" : "' + query[property] + '"';
+			}
+		}
+	}
+	document.getElementById('search-text').textContent = searchText;
+}
+
 /**
  * Event Listeners
 */
@@ -93,19 +110,29 @@ document.addEventListener('DOMContentLoaded', () => {
 	let Render = new RenderElements(); 
 	
 	let query = getSearchQueryFromURL(window.location.search);
-	ServerInteraction.getFoundedAndRender(query, Render.founded, cart);
+	ServerInteraction.getFoundedAndRender(query, Render.founded, cart).then(
+		function(res){
+			let founded = document.getElementsByClassName('founded-item');
+
+			if (founded.length > 12){
+				for (let i = 12; i < founded.length; i++) {
+					founded[i].style.display = 'none';
+					foundedShowMore.style.display = 'block';
+				}
+			}
+
+			showSearchQuery(query, founded.length);
+		},
+		function(err){
+			console.log(err);
+		}
+	);
 
 	ServerInteraction.getList('categories', 'categories_list', Render.checkList);
 	ServerInteraction.getList('author', 'authors_list', Render.checkList);
 	ServerInteraction.getList('publisher', 'publishers_list', Render.checkList);
 
-	let founded = document.getElementsByClassName('founded-item');
-	if (founded.length > 12){
-		for (let i = 12; i < founded.length; i++) {
-			founded[i].style.display = 'none';
-			foundedShowMore.style.display = 'block';
-		}
-	}
+	
 
 	new GoogleMap();//connect and load map of shop location
 
