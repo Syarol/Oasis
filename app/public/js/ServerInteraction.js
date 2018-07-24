@@ -72,17 +72,17 @@ export default class ServerInteract{
 		};
 	}
 
-	/*Found and render goods*/
-	getFoundedAndRender(query, renderFunction, cart){
+	/*Found goods*/
+	getFounded(query){
 		return new Promise(function(resolve, reject){
 			var xHr = new XMLHttpRequest(); //Create the object
 			xHr.open('post', '/getSearchResults'); //initialization of query
 			xHr.setRequestHeader('Content-Type', 'application/json');
 			xHr.send(JSON.stringify(query)); //send query 
 
-			/*when the request has been processed render founded*/
+			/*when the request has been processed send founded*/
 			xHr.onload = () => {
-			   	renderFunction(JSON.parse(xHr.responseText), cart);
+			   	resolve(JSON.parse(xHr.responseText)); //returns variable with founded items
 			};
 
 			xHr.onerror = function() { reject(Error('Network Error')); }; //on error return error message

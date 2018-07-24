@@ -15,6 +15,7 @@ import Cart from './cart.js';
 import GoogleMap from './googleMap.js';
 import ServerInteract from './ServerInteraction.js';
 import RenderElements from './RenderElements.js';
+import Pagination from './Pagination.js';
 
 /**
  * Global variables
@@ -110,18 +111,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	let Render = new RenderElements(); 
 	
 	let query = getSearchQueryFromURL(window.location.search);
-	ServerInteraction.getFoundedAndRender(query, Render.founded, cart).then(
+	ServerInteraction.getFounded(query).then(
 		function(res){
-			let founded = document.getElementsByClassName('founded-item');
+			new Pagination(res, document.getElementsByClassName('pagination'), 6, cart);
 
-			if (founded.length > 12){
-				for (let i = 12; i < founded.length; i++) {
-					founded[i].style.display = 'none';
-					foundedShowMore.style.display = 'block';
-				}
-			}
-
-			showSearchQuery(query, founded.length);
+			showSearchQuery(query, res.length);
 		},
 		function(err){
 			console.log(err);

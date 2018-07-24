@@ -56,5 +56,6 @@ export default function createNewEl(tagNme, appendTo, ...attr){
 	if (appendTo != false){ 
 		appendTo.appendChild(el);
 	}
+	
 	return el;
 }

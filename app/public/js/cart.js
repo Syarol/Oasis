@@ -1,5 +1,5 @@
 /**
- * Cart
+ * Cart module
  *
  * @Author Oleh Yaroshchuk 
  * GitHub : https://github.com/Syarol
