@@ -125,7 +125,7 @@ a{
   grid-row-start: 2;
   grid-column-start: 2;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: 25px repeat(3, 1fr);
+  grid-template-rows: 35px repeat(3, 1fr);
   grid-gap: 5px;
   padding: 5px;
 }
@@ -728,25 +728,21 @@ textarea{
 
 
 .pagination {
-    display: inline-block;
+    display: flex;
     grid-column-start: 2;
     grid-column-end: 5;
 }
 
 .pagination span {
-    float: left;
-    padding: 4px 9px;
-    border-radius: 2px;
-    transition: .3s;
+  padding: 8px 8px;
+  border-radius: 2px;
+  transition: .5s;
+  margin: 0 1px;
+  width: 15px;
 }
 
-.pagination span.active {
-    background-color: #4CAF50;
-    color: white;
-    border-radius: 5px;
-}
+.pagination span:hover:not(.pagination-three-dots) {background-color: #ddd !important;}
 
-.pagination span:hover:not(.active) {background-color: #ddd;}
 
 .pagination-arrow{
 

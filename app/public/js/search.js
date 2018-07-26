@@ -29,7 +29,6 @@ var categoriesListTitle = document.getElementById('categories_list_title');
 var authorsListTitle = document.getElementById('authors_list_title');
 var publishersListTitle = document.getElementById('publishers_list_title');
 var contactModalLink = document.getElementById('contact');
-var foundedShowMore =  document.getElementById('founded_show_more');
 var closeContactModal = document.getElementById('close-contact-modal');
 var goodsInCart = [];
 var contactModal = document.getElementById('about_section_wrapper');
@@ -113,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	let query = getSearchQueryFromURL(window.location.search);
 	ServerInteraction.getFounded(query).then(
 		function(res){
-			new Pagination(res, document.getElementsByClassName('pagination'), 6, cart);
+			new Pagination(res, document.getElementsByClassName('pagination'), 1, cart);
 
 			showSearchQuery(query, res.length);
 		},
@@ -131,36 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	new GoogleMap();//connect and load map of shop location
 
 }); 
-
-foundedShowMore.onclick = () => {
-	let founded = document.getElementsByClassName('founded-item');
-	if (founded.length > 12){
-		for (let i = 0; i < 12; i++) {
-			founded[i].style.display = 'none';
-		}
-		for (let i = 12; i < founded.length; i++) {
-			founded[i].style.display = 'grid';
-		}
-
-	}
-	foundedShowMore.style.display = 'none';
-	document.getElementById('founded_hide_more').style.display = 'block';
-};
-
-document.getElementById('founded_hide_more').onclick = () => {
-	let founded = document.getElementsByClassName('founded-item');
-	if (founded.length > 12){
-		for (let i = 0; i < 12; i++) {
-			founded[i].style.display = 'grid';
-		}
-
-		for (let i = 12; i < founded.length; i++) {
-			founded[i].style.display = 'none';
-		}
-	}
-	foundedShowMore.style.display = 'block';
-	document.getElementById('founded_hide_more').style.display = 'none';
-};
 
 document.onclick = function(e) {
 	if (e.target == contactModal) {
