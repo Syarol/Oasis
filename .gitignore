@@ -3,3 +3,5 @@
 js/.eslintrc.json
 node_modules/
 package-lock.json
+nodemon.json
+findUnusedCss.json

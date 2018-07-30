@@ -16,15 +16,15 @@
 
 	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Bree+Serif|Hind|Cabin|Mukta+Malar|Muli" rel="stylesheet">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous"> 
-	<link href="css/search.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/search.css">
 </head>
 <body>
 	<header id="page_header" class="grid-center-items">
-		<div class="logo-container"><p class="navigation" scrollTo="#head-section">Oasis</p></div>
+		<span class="logo-container">Oasis</span>
 		<nav class="grid-center-items">
-			<p class="navigation" scrollTo="#about-section"><a href="/">Home</a></p>
-			<p class="navigation" scrollTo="#menu-section"><a href="/blog">Blog</a></p>
-			<p class="navigation" scrollTo="#contact-section"><a href="/shop">Shop</a></p>
+			<p class="navigation"><a href="/">Home</a></p>
+			<p class="navigation"><a href="/blog">Blog</a></p>
+			<p class="navigation"><a href="/shop">Shop</a></p>
 			<form class="grid-center-items" action="/search" method="GET">
 				<input type="hidden" name="categories" value="">
 				<input type="hidden" name="author" value="">
@@ -34,44 +34,47 @@
 				<input type="hidden" name="searchType" value="aside-search">
 			</form>
 		</nav>
-		<div class="cart-header-container">
-			<p id="cart_open" title="Click to open cart"><i class="fas fa-shopping-cart"></i><span id="count_inside_cart"></span></p>
-		</div>
+		<p id="cart_open" title="Click to open cart"><i class="fas fa-shopping-cart"></i><span id="count_inside_cart"></span></p>
 	</header> 
 
-	<section class="search-text-wrapper">
-		<span id="search-text"></span>
-	</section>
+	<main>
+		<section class="search-text-wrapper">
+		</section>
+			<span id="search-text"></span>
 
-	<section id="founded_section" class="grid-center-items">
-		<div class="pagination">
-			<span id="top-parination-left" class="pagination-arrow pagination-arrow-left fas"></span>
+		<section id="founded_section" class="grid-center-items">
+			<div class="pagination pagination-top">
+				<span id="top-parination-left" class="pagination-arrow pagination-arrow-left fas"></span>
 
-			<span id="top-parination-right" class="pagination-arrow pagination-arrow-right fas"></span>
-		</div>
+				<span id="top-parination-right" class="pagination-arrow pagination-arrow-right fas"></span>
+			</div>
 
-		<!-- <div class="pagination">
-			<span id="bottom-parination-left" class="pagination-arrow pagination-arrow-left fas"></span>
+			<div id="founded-items-container">
+				
+			</div>
 
-			<span id="bottom-parination-right" class="pagination-arrow pagination-arrow-right fas"></span>
-		</div> -->
-	</section>
+			<div class="pagination pagination-bottom">
+				<span id="bottom-parination-left" class="pagination-arrow pagination-arrow-left fas"></span>
 
-	<aside class="search-filters grid-center-items">
-		<form id="categories_list">
-			<h3 id="categories_list_title"><i class="far fa-plus-square"></i> Categories</h3>
+				<span id="bottom-parination-right" class="pagination-arrow pagination-arrow-right fas"></span>
+			</div>
+		</section>
+	
+		<aside class="search-filters">
+			<form id="categories_list">
+				<h3 id="categories_list_title"><i class="far fa-plus-square"></i> Categories</h3>
 
-		</form>
-		<form id="authors_list">
-			<h3 id="authors_list_title"><i class="far fa-plus-square"></i> Authors</h3>
+			</form>
+			<form id="authors_list">
+				<h3 id="authors_list_title"><i class="far fa-plus-square"></i> Authors</h3>
 
-		</form>
-		<form id="publishers_list">
-			<h3 id="publishers_list_title"><i class="far fa-plus-square"></i> Publisher</h3>
+			</form>
+			<form id="publishers_list">
+				<h3 id="publishers_list_title"><i class="far fa-plus-square"></i> Publisher</h3>
 
-		</form>
-	</aside>
-
+			</form>
+		</aside>
+	</main>
 
 	<footer class="grid-center-items">
 		<span>Copyright - Oleh Yaroshchuk 2018</span>
@@ -89,52 +92,48 @@
 		<span id="contact">Contact</span>
 	</footer>
 
-	<section id="about_section_wrapper" class="modal-wrapper">
-		<div id="about-section" class="modal">
+	<section id="contact-us-wrapper" class="modal-wrapper">
+		<div id="contact-us-container" class="modal-container">
 			<span id="close-contact-modal" class="close-modal" title="Close">&times;</span>
 			<h2>CONTACT US</h2>
-			<div id="contacts-wrapper">
-				<div id="map-container"></div>
-				<div class="contact-wrapper">
-					<div class="contacts-with-text grid-center-items">
-						<i class="fas fa-map-marker-alt"></i>
-						<i class="fas fa-paper-plane"></i>
-						<i class="fas fa-phone"></i>
-						<span>Kryviy Val str., 31, Lutsk, Volyn region, 43000</span>
-						<span>oasis@oasis.com</span>
-						<span>012345678</span>
-						<div class="contact-time">
-							<i class="far fa-clock"></i>
-							<span>Everyday 10am - 6pm</span>
-						</div>
-					</div>
-					<div class="contact-form" id="contact-form">
-						<div>
-							<label>Your name (required)<input type="text" name="name" required></label>
-							<label>Your Email (required)<input type="e-mail" name="email" required></label>
-							<label>Subject<input type="text" name="subject"></label>
-							<label>Your Message<textarea name="message" rows="5"></textarea></label>
-							<span id="send_message" class="button"> Send</span>
-						</div>
-					</div>
+			<div id="map-container"></div>
+			<div class="contacts-with-text grid-center-items">
+				<i class="fas fa-map-marker-alt"></i>
+				<i class="fas fa-paper-plane"></i>
+				<i class="fas fa-phone"></i>
+				<span>Kryviy Val str., 31, Lutsk, Volyn region, 43000</span>
+				<span>oasis@oasis.com</span>
+				<span>012345678</span>
+				<div class="contact-time">
+					<i class="far fa-clock"></i>
+					<span>Everyday 10am - 6pm</span>
 				</div>
 			</div>
+			<form class="contact-form" id="contact-form">
+				<label>Your name (required)<input type="text" name="name" required></label>
+				<label>Your Email (required)<input type="e-mail" name="email" required></label>
+				<label>Subject<input type="text" name="subject"></label>
+				<label>Your Message<textarea name="message" rows="5"></textarea></label>
+				<button id="send_message" class="button">Send</button>
+			</form>
 		</div>
 	</section>
 
-	<div id="book_modal_wrapper">
-		<div id="book_modal" class="modal-container grid-center-items">
+	<div id="book_modal_wrapper" class="modal-wrapper">
+		<div id="book_modal_container" class="modal-container grid-center-items">
 				<span id="close_book_modal" class="close-modal" title="Close">×</span>
 
 				<h3 id="book_title"></h3>
-				<img id="book_photo" class="modal-photo">
-				<span id="book_author" class="author"></span>
-				<span id="book_categories" class="category"></span>
-				<span id="book_description" class="text-container"></span>
-				<span class="price">
+				<img id="book_photo" class="modal-book-image">
+				<div class="modal-book-data grid-center-items">
+					<span id="book_author" class="author"></span>
+					<span id="book-modal-isbn"></span>
+					<span id="book-modal-publisher"></span>
+					<span id="book_categories" class="category"></span>
+					<span id="book_description" class="text-container"></span>
 					<span id="book_price"></span>
 					<input id="input_book_title" name="" class="button" value="Add to cart" type="button">
-				</span>
+				</div>
 		</div>
 	</div>
 

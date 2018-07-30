@@ -14,65 +14,57 @@
 </head>
 <body>
 	<header id="page_header" class="grid-center-items">
-		<div class="logo-container"><p class="navigation" scrollTo="#head-section">Oasis</p></div>
+		<span class="logo-container">Oasis</span>
 		<nav class="grid-center-items">
-			<p class="navigation" scrollTo="#about-section"><a href="/">Home</a></p>
-			<p class="navigation" scrollTo="#menu-section"><a href="/blog">Blog</a></p>
-			<p class="navigation" scrollTo="#contact-section"><a href="/shop">Shop</a></p>
+			<p class="navigation"><a href="/">Home</a></p>
+			<p class="navigation"><a href="/blog">Blog</a></p>
+			<p class="navigation"><a href="/shop">Shop</a></p>
 		</nav>
-		<div class="cart-header-container">
-			<p id="cart_open" title="Click to open cart"><i class="fas fa-shopping-cart"></i><span id="count_inside_cart"></span></p>
-		</div>
+		<p id="cart_open" title="Click to open cart"><i class="fas fa-shopping-cart"></i><span id="count_inside_cart"></span></p>
 	</header> 
 
-	<section id="search_top" class="grid-center-items">
-		<div class="search-top-wrapper grid-center-items">
+	<main>
+		<section id="search-banner-wrapper">
 			<h1>Search by our catalog</h1>
 			<form action="/search" method="GET">
 				<input type="text" name="query" placeholder="Search for">
 				<input class="button" type="submit" value="Let's found!">
 				<input type="hidden" name="searchType" value="search-full">
 			</form>
-		</div>
-	</section>
+		</section>
 
-	<section id="we_recommend" class="carousel-section">
-		<div class="carousel-controls-wrapper grid-center-items">
-			<div class="carousel-controls grid-center-items">
+		<section id="recommends-carousel-wrapper" class="carousel-section grid-center-items">
+			<div class="carousel-controls-wrapper grid-center-items">
 				<span class="control left-control">
 					<i class="fas fa-angle-left"></i>
 				</span>
-				<h2> WE RECOMMEND </h2>
+				<h2>WE RECOMMEND</h2>
 				<span class="control right-control">
 					<i class="fas fa-angle-right"></i>
 				</span>
 			</div>
-		</div>
-		<div id="recommend_carousel" class="carousel">
+			<div id="recommend_carousel" class="carousel">
 
-		</div>
-	</section>
+			</div>
+		</section>
 
-	<section id="bestsellers" class="carousel-section">
-		<div class="carousel-controls-wrapper grid-center-items">
-			<div class="carousel-controls grid-center-items">
+		<section id="bestsellers-carousel-wrapper" class="carousel-section grid-center-items">
+			<div class="carousel-controls-wrapper grid-center-items">
 				<span class="control left-control">
 					<i class="fas fa-angle-left"></i>
 				</span>
-				<h2> BESTSELLERS </h2>
+				<h2>BESTSELLERS</h2>
 				<span class="control right-control">
 					<i class="fas fa-angle-right"></i>
 				</span>
 			</div>
-		</div>
-		<div id="bestsellers_carousel" class="carousel">
+			<div id="bestsellers_carousel" class="carousel">
 
-		</div>
-	</section>
+			</div>
+		</section>
 
-	<section id="new_arrives" class="carousel-section">
-		<div class="carousel-controls-wrapper grid-center-items">
-			<div class="carousel-controls grid-center-items">
+		<section id="arrivals-carousel-wrapper" class="carousel-section grid-center-items">
+			<div class="carousel-controls-wrapper grid-center-items">
 				<span class="control left-control">
 					<i class="fas fa-angle-left"></i>
 				</span>
@@ -81,11 +73,11 @@
 					<i class="fas fa-angle-right"></i>
 				</span>
 			</div>
-		</div>
-		<div id="arrives_carousel" class="carousel">
+			<div id="arrives_carousel" class="carousel">
 
-		</div>
-	</section>
+			</div>
+		</section>
+	</main>
 
 	<footer class="grid-center-items">
 		<span>Copyright - Oleh Yaroshchuk 2018</span>
@@ -103,40 +95,33 @@
 		<span id="contact">Contact</span>
 	</footer>
 
-	<section id="about_section_wrapper" class="modal-wrapper">
-		<div id="about-section" class="modal">
+	<section id="contact-us-wrapper" class="modal-wrapper">
+		<div id="contact-us-container" class="modal-container">
 			<span id="close-contact-modal" class="close-modal" title="Close">&times;</span>
 			<h2>CONTACT US</h2>
-			<div id="contacts-wrapper">
-				<div id="map-container"></div>
-				<div class="contact-wrapper">
-					<div class="contacts-with-text grid-center-items">
-						<i class="fas fa-map-marker-alt"></i>
-						<i class="fas fa-paper-plane"></i>
-						<i class="fas fa-phone"></i>
-						<span>Kryviy Val str., 31, Lutsk, Volyn region, 43000</span>
-						<span>oasis@oasis.com</span>
-						<span>012345678</span>
-						<div class="contact-time">
-							<i class="far fa-clock"></i>
-							<span>Everyday 10am - 6pm</span>
-						</div>
-					</div>
-					<div class="contact-form" id="contact-form">
-						<div>
-							<label>Your name (required)<input type="text" name="name" required></label>
-							<label>Your Email (required)<input type="e-mail" name="email" required></label>
-							<label>Subject<input type="text" name="subject"></label>
-							<label>Your Message<textarea name="message" rows="5"></textarea></label>
-							<span id="send_message" class="button"> Send</span>
-						</div>
-					</div>
+			<div id="map-container"></div>
+			<div class="contacts-with-text grid-center-items">
+				<i class="fas fa-map-marker-alt"></i>
+				<i class="fas fa-paper-plane"></i>
+				<i class="fas fa-phone"></i>
+				<span>Kryviy Val str., 31, Lutsk, Volyn region, 43000</span>
+				<span>oasis@oasis.com</span>
+				<span>012345678</span>
+				<div class="contact-time">
+					<i class="far fa-clock"></i>
+					<span>Everyday 10am - 6pm</span>
 				</div>
 			</div>
+			<form class="contact-form" id="contact-form">
+				<label>Your name (required)<input type="text" name="name" required></label>
+				<label>Your Email (required)<input type="e-mail" name="email" required></label>
+				<label>Subject<input type="text" name="subject"></label>
+				<label>Your Message<textarea name="message" rows="5"></textarea></label>
+				<button id="send_message" class="button">Send</button>
+			</form>
 		</div>
 	</section>
 
 	<script type="module" src="js/shop-main.js"></script>
-
 </body>
 </html>

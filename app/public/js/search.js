@@ -31,7 +31,7 @@ var publishersListTitle = document.getElementById('publishers_list_title');
 var contactModalLink = document.getElementById('contact');
 var closeContactModal = document.getElementById('close-contact-modal');
 var goodsInCart = [];
-var contactModal = document.getElementById('about_section_wrapper');
+var contactModal = document.getElementById('contact-us-wrapper');
 var openCart = document.getElementById('cart_open');
 var cart;
 var ServerInteraction;
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	let query = getSearchQueryFromURL(window.location.search);
 	ServerInteraction.getFounded(query).then(
 		function(res){
-			new Pagination(res, document.getElementsByClassName('pagination'), 1, cart);
+			new Pagination(res, document.getElementsByClassName('pagination'), cart);
 
 			showSearchQuery(query, res.length);
 		},
@@ -124,8 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	ServerInteraction.getList('categories', 'categories_list', Render.checkList);
 	ServerInteraction.getList('author', 'authors_list', Render.checkList);
 	ServerInteraction.getList('publisher', 'publishers_list', Render.checkList);
-
-	
 
 	new GoogleMap();//connect and load map of shop location
 

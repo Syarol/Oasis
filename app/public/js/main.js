@@ -20,12 +20,11 @@ import RenderElements from './RenderElements.js';
  * Global variables
 */
 
-var closeBestsellerModal = document.getElementById('close-bestseller-modal');
-var arrivalCarouselSection = document.getElementById('new_arrival_section');
-var contactModal = document.getElementById('about_section_wrapper');
+var arrivalCarouselSection = document.getElementById('arrivals-carousel-wrapper');
+var contactModal = document.getElementById('contact-us-wrapper');
 var contactModalLink = document.getElementById('contact');
 var closeContactModal = document.getElementById('close-contact-modal');
-var bestsellerModalWrapper = document.getElementById('bestseller_modal_wrapper');
+var bestsellerModalWrapper = document.getElementById('bestseller-modal-wrapper');
 var goodsInCart = [];
 var openCart = document.getElementById('cart_open');
 var cart;
@@ -43,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	let Render = new RenderElements(); 
 
 	ServerInteraction.getSpecialMarked('ARRIVALS', arrivalCarouselSection, Render.carouselItems, cart);
-	ServerInteraction.getSpecialMarked('BESTSELLER', [document.getElementById('bestseller_preview'), document.getElementById('bestseller_modal')], Render.bestseller, cart);
+	ServerInteraction.getSpecialMarked('BESTSELLER', [document.getElementById('bestseller-container'), document.getElementById('bestseller-modal-container')], Render.bestseller, cart);
 	ServerInteraction.getSpecialMarked('EXCLUSIVE', document.getElementById('exclusives_container'), Render.exclusiveBooks, cart);
 
 	ServerInteraction.getList('categories', document.getElementById('category-select'), Render.categoriesList);
@@ -51,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	new GoogleMap();//connect and load map of shop location
 });
 
-closeBestsellerModal.onclick = () => bestsellerModalWrapper.style.display = 'none';
+bestsellerModalWrapper.getElementsByClassName('close-modal')[0].onclick = () => bestsellerModalWrapper.style.display = 'none';
 
 document.onclick = function(e) {
 	if (e.target == bestsellerModalWrapper) {

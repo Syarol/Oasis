@@ -25,96 +25,83 @@
 
 <body>
 	<header id="page_header" class="grid-center-items">
-		<div class="logo-container"><p class="navigation" scrollTo="#head-section">Oasis</p></div>
+		<span class="logo-container">Oasis</span>
 		<nav class="grid-center-items">
-			<p class="navigation" scrollTo="#about-section"><a href="/">Home</a></p>
-			<p class="navigation" scrollTo="#menu-section"><a href="/blog">Blog</a></p>
-			<p class="navigation" scrollTo="#contact-section"><a href="/shop">Shop</a></p>
+			<p class="navigation"><a href="/">Home</a></p>
+			<p class="navigation"><a href="/blog">Blog</a></p>
+			<p class="navigation"><a href="/shop">Shop</a></p>
 		</nav>
-		<div class="cart-header-container">
-			<p id="cart_open" title="Click to open cart"><i class="fas fa-shopping-cart"></i><span id="count_inside_cart"></span></p>
-		</div>
+		<p id="cart_open" title="Click to open cart"><i class="fas fa-shopping-cart"></i><span id="count_inside_cart"></span></p>
 	</header> 
 
-	<section id="head_section" class="center-cover-no-repeat">
-		<div class="center-banner-text grid-center-items">
-			<span>Welcome at Oasis</span>
+	<main>
+		<section id="head-section-wrapper" class="flex-center-items">
+			<h2>Welcome at Oasis</h2>
 			<a href="/shop" class="button grid-center-items">Shop now</a>
-		</div>
-	</section>
+		</section>
 
-	<section class="welcome-sign-wrapper grid-center-items">
-		<div class="welcome-sign grid-center-items">
-			<h2>Welcome to Oasis book store</h2>
-			<p>Tons of book collections you can choose from.<br> Books that don’t suck, we ensure the quality of our books the best you can find anywhere.</p>
-		</div>
-	</section>
+		<section class="welcome-sign-wrapper flex-center-items">
+			<div class="welcome-sign grid-center-items">
+				<h2>Welcome to Oasis book store</h2>
+				<p>Tons of book collections you can choose from.<br> Books that don’t suck, we ensure the quality of our books the best you can find anywhere.</p>
+			</div>
+		</section>
 
-	<section id="new_arrival_section">
-		<div id="new_arrival_controls_wrapper" class="grid-center-items">
-			<div id="new_arrival_controls" class="grid-center-items">
-				<span id="arrivals_left" class="left-control">
+		<section id="arrivals-carousel-wrapper" class="carousel-section grid-center-items">
+			<div class="carousel-controls-wrapper grid-center-items">
+				<span class="control left-control">
 					<i class="fas fa-angle-left"></i>
 				</span>
-				<h2> NEW ARRIVALS </h2>
-				<span id="arrivals_right" class="right-control">
+				<h2> NEW ARRIVES</h2>
+				<span class="control right-control">
 					<i class="fas fa-angle-right"></i>
 				</span>
 			</div>
-		</div>
-		<div id="new_arrival_list" class="carousel">
+			<div id="arrives_carousel" class="carousel">
 
-		</div>
-	</section>
+			</div>
+		</section>
 
-	<div id="bestseller_modal_wrapper">
-		<div id="bestseller_modal" class="modal-container grid-center-items">
-			<span id="close-bestseller-modal" class="close-modal" title="Close">&times;</span>
+		<section id="best-and-exclusive-section-wrapper">
+			<div class="title-container grid-center-items">
+				<span>BEST SELLING BOOK</span>
+			</div>
+			<div class="title-container grid-center-items">
+				<span>EXCLUSIVE THIS MONTH</span>
+			</div>
+			<div id="bestseller-container" class="grid-center-items">
+				<span class="on-sale">SALE!</span>
 
-		</div>
-	</div>
+			</div>
+			<div id="exclusives_container">
 
-	<section id="best_and_exclusive_section">
-		<div class="title-container grid-center-items">
-			<span>BEST SELLING BOOK</span>
-		</div>
-		<div class="title-container grid-center-items">
-			<span>EXCLUSIVE THIS MONTH</span>
-		</div>
-		<div id="bestseller_preview" class="photo-text-button-container grid-center-items">
-			<span class="on-sale">SALE!</span>
+			</div>
+		</section>
 
-		</div>
-		<div id="exclusives_container">
-
-		</div>
-	</section>
-
-	<section id="find_product" class="grid-center-items">
-		<div class="find-form grid-center-items">
-			<span>NEED TO FIND PARTICULAR PRODUCTS?</span>
-			<form id="find_product_form" action="/search" method="GET">
-				<div>
-					<label for="title">Book title</label>
-					<input type="text" name="title">
-				</div>
-				<div>
-					<label>Category</label>
-					<select name="categories" id="category-select">
-						<option selected>Choose category</option>
-					</select>
-				</div>
-				<div>
-					<label for="author">Book author</label>
-					<input type="text" name="author">
-				</div>
-				<div class="grid-center-items">
+		<section id="find_product" class="grid-center-items">
+			<div class="find-form grid-center-items">
+				<span>NEED TO FIND PARTICULAR PRODUCTS?</span>
+				<form id="find_product_form" action="/search" method="GET">
+					<div>
+						<label for="title">Book title</label>
+						<input type="text" name="title">
+					</div>
+					<div>
+						<label>Category</label>
+						<select name="categories" id="category-select">
+							<option selected>Choose category</option>
+						</select>
+					</div>
+					<div>
+						<label for="author">Book author</label>
+						<input type="text" name="author">
+					</div>
 					<input class="button grid-center-items" type="submit" name="" value="Search">
-				</div>
-				<input type="hidden" name="searchType" value="search-custom-small"/>
-			</form>
-		</div>
-	</section>
+					<input type="hidden" name="searchType" value="search-custom-small"/>
+				</form>
+			</div>
+		</section>
+	</main>
 
 	<footer class="grid-center-items">
 		<span>Copyright - Oleh Yaroshchuk 2018</span>
@@ -132,36 +119,48 @@
 		<span id="contact">Contact</span>
 	</footer>
 
-	<section id="about_section_wrapper" class="modal-wrapper">
-		<div id="about-section" class="modal">
+	<div id="bestseller-modal-wrapper" class="modal-wrapper">
+		<div id="bestseller-modal-container" class="modal-container grid-center-items">
+			<span class="close-modal" title="Close">×</span>
+
+			<h3 id="book_title"></h3>
+			<img id="book_photo" class="modal-book-image">
+			<div class="modal-book-data grid-center-items">
+				<span id="book_author" class="author"></span>
+				<span id="book-modal-isbn"></span>
+				<span id="book-modal-publisher"></span>
+				<span id="book_categories" class="category"></span>
+				<span id="book_description" class="text-container"></span>
+				<span id="book_price"></span>
+				<input id="input_book_title" name="" class="button" value="Add to cart" type="button">
+			</div>
+		</div>
+	</div>
+
+	<section id="contact-us-wrapper" class="modal-wrapper">
+		<div id="contact-us-container" class="modal-container">
 			<span id="close-contact-modal" class="close-modal" title="Close">&times;</span>
 			<h2>CONTACT US</h2>
-			<div id="contacts-wrapper">
-				<div id="map-container"></div>
-				<div class="contact-wrapper">
-					<div class="contacts-with-text grid-center-items">
-						<i class="fas fa-map-marker-alt"></i>
-						<i class="fas fa-paper-plane"></i>
-						<i class="fas fa-phone"></i>
-						<span>Kryviy Val str., 31, Lutsk, Volyn region, 43000</span>
-						<span>oasis@oasis.com</span>
-						<span>012345678</span>
-						<div class="contact-time">
-							<i class="far fa-clock"></i>
-							<span>Everyday 10am - 6pm</span>
-						</div>
-					</div>
-					<div class="contact-form" id="contact-form">
-						<div>
-							<label>Your name (required)<input type="text" name="name" required></label>
-							<label>Your Email (required)<input type="e-mail" name="email" required></label>
-							<label>Subject<input type="text" name="subject"></label>
-							<label>Your Message<textarea name="message" rows="5"></textarea></label>
-							<span id="send_message" class="button"> Send</span>
-						</div>
-					</div>
+			<div id="map-container"></div>
+			<div class="contacts-with-text grid-center-items">
+				<i class="fas fa-map-marker-alt"></i>
+				<i class="fas fa-paper-plane"></i>
+				<i class="fas fa-phone"></i>
+				<span>Kryviy Val str., 31, Lutsk, Volyn region, 43000</span>
+				<span>oasis@oasis.com</span>
+				<span>012345678</span>
+				<div class="contact-time">
+					<i class="far fa-clock"></i>
+					<span>Everyday 10am - 6pm</span>
 				</div>
 			</div>
+			<form class="contact-form" id="contact-form">
+				<label>Your name (required)<input type="text" name="name" required></label>
+				<label>Your Email (required)<input type="e-mail" name="email" required></label>
+				<label>Subject<input type="text" name="subject"></label>
+				<label>Your Message<textarea name="message" rows="5"></textarea></label>
+				<button id="send_message" class="button">Send</button>
+			</form>
 		</div>
 	</section>
 

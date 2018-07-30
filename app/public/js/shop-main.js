@@ -20,7 +20,7 @@ import RenderElements from './RenderElements.js'; //for render DOM elements
  * Global variables
 */
 
-var contactModal = document.getElementById('about_section_wrapper');
+var contactModal = document.getElementById('contact-us-wrapper');
 var goodsInCart = [];
 var openCart = document.getElementById('cart_open');
 var ServerInteraction;
@@ -36,9 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	let Render = new RenderElements(); 
 
-	ServerInteraction.getSpecialMarked('RECOMMEND', document.getElementById('we_recommend'), Render.carouselItems, cart);
-	ServerInteraction.getSpecialMarked('BESTSELLERS', document.getElementById('bestsellers'), Render.carouselItems, cart);
-	ServerInteraction.getSpecialMarked('ARRIVALS', document.getElementById('new_arrives'), Render.carouselItems, cart);
+	ServerInteraction.getSpecialMarked('RECOMMEND', document.getElementById('recommends-carousel-wrapper'), Render.carouselItems, cart);
+	ServerInteraction.getSpecialMarked('BESTSELLERS', document.getElementById('bestsellers-carousel-wrapper'), Render.carouselItems, cart);
+	ServerInteraction.getSpecialMarked('ARRIVALS', document.getElementById('arrivals-carousel-wrapper'), Render.carouselItems, cart);
 
 	new GoogleMap();//connect and load map of shop location
 });

@@ -20,14 +20,14 @@ export default class RenderElements{
 	/*render bestseller section of main page*/
 	bestseller(parent, data, cart){
 	   	bestsellerPreview(parent[0], data[0]);
-	   	bestsellerModal(parent[1], data[0], cart);
+	   	document.getElementById('input_book_title').onclick = () => cart.addToCartArray(data[0]);
 
 	   	/*render short information in section of main page*/
 		function bestsellerPreview(parent, data){
 			/*goods image*/
-			createNewEl('div', parent, {
-				class: 'book-photo-container center-cover-no-repeat',
-				style: 'background-image:url(' + data.thumbnailUrl + ')'
+			createNewEl('img', parent, {
+				class: 'book-photo-container',
+				src: data.thumbnailUrl
 			});
 			/*short description of the goods*/
 			createNewEl('span', parent, {
@@ -40,53 +40,19 @@ export default class RenderElements{
 				class: 'button grid-center-items',
 				content: 'Quick view',
 				event: {click: {
-					call: () => document.getElementById('bestseller_modal_wrapper').style.display = 'flex'
+					call: () => {						
+						document.getElementById('bestseller-modal-wrapper').style.display = 'flex'; //open modal window
+						document.getElementById('book_title').textContent = data.title; //show goods title
+						document.getElementById('book_photo').setAttribute('src', data.thumbnailUrl); //show goods image
+						document.getElementById('book_author').textContent = 'Author: ' + data.author; //show goods author
+						document.getElementById('book-modal-isbn').textContent = 'ISBN: ' + data.isbn; //show goods isbn
+						document.getElementById('book-modal-publisher').textContent  = 'Publisher: ' + data.publisher; //show goods prise
+						document.getElementById('book_categories').textContent = 'Categories: ' + data.categories; //show goods categories
+						document.getElementById('book_description').textContent = data.shortDescription; //show goods description
+						document.getElementById('book_price').textContent  = 'Price: ' + data.price; //show goods prise
+						document.getElementById('input_book_title').setAttribute('name', JSON.stringify(data)); //set goods data in 'add to cart' button (needs to addding to cart operation)
+					}
 				}}
-			});
-		}
-
-		/*render all information in modal window*/
-		function bestsellerModal(parent, data, cart){
-			/*goods title*/
-			createNewEl('h3', parent, {
-				content: data.title
-			});
-			/*goods image*/
-			createNewEl('img', parent, {
-				class: 'modal-photo',
-				src:  data.thumbnailUrl
-			});
-			/*goods author*/
-			createNewEl('span', parent, {
-				class: 'author',
-				content: 'by ' + data.author
-			});
-			/*goods categories*/
-			createNewEl('span', parent, {
-				class: 'category',
-				content: data.categories
-			});
-			/*goods description*/
-			createNewEl('span', parent, {
-				class: 'text-container',
-				content: data.description
-			});
-			/*goods price and button of adding to cart (on click)*/
-			createNewEl('span', parent, {
-				class: 'price',
-				content: data.price,
-				nested:[
-					createNewEl('input', false, {
-						type: 'button',
-						name: data.title,
-						class: 'button',
-						value: 'Add to cart',
-						title: 'Add to cart',
-						event: {click: {
-							call: () => cart.addToCartArray(data)
-						}}
-					})
-				]
 			});
 		}
 	}
@@ -97,12 +63,12 @@ export default class RenderElements{
 		for (let item of data){
 			/*goods image with nested block of goods main information*/
 			createNewEl('div', parent, {
-				class: 'arrival-item carousel-item',
+				class: 'carousel-item',
 				style: 'background-image:url(' + item.thumbnailUrl + ')', //goods image
 				nested: [
 					/*block that wrapped main information*/
 					createNewEl('div', false, {
-						class: 'arrival-item-inf grid-center-items',
+						class: 'carousel-item-inf grid-center-items',
 						nested: [
 							/*goods title*/
 							createNewEl('h3', false, {
@@ -129,13 +95,13 @@ export default class RenderElements{
 								event: {click: {
 									call: () => cart.addToCartArray(item)
 								}}
-							}),
-							/*special label*/
-							createNewEl('span', false, {
-								class: 'on-sale',
-								content: 'SALE!'
 							})
 						]
+					}),
+					/*special label*/
+					createNewEl('span', false, {
+						class: 'on-sale',
+						content: 'SALE!'
 					})
 				]
 			});
@@ -159,12 +125,12 @@ export default class RenderElements{
 			for (let item of data){
 				/*goods image with nested block of goods main information*/
 				createNewEl('div', parent.getElementsByClassName('carousel')[0], {
-					class: 'arrival-item carousel-item',
+					class: 'carousel-item',
 					style: 'background-image:url(' + item.thumbnailUrl + ')', //goods image
 					nested: [
 					/*block that wrapped main information*/
 						createNewEl('div', false, {
-							class: 'arrival-item-inf grid-center-items',
+							class: 'carousel-item-inf grid-center-items',
 							nested: [
 								/*goods image*/
 								createNewEl('h3', false, {
@@ -205,56 +171,55 @@ export default class RenderElements{
 
 	/*render founded goods*/
 	founded(item, cart){
-		/*render founded goods one by one*/
-		//for (let item of data){
 		/*goods wrapper block*/
-		createNewEl('div', document.getElementById('founded_section'), {
-		 		class: 'founded-item grid-center-items', 
-		 		nested: [
-		 			/*goods image*/
-		 			createNewEl('img', false, {
-		 				class: 'founded-item-photo',
-		 				pseudo: item.title,
-		 				src: item.thumbnailUrl,
-		 				/*on photo click open modal window with information about goods*/
-		 				event: {click: {
-		 					call: () => {
-							document.getElementById('book_modal_wrapper').style.display = 'flex'; //open modal window
-							document.getElementById('book_title').textContent = item.title; //show goods title
-							document.getElementById('book_photo').setAttribute('src', item.thumbnailUrl); //show goods image
-							document.getElementById('book_author').textContent = item.author; //show goods author
-							document.getElementById('book_categories').textContent = item.categories; //show goods categories
-							document.getElementById('book_description').textContent = item.description; //show goods description
-							document.getElementById('book_price').textContent  = item.price; //show goods prise
-							document.getElementById('input_book_title').setAttribute('name', JSON.stringify(item)); //set goods data in 'add to cart' button (needs to addding to cart operation)
+		createNewEl('div', document.getElementById('founded-items-container'), {
+	 		class: 'founded-item grid-center-items', 
+	 		nested: [
+	 			/*goods image*/
+	 			createNewEl('img', false, {
+	 				class: 'founded-item-photo',
+	 				pseudo: item.title,
+	 				src: item.thumbnailUrl,
+	 				/*on photo click open modal window with information about goods*/
+	 				event: {click: {
+	 					call: () => {
+						document.getElementById('book_modal_wrapper').style.display = 'flex'; //open modal window
+						document.getElementById('book_title').textContent = item.title; //show goods title
+						document.getElementById('book_photo').setAttribute('src', item.thumbnailUrl); //show goods image
+						document.getElementById('book_author').textContent = 'Author: ' + item.author; //show goods author
+						document.getElementById('book-modal-isbn').textContent = 'ISBN: ' + item.isbn; //show goods isbn
+						document.getElementById('book-modal-publisher').textContent  = 'Publisher: ' + item.publisher; //show goods prise
+						document.getElementById('book_categories').textContent = 'Categories: ' + item.categories; //show goods categories
+						document.getElementById('book_description').textContent = item.shortDescription; //show goods description
+						document.getElementById('book_price').textContent  = 'Price: ' + item.price; //show goods prise
+						document.getElementById('input_book_title').setAttribute('name', JSON.stringify(item)); //set goods data in 'add to cart' button (needs to addding to cart operation)
 						}
-		 				}}
-		 			}),
-		 			/*goods title*/
-		 			createNewEl('h3', false, {
-		 				content: item.title
-		 			}),
-		 			/*goods author*/
-		 			createNewEl('span', false, {
-		 				content: 'by ' + item.author
-		 			}),
-		 			/*goods price*/
-		 			createNewEl('span', false, {
-		 				content: item.price
-		 			}),
-		 			/*button of adding to cart (on click)*/
-		 			createNewEl('input', false, {
-		 				type: 'button',
-		 				name: item.title,
-		 				class: 'button',
-		 				value: 'Add to cart',
-		 				event: {click:{
-		 					call: () => cart.addToCartArray(item)
-		 				}}
-		 			})
-		 		]
-		 	});
-		//}
+	 				}}
+	 			}),
+	 			/*goods title*/
+	 			createNewEl('h3', false, {
+	 				content: item.title
+	 			}),
+	 			/*goods author*/
+	 			createNewEl('span', false, {
+	 				content: 'by ' + item.author
+	 			}),
+	 			/*goods price*/
+	 			createNewEl('span', false, {
+	 				content: item.price
+	 			}),
+	 			/*button of adding to cart (on click)*/
+	 			createNewEl('input', false, {
+	 				type: 'button',
+	 				name: item.title,
+	 				class: 'button',
+	 				value: 'Add to cart',
+	 				event: {click:{
+	 					call: () => cart.addToCartArray(item)
+	 				}}
+	 			})
+	 		]
+	 	});
 	}
 
 	/*render aside checklist menu on search page*/
