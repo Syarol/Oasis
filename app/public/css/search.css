@@ -106,7 +106,7 @@ main{
   grid-row-start: 2;
   grid-template-columns: 250px 1fr;
   grid-template-rows: 50px 1fr;
-  grid-template-areas: "search-text search-text" "aside founded";
+  grid-template-areas: "search-text search-text" "aside finded";
 }
 
 .search-text-wrapper{
@@ -125,47 +125,85 @@ main{
   font-family: 'Cabin', sans-serif;
 }
 
-#founded_section{
+#finded_section{
   grid-template-rows: 40px 1fr 40px;
   grid-row-gap: 5px;
   padding: 5px;
-  grid-area: founded;
+  grid-area: finded;
   align-items: start;
-  grid-template-areas: "pagination-top" "founded-items" "pagination-bottom";
+  grid-template-areas: "finded-top-container" "finded-items" "pagination-bottom";
 }
 
-#founded-items-container{
+.finded-section-top-container{
+  grid-area: finded-top-container;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas: "per-page pagination sort-by";
+  width: 100%;
+  font-family: 'Tajawal', sans-serif;
+}
+
+.choose-per-page-container{
+  grid-area: per-page;
+}
+
+.pagination {
+  display: flex;
+}
+
+.pagination-top{
+  grid-are: pagination;
+}
+
+.pagination-bottom{
+  grid-area: pagination-bottom;
+  font-family: 'Tajawal', sans-serif;
+}
+
+.pagination span {
+  padding: 8px;
+  border-radius: 2px;
+  transition: .5s;
+  margin: 0 1px;
+  width: 15px;
+}
+
+.pagination span:hover:not(.pagination-three-dots) {
+  background-color: #ddd;
+}
+
+
+#finded-items-container{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 15px;
 }
 
-.founded-item{
+.finded-item{
   border: 1px solid #c8c6c6;
   grid-template-rows: 1fr 35px 20px 25px 50px;
   transition: .5s; 
 }
 
-.founded-item:hover{
+.finded-item:hover{
   box-shadow: 0 0 1em grey;
 }
 
-.founded-item-photo{
+.finded-item-photo{
   width: 90%;
   height: 80%;
   object-fit: contain;
 } 
 
-.founded-item h3{
+.finded-item h3{
   font-family: 'Hind', sans-serif;
   font-size: 15px;
 }
 
-.founded-item span{
+.finded-item span{
   font-family: 'Tajawal', sans-serif;
 }
 
-.founded-item span:nth-child(3){
+.finded-item span:nth-child(3){
   font-size: 12px;
 }
 
@@ -383,11 +421,11 @@ textarea{
   height: 50%;
 }
 
-  #cart-header{
-    display: flex; 
-    font-family: 'Bree Serif', serif;
-    margin: auto;
-    justify-content: center;
+#cart-header{
+  display: flex; 
+  font-family: 'Bree Serif', serif;
+  margin: auto;
+  justify-content: center;
 }
 
 .cart-remove-item {
@@ -590,26 +628,3 @@ textarea{
 }
 
 
-.pagination {
-  display: flex;
-}
-
-.pagination-top{
-  grid-area: pagination-top;
-}
-
-.pagination-bottom{
-  grid-area: pagination-bottom;
-}
-
-.pagination span {
-  padding: 8px;
-  border-radius: 2px;
-  transition: .5s;
-  margin: 0 1px;
-  width: 15px;
-}
-
-.pagination span:hover:not(.pagination-three-dots) {
-  background-color: #ddd;
-}

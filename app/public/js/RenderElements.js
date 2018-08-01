@@ -169,30 +169,30 @@ export default class RenderElements{
 		new Carousel(parent.getElementsByClassName('right-control')[0], parent.getElementsByClassName('left-control')[0], parent.getElementsByClassName('carousel')[0]/*, cart.addToCartArray*/);
 	}
 
-	/*render founded goods*/
-	founded(item, cart){
+	/*render finded goods*/
+	finded(item, cart){
 		/*goods wrapper block*/
-		createNewEl('div', document.getElementById('founded-items-container'), {
-	 		class: 'founded-item grid-center-items', 
+		createNewEl('div', document.getElementById('finded-items-container'), {
+	 		class: 'finded-item grid-center-items', 
 	 		nested: [
 	 			/*goods image*/
 	 			createNewEl('img', false, {
-	 				class: 'founded-item-photo',
+	 				class: 'finded-item-photo',
 	 				pseudo: item.title,
 	 				src: item.thumbnailUrl,
 	 				/*on photo click open modal window with information about goods*/
 	 				event: {click: {
 	 					call: () => {
-						document.getElementById('book_modal_wrapper').style.display = 'flex'; //open modal window
-						document.getElementById('book_title').textContent = item.title; //show goods title
-						document.getElementById('book_photo').setAttribute('src', item.thumbnailUrl); //show goods image
-						document.getElementById('book_author').textContent = 'Author: ' + item.author; //show goods author
-						document.getElementById('book-modal-isbn').textContent = 'ISBN: ' + item.isbn; //show goods isbn
-						document.getElementById('book-modal-publisher').textContent  = 'Publisher: ' + item.publisher; //show goods prise
-						document.getElementById('book_categories').textContent = 'Categories: ' + item.categories; //show goods categories
-						document.getElementById('book_description').textContent = item.shortDescription; //show goods description
-						document.getElementById('book_price').textContent  = 'Price: ' + item.price; //show goods prise
-						document.getElementById('input_book_title').setAttribute('name', JSON.stringify(item)); //set goods data in 'add to cart' button (needs to addding to cart operation)
+							document.getElementById('book_modal_wrapper').style.display = 'flex'; //open modal window
+							document.getElementById('book_title').textContent = item.title; //show goods title
+							document.getElementById('book_photo').setAttribute('src', item.thumbnailUrl); //show goods image
+							document.getElementById('book_author').textContent = 'Author: ' + item.author; //show goods author
+							document.getElementById('book-modal-isbn').textContent = 'ISBN: ' + item.isbn; //show goods isbn
+							document.getElementById('book-modal-publisher').textContent  = 'Publisher: ' + item.publisher; //show goods prise
+							document.getElementById('book_categories').textContent = 'Categories: ' + item.categories; //show goods categories
+							document.getElementById('book_description').textContent = item.shortDescription; //show goods description
+							document.getElementById('book_price').textContent  = 'Price: ' + item.price; //show goods prise
+							document.getElementById('input_book_title').setAttribute('name', JSON.stringify(item)); //set goods data in 'add to cart' button (needs to addding to cart operation)
 						}
 	 				}}
 	 			}),

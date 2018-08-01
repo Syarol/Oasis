@@ -76,8 +76,8 @@ function getSearchQueryFromURL(url){
 	return query;
 }
 
-function showSearchQuery(query, foundedLength){
-	let searchText = foundedLength + ' results ';
+function showSearchQuery(query, findedLength){
+	let searchText = findedLength + ' results ';
 	if (query.query && query.query != '') {
 		searchText += 'for "' + query.query + '"';	
 	}
@@ -110,9 +110,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	let Render = new RenderElements(); 
 	
 	let query = getSearchQueryFromURL(window.location.search);
-	ServerInteraction.getFounded(query).then(
+	ServerInteraction.getFinded(query).then(
 		function(res){
-			new Pagination(res, document.getElementsByClassName('pagination'), cart);
+			new Pagination(res, document.getElementsByClassName('pagination'), cart, document.getElementsByClassName('choose-per-page-select')[0]);
 
 			showSearchQuery(query, res.length);
 		},

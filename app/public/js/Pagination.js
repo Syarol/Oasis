@@ -10,65 +10,115 @@
 */
 
 import createNewEl from './createNewElement.js'; //for creating new DOM elements
-import RenderElements from './RenderElements.js'; //for render founded items
+import RenderElements from './RenderElements.js'; //for render finded items
 
 /**
  * Class
 */
 
 export default class Pagination{
-	constructor(data, paginationWrapper, cart){
+	constructor(data, paginationWrapper, cart, perPageContainer){
 		this.dataItems = data; //saves getted data inside instance of the object
 		this.paginationWrapper = paginationWrapper; //parent block
-		this.cart = cart; //cart instance for adding event listener for founded items in opened pages
-		this.Render = new RenderElements(); //for rendering founded items
-		this.perPage = 9; //count of items per page
+		this.cart = cart; //cart instance for adding event listener for finded items in opened pages
+		this.Render = new RenderElements(); //for rendering finded items
+		this.perPage = perPageContainer.value; //count of items per page
 
-		this.pagesCount = Math.floor(data.length / this.perPage); //get fully loaded pages
-		if (data.length % this.perPage){ //if have unfully loaded page add to page count too
-			this.pagesCount++;
-		}
+		this.pagesCount = this.countPages(this.dataItems, this.perPage);
 
-		/*creating pagination*/
-		for (let pagination of paginationWrapper){
-			this.deleteTextNode(pagination); //deletes unnecessary '#text' nodes
-
-			/*creates button for every page number*/
-			for (let i = 1; i <= this.pagesCount; i++){
-				/*create and insert page number to pagination*/
-				let pageNumber = createNewEl('span', false, {content: i, class: 'pagination-page-number'});
-				pagination.insertBefore(pageNumber, pagination.lastChild);
-
-				pageNumber.onclick = () => this.openPage(i); //open another page of pagination on click
-
-				pagination.getElementsByClassName('pagination-arrow-left')[0].onclick = () => this.openPage(this.openedPage - 1); //open previous page of pagination on click
-				pagination.getElementsByClassName('pagination-arrow-right')[0].onclick = () => this.openPage(this.openedPage + 1); //open next page of pagination on click
-			}
-
+		this.renderPagesNumbers(this.pagesCount);
+		for (let pagination of this.paginationWrapper){
 			/*three dots block that means that more than one page between visible page numbers and first/last*/
 			pagination.insertBefore(createNewEl('span', false, {content: '...', class: 'pagination-three-dots three-dots-start'}), pagination.childNodes[2]);
 			pagination.insertBefore(createNewEl('span', false, {content: '...', class: 'pagination-three-dots three-dots-end'}), pagination.childNodes[pagination.childNodes.length - 2]);
 
-			this.deleteTextNode(pagination); //deletes unnecessary '#text' nodes
+			this.removeTextNode(pagination); //deletes unnecessary '#text' nodes
 		}
-
 		this.openPage(1); //open first page of pagination
+
+		perPageContainer.onchange = () => {
+			this.perPage = perPageContainer.value; //count of items per page
+			this.pagesCount = this.countPages(this.dataItems, this.perPage);
+			this.removePagesNumbers(this.pagesCount);
+			this.renderPagesNumbers(this.pagesCount);
+			this.openPage(1); //open first page of pagination
+		};
+	}
+
+	/*count number of pages*/
+	countPages(data, perPage){
+		let pagesCount = Math.floor(data.length / perPage); //get fully loaded pages
+		if (data.length % perPage){ //if have unfully loaded page add to page count too
+			pagesCount++;
+		}
+		return pagesCount;
+	}
+
+	/*remove pages numbers in pagination if needed*/
+	removePagesNumbers(pagesCount){
+		for (let pagination of this.paginationWrapper){
+			let items = Array.from(pagination.getElementsByClassName('pagination-page-number'));
+			if (items.length > pagesCount) {
+				for (let i = items.length; i > pagesCount; i--){
+					pagination.removeChild(items[i-1]);
+				}
+			}
+		}
+	}
+
+	/*render pages numbers in the pagination containers*/
+	renderPagesNumbers(pagesCount){
+		for (let pagination of this.paginationWrapper){
+			this.removeTextNode(pagination); //deletes unnecessary '#text' nodes
+			let items = Array.from(pagination.getElementsByClassName('pagination-page-number'));
+			if (items.length < pagesCount) {
+				/*creates button for every page number*/
+				for (let i = items.length + 1; i <= this.pagesCount; i++){
+					/*create and insert page number to pagination*/
+					let pageNumber = createNewEl('span', false, {content: i, class: 'pagination-page-number'});
+					pagination.insertBefore(pageNumber, pagination.lastChild);
+
+					pageNumber.onclick = () => this.openPage(i); //open another page of pagination on click
+
+					pagination.getElementsByClassName('pagination-arrow-left')[0].onclick = () => this.openPage(this.openedPage - 1); //open previous page of pagination on click
+					pagination.getElementsByClassName('pagination-arrow-right')[0].onclick = () => this.openPage(this.openedPage + 1); //open next page of pagination on click
+				}
+			}		
+		}	
 	}
 
 	/*opens various page of pagination*/
 	openPage(page){
-		if (page > 0 && page <= this.pagesCount && page != this.openedPage){ //opens existing page and don't not reopen already opened page
-			/*removes old items*/
-			let items = document.getElementsByClassName('founded-item');
-			while(items[0]){
-				items[0].remove();
-			}
+		if (page > 0 && page <= this.pagesCount){ //opens existing page
 
-			/*finds and render founded items of opened page*/
-			for (let i = this.perPage * page - this.perPage; i < this.perPage * page; i++){
-				if (this.dataItems[i]){
-					this.Render.founded(this.dataItems[i], this.cart);
+			/*finds and render finded items of opened page*/
+			const renderItems = (page, startPointParam) => {
+				for (let i = this.perPage * page - startPointParam; i < this.perPage * page; i++){
+					if (this.dataItems[i]){
+						this.Render.finded(this.dataItems[i], this.cart);
+					}
 				}
+			};
+			
+			let findedItems = document.getElementsByClassName('finded-item'); //get items that exist on page
+			
+			if (page == this.openedPage) {
+				if (findedItems.length < this.perPage){
+					/*add new items up to the range*/
+					renderItems(page, this.perPage - findedItems.length);
+				} else {
+					/*remove items that out of the range*/
+					for (var i = findedItems.length - 1; i >= this.perPage; i--) {
+						findedItems[i-1].remove();
+					}
+				}			
+			} else {
+				/*removes old items*/
+				while(findedItems[0]){
+					findedItems[0].remove();
+				}
+
+				renderItems(page, this.perPage);			
 			}
 
 			this.highlightOpened(page); //highlight open page in pagination
@@ -140,8 +190,8 @@ export default class Pagination{
 		}
 	}
 
-	/*deletes unnecessary '#text' nodes */
-	deleteTextNode(parent){
+	/*removes unnecessary '#text' nodes */
+	removeTextNode(parent){
 		for (let child of parent.childNodes){ //check every child of parent
 	 		if (child.nodeType == 3) { //if needed then delete
 		        parent.removeChild(child);

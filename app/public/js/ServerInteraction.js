@@ -72,42 +72,42 @@ export default class ServerInteract{
 		};
 	}
 
-	/*Found goods*/
-	getFounded(query){
+	/*Find goods*/
+	getFinded(query){
 		return new Promise(function(resolve, reject){
 			var xHr = new XMLHttpRequest(); //Create the object
 			xHr.open('post', '/getSearchResults'); //initialization of query
 			xHr.setRequestHeader('Content-Type', 'application/json');
 			xHr.send(JSON.stringify(query)); //send query 
 
-			/*when the request has been processed send founded*/
+			/*when the request has been processed send finded*/
 			xHr.onload = () => {
-			   	resolve(JSON.parse(xHr.responseText)); //returns variable with founded items
+			   	resolve(JSON.parse(xHr.responseText)); //returns variable with finded items
 			};
 
 			xHr.onerror = function() { reject(Error('Network Error')); }; //on error return error message
 		});
 	}
 
-	/*Found and render goods details list by specified colum (categories, author, publiser)*/
+	/*Find and render goods details list by specified colum (categories, author, publiser)*/
 	getList(column, parent, renderFunction){
 		var xHr = new XMLHttpRequest(); //Create the object
 		xHr.open('get', '/getList?column=' + column); //initialization of query
 		xHr.send(); //send query 
 
-		/*when the request has been processed render founded*/
+		/*when the request has been processed render finded*/
 		xHr.onload = function (){
 		   	renderFunction(JSON.parse(this.responseText), parent, column);
 		};
 	}
 
-	/*Found and render special marked goods*/
+	/*Find and render special marked goods*/
 	getSpecialMarked(type, parent, renderFunction, cart){
 		var xHr = new XMLHttpRequest(); //Create the object
 		xHr.open('get', '/getSpecialMarked?type=' + type); //initialization of query
 		xHr.send(); //send query 
 
-		/*when the request has been processed render founded*/
+		/*when the request has been processed render finded*/
 		xHr.onload = () => {
 	   		renderFunction(parent, JSON.parse(xHr.responseText), cart);
 		};
