@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const express	  = require('express');
 const path   	  = require('path');
@@ -6,11 +6,9 @@ const session	  = require('express-session');
 const getCart     = require('./lib/getCart');
 const sendMessage = require('./lib/sendMessage');
 const bodyParser  = require('body-parser');
-const getCatalogItems = require('./lib/getCatalogItems'); 
+const getCatalog = new (require('./lib/getCatalogItems'))(); 
 const getItemData = require('./lib/getItemData');
-const searchInCatalog = require('./lib/searchInCatalog.js');
-var getCatalog = new getCatalogItems();
-var searchCatalog = new searchInCatalog();
+const searchInCatalog = new (require('./lib/searchInCatalog.js'))();
 
 const app = express();
 
@@ -48,7 +46,7 @@ app.get('/search', function(req, res){
 
 app.post('/getSearchResults', function(req, res){
 	console.log('50: ' + req.body);
-	searchCatalog.full(req.body, res);
+	searchInCatalog.full(req.body, res);
 });
 
 app.post('/getItemData', function(req, res) {

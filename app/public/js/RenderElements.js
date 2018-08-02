@@ -227,25 +227,30 @@ export default class RenderElements{
 		/*render checklist items one by one*/
 		for (let item of list){
 			/*render checkbox that contain main information*/
-			createNewEl('input', document.getElementById(parent), {
-				type: 'checkbox',
-				name: item,
-				value: item,
-				event: {click:{
-					call: function (){
-						let hiddenInput = document.querySelector('input[name=' + column + ']'); //get data of checked element
-						/*if element checked then add his data to search list element*/
-						if (this.checked) {
-							if (hiddenInput.value == '') hiddenInput.value += this.value;
-							else hiddenInput.value += ', ' + this.value ;
-						} else hiddenInput.value = hiddenInput.value.replace(this.value + ', ', ''); //if false then remove from search list 
-				   	}
-			   	}}
+			createNewEl('label', document.getElementById(parent), {
+				nested: [
+					createNewEl('input', false, {
+						type: 'checkbox',
+						name: item,
+						value: item,
+						event: {click:{
+							call: function (){
+								let hiddenInput = document.querySelector('input[name=' + column + ']'); //get data of checked element
+								/*if element checked then add his data to search list element*/
+								if (this.checked) {
+									if (hiddenInput.value == '') hiddenInput.value += this.value;
+									else hiddenInput.value += ', ' + this.value ;
+								} else hiddenInput.value = hiddenInput.value.replace(this.value + ', ', ''); //if false then remove from search list 
+						   	}
+					   	}}
+					}),
+					/*render checkbox label text*/
+					createNewEl('span', document.getElementById(parent), {
+						content: item
+					})
+				]
 			});
-			/*render checkbox label*/
-			createNewEl('span', document.getElementById(parent), {
-				content: item
-			});
+			
 		}
 	}
 

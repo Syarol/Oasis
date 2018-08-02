@@ -21,13 +21,10 @@ import Pagination from './Pagination.js';
  * Global variables
 */
 
+var categoriesList = document.getElementById('categories-list');
+var authosList = document.getElementById('authors-list');
+var publishersList = document.getElementById('publishers-list');
 var closeBookModal = document.getElementById('close_book_modal');
-var categoriesList = document.getElementById('categories_list');
-var authorsList = document.getElementById('authors_list');
-var publishersList = document.getElementById('publishers_list');
-var categoriesListTitle = document.getElementById('categories_list_title');
-var authorsListTitle = document.getElementById('authors_list_title');
-var publishersListTitle = document.getElementById('publishers_list_title');
 var contactModalLink = document.getElementById('contact');
 var closeContactModal = document.getElementById('close-contact-modal');
 var goodsInCart = [];
@@ -40,21 +37,15 @@ var ServerInteraction;
  * Functions
 */
 
-function changePlusMinus(item){
-	if (item.className == 'far fa-minus-square') {
-		item.className = 'far fa-plus-square';
-	} else if(item.className == 'far fa-plus-square'){
-		item.className = 'far fa-minus-square';
-	}	
-}
+function sidelistOnClick(list){
+	if (list.style.maxHeight == '200px' || list.style.maxHeight == '') {
+		list.style.maxHeight = '0';
+	} else list.style.maxHeight = '200px';
 
-function sidelistOnClick(list, listId){
-	for (let item of document.querySelectorAll(listId + ' h3 i.far')){
-		changePlusMinus(item);
-	}
-	if (list.style.maxHeight == '500px') {
-		list.style.maxHeight = '30px';
-	} else list.style.maxHeight = '500px';
+	let angleSvg = list.parentNode.getElementsByClassName('fas')[0];
+	if (angleSvg.style.transform == 'rotate(0deg)' || angleSvg.style.transform == ''){
+		angleSvg.style.transform = 'rotate(180deg)';
+	} else angleSvg.style.transform = 'rotate(0deg)';
 }
 
 function getSearchQueryFromURL(url){
@@ -97,11 +88,14 @@ function showSearchQuery(query, findedLength){
  * Event Listeners
 */
 
-categoriesListTitle.onclick = () => sidelistOnClick(categoriesList, '#categories_list');
+categoriesList.parentNode.getElementsByClassName('button')[0].onclick = () => 
+	sidelistOnClick(categoriesList);
 
-authorsListTitle.onclick = () => sidelistOnClick(authorsList, '#authors_list');
+authosList.parentNode.getElementsByClassName('button')[0].onclick = () => 
+	sidelistOnClick(authosList);
 
-publishersListTitle.onclick = () => sidelistOnClick(publishersList, '#publishers_list');
+publishersList.parentNode.getElementsByClassName('button')[0].onclick = () => 
+	sidelistOnClick(publishersList);
 
 document.addEventListener('DOMContentLoaded', () => {
 	cart = new Cart(openCart, goodsInCart);
@@ -121,9 +115,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	);
 
-	ServerInteraction.getList('categories', 'categories_list', Render.checkList);
-	ServerInteraction.getList('author', 'authors_list', Render.checkList);
-	ServerInteraction.getList('publisher', 'publishers_list', Render.checkList);
+	ServerInteraction.getList('categories', 'categories-list', Render.checkList);
+	ServerInteraction.getList('author', 'authors-list', Render.checkList);
+	ServerInteraction.getList('publisher', 'publishers-list', Render.checkList);
 
 	new GoogleMap();//connect and load map of shop location
 
@@ -131,7 +125,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.onclick = function(e) {
 	if (e.target == contactModal) {
-		contactModal.style.display = 'none';
+		//contactModal.style.display = 'none';
+		//contactModal.style.transform = 'scale(0)';
 	}
 
 	if (e.target == document.getElementById('book_modal_wrapper')) {
@@ -139,9 +134,15 @@ document.onclick = function(e) {
 	}
 };
 
-contactModalLink.onclick = () => contactModal.style.display = 'flex';
+contactModalLink.onclick = () => contactModal.style.display = 'flex'; /*{
+	contactModal.style.transform = 'scale(1)';
+	contactModal.getElementsByClassName('modal-container')[0].style.transform = 'scale(1)';
+}*/
 
-closeContactModal.onclick = () => contactModal.style.display = 'none';
+closeContactModal.onclick = () => contactModal.style.display = 'none'; /*{
+	contactModal.style.transform = 'scale(0)';
+	contactModal.getElementsByClassName('modal-container')[0].style.transform = 'scale(0)';
+}*/
 
 document.getElementById('send_message').onclick = () => ServerInteraction.sendMessage(document.getElementById('contact-form'));
 
