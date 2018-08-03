@@ -25,7 +25,7 @@
 			<p class="navigation"><a href="/">Home</a></p>
 			<p class="navigation"><a href="/blog">Blog</a></p>
 			<p class="navigation"><a href="/shop">Shop</a></p>
-			<form class="grid-center-items" action="/search" method="GET">
+			<form id="search-form" class="grid-center-items" action="/search" method="GET">
 				<input type="hidden" name="categories" value="">
 				<input type="hidden" name="author" value="">
 				<input type="hidden" name="publisher" value="">
@@ -82,6 +82,23 @@
 				</button>
 				<div id="categories-list" class="aside-nav-items-container">
 
+				</div>
+			</div>
+			<div class="aside-nav-container">
+				<button type="button" class="aside-nav-button button">
+					<span>Price</span>
+					<i class="fas fa-angle-down"></i>
+				</button>
+				<div class="aside-nav-price-range-container grid-center-items">
+					<div class="price-container">
+						<input id="low-price" type="number" name="low-price" min="0" placeholder="0" form="search-form">
+						<span>$</span>
+					</div>
+					<span class="aside-nav-mdash">&mdash;</span>
+					<div class="price-container">
+						<input id="high-price" type="number" name="high-price" min="0" placeholder="10" form="search-form">
+						<span>$</span>
+					</div>
 				</div>
 			</div>
 			<div class="aside-nav-container">

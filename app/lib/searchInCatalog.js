@@ -48,24 +48,32 @@ class searchInCatalog{
 		let sql = 'SELECT * FROM Catalog WHERE ';
 		let sqlForQuery = '((title LIKE \'%' + queryData.query + '%\') OR (author LIKE \'%' + queryData.query + '%\') OR (description LIKE \'%' + queryData.query + '%\') OR (categories LIKE \'%' + queryData.query + '%\'))';
 
-
 		for (let property in queryData){
-			if (queryData[property] != '' && property != 'query' && property != 'searchType'){
+			console.log(property);
+			if (queryData[property] != '' && property != 'query' && property != 'searchType' && property != 'high-price' && property != 'low-price'){
 				let queryPropertyArr = queryData[property].split(', ');
 
 				for (let arrItem of queryPropertyArr) {
-					if (sql.includes('LIKE'))
+					if (sql.includes('LIKE') || sql.includes('>=') || sql.includes('<='))
 						sql += ' OR (' + property + ' LIKE \'%' + arrItem + '%\')';
 					else sql += '(' + property + ' LIKE \'%' + arrItem + '%\')';
 				}
 			} else if (queryData[property] != '' && property == 'query'){
-				if (sql.includes('LIKE'))
+				if (sql.includes('LIKE') || sql.includes('>=') || sql.includes('<='))
 					sql += ' OR ' + sqlForQuery;
 				else sql += sqlForQuery;
+			} else if (queryData[property] != '' && property == 'high-price') {
+				if (sql.includes('LIKE') || sql.includes('>=') || sql.includes('<='))
+					sql += ' AND (price <= ' + queryData[property] + ')';
+				else sql +=  '(price <= ' + queryData[property] + ')';
+			} else if (queryData[property] != '' && property == 'low-price') {
+				if (sql.includes('LIKE') || sql.includes('>=') || sql.includes('<='))
+					sql += ' AND (price >= ' + queryData[property] + ')';
+				else sql +=  '(price >= ' + queryData[property] + ')';
 			}
 		}
 
-		if (!sql.includes('LIKE')) sql = sql.replace('WHERE', '');
+		if (!sql.includes('LIKE') && !sql.includes('>=') && !sql.includes('<=')) sql = sql.replace('WHERE', '');
 
 		return sql;
 	}

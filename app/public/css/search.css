@@ -31,6 +31,21 @@ html, body {
 	background-color: #CCCFCDE6;	
 }
 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+fieldset{
+  padding: 0;
+  border: 0;
+}
+
 /*header*/
 header{
   grid-template-rows: 1fr;
@@ -262,6 +277,7 @@ main{
 
 .aside-nav-button i{
   align-self: center;
+  color: #bcbcbc;
   transition: .5s;
 }
 
@@ -278,6 +294,36 @@ main{
   margin-right: 10px;
 }
 
+.aside-nav-price-range-container{
+  grid-template-columns: 1fr 20px 1fr;
+  grid-column-gap: 5px;
+  max-height: 30px;
+  overflow: hidden;
+  transition: max-height 1s;
+}
+
+.aside-nav-mdash{
+  text-align: center;
+}
+
+.price-container{
+  position: relative;
+}
+
+.price-container input{
+  box-sizing: content-box;
+  width: 80px;
+  height: 25px;
+  padding-left: 15px;
+  border: 1px solid #ccc9c9;
+  border-radius: 1px;
+}
+
+.price-container span{
+  position: absolute;
+  left: 5px;
+  top: 2.5px;
+}
 
 footer{
   grid-row-start: 3;

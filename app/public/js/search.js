@@ -22,6 +22,7 @@ import Pagination from './Pagination.js';
 */
 
 var categoriesList = document.getElementById('categories-list');
+var priceRangeContainer = document.getElementsByClassName('aside-nav-price-range-container')[0];
 var authosList = document.getElementById('authors-list');
 var publishersList = document.getElementById('publishers-list');
 var closeBookModal = document.getElementById('close_book_modal');
@@ -37,10 +38,10 @@ var ServerInteraction;
  * Functions
 */
 
-function sidelistOnClick(list){
-	if (list.style.maxHeight == '200px' || list.style.maxHeight == '') {
+function sidelistOnClick(list, maxHeight){
+	if (list.style.maxHeight == maxHeight || list.style.maxHeight == '') {
 		list.style.maxHeight = '0';
-	} else list.style.maxHeight = '200px';
+	} else list.style.maxHeight = maxHeight;
 
 	let angleSvg = list.parentNode.getElementsByClassName('fas')[0];
 	if (angleSvg.style.transform == 'rotate(0deg)' || angleSvg.style.transform == ''){
@@ -89,13 +90,16 @@ function showSearchQuery(query, findedLength){
 */
 
 categoriesList.parentNode.getElementsByClassName('button')[0].onclick = () => 
-	sidelistOnClick(categoriesList);
+	sidelistOnClick(categoriesList, '200px');
 
 authosList.parentNode.getElementsByClassName('button')[0].onclick = () => 
-	sidelistOnClick(authosList);
+	sidelistOnClick(authosList, '200px');
 
 publishersList.parentNode.getElementsByClassName('button')[0].onclick = () => 
-	sidelistOnClick(publishersList);
+	sidelistOnClick(publishersList, '200px');
+
+priceRangeContainer.parentNode.getElementsByClassName('button')[0].onclick = () =>
+	sidelistOnClick(priceRangeContainer, '30px');
 
 document.addEventListener('DOMContentLoaded', () => {
 	cart = new Cart(openCart, goodsInCart);

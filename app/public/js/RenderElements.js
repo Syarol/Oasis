@@ -49,7 +49,7 @@ export default class RenderElements{
 						document.getElementById('book-modal-publisher').textContent  = 'Publisher: ' + data.publisher; //show goods prise
 						document.getElementById('book_categories').textContent = 'Categories: ' + data.categories; //show goods categories
 						document.getElementById('book_description').textContent = data.shortDescription; //show goods description
-						document.getElementById('book_price').textContent  = 'Price: ' + data.price; //show goods prise
+						document.getElementById('book_price').textContent  = 'Price: $' + data.price; //show goods prise
 						document.getElementById('input_book_title').setAttribute('name', JSON.stringify(data)); //set goods data in 'add to cart' button (needs to addding to cart operation)
 					}
 				}}
@@ -80,7 +80,7 @@ export default class RenderElements{
 							}),
 							/*goods price*/
 							createNewEl('span', false, {
-								content: item.price
+								content: '$' + item.price
 							}),
 							/*goods categories*/
 							createNewEl('span', false, {
@@ -142,7 +142,7 @@ export default class RenderElements{
 								}),
 								/*goods price*/
 								createNewEl('span', false, {
-									content: item.price
+									content: '$' + item.price
 								}),
 								/*goods categories*/
 								createNewEl('span', false, {
@@ -206,7 +206,7 @@ export default class RenderElements{
 	 			}),
 	 			/*goods price*/
 	 			createNewEl('span', false, {
-	 				content: item.price
+	 				content: '$' + item.price
 	 			}),
 	 			/*button of adding to cart (on click)*/
 	 			createNewEl('input', false, {

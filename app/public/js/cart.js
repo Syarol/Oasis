@@ -226,7 +226,7 @@ export default class Cart{
 
 		function newItemInCart(item){
 			item.count = 1;
-			item.total = Number(item.price.replace(/\$/, ''));
+			item.total = item.price;
 			goodsInCart.push(item);
 		}	
 	}
