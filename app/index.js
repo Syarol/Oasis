@@ -8,9 +8,13 @@ const sendMessage = require('./lib/sendMessage');
 const bodyParser  = require('body-parser');
 const getCatalog = new (require('./lib/getCatalogItems'))(); 
 const getItemData = require('./lib/getItemData');
-const searchInCatalog = new (require('./lib/searchInCatalog.js'))();
+const searchInCatalog = new (require('./lib/searchInCatalog'))();
+const pug = require('pug');
 
 const app = express();
+
+app.set('views', __dirname + '/views');
+app.set('view engine', 'pug');
 
 app.use(express.static(__dirname));
 app.use(express.static(__dirname + '/public'));
@@ -29,7 +33,12 @@ app.use((err, request, response, next) => {
 });
 
 app.get('/', function(req, res){
-  res.sendFile(path.join(__dirname + '/views/index.html'));
+	res.sendFile(path.join(__dirname + '/views/index.html'));
+  //res.render('pug', { bookTitle: 'Hey', message: 'Hello there!'});
+});
+
+app.get('/goodsDetail', function(req, res){
+	res.sendFile(path.join(__dirname + '/views/goodsDetail.html'));
 });
 
 app.get('/blog', function(req, res){

@@ -89,7 +89,7 @@ function getElementIndex(node) {
 
 function updateGoodsTotal(i){
 	let dishTotal = document.getElementsByClassName('cart-item-total');
-	let priceRegEx = Number(goodsInCart[i].price.replace(/\$/, ''));
+	let priceRegEx = /*Number(*/goodsInCart[i]/*.price.replace(/\$/, ''))*/;
 
 	goodsInCart[i].total = goodsInCart[i].count * priceRegEx;
 	dishTotal[i].textContent = '$' + goodsInCart[i].total.toFixed(2);
@@ -127,6 +127,7 @@ function swapLastTwo(el){
 
 function getOverIndex(e, neededClassTarget){
 	let target = e.target;
+	console.log(target.className == neededClassTarget);
 	while (target != this){
        	if (target){
        		if (target.className == neededClassTarget) {
@@ -194,7 +195,7 @@ export default class Cart{
 			}
 		}; 
 
-		this.cartModalTable.onmouseover = e => getOverIndex(e, 'cart-table-row');
+		this.cartModalTable.onmouseover = function(e) {getOverIndex(e, 'cart-table-row');};
 
 		this.closeCartModal.onclick = () => this.close();
 
@@ -211,7 +212,7 @@ export default class Cart{
 			for (let item of goodsInCart) {
 			    if (item.title == goods.title) {
 		    		item.count++; 
-		    		item.total = Number(item.price.replace(/\$/, '')) * item.count;
+		    		item.total = /*Number(*/item.price/*.replace(/\$/, ''))*/ * item.count;
 			    	found = true;
 					break;
 				}
@@ -315,6 +316,7 @@ export default class Cart{
 
 	    function incrementCartItem(item){
 	    	console.log(goodsInCart);
+	    	console.log(overIndex);
 	      	let list = item.parentNode.childNodes;
 	      	for (let listItem of list){
 	        	if (listItem.className === 'cart-item-number') {

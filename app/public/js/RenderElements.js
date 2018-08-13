@@ -206,7 +206,8 @@ export default class RenderElements{
 	 			}),
 	 			/*goods price*/
 	 			createNewEl('span', false, {
-	 				content: '$' + item.price
+	 				content: '$' + item.price,
+	 				class: 'finded-item-price'
 	 			}),
 	 			/*button of adding to cart (on click)*/
 	 			createNewEl('input', false, {

@@ -9,7 +9,6 @@ var con = mysql.createConnection({
 
 class searchInCatalog{
 	full(fields, res){
-		
 		let sql = 'SELECT * FROM Catalog WHERE ';
 		console.log(Object.keys(fields)); 
 		switch (fields.searchType){
@@ -18,12 +17,8 @@ class searchInCatalog{
 			break;
 		case 'search-custom-small':
 			for (let property in fields){
-				if (fields[property] != 'Choose category' && property !='searchType'){
-					if (property == Object.keys(fields)[Object.keys(fields).length - 2]){//"-2" because 'search-type' is always last
-						sql += '(' + property + ' LIKE \'%' + fields[property] + '%\')';
-					} else{
-						sql += '(' + property + ' LIKE \'%' + fields[property] + '%\') AND';
-					}
+				if (fields[property] != '' && fields[property] != 'Choose category' && property !='searchType'){
+					sql = this.sqlIncludeOrNot(sql, ' AND ', '(' + property + ' LIKE \'%' + fields[property] + '%\')');
 				}
 			}
 			break;
@@ -46,30 +41,22 @@ class searchInCatalog{
 
 	createSQLQuery(queryData){
 		let sql = 'SELECT * FROM Catalog WHERE ';
-		let sqlForQuery = '((title LIKE \'%' + queryData.query + '%\') OR (author LIKE \'%' + queryData.query + '%\') OR (description LIKE \'%' + queryData.query + '%\') OR (categories LIKE \'%' + queryData.query + '%\'))';
 
 		for (let property in queryData){
-			console.log(property);
-			if (queryData[property] != '' && property != 'query' && property != 'searchType' && property != 'high-price' && property != 'low-price'){
-				let queryPropertyArr = queryData[property].split(', ');
-
-				for (let arrItem of queryPropertyArr) {
-					if (sql.includes('LIKE') || sql.includes('>=') || sql.includes('<='))
-						sql += ' OR (' + property + ' LIKE \'%' + arrItem + '%\')';
-					else sql += '(' + property + ' LIKE \'%' + arrItem + '%\')';
+			if (queryData[property] != '') {
+				if(['title', 'author', 'description', 'categories'].includes(property)){
+					let queryPropertyArr = queryData[property].split(', ');
+					for (let arrItem of queryPropertyArr) {
+						sql = this.sqlIncludeOrNot(sql, ' OR ', '(' + property + ' LIKE \'%' + arrItem + '%\')');
+					}
+				} else if (property == 'query'){
+					let sqlForQuery = '((title LIKE \'%' + queryData.query + '%\') OR (author LIKE \'%' + queryData.query + '%\') OR (description LIKE \'%' + queryData.query + '%\') OR (categories LIKE \'%' + queryData.query + '%\'))';
+					sql = this.sqlIncludeOrNot(sql, ' OR ', sqlForQuery);
+				} else if (property == 'high-price') {
+					sql = this.sqlIncludeOrNot(sql, ' AND ', '(price <= ' + queryData[property] + ')');
+				} else if (property == 'low-price') {
+					sql = this.sqlIncludeOrNot(sql, ' AND ', '(price >= ' + queryData[property] + ')');
 				}
-			} else if (queryData[property] != '' && property == 'query'){
-				if (sql.includes('LIKE') || sql.includes('>=') || sql.includes('<='))
-					sql += ' OR ' + sqlForQuery;
-				else sql += sqlForQuery;
-			} else if (queryData[property] != '' && property == 'high-price') {
-				if (sql.includes('LIKE') || sql.includes('>=') || sql.includes('<='))
-					sql += ' AND (price <= ' + queryData[property] + ')';
-				else sql +=  '(price <= ' + queryData[property] + ')';
-			} else if (queryData[property] != '' && property == 'low-price') {
-				if (sql.includes('LIKE') || sql.includes('>=') || sql.includes('<='))
-					sql += ' AND (price >= ' + queryData[property] + ')';
-				else sql +=  '(price >= ' + queryData[property] + ')';
 			}
 		}
 
@@ -78,6 +65,12 @@ class searchInCatalog{
 		return sql;
 	}
 
+	sqlIncludeOrNot(sql, andOr, sqlText){
+		if (sql.includes('LIKE') || sql.includes('>=') || sql.includes('<='))
+			sql += andOr + sqlText;
+		else sql += sqlText;
+		return sql;
+	}
 }
 
 module.exports = searchInCatalog;

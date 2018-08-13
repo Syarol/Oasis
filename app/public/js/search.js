@@ -101,6 +101,13 @@ publishersList.parentNode.getElementsByClassName('button')[0].onclick = () =>
 priceRangeContainer.parentNode.getElementsByClassName('button')[0].onclick = () =>
 	sidelistOnClick(priceRangeContainer, '30px');
 
+for (let element of document.getElementsByClassName('input-number')){
+	element.oninput = function(){
+		if (this.type == 'number')
+			this.value = this.value.replace(/\D/g, '');
+	}
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 	cart = new Cart(openCart, goodsInCart);
 	
@@ -113,6 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			new Pagination(res, document.getElementsByClassName('pagination'), cart, document.getElementsByClassName('choose-per-page-select')[0]);
 
 			showSearchQuery(query, res.length);
+
 		},
 		function(err){
 			console.log(err);
@@ -124,7 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	ServerInteraction.getList('publisher', 'publishers-list', Render.checkList);
 
 	new GoogleMap();//connect and load map of shop location
-
 }); 
 
 document.onclick = function(e) {
