@@ -11,6 +11,7 @@
 
 import createNewEl from './createNewElement.js'; //for creating new DOM elements
 import Carousel from './carousel.js'; //for creating carousel
+import ServerInteract from './ServerInteraction.js'; //for swap data between server and client
 
 /**
  * Class
@@ -120,6 +121,7 @@ export default class RenderElements{
 
 	/*render carousel*/
 	carouselItems(parent, data, cart){
+		let serverIntereaction = new ServerInteract();
 		/*for render elements of carousel one by one three times*/
 		for (let i = 0; i < 3; i++){
 			for (let item of data){
@@ -157,6 +159,31 @@ export default class RenderElements{
 									event: {click: {
 										call: () => cart.addToCartArray(item)
 									}}
+								}),
+								/*createNewEl('form', false, {
+									action: '/bookPage',
+									method: 'POST',
+									contentType: 'application/json',
+									enctype: 'multipart/form-data',*/
+									/*content: 'Read more',
+									event: {click: {
+										call: () => serverIntereaction.openBookPage(item)
+									}}*/
+								/*	nested: [
+									createNewEl('input', false, {
+											type: 'hidden',
+											name: 'goods-data',
+											value: 22
+										}),
+										createNewEl('input', false, {
+											type: 'submit',
+											value: 'Read more',
+										})
+									]
+								})*/
+								createNewEl('a', false, {
+									href: '/book/' + item.id,
+									content: 'Read more'
 								})
 							]
 						})

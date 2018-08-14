@@ -9,12 +9,11 @@ const bodyParser  = require('body-parser');
 const getCatalog = new (require('./lib/getCatalogItems'))(); 
 const getItemData = require('./lib/getItemData');
 const searchInCatalog = new (require('./lib/searchInCatalog'))();
-const pug = require('pug');
-
+const router = require('./routes/index');
 const app = express();
 
-app.set('views', __dirname + '/views');
 app.set('view engine', 'pug');
+app.set('views', __dirname + '/views');
 
 app.use(express.static(__dirname));
 app.use(express.static(__dirname + '/public'));
@@ -26,6 +25,7 @@ app.use(session({
   saveUninitialized: true
 }));
 app.use(bodyParser.json());
+app.use(router);
 
 app.use((err, request, response, next) => {
     console.log(err);
@@ -33,24 +33,23 @@ app.use((err, request, response, next) => {
 });
 
 app.get('/', function(req, res){
-	res.sendFile(path.join(__dirname + '/views/index.html'));
-  //res.render('pug', { bookTitle: 'Hey', message: 'Hello there!'});
+	res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
 app.get('/goodsDetail', function(req, res){
-	res.sendFile(path.join(__dirname + '/views/goodsDetail.html'));
+	res.sendFile(path.join(__dirname + '/public/goodsDetail.html'));
 });
 
 app.get('/blog', function(req, res){
-  res.sendFile(path.join(__dirname + '/views/blog.html'));
+  res.sendFile(path.join(__dirname + '/public/blog.html'));
 });
 
 app.get('/shop', function(req, res){
-  res.sendFile(path.join(__dirname + '/views/shop.html'));
+  res.sendFile(path.join(__dirname + '/public/shop.html'));
 });
 
 app.get('/search', function(req, res){
-  	res.sendFile(path.join(__dirname + '/views/search.html'));
+  	res.sendFile(path.join(__dirname + '/public/search.html'));
 });
 
 app.post('/getSearchResults', function(req, res){

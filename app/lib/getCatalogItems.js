@@ -26,6 +26,18 @@ class getCatalogItems{
 		});
 	}
 
+	byId(callback, id){
+		con.query(this.sql, (err, result) => {
+		    if (err) return callback(err);
+			for (let item of result){
+				if (item.id == id){
+					callback(null, item);
+					break;
+				}
+			}
+		});
+	}
+
 	byColumn(column, res){
 		let sql = 'SELECT ' + column + ' FROM Catalog';
 		let categoriesArray = [];

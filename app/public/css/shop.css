@@ -206,7 +206,7 @@ main{
   color: #dcdcdc;
   margin-left: 100%;
   grid-template-columns: 1fr;
-  grid-template-rows: 15% 20% 30px 40px 30px 1fr 15%;
+  grid-template-rows: 15% 20% 30px 40px 30px 1fr /*15%;*/repeat(3, 5%);
   position: absolute;
   font-family: 'Tajawal', sans-serif;
 }
@@ -239,6 +239,12 @@ main{
 
 .carousel-item-inf input[type=button]{
   grid-row-start: 6;
+}
+
+.carousel-item-inf a:nth-child(6){
+  font-size: .8em;
+  grid-row-start: 8;
+  cursor: pointer;
 }
 
 /*footer*/

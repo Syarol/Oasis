@@ -1,0 +1,71 @@
+include includes/head.pug
+
+include includes/header.pug
+
+main
+  section.search-panel-wrapper
+    form.search-panel-form(action='/search' method='GET')
+      input(type='text' name='query' placeholder='Search for')
+      input.button(type='submit' value="Let's found!")
+      input(type='hidden' name='searchType' value='search-full')
+  section.goods-photo-wrapper
+    img(src= image)
+  section.goods-short-info-wrapper
+    h1= title
+    p
+      span Author: 
+      span= author
+    p
+      span Publisher: 
+      span= publisher
+    p
+      span Page count: 
+      span= pages
+    p
+      span Publishing year: 
+      span= published
+  section.goods-buy-wrapper
+    .goods-buy-container
+      p.goods-buy-container-header Buy book
+      p.goods-buy-container-is-avaible
+        span
+          i.far.fa-check-circle
+        // <i class="far fa-times-circle"></i>
+        span Avaible now
+      p.goods-buy-container-price
+        span Price:
+        span= price
+      button.button Add to cart
+  section.tabs-wrapper
+    .tabs-container
+      .tab
+        input#tab-1(type='radio' name='tabgroup' checked='')
+        label#tabs-first-label(for='tab-1') Description
+        .tab-content
+          span= description
+      .tab
+        input#tab-2(type='radio' name='tabgroup')
+        label(for='tab-2') Detail information
+        .tab-content
+          .goods-information
+            span Title:
+            span= title
+            span Author:
+            span= author
+            span Publisher:
+            span= publisher
+            span Publishing year:
+            span= published
+            span Pages count:
+            span= pages
+            span ISBN:
+            span= isbn
+            span Price:
+            span= price
+      .tab
+        input#tab-3(type='radio' name='tabgroup')
+        label(for='tab-3') Reviews
+        .tab-content
+          p Here must to be reviews
+
+include includes/footer.pug
