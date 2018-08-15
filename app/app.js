@@ -16,7 +16,7 @@ app.set('view engine', 'pug');
 app.set('views', __dirname + '/views');
 
 app.use(express.static(__dirname));
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname + '/public')));
 app.use(session({
   secret: 'keyboard cat',
   resave: true,
@@ -34,10 +34,6 @@ app.use((err, request, response, next) => {
 
 app.get('/', function(req, res){
 	res.sendFile(path.join(__dirname + '/public/index.html'));
-});
-
-app.get('/goodsDetail', function(req, res){
-	res.sendFile(path.join(__dirname + '/public/goodsDetail.html'));
 });
 
 app.get('/blog', function(req, res){
@@ -66,7 +62,6 @@ app.post('/getCart', function(req, res) {
 });
 
 app.get('/getSpecialMarked', function(req, res){
-	console.log('53: ' + req.query.type);
 	getCatalog.specialMarked(res, req.query.type);
 });
 

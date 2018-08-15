@@ -27,13 +27,18 @@ main
   section.goods-buy-wrapper
     .goods-buy-container
       p.goods-buy-container-header Buy book
-      p.goods-buy-container-is-avaible
-        span
-          i.far.fa-check-circle
-        // <i class="far fa-times-circle"></i>
-        span Avaible now
+      if inStock == 'In Stock'
+        p.goods-buy-container-is-avaible
+          span
+            i.far.fa-check-circle
+            span  Available
+      else
+        p.goods-buy-container-not-avaible
+          span
+            i.far.fa-times-circle
+            span  Not Available
       p.goods-buy-container-price
-        span Price:
+        span Price: 
         span= price
       button.button Add to cart
   section.tabs-wrapper

@@ -1,14 +1,22 @@
-const express = require('express');
-const app = require('../app')
-const router = express.Router();
+const pug = require('pug');
+const path = require('path');
+const router = require('express').Router();
 const getCatalog = new (require('../lib/getCatalogItems'))(); 
 
+var bookPagePath = path.join(__dirname + '/../views/bookPage.pug');//path to template
+/*template locals options*/
+var bookOptionsObject = {
+	
+}
+
+// Compile the source code
+const compiledBookPage = pug.compileFile(bookPagePath, bookOptionsObject);
 
 router.get('/book/:id', function(req, res){
-	getCatalog.byId(function(err, result){
+	getCatalog.byId(req.params.id, function(err, result){
 		if (err) console.log("Database error!");
-		console.log(result);
-		res.render('bookPage', {
+
+		res.render(path.join(__dirname + '/../views/bookPage.pug'), {
 			title: result.title,
 			author: result.author,
 			publisher: result.publisher,
@@ -18,8 +26,9 @@ router.get('/book/:id', function(req, res){
 			price: '$' + result.price,
 			description: result.description,
 			isbn: result.isbn,
+			inStock: result.status
 		});
-	}, req.params.id);
+	});
 });
 
 module.exports = router;

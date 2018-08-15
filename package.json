@@ -1,8 +1,13 @@
 {
   "name": "oasis",
   "version": "1.0.0",
+  "private": false,
   "description": "Bookstore site",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Syarol/Oasis.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
@@ -11,7 +16,8 @@
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "mysql": "^2.16.0",
-    "npm": "^6.2.0"
+    "npm": "^6.3.0",
+    "pug": "^2.0.3"
   },
   "devDependencies": {
     "eslint": "^4.19.1",

@@ -6,7 +6,7 @@ body {
   margin: 0;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 10% 290% 15%; 
+  grid-template-rows: 10% 200% 15%; 
   background-color: #fafafacc;
 }
 
@@ -169,7 +169,12 @@ main{
 }
 
 .goods-buy-container-is-avaible{
-  color: green;
+  color: green;  
+  margin: 5px 0;
+}
+
+.goods-buy-container-not-avaible{
+  color: #ed0000;  
   margin: 5px 0;
 }
 

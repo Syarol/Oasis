@@ -26,7 +26,7 @@ class getCatalogItems{
 		});
 	}
 
-	byId(callback, id){
+	byId(id, callback){
 		con.query(this.sql, (err, result) => {
 		    if (err) return callback(err);
 			for (let item of result){
