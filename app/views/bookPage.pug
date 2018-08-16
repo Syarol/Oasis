@@ -9,25 +9,25 @@ main
       input.button(type='submit' value="Let's found!")
       input(type='hidden' name='searchType' value='search-full')
   section.goods-photo-wrapper
-    img(src= image)
+    img(src= book.thumbnailUrl)
   section.goods-short-info-wrapper
     h1= title
     p
       span Author: 
-      span= author
+      span= book.author
     p
       span Publisher: 
-      span= publisher
+      span= book.publisher
     p
       span Page count: 
-      span= pages
+      span= book.pageCount + ' pages'
     p
       span Publishing year: 
-      span= published
+      span= book.publishedYear
   section.goods-buy-wrapper
     .goods-buy-container
       p.goods-buy-container-header Buy book
-      if inStock == 'In Stock'
+      if book.status == 'In Stock'
         p.goods-buy-container-is-avaible
           span
             i.far.fa-check-circle
@@ -39,34 +39,34 @@ main
             span  Not Available
       p.goods-buy-container-price
         span Price: 
-        span= price
-      button.button Add to cart
+        span= '$' + book.price
+      button.button.add-to-cart-button(title=book.title) Add to cart
   section.tabs-wrapper
     .tabs-container
       .tab
         input#tab-1(type='radio' name='tabgroup' checked='')
         label#tabs-first-label(for='tab-1') Description
         .tab-content
-          span= description
+          span= book.description
       .tab
         input#tab-2(type='radio' name='tabgroup')
         label(for='tab-2') Detail information
         .tab-content
           .goods-information
             span Title:
-            span= title
+            span= book.title
             span Author:
-            span= author
+            span= book.author
             span Publisher:
-            span= publisher
+            span= book.publisher
             span Publishing year:
-            span= published
+            span= book.publishedYear
             span Pages count:
-            span= pages
+            span= book.pageCount + ' pages'
             span ISBN:
-            span= isbn
+            span= book.isbn
             span Price:
-            span= price
+            span= '$' + book.price
       .tab
         input#tab-3(type='radio' name='tabgroup')
         label(for='tab-3') Reviews
@@ -74,3 +74,5 @@ main
           p Here must to be reviews
 
 include includes/footer.pug
+
+script(src='/js/bookPage.js' type='module')

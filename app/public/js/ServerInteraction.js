@@ -113,6 +113,18 @@ export default class ServerInteract{
 		};
 	}
 
+	/*Find goods by their title*/
+	getDataByTitle(title){
+		return new Promise(function(resolve, reject){
+			var xHr = new XMLHttpRequest(); //Create the object
+			xHr.open('get', '/getDataByTitle?title=' + title); //initialization of query
+			xHr.send(); //send query 
+
+			/*when the request has been processed return goods data*/
+			xHr.onload = () => resolve(JSON.parse(xHr.responseText));
+		});
+	}
+
 	/*Send message to shop (form from contact modal)*/
 	sendMessage(parent){
 		let message = {}; //initialization of message object

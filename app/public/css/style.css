@@ -250,7 +250,7 @@ main{
   color: #dcdcdc;
   margin-left: 100%;
   grid-template-columns: 1fr;
-  grid-template-rows: 15% 20% 30px 40px 30px 1fr repeat(3, 5%);
+  grid-template-rows: 20px 20% 30px 40px 30px 1fr repeat(2, 5%) 20px;
   position: absolute;
   font-family: 'Tajawal', sans-serif;
 }
@@ -262,8 +262,9 @@ main{
 .carousel-item-inf h3{ 
   font-family: 'Bree Serif', serif; 
   margin: 0;
-  font-size: 1.8em;
+  font-size: 1.4em;
   grid-row-start: 2;
+  padding: 0 5px;
 }
 
 .carousel-item-inf span:nth-child(2){

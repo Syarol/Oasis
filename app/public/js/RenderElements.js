@@ -96,6 +96,10 @@ export default class RenderElements{
 								event: {click: {
 									call: () => cart.addToCartArray(item)
 								}}
+							}),
+							createNewEl('a', false, {
+								href: '/book/' + item.id,
+								content: 'Read more'
 							})
 						]
 					}),
@@ -153,34 +157,13 @@ export default class RenderElements{
 								/*button of adding to cart (on click)*/
 								createNewEl('input', false, {
 									type: 'button',
-									goods: JSON.stringify({title:item.title, price: item.price}),
+									title: item.title,
 									class: 'button',
 									value: 'Add to cart',
 									event: {click: {
 										call: () => cart.addToCartArray(item)
 									}}
 								}),
-								/*createNewEl('form', false, {
-									action: '/bookPage',
-									method: 'POST',
-									contentType: 'application/json',
-									enctype: 'multipart/form-data',*/
-									/*content: 'Read more',
-									event: {click: {
-										call: () => serverIntereaction.openBookPage(item)
-									}}*/
-								/*	nested: [
-									createNewEl('input', false, {
-											type: 'hidden',
-											name: 'goods-data',
-											value: 22
-										}),
-										createNewEl('input', false, {
-											type: 'submit',
-											value: 'Read more',
-										})
-									]
-								})*/
 								createNewEl('a', false, {
 									href: '/book/' + item.id,
 									content: 'Read more'

@@ -1,11 +1,4 @@
-const mysql = require('mysql');
-
-var con = mysql.createConnection({
-	host: 'localhost',
-	database: 'Oasis',
-	user: 'root',
-	password: ''
-});
+const pool = require('./databasePool');
 
 class searchInCatalog{
 	full(fields, res){
@@ -28,7 +21,7 @@ class searchInCatalog{
 		}
  		
 		console.log(sql);
-		con.query(sql, function(err, result){
+		pool.query(sql, function(err, result){
 			if (err) throw err;
 
 			let foundedItems = [];

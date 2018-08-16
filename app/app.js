@@ -7,7 +7,6 @@ const getCart     = require('./lib/getCart');
 const sendMessage = require('./lib/sendMessage');
 const bodyParser  = require('body-parser');
 const getCatalog = new (require('./lib/getCatalogItems'))(); 
-const getItemData = require('./lib/getItemData');
 const searchInCatalog = new (require('./lib/searchInCatalog'))();
 const router = require('./routes/index');
 const app = express();
@@ -33,19 +32,19 @@ app.use((err, request, response, next) => {
 });
 
 app.get('/', function(req, res){
-	res.sendFile(path.join(__dirname + '/public/index.html'));
+	res.sendFile(path.join(__dirname + '/public/html/index.html'));
 });
 
 app.get('/blog', function(req, res){
-  res.sendFile(path.join(__dirname + '/public/blog.html'));
+  res.sendFile(path.join(__dirname + '/public/html/blog.html'));
 });
 
 app.get('/shop', function(req, res){
-  res.sendFile(path.join(__dirname + '/public/shop.html'));
+  res.sendFile(path.join(__dirname + '/public/html/shop.html'));
 });
 
 app.get('/search', function(req, res){
-  	res.sendFile(path.join(__dirname + '/public/search.html'));
+  	res.sendFile(path.join(__dirname + '/public/html/search.html'));
 });
 
 app.post('/getSearchResults', function(req, res){
@@ -53,8 +52,8 @@ app.post('/getSearchResults', function(req, res){
 	searchInCatalog.full(req.body, res);
 });
 
-app.post('/getItemData', function(req, res) {
-	getItemData(req, res);
+app.get('/getDataByTitle', function(req, res) {
+	getCatalog.byTitle(req.query.title, res);
 });
 
 app.post('/getCart', function(req, res) {
