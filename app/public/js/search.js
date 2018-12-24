@@ -120,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			new Pagination(res, document.getElementsByClassName('pagination'), cart, document.getElementsByClassName('choose-per-page-select')[0]);
 
 			showSearchQuery(query, res.length);
-
 		},
 		function(err){
 			console.log(err);

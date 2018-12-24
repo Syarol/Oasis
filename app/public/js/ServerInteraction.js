@@ -52,7 +52,7 @@ export default class ServerInteract{
 			   	resolve(inCart); //returns variable with cart contents
 			};
 
-			xHr.onerror = function() { reject(Error('Network Error')); }; //on error return error message
+			xHr.onerror = (err) => reject(err); //on error return error message
 		});
 	}
 
@@ -85,7 +85,7 @@ export default class ServerInteract{
 			   	resolve(JSON.parse(xHr.responseText)); //returns variable with finded items
 			};
 
-			xHr.onerror = function() { reject(Error('Network Error')); }; //on error return error message
+			xHr.onerror = (err) => reject(err); //on error return error message
 		});
 	}
 
