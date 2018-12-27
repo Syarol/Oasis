@@ -34,8 +34,15 @@ html, body {
   border: 0;
   padding: 5px;
   font-size: 1em;
-	font-family:  'Tajawal', sans-serif;
-	background-color: #CCCFCDE6;	
+  font-family:  'Tajawal', sans-serif;
+  background-color: #CCCFCDE6;  
+}
+
+.button:disabled,
+.button[disabled]{
+  background-color: #cccccc;
+  color: #666666;
+  cursor: no-drop;
 }
 
 /*header*/
@@ -71,9 +78,9 @@ a{
 }
 
 #page_header nav {
-    grid-template-columns: repeat(3, 1fr) 50%; 
-    font-family: 'Tajawal', sans-serif;
-    justify-self: normal;
+  grid-template-columns: repeat(3, 1fr) 50%; 
+  font-family: 'Tajawal', sans-serif;
+  justify-self: normal;
 }
 
 #cart_open{
@@ -224,26 +231,26 @@ main{
   border-left: 1px solid grey;
 }
 
-.tab [type=radio] {
+.tab [type=radio]{
   display: none;
 }
   
-  .tab label:hover{
-    border-top-color: #ff4b4b;
-  }
+.tab label:hover{
+  border-top-color: #ff4b4b;
+}
 
-  .tab [type=radio]:checked + label {
-    border-top-color: #ffb600;
-    background-color: #f1eab3;
-  }
+.tab [type=radio]:checked + label{
+  border-top-color: #ffb600;
+  background-color: #f1eab3;
+}
 
-.tab-content {
+.tab-content{
   position: absolute;
   top: 34px; 
   left: 0; 
   right: 0; 
   opacity: 0;
-  border: 1px solid #eaeaea;;
+  border: 1px solid #eaeaea;
   padding: 10px;
   background-color: #fff;
   border-top-color: grey;
@@ -280,24 +287,24 @@ main{
 
 footer{
   grid-row-start: 3;
-	grid-template-rows: 1fr;
-	grid-template-columns: 2.5% 20% repeat(6, 3%) 27% repeat(4, 7.5%) 2.5%;
-	background-color: #3C3C3C;
-	color: #dcdcdc;
-	font-family: 'Tajawal', sans-serif;
+  grid-template-rows: 1fr;
+  grid-template-columns: 2.5% 20% repeat(6, 3%) 27% repeat(4, 7.5%) 2.5%;
+  background-color: #3C3C3C;
+  color: #dcdcdc;
+  font-family: 'Tajawal', sans-serif;
 }
 
 footer a{
-	color: #dcdcdc;
-	text-decoration: none;
+  color: #dcdcdc;
+  text-decoration: none;
 }
 
 footer span:first-child{
-	grid-column-start: 2;
+  grid-column-start: 2;
 }
 
 footer a:nth-child(8){
-	grid-column-start: 10;
+  grid-column-start: 10;
 }
 
 
@@ -493,7 +500,8 @@ textarea{
   }
 
   #cart-table #cart-total {
-    grid-column-start: 5; }
+    grid-column-start: 5; 
+  }
 
 .cart-button {
   width: 115px;
@@ -579,12 +587,14 @@ textarea{
   width: 0;
   height: 2px;
   background-color: #4caf50;
-  transition: 0.4s; }
+  transition: 0.4s; 
+}
 
 #cart-modal input:focus ~ .focus-border {
   width: 100%;
   transition: 0.4s;
-  left: 0; }
+  left: 0; 
+}
 
 #cart-modal label{
   position: absolute;
