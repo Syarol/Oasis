@@ -1,0 +1,15 @@
+doctype html
+head
+	title #{code + ' | ' + description}
+	meta(charset='UTF-8')
+	meta#viewport(name='viewport' content='width=device-width, shrink-to-fit=no')
+	meta(name='title' content= description)
+	link(href='https://fonts.googleapis.com/css?family=Acme' rel='stylesheet') 
+
+style
+	include ../public/css/error.css
+
+main
+	h1= code
+	p= description
+
