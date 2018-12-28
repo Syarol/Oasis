@@ -60,7 +60,7 @@ document.onclick = function(e) {
 	if (e.target == contactModal) {
 		contactModal.style.display = 'none';
 	}
-}; 
+};
 
 contactModalLink.onclick = () => contactModal.style.display = 'flex';
 

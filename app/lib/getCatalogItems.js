@@ -1,48 +1,41 @@
+/**
+  * Dependencies
+**/
+
 const pool = require('./databasePool');
 
-class getCatalogItems{
-	constructor(){
-		this.sql = 'SELECT * FROM Catalog';
-	}
+/**
+  * Class
+**/
 
-	specialMarked(res, mark){
-		let foundedItems = [];
+class getCatalogItems{
 	
-		pool.query(this.sql, function (err, result) {
-		    if (err) throw err;
+	/*returns full item data*/
+	bySimpleColumn(query, res, callback){
+		let sql = 'SELECT * FROM Catalog';
+		let column = Object.keys(query)[0];
+
+		//makes a query to db
+		pool.query(sql, function (err, result) {
+			if (err) throw err;
+			let foundedItems = [];
+
+			//
 			for (let item of result){
-				if (item.specialMark == mark){
+				if (item.hasOwnProperty(column) && item[column] == query[column]){
 					foundedItems.push(item);
 				}
 			}
-			res.send(JSON.stringify(foundedItems));
+
+			//if callback function passed to function then executes it, else - sends the response to client
+			if(callback){
+				callback(err, foundedItems);
+			} else
+				res.send(JSON.stringify(foundedItems));
 		});
 	}
 
-	byId(id, callback){
-		pool.query(this.sql, (err, result) => {
-		    if (err) return callback(err);
-			for (let item of result){
-				if (item.id == id){
-					callback(null, item);
-					break;
-				}
-			}
-		});
-	}
-
-	byTitle(title, res){
-		pool.query(this.sql, (err, result) => {
-		    if (err) throw err;
-			for (let item of result){
-				if (item.title == title){
-					res.send(JSON.stringify(item));
-					break;
-				}
-			}
-		});
-	}
-
+	/*returns only one column data of item*/
 	byColumn(column, res){
 		let sql = 'SELECT ' + column + ' FROM Catalog';
 		let categoriesArray = [];

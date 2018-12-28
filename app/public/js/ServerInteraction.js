@@ -102,9 +102,9 @@ export default class ServerInteract{
 	}
 
 	/*Find and render special marked goods*/
-	getSpecialMarked(type, parent, renderFunction, cart){
+	getSpecialMarked(title, parent, renderFunction, cart){
 		var xHr = new XMLHttpRequest(); //Create the object
-		xHr.open('get', '/getSpecialMarked?type=' + type); //initialization of query
+		xHr.open('get', '/getBySimpleColumn?column=specialMark&title=' + title); //initialization of query
 		xHr.send(); //send query 
 
 		/*when the request has been processed render finded*/
@@ -117,7 +117,7 @@ export default class ServerInteract{
 	getDataByTitle(title){
 		return new Promise(function(resolve, reject){
 			var xHr = new XMLHttpRequest(); //Create the object
-			xHr.open('get', '/getDataByTitle?title=' + title); //initialization of query
+			xHr.open('get', '/getBySimpleColumn?column=title&title=' + title); //initialization of query
 			xHr.send(); //send query 
 
 			/*when the request has been processed return goods data*/

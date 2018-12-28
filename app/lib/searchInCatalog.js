@@ -1,12 +1,20 @@
+/**
+  * Dependencies
+**/
+
 const pool = require('./databasePool');
+
+/**
+  * Class
+**/
 
 class searchInCatalog{
 	full(fields, res){
 		let sql = 'SELECT * FROM Catalog WHERE ';
-		console.log(Object.keys(fields)); 
+		//console.log(Object.keys(fields)); 
 		switch (fields.searchType){
 		case 'search-full':
-			sql += '(title LIKE \'%' + fields.query + '%\') OR (author LIKE \'%' + fields.query + '%\') OR (description LIKE \'%' + fields.query + '%\') OR (categories LIKE \'%' + fields.query + '%\')';
+			sql += '(title LIKE \'%' + fields.query + '%\') OR (author LIKE \'%' + fields.query + '%\') OR (description LIKE \'% ' + fields.query + ' %\') OR (categories LIKE \'%' + fields.query + '%\')';
 			break;
 		case 'search-custom-small':
 			for (let property in fields){
@@ -21,6 +29,10 @@ class searchInCatalog{
 		}
  		
 		console.log(sql);
+		if (sql == 'SELECT * FROM Catalog WHERE '){
+			sql = 'SELECT * FROM Catalog';
+		}
+
 		pool.query(sql, function(err, result){
 			if (err) throw err;
 
@@ -37,13 +49,13 @@ class searchInCatalog{
 
 		for (let property in queryData){
 			if (queryData[property] != '') {
-				if(['title', 'author', 'description', 'categories'].includes(property)){
+				if(['title', 'author', 'description', 'categories', 'publisher'].includes(property)){
 					let queryPropertyArr = queryData[property].split(', ');
 					for (let arrItem of queryPropertyArr) {
 						sql = this.sqlIncludeOrNot(sql, ' OR ', '(' + property + ' LIKE \'%' + arrItem + '%\')');
 					}
 				} else if (property == 'query'){
-					let sqlForQuery = '((title LIKE \'%' + queryData.query + '%\') OR (author LIKE \'%' + queryData.query + '%\') OR (description LIKE \'%' + queryData.query + '%\') OR (categories LIKE \'%' + queryData.query + '%\'))';
+					let sqlForQuery = '((title LIKE \'%' + queryData.query + '%\') OR (author LIKE \'%' + queryData.query + '%\') OR (description LIKE \'% ' + queryData.query + ' %\') OR (categories LIKE \'%' + queryData.query + '%\'))';
 					sql = this.sqlIncludeOrNot(sql, ' OR ', sqlForQuery);
 				} else if (property == 'high-price') {
 					sql = this.sqlIncludeOrNot(sql, ' AND ', '(price <= ' + queryData[property] + ')');

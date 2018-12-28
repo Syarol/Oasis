@@ -33,27 +33,23 @@ app.post('/getSearchResults', function(req, res){
 	searchInCatalog.full(req.body, res);
 });
 
-app.get('/getDataByTitle', function(req, res) {
-	getCatalog.byTitle(req.query.title, res);
-});
-
 app.post('/getCart', function(req, res) {
-	getCart(req, res);
-});
-
-app.get('/getSpecialMarked', function(req, res){
-	getCatalog.specialMarked(res, req.query.type);
+  getCart(req, res);
 });
 
 app.post('/sameCart', function(req, res) {
-	let data = req.body;
-	req.session.booksInCart = data;
-	res.send(JSON.stringify(data));
+  let data = req.body;
+  req.session.booksInCart = data;
+  res.send(JSON.stringify(data));
 });
 
 app.post('/sendMessage', function(req, res) {
-	let message = req.body;
-	res.send(sendMessage(message));
+  let message = req.body;
+  res.send(sendMessage(message));
+});
+
+app.get('/getBySimpleColumn', function(req, res) {
+	getCatalog.bySimpleColumn({[req.query.column]: req.query.title}, res);
 });
 
 app.get('/getList', function(req, res){

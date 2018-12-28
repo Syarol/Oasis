@@ -28,11 +28,11 @@ router.get('/search', function(req, res){
 
 /*router for dynamic pages*/
 router.get('/book/:id', function(req, res){
-	getCatalog.byId(req.params.id, function(err, result){
+	getCatalog.bySimpleColumn({id: req.params.id}, res, function(err, result){
 		if (err) console.log(err);
 
 		res.render(path.join(__dirname + '/../views/bookPage.pug'), {
-			book: result
+			book: result[0]
 		});
 	});
 });
