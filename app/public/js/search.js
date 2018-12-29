@@ -139,8 +139,8 @@ document.onclick = function(e) {
 		//contactModal.style.transform = 'scale(0)';
 	}
 
-	if (e.target == document.getElementById('book_modal_wrapper')) {
-		document.getElementById('book_modal_wrapper').style.display = 'none';
+	if (e.target == document.getElementById('book-modal-wrapper')) {
+		document.getElementById('book-modal-wrapper').style.display = 'none';
 	}
 };
 
@@ -156,6 +156,6 @@ closeContactModal.onclick = () => contactModal.style.display = 'none'; /*{
 
 document.getElementById('send_message').onclick = () => ServerInteraction.sendMessage(document.getElementById('contact-form'));
 
-closeBookModal.onclick = () => document.getElementById('book_modal_wrapper').style.display = 'none';
+closeBookModal.onclick = () => document.getElementById('book-modal-wrapper').style.display = 'none';
 
 document.getElementById('input_book_title').onclick = function() {cart.addToCartArray(JSON.parse(this.getAttribute('name')));}; 

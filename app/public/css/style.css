@@ -37,6 +37,13 @@ html, body {
 	background-color: #CCCFCDE6;	
 }
 
+.button:disabled,
+.button[disabled]{
+  background-color: #cccccc;
+  color: #666666;
+  cursor: no-drop;
+}
+
 /*header*/
 header{
   grid-template-rows: 1fr;
@@ -70,9 +77,9 @@ a{
 }
 
 #page_header nav {
-    grid-template-columns: repeat(3, 1fr) 50%; 
-    font-family: 'Tajawal', sans-serif;
-    justify-self: normal;
+  grid-template-columns: repeat(3, 1fr) 50%; 
+  font-family: 'Tajawal', sans-serif;
+  justify-self: normal;
 }
 
 #cart_open{
@@ -410,7 +417,7 @@ main{
   border-color: green;
 }
 
-#find_product_form input[type=submit]{
+#find_product_form button{
 	height: 35px;
 	width: 100%;
   align-self: center;
@@ -464,11 +471,11 @@ footer a:nth-child(8){
 }
 
 
-#bestseller-modal-wrapper{
+#book-modal-wrapper{
 	display: none;
 }
 
-#bestseller-modal-container{
+#book-modal-container{
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 10% 1fr;
@@ -476,7 +483,7 @@ footer a:nth-child(8){
   grid-template-areas: "item-title item-title" "book-image book-data";
 }
 
-#bestseller-modal-container h3{
+#book-modal-container h3{
   grid-area: item-title;
   margin: 0;
   font-size: 2em;

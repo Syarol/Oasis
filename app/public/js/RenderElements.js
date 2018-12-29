@@ -14,6 +14,89 @@ import Carousel from './carousel.js'; //for creating carousel
 import ServerInteract from './ServerInteraction.js'; //for swap data between server and client
 
 /**
+ * Functions
+*/
+
+function itemHoverBlock(item, cart){
+	return createNewEl('div', false, {
+		class: 'carousel-item-inf grid-center-items',
+		nested: [
+			/*goods title*/
+			createNewEl('h3', false, {
+				content: item.title
+			}),
+			/*goods author*/
+			createNewEl('span', false, {
+				content: 'by ' + item.author
+			}),
+			/*goods price*/
+			createNewEl('span', false, {
+				content: '$' + item.price
+			}),
+			/*goods categories*/
+			createNewEl('span', false, {
+				content: item.categories
+			}),
+			/*button of adding to cart (on click)*/
+			addToCartButton(item, cart),
+			createNewEl('a', false, {
+				href: '/book/' + item.id,
+				content: 'Read more'
+			})
+		]
+	})
+}
+
+function addToCartButton(item, cart){
+	let button = createNewEl('input', false, {
+		type: 'button',
+		title: item.title,
+		class: 'button',
+		value: 'Add to cart',
+		event: {click: {
+			call: () => cart.addToCartArray(item)
+		}}
+	})
+
+	if (item.status != 'In Stock'){
+		button.title = item.title + ' not available';
+		button.disabled = true;
+	}
+
+	return button;
+}
+
+function bookModalData(data){
+	function checkAvailability(data){
+		let button = document.getElementById('input_book_title');
+		button.name = JSON.stringify(data);
+		if (data.status === 'In Stock'){
+			button.title = data.title;
+			button.disabled = false;
+		}else{
+			button.title = data.title + ' not available';
+			button.disabled = true;
+		}
+		return button;
+	}
+
+	return {click: {
+		call: () => {						
+			document.getElementById('book-modal-wrapper').style.display = 'flex'; //open modal window
+			document.getElementById('book_title').textContent = data.title; //show goods title
+			document.getElementById('book_photo').setAttribute('src', data.thumbnailUrl); //show goods image
+			document.getElementById('book_author').textContent = 'Author: ' + data.author; //show goods author
+			document.getElementById('book-modal-isbn').textContent = 'ISBN: ' + data.isbn; //show goods isbn
+			document.getElementById('book-modal-publisher').textContent  = 'Publisher: ' + data.publisher; //show goods prise
+			document.getElementById('book_categories').textContent = 'Categories: ' + data.categories; //show goods categories
+			document.getElementById('book_description').textContent = data.shortDescription; //show goods description
+			document.getElementById('book_price').textContent  = 'Price: $' + data.price; //show goods prise
+			checkAvailability(data);//set goods data in 'add to cart' button (needs to addding to cart operation)
+		}
+	}};
+}
+
+/**
  * Class
 */
 
@@ -40,20 +123,7 @@ export default class RenderElements{
 				id: 'open_bestseller_modal',
 				class: 'button grid-center-items',
 				content: 'Quick view',
-				event: {click: {
-					call: () => {						
-						document.getElementById('bestseller-modal-wrapper').style.display = 'flex'; //open modal window
-						document.getElementById('book_title').textContent = data.title; //show goods title
-						document.getElementById('book_photo').setAttribute('src', data.thumbnailUrl); //show goods image
-						document.getElementById('book_author').textContent = 'Author: ' + data.author; //show goods author
-						document.getElementById('book-modal-isbn').textContent = 'ISBN: ' + data.isbn; //show goods isbn
-						document.getElementById('book-modal-publisher').textContent  = 'Publisher: ' + data.publisher; //show goods prise
-						document.getElementById('book_categories').textContent = 'Categories: ' + data.categories; //show goods categories
-						document.getElementById('book_description').textContent = data.shortDescription; //show goods description
-						document.getElementById('book_price').textContent  = 'Price: $' + data.price; //show goods prise
-						document.getElementById('input_book_title').setAttribute('name', JSON.stringify(data)); //set goods data in 'add to cart' button (needs to addding to cart operation)
-					}
-				}}
+				event: bookModalData(data)
 			});
 		}
 	}
@@ -68,41 +138,7 @@ export default class RenderElements{
 				style: 'background-image:url(' + item.thumbnailUrl + ')', //goods image
 				nested: [
 					/*block that wrapped main information*/
-					createNewEl('div', false, {
-						class: 'carousel-item-inf grid-center-items',
-						nested: [
-							/*goods title*/
-							createNewEl('h3', false, {
-								content: item.title
-							}),
-							/*goods author*/
-							createNewEl('span', false, {
-								content: 'by ' + item.author
-							}),
-							/*goods price*/
-							createNewEl('span', false, {
-								content: '$' + item.price
-							}),
-							/*goods categories*/
-							createNewEl('span', false, {
-								content: item.categories
-							}),
-							/*button of adding to cart (on click)*/
-							createNewEl('input', false, {
-								type: 'button',
-								title: item.title,
-								class: 'button',
-								value: 'Add to cart',
-								event: {click: {
-									call: () => cart.addToCartArray(item)
-								}}
-							}),
-							createNewEl('a', false, {
-								href: '/book/' + item.id,
-								content: 'Read more'
-							})
-						]
-					}),
+					itemHoverBlock(item, cart),
 					/*special label*/
 					createNewEl('span', false, {
 						class: 'on-sale',
@@ -125,7 +161,6 @@ export default class RenderElements{
 
 	/*render carousel*/
 	carouselItems(parent, data, cart){
-		let serverIntereaction = new ServerInteract();
 		/*for render elements of carousel one by one three times*/
 		for (let i = 0; i < 3; i++){
 			for (let item of data){
@@ -134,42 +169,8 @@ export default class RenderElements{
 					class: 'carousel-item',
 					style: 'background-image:url(' + item.thumbnailUrl + ')', //goods image
 					nested: [
-					/*block that wrapped main information*/
-						createNewEl('div', false, {
-							class: 'carousel-item-inf grid-center-items',
-							nested: [
-								/*goods image*/
-								createNewEl('h3', false, {
-									content: item.title
-								}),
-								/*goods author*/
-								createNewEl('span', false, {
-									content: 'by ' + item.author
-								}),
-								/*goods price*/
-								createNewEl('span', false, {
-									content: '$' + item.price
-								}),
-								/*goods categories*/
-								createNewEl('span', false, {
-									content: item.categories
-								}),
-								/*button of adding to cart (on click)*/
-								createNewEl('input', false, {
-									type: 'button',
-									title: item.title,
-									class: 'button',
-									value: 'Add to cart',
-									event: {click: {
-										call: () => cart.addToCartArray(item)
-									}}
-								}),
-								createNewEl('a', false, {
-									href: '/book/' + item.id,
-									content: 'Read more'
-								})
-							]
-						})
+						/*block that wrapped main information*/
+						itemHoverBlock(item, cart)
 					]
 				});
 			}
@@ -191,20 +192,7 @@ export default class RenderElements{
 	 				pseudo: item.title,
 	 				src: item.thumbnailUrl,
 	 				/*on photo click open modal window with information about goods*/
-	 				event: {click: {
-	 					call: () => {
-							document.getElementById('book_modal_wrapper').style.display = 'flex'; //open modal window
-							document.getElementById('book_title').textContent = item.title; //show goods title
-							document.getElementById('book_photo').setAttribute('src', item.thumbnailUrl); //show goods image
-							document.getElementById('book_author').textContent = 'Author: ' + item.author; //show goods author
-							document.getElementById('book-modal-isbn').textContent = 'ISBN: ' + item.isbn; //show goods isbn
-							document.getElementById('book-modal-publisher').textContent  = 'Publisher: ' + item.publisher; //show goods prise
-							document.getElementById('book_categories').textContent = 'Categories: ' + item.categories; //show goods categories
-							document.getElementById('book_description').textContent = item.shortDescription; //show goods description
-							document.getElementById('book_price').textContent  = 'Price: ' + item.price; //show goods prise
-							document.getElementById('input_book_title').setAttribute('name', JSON.stringify(item)); //set goods data in 'add to cart' button (needs to addding to cart operation)
-						}
-	 				}}
+	 				event: bookModalData(item)
 	 			}),
 	 			/*goods title*/
 	 			createNewEl('h3', false, {
@@ -220,15 +208,7 @@ export default class RenderElements{
 	 				class: 'finded-item-price'
 	 			}),
 	 			/*button of adding to cart (on click)*/
-	 			createNewEl('input', false, {
-	 				type: 'button',
-	 				name: item.title,
-	 				class: 'button',
-	 				value: 'Add to cart',
-	 				event: {click:{
-	 					call: () => cart.addToCartArray(item)
-	 				}}
-	 			})
+	 			addToCartButton(item, cart)
 	 		]
 	 	});
 	}
@@ -249,7 +229,7 @@ export default class RenderElements{
 								let hiddenInput = document.querySelector('input[name=' + column + ']'); //get data of checked element
 								/*if element checked then add his data to search list element*/
 								if (this.checked) {
-									if (hiddenInput.value == '') hiddenInput.value += this.value;
+									if (hiddenInput.value === '') hiddenInput.value += this.value;
 									else hiddenInput.value += ', ' + this.value ;
 								} else hiddenInput.value = hiddenInput.value.replace(this.value + ', ', ''); //if false then remove from search list 
 						   	}
@@ -264,5 +244,7 @@ export default class RenderElements{
 			
 		}
 	}
+
+
 
 }

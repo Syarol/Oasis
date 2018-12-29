@@ -6,7 +6,7 @@ main
   section.search-panel-wrapper
     form.search-panel-form(action='/search' method='GET')
       input(type='text' name='query' placeholder='Search for')
-      input.button(type='submit' value="Let's found!")
+      button.button Let's found!
       input(type='hidden' name='searchType' value='search-full')
   section.goods-photo-wrapper
     img(src= book.thumbnailUrl)
@@ -24,6 +24,7 @@ main
     p
       span Publishing year: 
       span= book.publishedYear
+
   section.goods-buy-wrapper
     .goods-buy-container
       p.goods-buy-container-header Buy book
@@ -40,7 +41,11 @@ main
       p.goods-buy-container-price
         span Price: 
         span= '$' + book.price
-      button.button.add-to-cart-button(title=book.title) Add to cart
+      if book.status == 'In Stock'
+        button.button.add-to-cart-button(title=book.title) Add to cart
+      else
+        button.button.add-to-cart-button(title=book.title + ' not available' disabled) Add to cart
+
   section.tabs-wrapper
     .tabs-container
       .tab

@@ -30,6 +30,13 @@ html, body {
   background-color: #CCCFCDE6;  
 }
 
+.button:disabled,
+.button[disabled]{
+  background-color: #cccccc;
+  color: #666666;
+  cursor: no-drop;
+}
+
 
 header{
   grid-template-rows: 1fr;
@@ -128,9 +135,20 @@ main{
   color: white;
 }
 
-#search-banner-wrapper form input[type=submit]{
+#search-banner-wrapper form button{
   font-size: 1.2em;
 }
+
+#search-banner-wrapper #show-everything-text{
+  font-size: 1.5em;
+  color: #f6f6f6;
+  font-weight: bold;
+  margin-top: 5%;
+  font-family: 'Bree Serif',serif;
+  text-shadow: 1px 1px #818181;
+  cursor: pointer;
+}
+
 
 #recommends-carousel{
   grid-area: recommends-carousel;

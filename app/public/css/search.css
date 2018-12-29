@@ -31,6 +31,13 @@ html, body {
 	background-color: #CCCFCDE6;	
 }
 
+.button:disabled,
+.button[disabled]{
+  background-color: #cccccc;
+  color: #666666;
+  cursor: no-drop;
+}
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -96,7 +103,7 @@ a{
   padding-left: 5px;
 }
 
-#page_header input[type=submit]{
+#page_header button{
   height: 29px;
   border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;
@@ -182,6 +189,7 @@ main{
   margin: 0 1px;
   line-height: 100%;
   width: 15px;
+  cursor: pointer;
 }
 
 .pagination span:hover:not(.pagination-three-dots) {
@@ -660,11 +668,11 @@ textarea{
 
 
 
-#book_modal_wrapper{
+#book-modal-wrapper{
   display: none;
 }
 
-#book_modal_container{
+#book-modal-container{
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 10% 1fr;
@@ -672,7 +680,7 @@ textarea{
   grid-template-areas: "item-title item-title" "book-image book-data";
 }
 
-#book_modal_container h3{
+#book-modal-container h3{
   grid-area: item-title;
   margin: 0;
   font-size: 2em;

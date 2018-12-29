@@ -43,6 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	new GoogleMap();//connect and load map of shop location
 });
 
+document.getElementById('show-everything-text').onclick = () => {
+	window.location.href = "/search?query=&searchType=search-full";
+};
+
 contactModal.onclick = () => contactModal.style.display = 'none';
 
 document.getElementById('contact').onclick = () => contactModal.style.display = 'flex';
