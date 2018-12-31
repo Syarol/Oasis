@@ -78,6 +78,19 @@ main
         .tab-content
           p Here must to be reviews
 
+  section.ymal-section
+    h2.ymal-section-header You may also like
+    .ymal-section-container
+      each val in ymalBooks
+        .ymal-section-container-item
+          img.ymal-section-container-item-image(src= val.thumbnailUrl)
+          span.ymal-section-container-item-title= val.title
+          span.ymal-section-container-item-author= 'by ' + val.author
+          a(href= '/book/' + val.id)
+            button.ymal-section-container-item-button.button Buy
+    a(href= '/search?query=&searchType=search-full')
+      button.ymal-section-look-at-all-button.button Look at all
+
 include includes/footer.pug
 
 script(src='/js/bookPage.js' type='module')

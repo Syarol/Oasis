@@ -1,13 +1,26 @@
+/**
+  * Dependencies
+**/
+
 const pug = require('pug');
 const path = require('path');
 const router = require('express').Router();
 const getCatalog = new (require('../lib/getCatalogItems'))(); 
+const pool = require('../lib/databasePool');
+
+/**
+  * Variables
+**/
 
 var bookPagePath = path.join(__dirname + '/../views/bookPage.pug');//path to template
 var bookOptionsObject = {}; //template locals option
 
 // Compile the source code
 const compiledBookPage = pug.compileFile(bookPagePath, bookOptionsObject);
+
+/**
+  * Routes
+**/
 
 /*router for static pages*/
 router.get('/', function(req, res){
@@ -29,11 +42,19 @@ router.get('/search', function(req, res){
 /*router for dynamic pages*/
 router.get('/book/:id', function(req, res){
 	getCatalog.bySimpleColumn({id: req.params.id}, res, function(err, result){
-		if (err) console.log(err);
+		if (err) throw err;
 
-		res.render(path.join(__dirname + '/../views/bookPage.pug'), {
-			book: result[0]
-		});
+    let query = 'SELECT * FROM Catalog ORDER BY RAND() LIMIT ' + 4;
+
+    pool.query(query, function (err, random) {
+      if (err) callback(err);
+
+      res.render(path.join(__dirname + '/../views/bookPage.pug'), {
+        book: result[0],
+        ymalBooks: random
+      });   
+    });
+
 	});
 });
 
