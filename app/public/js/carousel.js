@@ -25,14 +25,14 @@ export default class Carousel{
 		/*on right button click move first carousel element to end and simulate swipe*/
 		rightButton.onclick = () => {
 			carousel.appendChild(carousel.childNodes[0]); //move element from first position to last
-			carousel.scrollLeft = carousel.scrollLeft - carousel.clientWidth/4; //create indent for animation 
+			carousel.scrollLeft = carousel.scrollLeft - carousel.clientWidth/this.getPerPageCount(); //create indent for animation 
 			this.scrollToRight(carousel); //animation of swipe
 		};
 
 		/*on right button click move last carousel element to start and simulate swipe*/
 		leftButton.onclick = () => {
 			carousel.insertBefore(carousel.childNodes[carouselLenght - 1], carousel.firstChild); // move element from last position to first
-			carousel.scrollLeft = carousel.scrollLeft + carousel.clientWidth/4; //create indent for animation 
+			carousel.scrollLeft = carousel.scrollLeft + carousel.clientWidth/this.getPerPageCount(); //create indent for animation 
 			this.scrollToLeft(carousel); //animation of swipe
 		};
 	}
@@ -40,7 +40,7 @@ export default class Carousel{
 	/*carousel horizontal scroll to right side*/
 	scrollToRight(carousel){
 		carousel.scrollBy({ 
-			left: carousel.clientWidth/4, //scroll pixels count
+			left: carousel.clientWidth/this.getPerPageCount(), //scroll pixels count
 			behavior: 'smooth' //scroll type
 		});
 	}
@@ -48,8 +48,15 @@ export default class Carousel{
 	/*carousel horizontal scroll to left side*/
 	scrollToLeft(carousel){
 		carousel.scrollBy({ 
-			left: -carousel.clientWidth/4, //scroll pixels count
+			left: -carousel.clientWidth/this.getPerPageCount(), //scroll pixels count
 			behavior: 'smooth' //scroll type
 		});
+	}
+
+	/*gets a count of visible items in the carousel. Based on CSS-properties*/
+	getPerPageCount(){
+		if (window.innnerWidth <= 600){
+			return 3;
+		} else return 4;
 	}
 }

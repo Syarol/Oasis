@@ -9,6 +9,12 @@ body {
   grid-template-rows: 10% 290% 15%; 
 }
 
+@media screen and (max-width: 600px){
+  body{
+    grid-template-rows:10% 300% 15%;
+  }
+}
+
 html, body {
   height: 100%;
   width: 100%; 
@@ -102,6 +108,28 @@ main{
   grid-template-areas: "head-banner" "welсome-sign" "arrivals-carousel" "best-and-exclusive-section" "search-panel";
 }
 
+@media screen and (max-width: 600px){
+  header{
+    grid-template-columns: 2fr 3fr 1fr;
+  }
+
+  #page_header nav{
+    grid-template-columns: repeat(3,1fr) .5em;
+  }
+
+  #cart_open{
+    width: 60%;
+  }
+
+  #cart_open i{
+    margin-left: initial;
+  }
+
+  main{
+    grid-template-rows: 30% 10% 15% 35% 10%;
+  }
+}
+
 #head-section-wrapper{
   grid-area: head-banner;
 	background-image: url(/assets/images/books-bookstore-book-reading-159711.jpeg); 
@@ -109,10 +137,12 @@ main{
 }
 
 #head-section-wrapper h2{
+  width: 95%;
 	font-size: 4em;
 	font-family:  'Black Han Sans', sans-serif;
 	color: white;
   text-shadow: 1px 1px 1px #000;
+  text-align: center;
 }
 
 #head-section-wrapper .button{
@@ -130,7 +160,8 @@ main{
   margin: auto;
 	background-color: #f2f2f2;
 	grid-template-columns: 1fr;
-	grid-template-rows: 10% 35% 5% 40% 10%;	
+	grid-template-rows: 5% 35% 40% 5%;
+  grid-gap: 5%;	
 	box-shadow:  0 0 2px #C0D1C4;
 }
 
@@ -143,12 +174,19 @@ main{
 }
 
 .welcome-sign-wrapper p{
-	grid-row-start: 4;
+	grid-row-start: 3;
 	text-align: center;
 	font-family: 'Tajawal', sans-serif;
+  width: 95%;
 }
 
-#arrivals-carousel-wrapper{
+@media screen and (max-width: 600px){
+  .welcome-sign{
+    width: 95%;
+  }
+}
+
+#arrivals-carousel-section{
   grid-area: arrivals-carousel;
 	display: grid;
   grid-template-columns: 1fr;
@@ -156,50 +194,17 @@ main{
   position: relative;
 }
 
-#carousel-controls-wrapper{
-  grid-template-rows: 1fr;
-  grid-template-columns: 35% 30% 35%;
-  justify-items: initial;
-}
-
-.left-control{
-	cursor: pointer;
-	height: 1.2em;
-	transition: 1s;
-}
-
-.left-control:hover{
-	transform: scale(1.2);
-}
-
-#new_arrival_controls h2{
-	font-family: 'Tajawal', sans-serif;
-	font-size: 1.2em;
-}
-
-.right-control{
-	transition: 1s;
-	cursor: pointer;
-	height: 1.2em;
-}
-
-.right-control:hover{
-	transform: scale(1.2);
-}
-
-.carousel-section{
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 20% 80%; 
-  position: relative; 
-}
-
 .carousel-controls-wrapper{
-  width: 100%;
+  width: 20em;
   grid-template-rows: 1fr;
-  grid-template-columns: 35% 4.5% 21% 4.5% 35%;
-  grid-template-areas: "nothing-1 left-control title right-control nothing-2";
-  justify-items: initial;
+  grid-template-columns: 4.5% 1fr 4.5%;
+  grid-template-areas: "left-control title right-control";
+}
+
+.carousel-controls-wrapper h2{
+  grid-area: title;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1.2em;
 }
 
 .control{
@@ -220,23 +225,23 @@ main{
   grid-area: left-control;
 }
 
-.right-control{
-  grid-area: right-control;
+#new_arrival_controls h2{
+	font-family: 'Tajawal', sans-serif;
+	font-size: 1.2em;
 }
 
-.carousel-controls-wrapper h2{
-  grid-area: title;
-  font-family: 'Tajawal', sans-serif;
-  font-size: 1.2em;
+.right-control{
+  grid-area: right-control;
 }
 
 .carousel{
   overflow: hidden;
   display: flex;
   flex-wrap: nowrap;
-  height: 80%;
+  /*height: 80%;*/
+  height: 100%;
   top: 20%;
-  position: absolute;
+  /*position: absolute;*/
   width: 100%;
 }
 
@@ -300,28 +305,36 @@ main{
   color: #dcdcdc;
 }
 
-#best-and-exclusive-section-wrapper{
-  grid-area: best-and-exclusive-section;
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 15% 85%;
+@media screen and (max-width: 600px){
+  #arrives_carousel .carousel-item{
+    flex: 1 0 calc(100%/3);
+  }
 }
 
-#best-and-exclusive-section-wrapper .title-container{
+.bae-section{
+  grid-area: best-and-exclusive-section;
+  display: flex;
+}
+
+.bae-section-product-container{
+  width: 50%;
+  height: 100%;
+}
+
+.bae-section .title-container{
+  height: 15%;
+  width: 100%;
 	font-family:  'Black Han Sans', sans-serif;
 }
 
-#best-and-exclusive-section-wrapper .title-container:first-child{
-	background-color: #fff;
-	color: #5a5656;
+.bae-section-exclusive-title-container{
+  background-color: black;
+  color: white;
 }
 
-#best-and-exclusive-section-wrapper .title-container:nth-child(2){
-	background-color: black;
-}
-
-#best-and-exclusive-section-wrapper .title-container:nth-child(2) span{
-	color: white;
+.bae-section-bestseller-title-container{
+  background-color: #fff;
+  color: #5a5656;
 }
 
 .on-sale{
@@ -340,7 +353,8 @@ main{
 }
 
 #bestseller-container{
-	position: relative;
+  height: 85%;
+  position: relative;
   grid-template-columns: 1fr;
   grid-template-rows: 60% 30% 10%;
 }
@@ -363,26 +377,81 @@ main{
 }
 
 #exclusives_container{
+  height: 85%;
 	display: grid;
 	grid-template-rows: 1fr 1fr;
 	grid-template-columns: 1fr 1fr; 
 }
 
-#find_product{
+@media screen and (max-width: 600px){
+  .bae-section{
+    display: grid;
+    grid-template-rows: 40% 60%;
+  }
+
+  .bae-section-product-container {
+    width: 100%;
+    display: grid;
+    grid-template-rows: 3.5em 1fr;
+  }
+
+  .bae-section .title-container{
+    height: 100%;
+  }
+
+  #bestseller-container {
+    height: 100%;
+    grid-template-columns: 40% 60%;
+    grid-template-rows: 80% 20%;
+    overflow: hidden;
+    font-size: .9em;
+  }
+
+  .book-photo-container {
+    height: 95%;
+    grid-row-start: 1;
+    grid-row-end: 3;
+  }
+
+  #bestseller-container .text-container{
+    font-size: .9em;
+  }
+
+  #bestseller-container .button{
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 1em;
+    width: 100px;
+  }
+
+  #exclusives_container {
+    height: 100%;
+  }
+
+  #exclusives_container .carousel-item-inf {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  #exclusive-container .button{
+    margin: 2%;
+  }
+
+}
+
+.find-product-section{
   grid-area: search-panel;
-	grid-template-columns: 1fr;
-	grid-template-rows: 10% 80% 10%;	
 }
 
 .find-form{
-	grid-row-start: 2;
 	height: 80%;
 	width: 80%;
 	grid-template-columns: 1fr;
 	grid-template-rows: 40% 1fr;
 	background-color: #f2f2f2;
-	box-shadow:  0 0 2px #C0D1C4;
-	font-family:  'Tajawal', sans-serif;
+	box-shadow: 0 0 2px #C0D1C4;
+	font-family: 'Tajawal', sans-serif;
 	font-size: 1.3em;
 }
 
@@ -448,10 +517,24 @@ main{
    	calc(100% - 10px) calc(1em - 5px);
 }
 
+@media screen and (max-width: 600px){
+  .find-form{
+    width: 95%;
+  }
+
+  #find_product_form {
+    width: 95%;
+    grid-gap: 10px;
+  }
+}
+
+
+/*footer*/
 footer{
   grid-row-start: 3;
 	grid-template-rows: 1fr;
-	grid-template-columns: 2.5% 20% repeat(6, 3%) 27% repeat(4, 7.5%) 2.5%;
+  padding: 0 2.5%;
+	grid-template-columns: 20% repeat(6, 3%) 27% repeat(4, 7.5%);
 	background-color: #3C3C3C;
 	color: #dcdcdc;
 	font-family: 'Tajawal', sans-serif;
@@ -462,12 +545,34 @@ footer a{
 	text-decoration: none;
 }
 
-footer span:first-child{
-	grid-column-start: 2;
+footer a:nth-child(8){
+	grid-column-start: 9;
 }
 
-footer a:nth-child(8){
-	grid-column-start: 10;
+#contact{
+  cursor: pointer;
+}
+
+@media screen and (max-width: 600px){
+  footer{
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: repeat(6, 7.5%) 1fr repeat(4, 2fr);
+  }
+
+  .footer-copyright{
+    font-size: .9em;
+    grid-row: 2;
+    grid-column-start: 1;
+    grid-column-end: 12; 
+  }
+
+  footer a, footer #contact{
+    align-self: end;
+  }
+
+  footer a:nth-child(8){
+    grid-column-start: 8;
+  }
 }
 
 
@@ -586,10 +691,6 @@ footer a:nth-child(8){
   color: black;
 }
 
-#contact{
-  cursor: pointer;
-}
-
 /*Contact us modal*/
 #contact-us-wrapper{
   display: none; 
@@ -597,17 +698,22 @@ footer a:nth-child(8){
 
 #contact-us-container{
   display: grid;
-  grid-template-rows: 10% 25% 65%;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 25px;
-  grid-template-areas: "header header" "map contact-text" "map contact-form";
+  grid-template-columns: 1fr;
+  grid-template-rows: 10% 1fr;
 }
 
 #contact-us-wrapper h2{
-  grid-area: header;
   margin: 0;
   text-align: center;
   font-family: 'Bree Serif', serif;
+}
+
+.contact-modal-map-form-container{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 30% 70%;
+  grid-column-gap: 25px;
+  grid-template-areas: "map contact-text" "map contact-form";
 }
 
 #map-container{
@@ -672,6 +778,44 @@ textarea{
 
 .contact-form #send_message:hover{
   background-color: #c5c5c5;
+}
+
+@media screen and (max-width: 600px){
+  .modal-container{
+    width: 95%;
+    height: 95%;
+    padding: 10px;
+  }
+
+  #contact-us-container{
+    grid-template-columns: 1fr;
+    grid-template-rows: 10% auto;
+    grid-template-areas: "header" "contact";
+    overflow-y: visible;
+  }
+
+  .contact-modal-map-form-container{
+    grid-area: contact;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 30% 60% 90%;
+    grid-template-areas: "contact-text" "contact-form" "map";
+    grid-gap: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  #map-container{
+    grid-area: map;
+  }
+
+  .contacts-with-text{
+    grid-area: contact-text;
+  }
+
+  .contact-form{
+    grid-area: contact-form;
+  }
 }
 
 /*Cart*/
@@ -854,4 +998,15 @@ textarea{
 
 .color-green{
   color: #4caf50 !important;
+}
+
+@media screen and (max-width: 600px){
+  #modal-content {
+    width: 90%;
+    height: 75%;
+  }
+
+  #cart-header{
+    margin-bottom: 5px;
+  }
 }

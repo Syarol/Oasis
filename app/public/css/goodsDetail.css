@@ -105,6 +105,25 @@ main{
   margin: 0 15px;
 }
 
+@media screen and (max-width: 600px){
+  header{
+    grid-template-columns: 2fr 3fr 1fr;
+  }
+
+  #page_header nav{
+    grid-template-columns: repeat(3,1fr) .5em;
+  }
+
+  #cart_open{
+    width: 60%;
+  }
+
+  #cart_open i{
+    margin-left: initial;
+  }
+
+}
+
 .search-panel-wrapper{
   grid-area: search-panel;
   display: flex;
@@ -351,7 +370,8 @@ main{
 footer{
   grid-row-start: 3;
   grid-template-rows: 1fr;
-  grid-template-columns: 2.5% 20% repeat(6, 3%) 27% repeat(4, 7.5%) 2.5%;
+  padding: 0 2.5%;
+  grid-template-columns: 20% repeat(6, 3%) 27% repeat(4, 7.5%);
   background-color: #3C3C3C;
   color: #dcdcdc;
   font-family: 'Tajawal', sans-serif;
@@ -362,12 +382,34 @@ footer a{
   text-decoration: none;
 }
 
-footer span:first-child{
-  grid-column-start: 2;
+footer a:nth-child(8){
+  grid-column-start: 9;
 }
 
-footer a:nth-child(8){
-  grid-column-start: 10;
+#contact{
+  cursor: pointer;
+}
+
+@media screen and (max-width: 600px){
+  footer{
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: repeat(6, 7.5%) 1fr repeat(4, 2fr);
+  }
+
+  .footer-copyright{
+    font-size: .9em;
+    grid-row: 2;
+    grid-column-start: 1;
+    grid-column-end: 12; 
+  }
+
+  footer a, footer #contact{
+    align-self: end;
+  }
+
+  footer a:nth-child(8){
+    grid-column-start: 8;
+  }
 }
 
 
@@ -404,10 +446,6 @@ footer a:nth-child(8){
 
 .close-modal:hover, .close-modal:focus{
   color: black;
-}
-
-#contact{
-  cursor: pointer;
 }
 
 /*Contact us modal*/

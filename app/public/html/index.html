@@ -25,7 +25,9 @@
 
 <body>
 	<header id="page_header" class="grid-center-items">
-		<span class="logo-container">Oasis</span>
+		<span class="logo-container">
+			<a href="/">Oasis</a>
+		</span>
 		<nav class="grid-center-items">
 			<p class="navigation"><a href="/">Home</a></p>
 			<p class="navigation"><a href="/blog">Blog</a></p>
@@ -47,14 +49,14 @@
 			</div>
 		</section>
 
-		<section id="arrivals-carousel-wrapper" class="carousel-section grid-center-items">
+		<section id="arrivals-carousel-section" class="carousel-section grid-center-items">
 			<div class="carousel-controls-wrapper grid-center-items">
 				<span class="control left-control">
-					<i class="fas fa-angle-left"></i>
+					<i class="fas fa-angle-left fa-lg"></i>
 				</span>
 				<h2> NEW ARRIVES</h2>
 				<span class="control right-control">
-					<i class="fas fa-angle-right"></i>
+					<i class="fas fa-angle-right fa-lg"></i>
 				</span>
 			</div>
 			<div id="arrives_carousel" class="carousel">
@@ -62,23 +64,27 @@
 			</div>
 		</section>
 
-		<section id="best-and-exclusive-section-wrapper">
-			<div class="title-container grid-center-items">
-				<span>BEST SELLING BOOK</span>
-			</div>
-			<div class="title-container grid-center-items">
-				<span>EXCLUSIVE THIS MONTH</span>
-			</div>
-			<div id="bestseller-container" class="grid-center-items">
-				<span class="on-sale">SALE!</span>
+		<section class="bae-section">
+			<div class="bae-section-product-container">
+				<div class="bae-section-bestseller-title-container title-container grid-center-items">
+					<span>BEST SELLING BOOK</span>
+				</div>
+				<div id="bestseller-container" class="grid-center-items">
+					<span class="on-sale">SALE!</span>
 
+				</div>
 			</div>
-			<div id="exclusives_container">
+			<div class="bae-section-product-container">
+				<div class="bae-section-exclusive-title-container title-container grid-center-items">
+					<span>EXCLUSIVE THIS MONTH</span>
+				</div>
+				<div id="exclusives_container">
 
+				</div>
 			</div>
 		</section>
 
-		<section id="find_product" class="grid-center-items">
+		<section class="find-product-section grid-center-items">
 			<div class="find-form grid-center-items">
 				<span>NEED TO FIND PARTICULAR PRODUCTS?</span>
 				<form id="find_product_form" action="/search" method="GET">
@@ -96,7 +102,7 @@
 						<label for="author">Book author</label>
 						<input type="text" name="author">
 					</div>
-					<button id="search-button" class="button grid-center-items">Search</button>
+					<button id="search-button" class="button">Search</button>
 					<input type="hidden" name="searchType" value="search-custom-small"/>
 				</form>
 			</div>
@@ -104,7 +110,7 @@
 	</main>
 
 	<footer class="grid-center-items">
-		<span>Copyright - Oleh Yaroshchuk 2018</span>
+		<span class="footer-copyright">Copyright - Oleh Yaroshchuk 2018</span>
 
 		<a href="https://www.facebook.com/oleh.yaroshchuk" target="_blank"><i class="fab fa-facebook-f"></i></a>
 		<a href="https://twitter.com/Oleh_Yaroshchuk" target="_blank" ><i class="fab fa-twitter"></i></a>
@@ -141,26 +147,28 @@
 		<div id="contact-us-container" class="modal-container">
 			<span id="close-contact-modal" class="close-modal" title="Close">&times;</span>
 			<h2>CONTACT US</h2>
-			<div id="map-container"></div>
-			<div class="contacts-with-text grid-center-items">
-				<i class="fas fa-map-marker-alt"></i>
-				<i class="fas fa-paper-plane"></i>
-				<i class="fas fa-phone"></i>
-				<span>Kryviy Val str., 31, Lutsk, Volyn region, 43000</span>
-				<span>oasis@oasis.com</span>
-				<span>012345678</span>
-				<div class="contact-time">
-					<i class="far fa-clock"></i>
-					<span>Everyday 10am - 6pm</span>
+			<div class="contact-modal-map-form-container">
+				<div id="map-container"></div>
+				<div class="contacts-with-text grid-center-items">
+					<i class="fas fa-map-marker-alt"></i>
+					<i class="fas fa-paper-plane"></i>
+					<i class="fas fa-phone"></i>
+					<span>Kryviy Val str., 31, Lutsk, Volyn region, 43000</span>
+					<span>oasis@oasis.com</span>
+					<span>012345678</span>
+					<div class="contact-time">
+						<i class="far fa-clock"></i>
+						<span>Everyday 10am - 6pm</span>
+					</div>
 				</div>
+				<form class="contact-form" id="contact-form">
+					<label>Your name (required)<input type="text" name="name" required></label>
+					<label>Your Email (required)<input type="e-mail" name="email" required></label>
+					<label>Subject<input type="text" name="subject"></label>
+					<label>Your Message<textarea name="message" rows="5"></textarea></label>
+					<button id="send_message" class="button">Send</button>
+				</form>
 			</div>
-			<form class="contact-form" id="contact-form">
-				<label>Your name (required)<input type="text" name="name" required></label>
-				<label>Your Email (required)<input type="e-mail" name="email" required></label>
-				<label>Subject<input type="text" name="subject"></label>
-				<label>Your Message<textarea name="message" rows="5"></textarea></label>
-				<button id="send_message" class="button">Send</button>
-			</form>
 		</div>
 	</section>
 

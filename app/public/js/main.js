@@ -20,7 +20,7 @@ import RenderElements from './RenderElements.js';
  * Global variables
 */
 
-var arrivalCarouselSection = document.getElementById('arrivals-carousel-wrapper');
+var arrivalCarouselSection = document.getElementById('arrivals-carousel-section');
 var contactModal = document.getElementById('contact-us-wrapper');
 var contactModalLink = document.getElementById('contact');
 var closeContactModal = document.getElementById('close-contact-modal');
