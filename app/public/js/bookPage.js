@@ -19,11 +19,11 @@ import ServerInteract from './ServerInteraction.js';
  * Global variables
 */
 
-var contactModalLink = document.getElementById('contact');
-var closeContactModal = document.getElementById('close-contact-modal');
+var contactModal = document.getElementsByClassName('cu-modal-wrapper')[0];
+var contactModalLink = document.getElementsByClassName('footer-contact')[0];
+var closeContactModal = document.getElementsByClassName('cu-modal-close')[0];
 var goodsInCart = [];
-var contactModal = document.getElementById('contact-us-wrapper');
-var openCart = document.getElementById('cart_open');
+var openCart = document.getElementsByClassName('header-cart-container')[0];
 var cart;
 var ServerInteraction;
 
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	);
 
-	new GoogleMap();//connect and load map of shop location
+	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location
 }); 
 
 document.onclick = function(e) {
@@ -70,5 +70,5 @@ contactModalLink.onclick = () => contactModal.style.display = 'flex';
 
 closeContactModal.onclick = () => contactModal.style.display = 'none';
 
-document.getElementById('send_message').onclick = () => ServerInteraction.sendMessage(document.getElementById('contact-form'));
+document.getElementById('send_message').onclick = () => ServerInteraction.sendMessage(document.getElementsByClassName('cu-form')[0]);
 

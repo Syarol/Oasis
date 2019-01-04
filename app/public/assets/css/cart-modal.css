@@ -1,0 +1,199 @@
+/**
+  * Cart
+  * cm - is short from 'cart modal'
+**/
+
+.cm-wrapper{
+  display: none;
+}
+
+.cm-container {
+  width: 80%;
+  height: 50%;
+}
+
+.cm-title{
+  display: flex; 
+  font-family: 'Bree Serif', serif;
+  margin: auto;
+  justify-content: center;
+}
+
+.cm-remove-item {
+  color: #aaa;
+  font-size: 28px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 1s; 
+  font-family: initial;
+}
+
+.cm-remove-item:hover, .cm-remove-item:focus {
+  color: black;
+  transform: rotate(1turn);
+}
+
+.cm-table {
+  width: 90%;
+  height: 80%;
+  display: none;
+  grid-auto-rows: 15%;
+  font-family: 'Tajawal', sans-serif;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: auto; 
+}
+
+.cm-table-row {
+  grid-template-columns: 5% 45% 20% 15% 15%; 
+}
+
+.cm-table-first-row {
+  position: sticky;
+  top: 0; 
+}
+
+.cm-table-first-row, .cm-table-last-row {
+  background-color: #e3e3e3; 
+}
+
+.cm-table-first-row span:first-child, .cm-table-last-row span:first-child {
+  grid-column-start: 2; 
+}
+
+.cm-item-remove, .cart-plus, .cart-minus{
+  cursor: pointer;
+}
+
+.cm-item-name {
+  justify-self: left;
+}
+
+.cm-item-quantity {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 80%; 
+}
+
+.cm-item-total {
+  grid-column-start: 5; 
+}
+
+.cm-button {
+  width: 115px;
+  margin: auto;
+}
+
+.cm-checkout-container {
+  height: 80%;
+  width: 80%;
+  margin: auto;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1em; 
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: 80% 20%;
+  grid-auto-rows: 10%; 
+}
+
+.cm-checkout-container *:not(:first-child):not(:nth-child(2)) {
+  border-bottom: .5px solid grey; 
+}
+
+.cm-checkout-container *:nth-child(2n) {
+  text-align: center; 
+}
+
+.cm-buttons-container {
+  display: flex;
+  height: 10%; 
+}
+
+.cm-phrase-container {
+  height: 80%;
+  color: #443f3f;
+}
+
+.cm-confirmation-form-container {
+  height: 80%;
+  width: 70%;
+  display: grid;
+  margin: auto;
+  justify-items: center;
+}
+
+.cm-container .input {
+  width: 70%;
+  height: 40px;
+  position: relative;
+}
+
+.cm-container label {
+  display: inline-block;
+  margin-bottom: 5px;
+  font-weight: 700; 
+  color: #443f3f;
+}
+
+.cm-container input {
+  border: 0;
+  padding: 4px 0;
+  border-bottom: 1px solid #ccc;
+  background-color: transparent;
+  font: 15px/23px 'Muli', sans-serif;
+  color: #443f3f;
+  width: 100%;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+  position: absolute;
+  z-index: 10; 
+}
+
+.cm-container input:focus{
+  outline: none; 
+}
+
+.cm-container input ~ .focus-border {
+  position: absolute;
+  bottom: 7px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #4caf50;
+  transition: 0.4s; }
+
+.cm-container input:focus ~ .focus-border {
+  width: 100%;
+  transition: 0.4s;
+  left: 0; }
+
+.cm-container label{
+  position: absolute;
+  transition: 0.5s;
+  top: 9px;
+  letter-spacing: 0.5px;
+}
+
+.input-label-no-focus{
+  left: 0;  
+}
+
+.input-label-get-focus {
+  left: -150px;
+  font-size: 16px;
+}
+
+.color-green{
+  color: #4caf50 !important;
+}
+
+@media screen and (max-width: 600px){
+  .cm-container {
+    width: 90%;
+    height: 75%;
+  }
+
+  .cm-title{
+    margin-bottom: 5px;
+  }
+}

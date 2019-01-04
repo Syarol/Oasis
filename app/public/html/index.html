@@ -20,24 +20,28 @@
 
 	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Black+Han+Sans|Bree+Serif|Lato" rel="stylesheet"> 
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-	<link href="css/min/style.min.css" rel="stylesheet">
+	<link href="css/min/index-bundle.min.css" rel="stylesheet">
 </head>
 
 <body>
-	<header id="page_header" class="grid-center-items">
-		<span class="logo-container">
+	<!-- Header -->
+	<header class="grid-center-items">
+		<span class="header-logo-container">
 			<a href="/">Oasis</a>
 		</span>
 		<nav class="grid-center-items">
-			<p class="navigation"><a href="/">Home</a></p>
-			<p class="navigation"><a href="/blog">Blog</a></p>
-			<p class="navigation"><a href="/shop">Shop</a></p>
+			<p class="header-nav-item"><a href="/">Home</a></p>
+			<p class="header-nav-item"><a href="/blog">Blog</a></p>
+			<p class="header-nav-item"><a href="/shop">Shop</a></p>
 		</nav>
-		<p id="cart_open" title="Click to open cart"><i class="fas fa-shopping-cart"></i><span id="count_inside_cart"></span></p>
+		<p class="header-cart-container" title="Click to open cart">
+			<i class="fas fa-shopping-cart"></i>
+			<span class="header-cart-count"></span>
+		</p>
 	</header> 
 
 	<main>
-		<section id="head-section-wrapper" class="flex-center-items">
+		<section id="head-section-wrapper">
 			<h2>Welcome at Oasis</h2>
 			<a href="/shop" class="button grid-center-items">Shop now</a>
 		</section>
@@ -49,28 +53,30 @@
 			</div>
 		</section>
 
-		<section id="arrivals-carousel-section" class="carousel-section grid-center-items">
-			<div class="carousel-controls-wrapper grid-center-items">
-				<span class="control left-control">
+		<!-- Carousel -->
+		<section class="cr-arrivals-section cr-items-container grid-center-items">
+			<div class="cr-controls-container grid-center-items">
+				<span class="cr-control cr-left-control">
 					<i class="fas fa-angle-left fa-lg"></i>
 				</span>
 				<h2> NEW ARRIVES</h2>
-				<span class="control right-control">
+				<span class="cr-control cr-right-control">
 					<i class="fas fa-angle-right fa-lg"></i>
 				</span>
 			</div>
-			<div id="arrives_carousel" class="carousel">
+			<div class="cr-container">
 
 			</div>
 		</section>
 
+		<!-- Best and exclusive -->
 		<section class="bae-section">
 			<div class="bae-section-product-container">
 				<div class="bae-section-bestseller-title-container title-container grid-center-items">
 					<span>BEST SELLING BOOK</span>
 				</div>
 				<div id="bestseller-container" class="grid-center-items">
-					<span class="on-sale">SALE!</span>
+					<span class="on-sale-sign">SALE!</span>
 
 				</div>
 			</div>
@@ -109,6 +115,7 @@
 		</section>
 	</main>
 
+	<!-- Footer -->
 	<footer class="grid-center-items">
 		<span class="footer-copyright">Copyright - Oleh Yaroshchuk 2018</span>
 
@@ -122,7 +129,7 @@
 		<a href="/"><span>Home</span></a>
 		<a href="/shop"><span>Shop</span></a>
 		<a href="/blog"><span>Blog</span></a>
-		<span id="contact">Contact</span>
+		<span class="footer-contact">Contact</span>
 	</footer>
 
 	<div id="book-modal-wrapper" class="modal-wrapper">
@@ -143,30 +150,31 @@
 		</div>
 	</div>
 
-	<section id="contact-us-wrapper" class="modal-wrapper">
-		<div id="contact-us-container" class="modal-container">
-			<span id="close-contact-modal" class="close-modal" title="Close">&times;</span>
-			<h2>CONTACT US</h2>
-			<div class="contact-modal-map-form-container">
-				<div id="map-container"></div>
-				<div class="contacts-with-text grid-center-items">
+	<!-- Contact us modal -->
+	<section class="cu-modal-wrapper modal-wrapper">
+		<div class="cu-modal-container modal-container">
+			<span class="cu-modal-close close-modal" title="Close">&times;</span>
+			<h2 class="cu-title">CONTACT US</h2>
+			<div class="cu-modal-items-container">
+				<div class="cu-map-container"></div>
+				<div class="cu-ways-container grid-center-items">
 					<i class="fas fa-map-marker-alt"></i>
 					<i class="fas fa-paper-plane"></i>
 					<i class="fas fa-phone"></i>
 					<span>Kryviy Val str., 31, Lutsk, Volyn region, 43000</span>
 					<span>oasis@oasis.com</span>
 					<span>012345678</span>
-					<div class="contact-time">
+					<div class="cu-time">
 						<i class="far fa-clock"></i>
 						<span>Everyday 10am - 6pm</span>
 					</div>
 				</div>
-				<form class="contact-form" id="contact-form">
+				<form class="cu-form">
 					<label>Your name (required)<input type="text" name="name" required></label>
 					<label>Your Email (required)<input type="e-mail" name="email" required></label>
 					<label>Subject<input type="text" name="subject"></label>
 					<label>Your Message<textarea name="message" rows="5"></textarea></label>
-					<button id="send_message" class="button">Send</button>
+					<button class="cu-form-send-button button">Send</button>
 				</form>
 			</div>
 		</div>

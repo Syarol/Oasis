@@ -7,6 +7,7 @@ var csso = require('gulp-csso');
 var rename = require('gulp-rename');
 var browserSync = require('browser-sync');
 var nodemon = require('gulp-nodemon');
+var concat = require('gulp-concat');
 
 /**
 	* Constant
@@ -51,7 +52,7 @@ function initBrowserSync() {
 
 //minify CSS files
 function minifyCSS() {
-  return gulp.src('./app/public/css/*.css')
+  return gulp.src('./app/public/css/bundles/*.css')
     .pipe(csso())
     .pipe(rename({
         suffix: '.min'
@@ -64,14 +65,26 @@ function minifyCSS() {
 
 //watches files for changes
 function watchAll(){
-	gulp.watch('./app/public/css/*.css', minifyCSS);
+	gulp.watch(['./app/public/css/*.css', './app/public/assets/css/*.css'], gulp.series(makeCSSBundles, minifyCSS));
 }
+
+function makeCSSBundles(){
+  gulp.src(['./app/public/css/shop.css', './app/public/assets/css/header.css', './app/public/assets/css/carousel.css', './app/public/assets/css/footer.css', './app/public/assets/css/cart-modal.css', './app/public/assets/css/contact-modal.css'])
+    .pipe(concat('shop-bundle.css'))
+    .pipe(gulp.dest('./app/public/css/bundles/'));
+
+  return gulp.src(['./app/public/css/index.css', './app/public/assets/css/header.css', './app/public/assets/css/carousel.css', './app/public/assets/css/footer.css', './app/public/assets/css/cart-modal.css', './app/public/assets/css/contact-modal.css'])
+    .pipe(concat('index-bundle.css'))
+    .pipe(gulp.dest('./app/public/css/bundles/'));
+}
+
 
 /**
 	* Tasks export
 **/
 
 exports.default = gulp.series(
+  makeCSSBundles,
 	minifyCSS,
 	gulp.parallel(
 		initBrowserSync,

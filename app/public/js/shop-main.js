@@ -20,9 +20,11 @@ import RenderElements from './RenderElements.js'; //for render DOM elements
  * Global variables
 */
 
-var contactModal = document.getElementById('contact-us-wrapper');
+var contactModal = document.getElementsByClassName('cu-modal-wrapper')[0];
+var contactModalLink = document.getElementsByClassName('footer-contact')[0];
+var closeContactModal = document.getElementsByClassName('cu-modal-close')[0];
 var goodsInCart = [];
-var openCart = document.getElementById('cart_open');
+var openCart = document.getElementsByClassName('header-cart-container')[0];
 var ServerInteraction;
 
 /**
@@ -36,11 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	let Render = new RenderElements(); 
 
-	ServerInteraction.getSpecialMarked('RECOMMEND', document.getElementById('recommends-carousel-wrapper'), Render.carouselItems, cart);
-	ServerInteraction.getSpecialMarked('BESTSELLERS', document.getElementById('bestsellers-carousel-wrapper'), Render.carouselItems, cart);
-	ServerInteraction.getSpecialMarked('ARRIVALS', document.getElementById('arrivals-carousel-wrapper'), Render.carouselItems, cart);
+	ServerInteraction.getSpecialMarked('RECOMMEND', document.getElementsByClassName('cr-recommends-section')[0], Render.carouselItems, cart);
+	ServerInteraction.getSpecialMarked('BESTSELLERS', document.getElementsByClassName('cr-bestsellers-section')[0], Render.carouselItems, cart);
+	ServerInteraction.getSpecialMarked('ARRIVALS', document.getElementsByClassName('cr-arrivals-section')[0], Render.carouselItems, cart);
 
-	new GoogleMap();//connect and load map of shop location
+	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location
 });
 
 document.getElementById('show-everything-text').onclick = () => {
@@ -49,8 +51,8 @@ document.getElementById('show-everything-text').onclick = () => {
 
 contactModal.onclick = () => contactModal.style.display = 'none';
 
-document.getElementById('contact').onclick = () => contactModal.style.display = 'flex';
+contactModalLink.onclick = () => contactModal.style.display = 'flex';
 
-document.getElementById('close-contact-modal').onclick = () => contactModal.style.display = 'none';
+closeContactModal.onclick = () => contactModal.style.display = 'none';
 
-document.getElementById('send_message').onclick = () => ServerInteraction.sendMessage(document.getElementById('contact-form'));
+document.getElementsByClassName('cu-form-send-button')[0].onclick = () => ServerInteraction.sendMessage(document.getElementsByClassName('cu-form')[0]);

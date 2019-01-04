@@ -13,16 +13,19 @@
 	<link href="public/css/min/blog.min.css" rel="stylesheet">
 </head>
 <body>
-	<header id="page_header" class="grid-center-items">
-		<span class="logo-container">
+	<header class="grid-center-items">
+		<span class="header-logo-container">
 			<a href="/">Oasis</a>
 		</span>
 		<nav class="grid-center-items">
-			<p class="navigation"><a href="/">Home</a></p>
-			<p class="navigation"><a href="/blog">Blog</a></p>
-			<p class="navigation"><a href="/shop">Shop</a></p>
+			<p class="header-nav-item"><a href="/">Home</a></p>
+			<p class="header-nav-item"><a href="/blog">Blog</a></p>
+			<p class="header-nav-item"><a href="/shop">Shop</a></p>
 		</nav>
-		<p id="cart_open" title="Click to open cart"><i class="fas fa-shopping-cart"></i><span id="count_inside_cart"></span></p>
+		<p class="header-cart-container" title="Click to open cart">
+			<i class="fas fa-shopping-cart"></i>
+			<span class="header-cart-count"></span>
+		</p>
 	</header> 
 
 	<main>
@@ -119,43 +122,38 @@
 		<a href="/"><span>Home</span></a>
 		<a href="/shop"><span>Shop</span></a>
 		<a href="/blog"><span>Blog</span></a>
-		<span id="contact">Contact</span>
+		<span class="footer-contact">Contact</span>
 	</footer>
 
-	<section id="contact-us-wrapper" class="modal-wrapper">
-		<div id="contact-us-container" class="modal-container">
-			<span id="close-contact-modal" class="close-modal" title="Close">&times;</span>
-			<h2>CONTACT US</h2>
-			<div id="map-container"></div>
-			<div class="contacts-with-text grid-center-items">
-				<i class="fas fa-map-marker-alt"></i>
-				<i class="fas fa-paper-plane"></i>
-				<i class="fas fa-phone"></i>
-				<span>Kryviy Val str., 31, Lutsk, Volyn region, 43000</span>
-				<span>oasis@oasis.com</span>
-				<span>012345678</span>
-				<div class="contact-time">
-					<i class="far fa-clock"></i>
-					<span>Everyday 10am - 6pm</span>
+	<!-- Contact us modal -->
+	<section class="cu-modal-wrapper modal-wrapper">
+		<div class="cu-modal-container modal-container">
+			<span class="cu-modal-close close-modal" title="Close">&times;</span>
+			<h2 class="cu-title">CONTACT US</h2>
+			<div class="cu-modal-items-container">
+				<div class="cu-map-container"></div>
+				<div class="cu-ways-container grid-center-items">
+					<i class="fas fa-map-marker-alt"></i>
+					<i class="fas fa-paper-plane"></i>
+					<i class="fas fa-phone"></i>
+					<span>Kryviy Val str., 31, Lutsk, Volyn region, 43000</span>
+					<span>oasis@oasis.com</span>
+					<span>012345678</span>
+					<div class="cu-time">
+						<i class="far fa-clock"></i>
+						<span>Everyday 10am - 6pm</span>
+					</div>
 				</div>
+				<form class="cu-form">
+					<label>Your name (required)<input type="text" name="name" required></label>
+					<label>Your Email (required)<input type="e-mail" name="email" required></label>
+					<label>Subject<input type="text" name="subject"></label>
+					<label>Your Message<textarea name="message" rows="5"></textarea></label>
+					<button class="cu-form-send-button button">Send</button>
+				</form>
 			</div>
-			<form class="contact-form" id="contact-form">
-				<label>Your name (required)<input type="text" name="name" required></label>
-				<label>Your Email (required)<input type="e-mail" name="email" required></label>
-				<label>Subject<input type="text" name="subject"></label>
-				<label>Your Message<textarea name="message" rows="5"></textarea></label>
-				<button id="send_message" class="button">Send</button>
-			</form>
 		</div>
 	</section>
-
-<!-- 	<div id="read_more_modal">
-		<div id="read_more_modal_content">
-		    <span  id="close_read_more_modal" title="Close">&times;</span>
-		    <h2>New Arrivals</h2>
-		    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at ligula rutrum, lacinia ex nec, elementum sem. Ut varius magna sed nibh feugiat, ac auctor augue commodo. Nunc porttitor vitae enim auctor fringilla. Integer ultricies nibh ac nunc hendrerit lacinia. Sed luctus, felis non hendrerit fringilla, ligula ipsum iaculis nisl, id tincidunt ipsum sapien at sem. Nunc eu risus suscipit, ullamcorper lorem at, imperdiet enim. Pellentesque vestibulum erat non felis vestibulum, id accumsan massa ullamcorper. Proin viverra aliquam neque, et scelerisque sem porttitor quis. Proin vel nulla hendrerit, scelerisque leo convallis, rutrum nibh. Mauris dolor neque, lobortis et imperdiet eget, vulputate ac ipsum. Vivamus vitae aliquam felis. In hac habitasse platea dictumst. </p>
-		</div>
-	</div> -->
 
 	<script type="module" src="js/blog.js"></script>
 </body>

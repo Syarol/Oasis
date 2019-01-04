@@ -19,12 +19,11 @@ import ServerInteract from './ServerInteraction.js';
  * Global variables
 */
 
-var contactModal = document.getElementById('contact-us-wrapper');
-var contactModalLink = document.getElementById('contact');
-var closeContactModal = document.getElementById('close-contact-modal');
+var contactModal = document.getElementsByClassName('cu-modal-wrapper')[0];
+var contactModalLink = document.getElementsByClassName('footer-contact')[0];
+var closeContactModal = document.getElementsByClassName('cu-modal-close')[0];
 var goodsInCart = [];
-//var readMoreModal = document.getElementById('read_more_modal');
-var openCart = document.getElementById('cart_open');
+var openCart = document.getElementsByClassName('header-cart-container')[0];
 var ServerInteraction;
 
 /**
@@ -33,32 +32,19 @@ var ServerInteraction;
 
 document.addEventListener('DOMContentLoaded', () => {
 	new Cart(openCart, goodsInCart);
+	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location
 	
 	ServerInteraction = new ServerInteract();
-
-	/*for (let item of document.getElementsByClassName('button-read-more')){
-		item.onclick = () => readMoreModal.style.display = 'flex';
-	}*/
-
-	new GoogleMap();//connect and load map of shop location
 });
 
 document.onclick = function(e) {
 	if (e.target == contactModal) {
 		contactModal.style.display = 'none';
 	}
-
-	/*if (e.target == readMoreModal) {
-    	readMoreModal.style.display = 'none';
-	}*/
 }; 
 
 contactModalLink.onclick = () => contactModal.style.display = 'flex';
 
 closeContactModal.onclick = () => contactModal.style.display = 'none';
 
-//var closeReadMoreModal = document.getElementById('close_read_more_modal');
-
-//closeReadMoreModal.onclick = () => readMoreModal.style.display = 'none';
-
-document.getElementById('send_message').onclick = () => ServerInteraction.sendMessage(document.getElementById('contact-form'));
+document.getElementById('send_message').onclick = () => ServerInteraction.sendMessage(document.getElementsByClassName('cu-form')[0]);

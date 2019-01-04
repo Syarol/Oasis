@@ -1,0 +1,126 @@
+/**
+  * Contact us modal
+  * cu - is short from 'Contact us'
+**/
+
+.cu-modal-wrapper{
+  display: none; 
+}
+
+.cu-modal-container{
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 10% 1fr;
+}
+
+.cu-title{
+  margin: 0;
+  text-align: center;
+  font-family: 'Bree Serif', serif;
+}
+
+.cu-modal-items-container{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 30% 70%;
+  grid-column-gap: 25px;
+  grid-template-areas: "map contact-text" "map contact-form";
+}
+
+.cu-map-container{
+  grid-area: map;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #5f5c5c4d;
+}
+
+.cu-ways-container{
+  grid-area: contact-text;
+  grid-template-columns: repeat(3, 1fr);
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1.7em;
+}
+
+.cu-ways-container span{
+  font-size: .5em;
+  margin: auto;
+}
+
+.cu-time{
+  grid-column-start: 1;
+  grid-column-end: 4;
+  display: flex;
+  width: 60%;
+}
+
+.cu-form{
+  grid-area: contact-form;
+  display: flex;
+  font-family: 'Tajawal', sans-serif;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.cu-form label{
+  font-size: .8em;
+  width: 85%;
+  margin-top: 10px;
+  align-self: center;
+}
+
+.cu textarea{
+  resize: none;
+}
+
+.cu-form input, .cu-form textarea{
+  width: 100%;
+}
+
+.cu-form-send-button{
+  width: 120px;
+  transition: 1s;
+  margin-top: 10px;
+  margin-left: 7.5%;
+}
+
+.cu-form-send-button:hover{
+  background-color: #c5c5c5;
+}
+
+@media screen and (max-width: 600px){
+  .modal-container{
+    width: 95%;
+    height: 95%;
+    padding: 10px;
+  }
+
+  .cu-modal-container{
+    grid-template-columns: 1fr;
+    grid-template-rows: 10% auto;
+    grid-template-areas: "header" "contact";
+    overflow-y: visible;
+  }
+
+  .cu-modal-items-container{
+    grid-area: contact;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 30% 60% 90%;
+    grid-template-areas: "contact-text" "contact-form" "map";
+    grid-gap: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .cu-map-container{
+    grid-area: map;
+  }
+
+  .cu-ways-container{
+    grid-area: contact-text;
+  }
+
+  .cu-form{
+    grid-area: contact-form;
+  }
+}

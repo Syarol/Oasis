@@ -19,7 +19,7 @@ import ServerInteract from './ServerInteraction.js'; //for swap data between ser
 
 function itemHoverBlock(item, cart){
 	return createNewEl('div', false, {
-		class: 'carousel-item-inf grid-center-items',
+		class: 'cr-el-slider grid-center-items',
 		nested: [
 			/*goods title*/
 			createNewEl('h3', false, {
@@ -134,14 +134,14 @@ export default class RenderElements{
 		for (let item of data){
 			/*goods image with nested block of goods main information*/
 			createNewEl('div', parent, {
-				class: 'carousel-item',
+				class: 'cr-el',
 				style: 'background-image:url(' + item.thumbnailUrl + ')', //goods image
 				nested: [
 					/*block that wrapped main information*/
 					itemHoverBlock(item, cart),
 					/*special label*/
 					createNewEl('span', false, {
-						class: 'on-sale',
+						class: 'on-sale-sign',
 						content: 'SALE!'
 					})
 				]
@@ -165,8 +165,8 @@ export default class RenderElements{
 		for (let i = 0; i < 3; i++){
 			for (let item of data){
 				/*goods image with nested block of goods main information*/
-				createNewEl('div', parent.getElementsByClassName('carousel')[0], {
-					class: 'carousel-item',
+				createNewEl('div', parent.getElementsByClassName('cr-container')[0], {
+					class: 'cr-el',
 					style: 'background-image:url(' + item.thumbnailUrl + ')', //goods image
 					nested: [
 						/*block that wrapped main information*/
@@ -177,7 +177,7 @@ export default class RenderElements{
 		}
 
 		/*creates the carousel of rendered elements*/
-		new Carousel(parent.getElementsByClassName('right-control')[0], parent.getElementsByClassName('left-control')[0], parent.getElementsByClassName('carousel')[0]/*, cart.addToCartArray*/);
+		new Carousel(parent.getElementsByClassName('cr-right-control')[0], parent.getElementsByClassName('cr-left-control')[0], parent.getElementsByClassName('cr-container')[0]/*, cart.addToCartArray*/);
 	}
 
 	/*render finded goods*/

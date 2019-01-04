@@ -42,7 +42,7 @@ class getCatalogItems{
 		pool.query(sql, function (err, result) {
 		    if (err) throw err;
 			for (let item of result){
-				console.log(item);
+				//console.log(item);
 				let splittedCategories;
 				switch(column){
 				case 'categories':

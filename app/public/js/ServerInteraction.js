@@ -15,7 +15,7 @@ function updateAllGoodsTotal(goodsInCart){
 		temp += item.total;
 	}
 
-	document.getElementById('cart-total').textContent = '$' + temp.toFixed(2);
+	document.getElementsByClassName('cm-all-total')[0].textContent = '$' + temp.toFixed(2);
 
 	allGoodsCount();   
 
@@ -25,7 +25,7 @@ function updateAllGoodsTotal(goodsInCart){
 			allTotal += item.count;
 		}
 
-		let countInsideCart = document.getElementById('count_inside_cart');
+		let countInsideCart = document.getElementsByClassName('header-cart-count')[0];
 
 		if (allTotal == 0) countInsideCart.textContent = '';
 		else countInsideCart.textContent = ' (' + allTotal + ')';    

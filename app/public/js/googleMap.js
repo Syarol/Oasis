@@ -10,13 +10,13 @@
 */
 
 export default class GoogleMap{
-	constructor(){
+	constructor(mapContainer){
 		this.loadGoogleMap(); //load and appends google map script to page
 
 		/*when map loaded, then will setted her properties*/
 		window.loadMaps = () => {
 			/*map properties*/
-			let map = new google.maps.Map(document.getElementById('map-container'), {
+			let map = new google.maps.Map(mapContainer, {
 				center: {lat:50.745151, lng:25.322764},
 				zoom: 15,
 				streetViewControl: false,

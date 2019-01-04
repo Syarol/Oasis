@@ -1,0 +1,125 @@
+/**
+  * Carousel
+  * cr - is short from 'carousel'
+  * el - is short from 'element'
+**/
+
+.cr-items-container{
+  grid-template-columns: 1fr;
+  grid-template-rows: 20% 80%; 
+  position: relative; 
+}
+
+.cr-controls-container{
+  width: 20em;
+  grid-template-rows: 1fr;
+  grid-template-columns: 4.5% 1fr 4.5%;
+  grid-template-areas: "left-control title right-control";
+}
+
+.cr-controls-container h2{
+  grid-area: title;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1.2em;
+}
+
+.cr-control{
+  cursor: pointer;
+  height: 1.2em;
+  transition: 1s;
+}
+
+.cr-control:hover{
+  transform: scale(1.2);
+}
+
+.cr-control:not(:hover){
+  transform: scale(1);
+}
+
+.cr-left-control{
+  grid-area: left-control;
+}
+
+.cr-right-control{
+  grid-area: right-control;
+}
+
+.cr-container{
+  overflow: hidden;
+  display: flex;
+  flex-wrap: nowrap;
+  height: 100%;
+  top: 20%;
+  width: 100%;
+}
+
+.cr-el{
+  flex: 1 0 25%;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: relative; 
+  background-color: #fff;
+}
+
+.cr-el-slider {
+  width: 100%;
+  height: 100%;
+  transition: 1s;
+  background-color: #000000b3;
+  color: #dcdcdc;
+  margin-left: 100%;
+  grid-template-columns: 1fr;
+  grid-template-rows: 20px 20% 30px 40px 30px 1fr repeat(2, 5%) 20px;
+  position: absolute;
+  font-family: 'Tajawal', sans-serif;
+}
+
+.cr-el:hover .cr-el-slider{
+  margin-left: 0;
+}
+
+.cr-el-slider h3{ 
+  font-family: 'Bree Serif', serif; 
+  margin: 0;
+  font-size: 1.4em;
+  grid-row-start: 2;
+  padding: 0 5px;
+}
+
+.cr-el-slider span:nth-child(2){
+  font-size: .8em;
+  grid-row-start: 3;
+}
+
+.cr-el-slider span:nth-child(3){
+  font-size: 1.4em;
+  grid-row-start: 4;
+}
+
+.cr-el-slider span:nth-child(4){
+  font-size: .8em;
+  grid-row-start: 5;
+}
+
+.cr-el-slider input[type=button]{
+  grid-row-start: 6;
+}
+
+.cr-el-slider a:nth-child(6){
+  font-size: .8em;
+  grid-row-start: 8;
+  cursor: pointer;
+  color: #dcdcdc;
+}
+
+@media screen and (max-width: 600px){
+  .cr-container .cr-el{
+    flex: 1 0 calc(100%/3);
+  }
+
+  .cr-el-slider{
+  	grid-template-rows: auto;
+  }
+}
