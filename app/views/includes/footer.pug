@@ -19,32 +19,36 @@ footer.grid-center-items
   a(href='/blog')
     span Blog
   span.footer-contact Contact
-section#contact-us-wrapper.modal-wrapper
-  #contact-us-container.modal-container
-    span#close-contact-modal.close-modal(title='Close') ×
-    h2 CONTACT US
-    #map-container
-    .contacts-with-text.grid-center-items
-      i.fas.fa-map-marker-alt
-      i.fas.fa-paper-plane
-      i.fas.fa-phone
-      span Kryviy Val str., 31, Lutsk, Volyn region, 43000
-      span oasis@oasis.com
-      span 012345678
-      .contact-time
-        i.far.fa-clock
-        span Everyday 10am - 6pm
-    form#contact-form.contact-form
-      label
-        | Your name (required)
-        input(type='text', name='name', required='')
-      label
-        | Your Email (required)
-        input(type='e-mail', name='email', required='')
-      label
-        | Subject
-        input(type='text', name='subject')
-      label
-        | Your Message
-        textarea(name='message', rows='5')
-      button#send_message.button Send
+section.cu-modal-wrapper.modal-wrapper
+  .cu-modal-container.modal-container
+    span.cu-modal-close.close-modal(title='Close') &times;
+    h2.cu-title CONTACT US
+    .cu-modal-items-container
+      .cu-map-container
+      .cu-ways-container.grid-center-items
+        i.fas.fa-map-marker-alt
+        i.fas.fa-paper-plane
+        i.fas.fa-phone
+        span Kryviy Val str., 31, Lutsk, Volyn region, 43000
+        span oasis@oasis.com
+        span 012345678
+        .cu-time
+          i.far.fa-clock
+          span Everyday 10am - 6pm
+      form.cu-form
+        label
+          | Your name (required)
+          input(type='text' name='name' required='')
+        label
+          | Your Email (required)
+          input(type='e-mail' name='email' required='')
+        label
+          | Subject
+          input(type='text' name='subject')
+        label
+          | Your Message
+          textarea(name='message' rows='5')
+        button.cu-form-send-button.button Send
+
+
+

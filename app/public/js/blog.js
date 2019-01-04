@@ -47,4 +47,4 @@ contactModalLink.onclick = () => contactModal.style.display = 'flex';
 
 closeContactModal.onclick = () => contactModal.style.display = 'none';
 
-document.getElementById('send_message').onclick = () => ServerInteraction.sendMessage(document.getElementsByClassName('cu-form')[0]);
+document.getElementsByClassName('cu-form-send-button')[0].onclick = () => ServerInteraction.sendMessage(document.getElementsByClassName('cu-form')[0]);
