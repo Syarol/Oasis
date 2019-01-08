@@ -1,6 +1,7 @@
 /**
   * Cart
   * cm - is short from 'cart modal'
+  * btn - is short from 'button'
 **/
 
 .cm-wrapper{
@@ -79,7 +80,7 @@
   grid-column-start: 5; 
 }
 
-.cm-button {
+.cm-btn {
   width: 115px;
   margin: auto;
 }
@@ -104,7 +105,7 @@
   text-align: center; 
 }
 
-.cm-buttons-container {
+.cm-btns-container {
   display: flex;
   height: 10%; 
 }

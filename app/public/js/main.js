@@ -24,7 +24,7 @@ var arrivalCarouselSection = document.getElementsByClassName('cr-arrivals-sectio
 var contactModal = document.getElementsByClassName('cu-modal-wrapper')[0];
 var contactModalLink = document.getElementsByClassName('footer-contact')[0];
 var closeContactModal = document.getElementsByClassName('cu-modal-close')[0];
-var bestsellerModalWrapper = document.getElementById('book-modal-wrapper');
+var bestsellerModalWrapper = document.getElementsByClassName('bm-wrapper')[0];
 var goodsInCart = [];
 var openCart = document.getElementsByClassName('header-cart-container')[0];
 var cart;
@@ -42,10 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	let Render = new RenderElements(); 
 
 	ServerInteraction.getSpecialMarked('ARRIVALS', arrivalCarouselSection, Render.carouselItems, cart);
-	ServerInteraction.getSpecialMarked('BESTSELLER', [document.getElementById('bestseller-container'), document.getElementById('book-modal-container')], Render.bestseller, cart);
-	ServerInteraction.getSpecialMarked('EXCLUSIVE', document.getElementById('exclusives_container'), Render.exclusiveBooks, cart);
+	ServerInteraction.getSpecialMarked('BESTSELLER', [document.getElementsByClassName('bae-bestseller-container')[0], document.getElementsByClassName('bae-book-photo')[0]], Render.bestseller, cart);
+	ServerInteraction.getSpecialMarked('EXCLUSIVE', document.getElementsByClassName('bae-exclusives-container')[0], Render.exclusiveBooks, cart);
 
-	ServerInteraction.getList('categories', document.getElementById('category-select'), Render.categoriesList);
+	ServerInteraction.getList('categories', document.getElementsByClassName('sf-select')[0], Render.categoriesList);
 
 	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location
 });
@@ -66,4 +66,4 @@ contactModalLink.onclick = () => contactModal.style.display = 'flex';
 
 closeContactModal.onclick = () => contactModal.style.display = 'none';
 
-document.getElementsByClassName('cu-form-send-button')[0].onclick = () => ServerInteraction.sendMessage(document.getElementsByClassName('cu-form')[0]);
+document.getElementsByClassName('cu-form-send-btn')[0].onclick = () => ServerInteraction.sendMessage(document.getElementsByClassName('cu-form')[0]);

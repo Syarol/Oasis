@@ -5,7 +5,7 @@
 	<title>Oasis</title>
 
     <meta charset="UTF-8">
-	<meta id="viewport" name="viewport" content ="width=device-width, shrink-to-fit=no"/>
+	<meta name="viewport" content ="width=device-width, shrink-to-fit=no"/>
 
 	<meta name="title" content="Oasis">
 	<meta name="Keywords" content="book bookstore store site cart lutsk volyn">
@@ -18,7 +18,7 @@
 	<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
 	<link rel="icon" href="images/favicon.png" type="image/x-icon">
 
-	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Black+Han+Sans|Bree+Serif|Lato" rel="stylesheet"> 
+	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Black+Han+Sans|Bree+Serif|Lato|Muli" rel="stylesheet"> 
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 	<link href="css/min/index-bundle.min.css" rel="stylesheet">
 </head>
@@ -41,19 +41,21 @@
 	</header> 
 
 	<main>
-		<section id="head-section-wrapper">
-			<h2>Welcome at Oasis</h2>
-			<a href="/shop" class="button grid-center-items">Shop now</a>
+		<!-- Top banner -->
+		<section class="tp-container flex-center-items">
+			<h2 class="tp-heading">Welcome at Oasis</h2>
+			<a href="/shop" class="tp-button button">Shop now</a>
 		</section>
 
-		<section class="welcome-sign-wrapper flex-center-items">
-			<div class="welcome-sign grid-center-items">
-				<h2>Welcome to Oasis book store</h2>
-				<p>Tons of book collections you can choose from.<br> Books that don’t suck, we ensure the quality of our books the best you can find anywhere.</p>
+		<!-- Welcome text-->
+		<section class="wt-wrapper flex-center-items">
+			<div class="wt-container grid-center-items">
+				<h2 class="wt-heading">Welcome to Oasis book store</h2>
+				<p class="wt-paragraph">Tons of book collections you can choose from.<br> Books that don’t suck, we ensure the quality of our books the best you can find anywhere.</p>
 			</div>
 		</section>
 
-		<!-- Carousel -->
+		<!-- Arrivals carousel -->
 		<section class="cr-arrivals-section cr-items-container grid-center-items">
 			<div class="cr-controls-container grid-center-items">
 				<span class="cr-control cr-left-control">
@@ -70,37 +72,38 @@
 		</section>
 
 		<!-- Best and exclusive -->
-		<section class="bae-section">
-			<div class="bae-section-product-container">
-				<div class="bae-section-bestseller-title-container title-container grid-center-items">
+		<section class="bae-container">
+			<div class="bae-item-container">
+				<div class="bae-bestseller-title-wrapper title-wrapper flex-center-items">
 					<span>BEST SELLING BOOK</span>
 				</div>
-				<div id="bestseller-container" class="grid-center-items">
+				<div class="bae-bestseller-container grid-center-items">
 					<span class="on-sale-sign">SALE!</span>
 
 				</div>
 			</div>
-			<div class="bae-section-product-container">
-				<div class="bae-section-exclusive-title-container title-container grid-center-items">
+			<div class="bae-item-container">
+				<div class="bae-exclusive-title-wrapper title-wrapper flex-center-items">
 					<span>EXCLUSIVE THIS MONTH</span>
 				</div>
-				<div id="exclusives_container">
+				<div class="bae-exclusives-container">
 
 				</div>
 			</div>
 		</section>
 
-		<section class="find-product-section grid-center-items">
-			<div class="find-form grid-center-items">
+		<!-- Search form -->
+		<section class="sf-wrapper grid-center-items">
+			<div class="sf-container grid-center-items">
 				<span>NEED TO FIND PARTICULAR PRODUCTS?</span>
-				<form id="find_product_form" action="/search" method="GET">
+				<form class="sf" action="/search" method="GET">
 					<div>
 						<label for="title">Book title</label>
 						<input type="text" name="title">
 					</div>
 					<div>
 						<label>Category</label>
-						<select name="categories" id="category-select">
+						<select name="categories" class="sf-select">
 							<option selected>Choose category</option>
 						</select>
 					</div>
@@ -108,7 +111,7 @@
 						<label for="author">Book author</label>
 						<input type="text" name="author">
 					</div>
-					<button id="search-button" class="button">Search</button>
+					<button class="sf-button button">Search</button>
 					<input type="hidden" name="searchType" value="search-custom-small"/>
 				</form>
 			</div>
@@ -132,20 +135,21 @@
 		<span class="footer-contact">Contact</span>
 	</footer>
 
-	<div id="book-modal-wrapper" class="modal-wrapper">
-		<div id="book-modal-container" class="modal-container grid-center-items">
+	<!-- Book modal -->
+	<div class="bm-wrapper modal-wrapper">
+		<div class="bm-container modal-container grid-center-items">
 			<span class="close-modal" title="Close">×</span>
 
-			<h3 id="book_title"></h3>
-			<img id="book_photo" class="modal-book-image">
-			<div class="modal-book-data grid-center-items">
-				<span id="book_author" class="author"></span>
-				<span id="book-modal-isbn"></span>
-				<span id="book-modal-publisher"></span>
-				<span id="book_categories" class="category"></span>
-				<span id="book_description" class="text-container"></span>
-				<span id="book_price"></span>
-				<input id="input_book_title" name="" class="button" value="Add to cart" type="button">
+			<h3 class="bm-heading"></h3>
+			<img class="bm-image">
+			<div class="bm-data grid-center-items">
+				<span class="bm-author" class="author"></span>
+				<span class="bm-isbn"></span>
+				<span class="bm-publisher"></span>
+				<span class="bm-categories" class="category"></span>
+				<span class="bm-description" class="text-container"></span>
+				<span class="bm-price"></span>
+				<input class="bm-buy-button button" value="Add to cart" type="button">
 			</div>
 		</div>
 	</div>

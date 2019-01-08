@@ -51,7 +51,7 @@ function addToCartButton(item, cart){
 	let button = createNewEl('input', false, {
 		type: 'button',
 		title: item.title,
-		class: 'button',
+		class: 'btn',
 		value: 'Add to cart',
 		event: {click: {
 			call: () => cart.addToCartArray(item)
@@ -68,7 +68,7 @@ function addToCartButton(item, cart){
 
 function bookModalData(data){
 	function checkAvailability(data){
-		let button = document.getElementById('input_book_title');
+		let button = document.getElementsByClassName('bm-buy-button')[0];
 		button.name = JSON.stringify(data);
 		if (data.status === 'In Stock'){
 			button.title = data.title;
@@ -82,15 +82,15 @@ function bookModalData(data){
 
 	return {click: {
 		call: () => {						
-			document.getElementById('book-modal-wrapper').style.display = 'flex'; //open modal window
-			document.getElementById('book_title').textContent = data.title; //show goods title
-			document.getElementById('book_photo').setAttribute('src', data.thumbnailUrl); //show goods image
-			document.getElementById('book_author').textContent = 'Author: ' + data.author; //show goods author
-			document.getElementById('book-modal-isbn').textContent = 'ISBN: ' + data.isbn; //show goods isbn
-			document.getElementById('book-modal-publisher').textContent  = 'Publisher: ' + data.publisher; //show goods prise
-			document.getElementById('book_categories').textContent = 'Categories: ' + data.categories; //show goods categories
-			document.getElementById('book_description').textContent = data.shortDescription; //show goods description
-			document.getElementById('book_price').textContent  = 'Price: $' + data.price; //show goods prise
+			document.getElementsByClassName('bm-wrapper')[0].style.display = 'flex'; //open modal window
+			document.getElementsByClassName('bm-heading')[0].textContent = data.title; //show goods title
+			document.getElementsByClassName('bm-image')[0].setAttribute('src', data.thumbnailUrl); //show goods image
+			document.getElementsByClassName('bm-author')[0].textContent = 'Author: ' + data.author; //show goods author
+			document.getElementsByClassName('bm-isbn')[0].textContent = 'ISBN: ' + data.isbn; //show goods isbn
+			document.getElementsByClassName('bm-publisher')[0].textContent  = 'Publisher: ' + data.publisher; //show goods prise
+			document.getElementsByClassName('bm-categories')[0].textContent = 'Categories: ' + data.categories; //show goods categories
+			document.getElementsByClassName('bm-description')[0].textContent = data.shortDescription; //show goods description
+			document.getElementsByClassName('bm-price')[0].textContent = 'Price: $' + data.price; //show goods prise
 			checkAvailability(data);//set goods data in 'add to cart' button (needs to addding to cart operation)
 		}
 	}};
@@ -104,13 +104,13 @@ export default class RenderElements{
 	/*render bestseller section of main page*/
 	bestseller(parent, data, cart){
 	   	bestsellerPreview(parent[0], data[0]);
-	   	document.getElementById('input_book_title').onclick = () => cart.addToCartArray(data[0]);
+	   	document.getElementsByClassName('bm-buy-button')[0].onclick = () => cart.addToCartArray(data[0]);
 
 	   	/*render short information in section of main page*/
 		function bestsellerPreview(parent, data){
 			/*goods image*/
 			createNewEl('img', parent, {
-				class: 'book-photo-container',
+				class: 'bae-book-photo',
 				src: data.thumbnailUrl
 			});
 			/*short description of the goods*/
@@ -120,8 +120,7 @@ export default class RenderElements{
 			});
 			/*button that opens modal window on click */
 			createNewEl('span', parent, {
-				id: 'open_bestseller_modal',
-				class: 'button grid-center-items',
+				class: 'btn',
 				content: 'Quick view',
 				event: bookModalData(data)
 			});
@@ -183,12 +182,12 @@ export default class RenderElements{
 	/*render finded goods*/
 	finded(item, cart){
 		/*goods wrapper block*/
-		createNewEl('div', document.getElementById('finded-items-container'), {
-	 		class: 'finded-item grid-center-items', 
+		createNewEl('div', document.getElementsByClassName('fi-items-container')[0], {
+	 		class: 'fi grid-center-items', 
 	 		nested: [
 	 			/*goods image*/
 	 			createNewEl('img', false, {
-	 				class: 'finded-item-photo',
+	 				class: 'fi-photo',
 	 				pseudo: item.title,
 	 				src: item.thumbnailUrl,
 	 				/*on photo click open modal window with information about goods*/
@@ -205,7 +204,7 @@ export default class RenderElements{
 	 			/*goods price*/
 	 			createNewEl('span', false, {
 	 				content: '$' + item.price,
-	 				class: 'finded-item-price'
+	 				class: 'fi-price'
 	 			}),
 	 			/*button of adding to cart (on click)*/
 	 			addToCartButton(item, cart)
@@ -218,7 +217,7 @@ export default class RenderElements{
 		/*render checklist items one by one*/
 		for (let item of list){
 			/*render checkbox that contain main information*/
-			createNewEl('label', document.getElementById(parent), {
+			createNewEl('label', parent, {
 				nested: [
 					createNewEl('input', false, {
 						type: 'checkbox',
@@ -236,7 +235,7 @@ export default class RenderElements{
 					   	}}
 					}),
 					/*render checkbox label text*/
-					createNewEl('span', document.getElementById(parent), {
+					createNewEl('span', parent, {
 						content: item
 					})
 				]

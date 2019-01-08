@@ -80,7 +80,12 @@ main{
   grid-template-areas: "search-banner" "recommends-carousel" "bestsellers-carousel" "arrivals-carousel";
 }
 
-#search-banner-wrapper{
+/**
+  * Search banner
+  * sb - is short from 'search banner'
+**/
+
+.sb-container{
   grid-area: search-banner;
   background-position: center;
   background-size: cover;
@@ -90,10 +95,9 @@ main{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  align-content: center;
 }
 
-#search-banner-wrapper h1{
+.sb-heading{
   margin-top: 0;
   font-size: 4em;
   color: #242222;
@@ -101,14 +105,14 @@ main{
   text-align: center;
 }
 
-#search-banner-wrapper form{
+.sb-form{
   display: grid;
   grid-template-columns: 1fr 125px;
   grid-column-gap: 20px;
   width: 65%;
 }
 
-#search-banner-wrapper form input[type=text]{
+.sb-form input[type=text]{
   border: 0;
   border-bottom: 1px solid black;
   padding: 4px;
@@ -119,11 +123,11 @@ main{
   color: white;
 }
 
-#search-banner-wrapper form button{
+.sb-form button{
   font-size: 1.2em;
 }
 
-#search-banner-wrapper #show-everything-text{
+.sb-all-link{
   font-size: 1.5em;
   color: #f6f6f6;
   font-weight: bold;
@@ -134,7 +138,7 @@ main{
 }
 
 @media screen and (max-width: 600px){
-  #search-banner-wrapper form {
+  .sb-form {
     width: 85%;
   }
 }

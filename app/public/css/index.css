@@ -27,6 +27,12 @@ html, body {
   justify-items: center;
 }
 
+.flex-center-items{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .button{
   cursor: pointer;
   border: 0;
@@ -34,6 +40,7 @@ html, body {
   font-size: 1em;
 	font-family:  'Tajawal', sans-serif;
 	background-color: #CCCFCDE6;	
+  text-align: center;
 }
 
 .button:disabled,
@@ -107,16 +114,18 @@ main{
   }
 }
 
-#head-section-wrapper{
+/**
+  * Top banner
+  * tp - is short from 'top banner'
+**/
+
+.tp-container{
   grid-area: head-banner;
 	background-image: url(/assets/images/books-bookstore-book-reading-159711.jpeg); 
   flex-direction: column;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-#head-section-wrapper h2{
+.tp-heading{
   width: 95%;
 	font-size: 4em;
 	font-family:  'Black Han Sans', sans-serif;
@@ -125,16 +134,21 @@ main{
   text-align: center;
 }
 
-#head-section-wrapper .button{
+.tp-button{
 	font-size: 1.3em;
 	width: 200px;
 }
 
-.welcome-sign-wrapper{
+/**
+  * Welcome text
+  * wt - is short from 'welcome text'
+**/
+
+.wt-wrapper{
   grid-area: welсome-sign;
 }
 
-.welcome-sign{
+.wt-container{
 	height: 80%;
 	width: 80%;
   margin: auto;
@@ -145,7 +159,7 @@ main{
 	box-shadow:  0 0 2px #C0D1C4;
 }
 
-.welcome-sign-wrapper h2{
+.wt-heading{
 	margin: 0;
 	font-size: 2em;
 	grid-row-start: 2;
@@ -153,7 +167,7 @@ main{
 	font-family: 'Bree Serif', serif;
 }
 
-.welcome-sign-wrapper p{
+.wt-paragraph{
 	grid-row-start: 3;
 	text-align: center;
 	font-family: 'Tajawal', sans-serif;
@@ -161,72 +175,76 @@ main{
 }
 
 @media screen and (max-width: 600px){
-  .welcome-sign{
+  .wt-container{
     width: 95%;
   }
 }
 
-
-
+/**
+  * Arrivals carousel
+  * cr - is short from 'carousel'
+**/
 
 .cr-arrivals-section{
   grid-area: arrivals-carousel;
 }
 
+/**
+  * Best and exclusive section
+  * bae - is short from 'best and exclusive'
+**/
 
-
-
-.bae-section{
+.bae-container{
   grid-area: best-and-exclusive-section;
   display: flex;
 }
 
-.bae-section-product-container{
+.bae-item-container{
   width: 50%;
   height: 100%;
 }
 
-.bae-section .title-container{
+.bae-container .title-wrapper{
   height: 15%;
   width: 100%;
-	font-family:  'Black Han Sans', sans-serif;
+	font-family: 'Black Han Sans', sans-serif;
 }
 
-.bae-section-exclusive-title-container{
+.bae-exclusive-title-wrapper{
   background-color: black;
   color: white;
 }
 
-.bae-section-bestseller-title-container{
+.bae-bestseller-title-wrapper{
   background-color: #fff;
   color: #5a5656;
 }
 
-#bestseller-container{
+.bae-bestseller-container{
   height: 85%;
   position: relative;
   grid-template-columns: 1fr;
   grid-template-rows: 60% 30% 10%;
 }
 
-#bestseller-container .button{
+.bae-bestseller-container .button{
 	font-size: 1.3em;
 	width: 140px;
 }
 
-.book-photo-container{
+.bae-book-photo{
 	object-fit: contain;
   height: 100%;
 	width: 100%;
 }
 
-#bestseller-container .text-container{
+.bae-bestseller-container .text-container{
 	width: 90%;
 	text-align: justify;
 	font-family: 'Tajawal', sans-serif;
 }
 
-#exclusives_container{
+.bae-exclusives-container{
   height: 85%;
 	display: grid;
 	grid-template-rows: 1fr 1fr;
@@ -234,22 +252,22 @@ main{
 }
 
 @media screen and (max-width: 600px){
-  .bae-section{
+  .bae-container{
     display: grid;
     grid-template-rows: 40% 60%;
   }
 
-  .bae-section-product-container {
+  .bae-item-container {
     width: 100%;
     display: grid;
     grid-template-rows: 3.5em 1fr;
   }
 
-  .bae-section .title-container{
+  .bae-container .title-wrapper{
     height: 100%;
   }
 
-  #bestseller-container {
+  .bae-bestseller-container {
     height: 100%;
     grid-template-columns: 40% 60%;
     grid-template-rows: 80% 20%;
@@ -257,48 +275,48 @@ main{
     font-size: .9em;
   }
 
-  .book-photo-container {
+  .bae-book-photo {
     height: 95%;
     grid-row-start: 1;
     grid-row-end: 3;
   }
 
-  #bestseller-container .text-container{
+  .bae-bestseller-container .text-container{
     font-size: .9em;
   }
 
-  #bestseller-container .button{
+  .bae-bestseller-container .button{
     grid-column: 2;
     grid-row: 2;
     font-size: 1em;
     width: 100px;
   }
 
-  #exclusives_container {
+  .bae-exclusives-container {
     height: 100%;
   }
 
-  #exclusives_container .carousel-item-inf {
+  .bae-exclusives-container .cr-el-slider{
     display: flex;
     justify-content: center;
     flex-direction: column;
   }
 
-  #exclusive-container .button{
+  .bae-exclusives-container-container .button{
     margin: 2%;
   }
-
 }
 
+/**
+  * Search form
+  * sf - is short from 'search form'
+**/
 
-
-
-
-.find-product-section{
+.sf-wrapper{
   grid-area: search-panel;
 }
 
-.find-form{
+.sf-container{
 	height: 80%;
 	width: 80%;
 	grid-template-columns: 1fr;
@@ -309,7 +327,7 @@ main{
 	font-size: 1.3em;
 }
 
-#find_product_form{
+.sf{
 	grid-row-start: 2;
 	display: grid;
 	grid-template-columns: repeat(3, 1fr) 12.5%;
@@ -318,11 +336,11 @@ main{
 	font-size: .8em;
 }
 
-#find_product_form label{
+.sf label{
 	font-size: 0.7em;
 }
 
-#find_product_form input[type=text], #find_product_form select {
+.sf input[type=text], .sf select {
 	border: 0;
   border-bottom: 1px solid black;
 	padding-bottom: 3px;
@@ -332,21 +350,21 @@ main{
   width: 100%;
 }
 
-#find_product_form input[type=text]{
+.sf input[type=text]{
   transition: 1s;
 }
 
-#find_product_form input[type=text]:focus, #find_product_form select:focus {
+.sf input[type=text]:focus, .sf select:focus {
   border-color: green;
 }
 
-#find_product_form button{
+.sf-button{
 	height: 35px;
 	width: 100%;
   align-self: center;
 }
 
-#find_product_form select {
+.sf-select {
 	-moz-appearance:none; /* Firefox */
   -webkit-appearance:none; /* Safari and Chrome */
   appearance:none;
@@ -362,7 +380,7 @@ main{
   background-repeat: no-repeat;
 }
 
-#find_product_form select:focus {
+.sf-select:focus {
   background-image:
    	linear-gradient(45deg, green 50%, transparent 50%),
    	linear-gradient(135deg, transparent 50%, green 50%);
@@ -372,24 +390,26 @@ main{
 }
 
 @media screen and (max-width: 600px){
-  .find-form{
+  .sf-container{
     width: 95%;
   }
 
-  #find_product_form {
+  .sf {
     width: 95%;
     grid-gap: 10px;
   }
 }
 
+/**
+  * Book modal
+  * bm - is short from 'book modal'
+**/
 
-
-
-#book-modal-wrapper{
+.bm-wrapper{
 	display: none;
 }
 
-#book-modal-container{
+.bm-container{
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 10% 1fr;
@@ -397,21 +417,21 @@ main{
   grid-template-areas: "item-title item-title" "book-image book-data";
 }
 
-#book-modal-container h3{
+.bm-heading{
   grid-area: item-title;
   margin: 0;
   font-size: 2em;
   font-family: 'Bree Serif', serif;
 }
 
-.modal-book-image{
+.bm-image{
   grid-area: book-image;
   object-fit: contain;
   width: 90%;
   height: 100%;
 }
 
-.modal-book-data{
+.bm-data{
   font-family: 'Lato', sans-serif;
   grid-template-rows: repeat(4, 30px) 1fr 30px 40px;
   grid-template-areas: "book-author" "book-isbn" "book-publisher" "book-categories" "book-description"  "book-price" "book-avalaible-and-buy" ;

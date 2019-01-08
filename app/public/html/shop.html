@@ -3,12 +3,13 @@
 <head>
 	<title>Oasis online-store</title>
 
-	<meta charset="utf-8">
+    <meta charset="UTF-8">
+	<meta name="viewport" content ="width=device-width, shrink-to-fit=no"/>
 
 	<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
 	<link rel="icon" href="images/favicon.png" type="image/x-icon">
 
-	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Black+Han+Sans|Bree+Serif|Hind" rel="stylesheet"> 
+	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Black+Han+Sans|Bree+Serif|Hind|Muli" rel="stylesheet"> 
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 	<link href="css/min/shop-bundle.min.css" rel="stylesheet">
 </head>
@@ -30,15 +31,16 @@
 	</header> 
 
 	<main>
-		<section id="search-banner-wrapper">
-			<h1>Search by our catalog</h1>
-			<form action="/search" method="GET">
+		<!-- Search banner -->
+		<section class="sb-container">
+			<h1 class="sb-heading">Search by our catalog</h1>
+			<form class="sb-form" action="/search" method="GET">
 				<input type="text" name="query" placeholder="Search for">
 				<button class="button">Let's found!</button>
 				<input type="hidden" name="searchType" value="search-full">
 			</form>
 
-			<span id="show-everything-text">Show me everything!</span>
+			<span class="sb-all-link">Show me everything!</span>
 		</section>
 
 		<!-- Carousels -->

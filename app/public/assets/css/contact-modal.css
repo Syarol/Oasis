@@ -76,14 +76,14 @@
   width: 100%;
 }
 
-.cu-form-send-button{
+.cu-form-send-btn{
   width: 120px;
   transition: 1s;
   margin-top: 10px;
   margin-left: 7.5%;
 }
 
-.cu-form-send-button:hover{
+.cu-form-send-btn:hover{
   background-color: #c5c5c5;
 }
 

@@ -21,10 +21,10 @@ import Pagination from './Pagination.js';
  * Global variables
 */
 
-var categoriesList = document.getElementById('categories-list');
-var priceRangeContainer = document.getElementsByClassName('aside-nav-price-range-container')[0];
-var authosList = document.getElementById('authors-list');
-var publishersList = document.getElementById('publishers-list');
+var categoriesList = document.getElementsByClassName('sidebar-categories-list')[0];
+var priceRangeContainer = document.getElementsByClassName('sidebar-price-range-container')[0];
+var authorsList = document.getElementsByClassName('sidebar-authors-list')[0];
+var publishersList = document.getElementsByClassName('sidebar-publishers-list')[0];
 var closeBookModal = document.getElementById('close_book_modal');
 var contactModal = document.getElementsByClassName('cu-modal-wrapper')[0];
 var contactModalLink = document.getElementsByClassName('footer-contact')[0];
@@ -89,16 +89,16 @@ function showSearchQuery(query, findedLength){
  * Event Listeners
 */
 
-categoriesList.parentNode.getElementsByClassName('button')[0].onclick = () => 
+categoriesList.parentNode.getElementsByClassName('btn')[0].onclick = () => 
 	sidelistOnClick(categoriesList, '200px');
 
-authosList.parentNode.getElementsByClassName('button')[0].onclick = () => 
-	sidelistOnClick(authosList, '200px');
+authorsList.parentNode.getElementsByClassName('btn')[0].onclick = () => 
+	sidelistOnClick(authorsList, '200px');
 
-publishersList.parentNode.getElementsByClassName('button')[0].onclick = () => 
+publishersList.parentNode.getElementsByClassName('btn')[0].onclick = () => 
 	sidelistOnClick(publishersList, '200px');
 
-priceRangeContainer.parentNode.getElementsByClassName('button')[0].onclick = () =>
+priceRangeContainer.parentNode.getElementsByClassName('btn')[0].onclick = () =>
 	sidelistOnClick(priceRangeContainer, '30px');
 
 for (let element of document.getElementsByClassName('input-number')){
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	let query = getSearchQueryFromURL(window.location.search);
 	ServerInteraction.getFinded(query).then(
 		function(res){
-			new Pagination(res, document.getElementsByClassName('pagination'), cart, document.getElementsByClassName('choose-per-page-select')[0]);
+			new Pagination(res, document.getElementsByClassName('pagination'), cart, document.getElementsByClassName('fi-per-page')[0]);
 
 			showSearchQuery(query, res.length);
 		},
@@ -126,9 +126,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	);
 
-	ServerInteraction.getList('categories', 'categories-list', Render.checkList);
-	ServerInteraction.getList('author', 'authors-list', Render.checkList);
-	ServerInteraction.getList('publisher', 'publishers-list', Render.checkList);
+	ServerInteraction.getList('categories', categoriesList, Render.checkList);
+	ServerInteraction.getList('author', authorsList, Render.checkList);
+	ServerInteraction.getList('publisher', publishersList, Render.checkList);
 
 	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location
 }); 
@@ -147,8 +147,16 @@ contactModalLink.onclick = () => contactModal.style.display = 'flex';
 
 closeContactModal.onclick = () => contactModal.style.display = 'none';
 
-document.getElementsByClassName('cu-form-send-button')[0].onclick = () => ServerInteraction.sendMessage(document.getElementsByClassName('cu-form')[0]);
+document.getElementsByClassName('cu-form-send-btn')[0].onclick = () => ServerInteraction.sendMessage(document.getElementsByClassName('cu-form')[0]);
 
 closeBookModal.onclick = () => document.getElementById('book-modal-wrapper').style.display = 'none';
 
 document.getElementById('input_book_title').onclick = function() {cart.addToCartArray(JSON.parse(this.getAttribute('name')));}; 
+
+document.getElementsByClassName('sidebar-open-btn')[0].onclick = () =>{
+	document.getElementsByClassName('sidebar-container')[0].style.transform = 'translateX(100%)';
+}
+
+document.getElementsByClassName('sidebar-hide-btn')[0].onclick = () =>{
+	document.getElementsByClassName('sidebar-container')[0].style.transform = 'translateX(0)';
+}

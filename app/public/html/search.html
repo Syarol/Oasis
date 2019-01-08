@@ -3,9 +3,8 @@
 <head>
 	<title>Oasis online-store</title>
 
-	<meta charset="utf-8">
-
-	<meta name="description" content="Amazing bookstore for your mind">
+    <meta charset="UTF-8">
+	<meta name="viewport" content ="width=device-width, shrink-to-fit=no"/>
 
 	<!-- Google / Search Engine Tags -->
 	<meta itemprop="name" content="Oasis online-store">
@@ -14,25 +13,25 @@
 	<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
 	<link rel="icon" href="images/favicon.png" type="image/x-icon">
 
-	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Bree+Serif|Hind|Cabin|Mukta+Malar|Muli" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Bree+Serif|Hind|Cabin|Muli" rel="stylesheet">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 	<link rel="stylesheet" href="css/min/search-bundle.min.css">
 </head>
 <body>
-	<header id="page_header" class="grid-center-items">
-		<span class="logo-container">
+	<header class="search-page-header grid-center-items">
+		<span class="header-logo-container">
 			<a href="/">Oasis</a>
 		</span>
 		<nav class="grid-center-items">
-			<p class="navigation"><a href="/">Home</a></p>
-			<p class="navigation"><a href="/blog">Blog</a></p>
-			<p class="navigation"><a href="/shop">Shop</a></p>
-			<form id="search-form" class="grid-center-items" action="/search" method="GET">
+			<p class="header-nav-item"><a href="/">Home</a></p>
+			<p class="header-nav-item"><a href="/blog">Blog</a></p>
+			<p class="header-nav-item"><a href="/shop">Shop</a></p>
+			<form class="header-search-form grid-center-items" action="/search" method="GET">
 				<input type="hidden" name="categories" value="">
 				<input type="hidden" name="author" value="">
 				<input type="hidden" name="publisher" value="">
 				<input type="text" name="query" placeholder="Search for">
-				<button class="button">Search</button>
+				<button class="btn">Search</button>
 				<input type="hidden" name="searchType" value="aside-search">
 			</form>
 		</nav>
@@ -47,11 +46,32 @@
 		</section>
 			<span id="search-text"></span>
 
-		<section id="finded_section" class="grid-center-items">
-			<div class="finded-section-top-container grid-center-items">
-				<div class="choose-per-page-container">
+		<!-- Search form (for small dispays only) -->
+		<div class="big-search-form-wrapper">
+			<form class="big-search-form" class="grid-center-items" action="/search" method="GET">
+				<input type="hidden" name="categories" value="">
+				<input type="hidden" name="author" value="">
+				<input type="hidden" name="publisher" value="">
+				<input type="text" name="query" placeholder="Search for">
+				<button class="btn">Search</button>
+				<input type="hidden" name="searchType" value="aside-search">
+			</form>
+		</div>
+
+		<!-- Open sidebar button (for small dispays only) -->
+		<div class="sidebar-open-container">
+			<button class="sidebar-open-btn btn">
+				<i class="fas fa-bars"></i>
+				<span>Filters</span>
+			</button>
+		</div>
+
+		<!-- Finded items -->
+		<section class="fi-container grid-center-items">
+			<div class="fi-top-container grid-center-items">
+				<div class="fi-per-page-container">
 					<span>Items per page: </span>
-					<select class="choose-per-page-select">
+					<select class="fi-per-page">
 						<option value="9">9</option>
 						<option value="18">18</option>
 						<option value="36">36</option>
@@ -59,74 +79,79 @@
 					</select>
 				</div>
 
-				<div class="pagination pagination-top">
+				<div class="pagination">
 					<span id="top-parination-left" class="pagination-arrow pagination-arrow-left fas"></span>
 
 					<span id="top-parination-right" class="pagination-arrow pagination-arrow-right fas"></span>
 				</div>
-
 			</div>
-
-
-			<div id="finded-items-container">
-
+			<div class="fi-items-container">
+				<!-- Finded items renders here -->
 			</div>
-
-			<div class="pagination pagination-bottom">
+			<div class="pagination">
 				<span id="bottom-parination-left" class="pagination-arrow pagination-arrow-left fas"></span>
 
 				<span id="bottom-parination-right" class="pagination-arrow pagination-arrow-right fas"></span>
 			</div>
 		</section>
 	
-		<aside class="aside-nav-wrapper">
-			<div class="aside-nav-container">
-				<button type="button" class="aside-nav-button button">
+		<!-- Sidebar -->
+		<div class="sidebar-container">
+			<header class="sidebar-header">
+				<span class="sidebar-hide-btn">
+					<i class="fas fa-arrow-left"></i>
+					<span>Back</span>
+				</span>
+				<span class="sidebar-header-title">Filters</span>
+			</header>
+			<div class="sidebar-item-container">
+				<button class="sidebar-btn btn">
 					<span>Category</span>
 					<i class="fas fa-angle-down"></i>
 				</button>
-				<div id="categories-list" class="aside-nav-items-container">
+				<div class="sidebar-items-container sidebar-categories-list">
 
 				</div>
 			</div>
-			<div class="aside-nav-container">
-				<button type="button" class="aside-nav-button button">
+			<div class="sidebar-item-container">
+				<button class="sidebar-btn btn">
 					<span>Price</span>
 					<i class="fas fa-angle-down"></i>
 				</button>
-				<div class="aside-nav-price-range-container grid-center-items">
-					<div class="price-container">
+				<div class="sidebar-price-range-container grid-center-items">
+					<div class="low-price-container price-container">
 						<input class='input-number' type="number" name="low-price" min="0" placeholder="0" form="search-form">
 						<span>$</span>
 					</div>
-					<span class="aside-nav-mdash">&mdash;</span>
-					<div class="price-container">
+					<span class="sidebar-mdash">&mdash;</span>
+					<div class="high-price-container price-container">
 						<input class='input-number' type="number" name="high-price" min="0" placeholder="10" form="search-form">
 						<span>$</span>
 					</div>
 				</div>
 			</div>
-			<div class="aside-nav-container">
-				<button type="button" class="aside-nav-button button">
+			<div class="sidebar-item-container">
+				<button class="sidebar-btn btn">
 					<span>Author</span>
 					<i class="fas fa-angle-down"></i>
 				</button>
-				<div id="authors-list" class="aside-nav-items-container">
+				<div class="sidebar-items-container sidebar-authors-list">
 
 				</div>
 			</div>
-			<div class="aside-nav-container">
-				<button type="button" class="aside-nav-button button">
+			<div class="sidebar-item-container">
+				<button class="sidebar-btn btn">
 					<span>Publisher</span>
 					<i class="fas fa-angle-down"></i>
 				</button>
-				<div id="publishers-list" class="aside-nav-items-container">
+				<div class="sidebar-items-container sidebar-publishers-list">
 
 				</div>
 			</div>
-		</aside>
+		</div>
 	</main>
 
+	<!-- Footer -->
 	<footer class="grid-center-items">
 		<span class="footer-copyright">Copyright - Oleh Yaroshchuk 2018</span>
 
@@ -167,7 +192,7 @@
 					<label>Your Email (required)<input type="e-mail" name="email" required></label>
 					<label>Subject<input type="text" name="subject"></label>
 					<label>Your Message<textarea name="message" rows="5"></textarea></label>
-					<button class="cu-form-send-button button">Send</button>
+					<button class="cu-form-send-btn btn">Send</button>
 				</form>
 			</div>
 		</div>
@@ -186,7 +211,7 @@
 					<span id="book_categories" class="category"></span>
 					<span id="book_description" class="text-container"></span>
 					<span id="book_price"></span>
-					<input id="input_book_title" name="" class="button" value="Add to cart" type="button">
+					<input id="input_book_title" name="" class="btn" value="Add to cart" type="button">
 				</div>
 		</div>
 	</div>

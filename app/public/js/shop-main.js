@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location
 });
 
-document.getElementById('show-everything-text').onclick = () => {
+document.getElementsByClassName('sb-all-link')[0].onclick = () => {
 	window.location.href = "/search?query=&searchType=search-full";
 };
 
@@ -55,4 +55,4 @@ contactModalLink.onclick = () => contactModal.style.display = 'flex';
 
 closeContactModal.onclick = () => contactModal.style.display = 'none';
 
-document.getElementsByClassName('cu-form-send-button')[0].onclick = () => ServerInteraction.sendMessage(document.getElementsByClassName('cu-form')[0]);
+document.getElementsByClassName('cu-form-send-btn')[0].onclick = () => ServerInteraction.sendMessage(document.getElementsByClassName('cu-form')[0]);
