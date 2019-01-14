@@ -208,7 +208,7 @@ main{
   position: relative;
   grid-area: search-text;
   margin: auto;
-  font-size: 2em;
+  font-size: 1.5em;
   font-family: 'Cabin', sans-serif;
 }
 
@@ -219,8 +219,21 @@ main{
 .big-search-form{
   width: 90%;
   display: grid;
-  grid-template-columns: 80% 15%;
-  grid-column-gap: 5%;
+  grid-template-columns: 80% 17.5%;
+  grid-column-gap: 2.5%;
+}
+
+.sf-query{
+  width: 97%;
+  border: 1px solid #ccc;
+  height: 30px;
+  font-family: 'Tajawal',sans-serif;
+  font-size: 1.1em;
+  padding: 0 5px;
+}
+
+.big-search-form .btn{
+  width: 100%;
 }
 
 .sidebar-open-container{
@@ -243,23 +256,10 @@ main{
     grid-template-areas: "search-form" "filters-button" "search-text" "finded";
   }
 
-  .big-search-form-wrapper{
+  .big-search-form-wrapper, .sidebar-open-container{
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-
-  .sidebar-open-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .big-search-form{
-    width: 90%;
-    display: grid;
-    grid-template-columns: 80% 15%;
-    grid-column-gap: 5%;
   }
 }
 
@@ -517,52 +517,3 @@ main{
     justify-self: start;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#book-modal-wrapper{
-  display: none;
-}
-
-#book-modal-container{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 10% 1fr;
-  grid-column-gap: 30px;
-  grid-template-areas: "item-title item-title" "book-image book-data";
-}
-
-#book-modal-container h3{
-  grid-area: item-title;
-  margin: 0;
-  font-size: 2em;
-  font-family: 'Bree Serif', serif;
-}
-
-.modal-book-image{
-  grid-area: book-image;
-  object-fit: contain;
-  width: 90%;
-  height: 100%;
-}
-
-.modal-book-data{
-  font-family: 'Lato', sans-serif;
-  grid-template-rows: repeat(4, 30px) 1fr 30px 40px;
-  grid-template-areas: "book-author" "book-isbn" "book-publisher" "book-categories" "book-description"  "book-price" "book-avalaible-and-buy" ;
-}
-

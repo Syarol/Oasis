@@ -33,7 +33,7 @@ html, body {
   align-items: center;
 }
 
-.button{
+.btn{
   cursor: pointer;
   border: 0;
   padding: 5px;
@@ -43,8 +43,8 @@ html, body {
   text-align: center;
 }
 
-.button:disabled,
-.button[disabled]{
+.btn:disabled,
+.btn[disabled]{
   background-color: #cccccc;
   color: #666666;
   cursor: no-drop;
@@ -134,7 +134,7 @@ main{
   text-align: center;
 }
 
-.tp-button{
+.tp-btn{
 	font-size: 1.3em;
 	width: 200px;
 }
@@ -227,7 +227,7 @@ main{
   grid-template-rows: 60% 30% 10%;
 }
 
-.bae-bestseller-container .button{
+.bae-bestseller-container .btn{
 	font-size: 1.3em;
 	width: 140px;
 }
@@ -285,7 +285,7 @@ main{
     font-size: .9em;
   }
 
-  .bae-bestseller-container .button{
+  .bae-bestseller-container .btn{
     grid-column: 2;
     grid-row: 2;
     font-size: 1em;
@@ -302,7 +302,7 @@ main{
     flex-direction: column;
   }
 
-  .bae-exclusives-container-container .button{
+  .bae-exclusives-container-container .btn{
     margin: 2%;
   }
 }
@@ -358,7 +358,7 @@ main{
   border-color: green;
 }
 
-.sf-button{
+.sf-btn{
 	height: 35px;
 	width: 100%;
   align-self: center;
@@ -398,41 +398,4 @@ main{
     width: 95%;
     grid-gap: 10px;
   }
-}
-
-/**
-  * Book modal
-  * bm - is short from 'book modal'
-**/
-
-.bm-wrapper{
-	display: none;
-}
-
-.bm-container{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 10% 1fr;
-  grid-column-gap: 30px;
-  grid-template-areas: "item-title item-title" "book-image book-data";
-}
-
-.bm-heading{
-  grid-area: item-title;
-  margin: 0;
-  font-size: 2em;
-  font-family: 'Bree Serif', serif;
-}
-
-.bm-image{
-  grid-area: book-image;
-  object-fit: contain;
-  width: 90%;
-  height: 100%;
-}
-
-.bm-data{
-  font-family: 'Lato', sans-serif;
-  grid-template-rows: repeat(4, 30px) 1fr 30px 40px;
-  grid-template-areas: "book-author" "book-isbn" "book-publisher" "book-categories" "book-description"  "book-price" "book-avalaible-and-buy" ;
 }

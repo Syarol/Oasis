@@ -23,7 +23,6 @@ import RenderElements from './RenderElements.js'; //for render DOM elements
 var contactModal = document.getElementsByClassName('cu-modal-wrapper')[0];
 var contactModalLink = document.getElementsByClassName('footer-contact')[0];
 var closeContactModal = document.getElementsByClassName('cu-modal-close')[0];
-var goodsInCart = [];
 var openCart = document.getElementsByClassName('header-cart-container')[0];
 var ServerInteraction;
 
@@ -32,7 +31,7 @@ var ServerInteraction;
 */
  
 document.addEventListener('DOMContentLoaded', () => {
-	let cart = new Cart(openCart, goodsInCart);
+	let cart = new Cart(openCart);
 	
 	ServerInteraction = new ServerInteract();
 

@@ -25,17 +25,32 @@ var contactModal = document.getElementsByClassName('cu-modal-wrapper')[0];
 var contactModalLink = document.getElementsByClassName('footer-contact')[0];
 var closeContactModal = document.getElementsByClassName('cu-modal-close')[0];
 var bestsellerModalWrapper = document.getElementsByClassName('bm-wrapper')[0];
-var goodsInCart = [];
 var openCart = document.getElementsByClassName('header-cart-container')[0];
 var cart;
 var ServerInteraction;
+
+/**
+ * Functions
+**/
+
+function clearEmptyInputs(form){
+	let allInputs = form.getElementsByTagName('input');
+
+    for (var i = 0; i < allInputs.length; i++) {
+        var input = allInputs[i];
+
+        if (input.name && !input.value) {
+            input.name = '';
+        }
+    }
+}
 
 /**
  * Event Listeners
 */
 
 document.addEventListener('DOMContentLoaded', () => {
-	cart = new Cart(openCart, goodsInCart);
+	cart = new Cart(openCart);
 	
 	ServerInteraction = new ServerInteract();
 
@@ -67,3 +82,5 @@ contactModalLink.onclick = () => contactModal.style.display = 'flex';
 closeContactModal.onclick = () => contactModal.style.display = 'none';
 
 document.getElementsByClassName('cu-form-send-btn')[0].onclick = () => ServerInteraction.sendMessage(document.getElementsByClassName('cu-form')[0]);
+
+document.getElementsByClassName('sf')[0].onsubmit = function(){clearEmptyInputs(this)};

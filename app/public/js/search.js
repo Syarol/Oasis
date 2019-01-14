@@ -21,16 +21,17 @@ import Pagination from './Pagination.js';
  * Global variables
 */
 
+let sidebar = document.getElementsByClassName('sidebar-container')[0];
 var categoriesList = document.getElementsByClassName('sidebar-categories-list')[0];
 var priceRangeContainer = document.getElementsByClassName('sidebar-price-range-container')[0];
 var authorsList = document.getElementsByClassName('sidebar-authors-list')[0];
 var publishersList = document.getElementsByClassName('sidebar-publishers-list')[0];
-var closeBookModal = document.getElementById('close_book_modal');
 var contactModal = document.getElementsByClassName('cu-modal-wrapper')[0];
 var contactModalLink = document.getElementsByClassName('footer-contact')[0];
 var closeContactModal = document.getElementsByClassName('cu-modal-close')[0];
-var goodsInCart = [];
 var openCart = document.getElementsByClassName('header-cart-container')[0];
+var bookModal = document.getElementsByClassName('bm-wrapper')[0];
+var closeBookModal = bookModal.getElementsByClassName('close-modal')[0];
 var cart;
 var ServerInteraction;
 
@@ -47,25 +48,6 @@ function sidelistOnClick(list, maxHeight){
 	if (angleSvg.style.transform == 'rotate(0deg)' || angleSvg.style.transform == ''){
 		angleSvg.style.transform = 'rotate(180deg)';
 	} else angleSvg.style.transform = 'rotate(0deg)';
-}
-
-function getSearchQueryFromURL(url){
-	let query = {};
-
-	var queryString = url.split('?')[1];
-	if (!queryString) {
-		document.getElementById('search-text').textContent = 'You need to search first';
-	} else {
-		var keyValuePairs = queryString.split('&');
-		for (let i of keyValuePairs) {
-			var keyValuePair = i.split('=');
-			var paramName = keyValuePair[0];
-			var paramValue = keyValuePair[1] || '';
-			query[paramName] = decodeURIComponent(paramValue.replace(/\+/g, ' '));
-		}
-	}
-
-	return query;
 }
 
 function showSearchQuery(query, findedLength){
@@ -85,6 +67,33 @@ function showSearchQuery(query, findedLength){
 	document.getElementById('search-text').textContent = searchText;
 }
 
+/*if the input value is empty then removes it for simplified form submit*/
+function clearEmptyInputs(form){
+	Array.from(form.getElementsByTagName('input')) //gets array of input elements inside the form
+		.map(input => {
+			/*clears name if input value empty*/
+			if (input.name && !input.value) {
+	            input.name = '';
+	        }
+		})
+}
+
+function syncPriceInputs(hiddenInput, priceInput){
+	for (let item of hiddenInput){
+		item.value = priceInput.value;
+	}
+}
+
+function getObjectFromUrlQuery(){
+	if (window.location.search.length != 0)
+		return window.location.search
+	  		.slice(1)
+			.split('&')
+			.map(p => p.split('='))
+			.reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
+	else return null;
+}
+
 /**
  * Event Listeners
 */
@@ -101,20 +110,17 @@ publishersList.parentNode.getElementsByClassName('btn')[0].onclick = () =>
 priceRangeContainer.parentNode.getElementsByClassName('btn')[0].onclick = () =>
 	sidelistOnClick(priceRangeContainer, '30px');
 
-for (let element of document.getElementsByClassName('input-number')){
-	element.oninput = function(){
-		if (this.type == 'number')
-			this.value = this.value.replace(/\D/g, '');
-	}
-}
-
 document.addEventListener('DOMContentLoaded', () => {
-	cart = new Cart(openCart, goodsInCart);
-	
+	cart = new Cart(openCart, document.getElementsByClassName('header-cart-count')[0]);
+
 	ServerInteraction = new ServerInteract();
 	let Render = new RenderElements(); 
 	
-	let query = getSearchQueryFromURL(window.location.search);
+	let query = getObjectFromUrlQuery();
+	if(!query){
+		document.getElementById('search-text').textContent = 'You need to search first';
+	}
+
 	ServerInteraction.getFinded(query).then(
 		function(res){
 			new Pagination(res, document.getElementsByClassName('pagination'), cart, document.getElementsByClassName('fi-per-page')[0]);
@@ -127,19 +133,21 @@ document.addEventListener('DOMContentLoaded', () => {
 	);
 
 	ServerInteraction.getList('categories', categoriesList, Render.checkList);
+	ServerInteraction.getLowHigh(document.getElementsByClassName('sidebar-low-price')[0], document.getElementsByClassName('sidebar-high-price')[0]);
 	ServerInteraction.getList('author', authorsList, Render.checkList);
 	ServerInteraction.getList('publisher', publishersList, Render.checkList);
 
 	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location
 }); 
 
+/*hides modal windows*/
 document.onclick = function(e) {
 	if (e.target == contactModal) {
 		contactModal.style.display = 'none';
 	}
 
-	if (e.target == document.getElementById('book-modal-wrapper')) {
-		document.getElementById('book-modal-wrapper').style.display = 'none';
+	if (e.target == bookModal) {
+		bookModal.style.display = 'none';
 	}
 };
 
@@ -149,14 +157,22 @@ closeContactModal.onclick = () => contactModal.style.display = 'none';
 
 document.getElementsByClassName('cu-form-send-btn')[0].onclick = () => ServerInteraction.sendMessage(document.getElementsByClassName('cu-form')[0]);
 
-closeBookModal.onclick = () => document.getElementById('book-modal-wrapper').style.display = 'none';
+closeBookModal.onclick = () => bookModal.style.display = 'none';
 
-document.getElementById('input_book_title').onclick = function() {cart.addToCartArray(JSON.parse(this.getAttribute('name')));}; 
+bookModal.getElementsByClassName('bm-buy-button')[0].onclick = function() {cart.add(JSON.parse(this.getAttribute('name')));}; 
 
-document.getElementsByClassName('sidebar-open-btn')[0].onclick = () =>{
-	document.getElementsByClassName('sidebar-container')[0].style.transform = 'translateX(100%)';
-}
+document.getElementsByClassName('sidebar-open-btn')[0].onclick = () => sidebar.style.transform = 'translateX(100%)';
 
-document.getElementsByClassName('sidebar-hide-btn')[0].onclick = () =>{
-	document.getElementsByClassName('sidebar-container')[0].style.transform = 'translateX(0)';
-}
+document.getElementsByClassName('sidebar-hide-btn')[0].onclick = () => sidebar.style.transform = 'translateX(0)';
+
+document.getElementsByClassName('big-search-form')[0].onsubmit = function(){clearEmptyInputs(this)};
+
+document.getElementsByClassName('header-search-form')[0].onsubmit = function(){clearEmptyInputs(this)};
+
+document.getElementsByClassName('sidebar-low-price')[0].onchange = function(){
+	syncPriceInputs(document.getElementsByClassName('sf-low-price'), this);
+};
+
+document.getElementsByClassName('sidebar-high-price')[0].onchange = function(){
+	syncPriceInputs(document.getElementsByClassName('sf-high-price'), this);
+};

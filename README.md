@@ -5,10 +5,10 @@
 
 ## Install & Use
 1. Clone this repo  
-`git clone https://github.com/Syarol/Oasis.git`
+`git clone https://github.com/Syarol/Oasis-bookstore-site.git`
 2. Install dependencies  
 `npm install`
-3. Run mysql server for database 
+3. Run Mysql server for database 
 4. Run Gulp and Node.js server  
 `gulp`
 

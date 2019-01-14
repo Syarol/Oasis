@@ -29,8 +29,8 @@ export default class Pagination{
 		this.renderPagesNumbers(this.pagesCount);
 		for (let pagination of this.paginationWrapper){
 			/*three dots block that means that more than one page between visible page numbers and first/last*/
-			pagination.insertBefore(createNewEl('span', false, {content: '...', class: 'pagination-three-dots three-dots-start'}), pagination.childNodes[2]);
-			pagination.insertBefore(createNewEl('span', false, {content: '...', class: 'pagination-three-dots three-dots-end'}), pagination.childNodes[pagination.childNodes.length - 2]);
+			pagination.insertBefore(createNewEl('span', {content: '...', class: 'pagination-three-dots three-dots-start'}), pagination.childNodes[2]);
+			pagination.insertBefore(createNewEl('span', {content: '...', class: 'pagination-three-dots three-dots-end'}), pagination.childNodes[pagination.childNodes.length - 2]);
 
 			this.removeTextNode(pagination); //deletes unnecessary '#text' nodes
 		}
@@ -75,7 +75,7 @@ export default class Pagination{
 				/*creates button for every page number*/
 				for (let i = items.length + 1; i <= this.pagesCount; i++){
 					/*create and insert page number to pagination*/
-					let pageNumber = createNewEl('span', false, {content: i, class: 'pagination-page-number'});
+					let pageNumber = createNewEl('span', {content: i, class: 'pagination-page-number'});
 					pagination.insertBefore(pageNumber, pagination.lastChild);
 
 					pageNumber.onclick = () => this.openPage(i); //open another page of pagination on click
@@ -100,7 +100,7 @@ export default class Pagination{
 				}
 			};
 			
-			let findedItems = document.getElementsByClassName('finded-item'); //get items that exist on page
+			let findedItems = document.getElementsByClassName('fi'); //get items that exist on page
 			
 			if (page == this.openedPage) {
 				if (findedItems.length < this.perPage){

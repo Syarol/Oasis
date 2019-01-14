@@ -11,19 +11,24 @@ const pool = require('./databasePool');
 class searchInCatalog{
 	full(fields, res){
 		let sql = 'SELECT * FROM Catalog WHERE ';
-		//console.log(Object.keys(fields)); 
+
+		/*
+		  shp - is short from 'Shop page'
+		  hp - is short from 'Home page'
+		  sp - is short from 'Search page'
+		*/
 		switch (fields.searchType){
-		case 'search-full':
+		case 'sp-full-search':
 			sql += '(title LIKE \'%' + fields.query + '%\') OR (author LIKE \'%' + fields.query + '%\') OR (description LIKE \'% ' + fields.query + ' %\') OR (categories LIKE \'%' + fields.query + '%\')';
 			break;
-		case 'search-custom-small':
+		case 'hp-custom-search':
 			for (let property in fields){
 				if (fields[property] != '' && fields[property] != 'Choose category' && property !='searchType'){
 					sql = this.sqlIncludeOrNot(sql, ' AND ', '(' + property + ' LIKE \'%' + fields[property] + '%\')');
 				}
 			}
 			break;
-		case 'aside-search':
+		case 'sp-search':
 			sql = this.createSQLQuery(fields);
 			break;
 		}
@@ -57,9 +62,9 @@ class searchInCatalog{
 				} else if (property == 'query'){
 					let sqlForQuery = '((title LIKE \'%' + queryData.query + '%\') OR (author LIKE \'%' + queryData.query + '%\') OR (description LIKE \'% ' + queryData.query + ' %\') OR (categories LIKE \'%' + queryData.query + '%\'))';
 					sql = this.sqlIncludeOrNot(sql, ' OR ', sqlForQuery);
-				} else if (property == 'high-price') {
+				} else if (property == 'highPrice') {
 					sql = this.sqlIncludeOrNot(sql, ' AND ', '(price <= ' + queryData[property] + ')');
-				} else if (property == 'low-price') {
+				} else if (property == 'lowPrice') {
 					sql = this.sqlIncludeOrNot(sql, ' AND ', '(price >= ' + queryData[property] + ')');
 				}
 			}
@@ -75,6 +80,16 @@ class searchInCatalog{
 			sql += andOr + sqlText;
 		else sql += sqlText;
 		return sql;
+	}
+
+	lowHighPrice(res){
+		let sql = 'select min(price) as "low", max(price) as "high" from Catalog';
+	
+		pool.query(sql, function(err, result){
+			if (err) throw err;
+
+			res.send(result);
+		});
 	}
 }
 

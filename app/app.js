@@ -56,6 +56,10 @@ app.get('/getList', function(req, res){
 	getCatalog.byColumn(req.query.column, res);
 });
 
+app.get('/getLowHighPrice', function(req, res){
+  searchInCatalog.lowHighPrice(res);
+});
+
 app.use(function(req, res, next){
   res.status(404);
   res.render(path.join(__dirname + '/../app/views/errorPage.pug'), {

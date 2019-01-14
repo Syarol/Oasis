@@ -22,7 +22,6 @@ import ServerInteract from './ServerInteraction.js';
 var contactModal = document.getElementsByClassName('cu-modal-wrapper')[0];
 var contactModalLink = document.getElementsByClassName('footer-contact')[0];
 var closeContactModal = document.getElementsByClassName('cu-modal-close')[0];
-var goodsInCart = [];
 var openCart = document.getElementsByClassName('header-cart-container')[0];
 var ServerInteraction;
 
@@ -31,7 +30,7 @@ var ServerInteraction;
 */
 
 document.addEventListener('DOMContentLoaded', () => {
-	new Cart(openCart, goodsInCart);
+	new Cart(openCart);
 	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location
 	
 	ServerInteraction = new ServerInteract();

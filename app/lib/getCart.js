@@ -9,14 +9,11 @@ app.use(session({
 }));
 
 function getCart(req, res){
-  	if (req.session.booksInCart){
-  		let inCart = req.session.booksInCart;
-  		console.log(inCart);
-  		res.send(JSON.stringify(inCart));
-  	} else {
-  		req.session.booksInCart = [];
-  		res.send(JSON.stringify(req.session.booksInCart));
-  	}
+  console.log(req.session);
+  if (!req.session.booksInCart){
+  	req.session.booksInCart = [];
+  } 
+  res.send(JSON.stringify(req.session.booksInCart));
 }
 
 module.exports = getCart; 

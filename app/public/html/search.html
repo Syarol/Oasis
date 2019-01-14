@@ -18,6 +18,7 @@
 	<link rel="stylesheet" href="css/min/search-bundle.min.css">
 </head>
 <body>
+	<!-- Header -->
 	<header class="search-page-header grid-center-items">
 		<span class="header-logo-container">
 			<a href="/">Oasis</a>
@@ -27,12 +28,14 @@
 			<p class="header-nav-item"><a href="/blog">Blog</a></p>
 			<p class="header-nav-item"><a href="/shop">Shop</a></p>
 			<form class="header-search-form grid-center-items" action="/search" method="GET">
-				<input type="hidden" name="categories" value="">
-				<input type="hidden" name="author" value="">
-				<input type="hidden" name="publisher" value="">
-				<input type="text" name="query" placeholder="Search for">
+				<input class="sf-categories" type="hidden" name="categories" value="">
+				<input class="sf-author" type="hidden" name="author" value="">
+				<input class="sf-publisher" type="hidden" name="publisher" value="">
+				<input class="sf-low-price" type="hidden" name="low-price" value="">
+				<input class="sf-high-price" type="hidden" name="high-price" value="">
+				<input class="sf-query" type="text" name="query" placeholder="Search for">
 				<button class="btn">Search</button>
-				<input type="hidden" name="searchType" value="aside-search">
+				<input type="hidden" name="searchType" value="sp-search">
 			</form>
 		</nav>
 		<p class="header-cart-container" title="Click to open cart">
@@ -48,13 +51,15 @@
 
 		<!-- Search form (for small dispays only) -->
 		<div class="big-search-form-wrapper">
-			<form class="big-search-form" class="grid-center-items" action="/search" method="GET">
-				<input type="hidden" name="categories" value="">
-				<input type="hidden" name="author" value="">
-				<input type="hidden" name="publisher" value="">
-				<input type="text" name="query" placeholder="Search for">
+			<form class="big-search-form grid-center-items" action="/search" method="GET">
+				<input class="sf-categories" type="hidden" name="categories" value="">
+				<input class="sf-author" type="hidden" name="author" value="">
+				<input class="sf-publisher" type="hidden" name="publisher" value="">
+				<input class="sf-low-price" type="hidden" name="lowPrice" value="">
+				<input class="sf-high-price" type="hidden" name="highPrice" value="">
+				<input class="sf-query" type="text" name="query" placeholder="Search for">
 				<button class="btn">Search</button>
-				<input type="hidden" name="searchType" value="aside-search">
+				<input type="hidden" name="searchType" value="sp-search">
 			</form>
 		</div>
 
@@ -120,12 +125,12 @@
 				</button>
 				<div class="sidebar-price-range-container grid-center-items">
 					<div class="low-price-container price-container">
-						<input class='input-number' type="number" name="low-price" min="0" placeholder="0" form="search-form">
+						<input class='sidebar-low-price input-number' lang="en" type="number" name="lowPrice" min="0" step=".01" form="search-form">
 						<span>$</span>
 					</div>
 					<span class="sidebar-mdash">&mdash;</span>
 					<div class="high-price-container price-container">
-						<input class='input-number' type="number" name="high-price" min="0" placeholder="10" form="search-form">
+						<input class='sidebar-high-price input-number' lang="en" type="number" name="highPrice" min="0" step=".01" form="search-form">
 						<span>$</span>
 					</div>
 				</div>
@@ -198,21 +203,22 @@
 		</div>
 	</section>
 
-	<div id="book-modal-wrapper" class="modal-wrapper">
-		<div id="book-modal-container" class="modal-container grid-center-items">
-				<span id="close_book_modal" class="close-modal" title="Close">×</span>
+	<!-- Book modal -->
+	<div class="bm-wrapper modal-wrapper">
+		<div class="bm-container modal-container grid-center-items">
+			<span class="close-modal" title="Close">×</span>
 
-				<h3 id="book_title"></h3>
-				<img id="book_photo" class="modal-book-image">
-				<div class="modal-book-data grid-center-items">
-					<span id="book_author" class="author"></span>
-					<span id="book-modal-isbn"></span>
-					<span id="book-modal-publisher"></span>
-					<span id="book_categories" class="category"></span>
-					<span id="book_description" class="text-container"></span>
-					<span id="book_price"></span>
-					<input id="input_book_title" name="" class="btn" value="Add to cart" type="button">
-				</div>
+			<h3 class="bm-heading"></h3>
+			<img class="bm-image">
+			<div class="bm-data grid-center-items">
+				<span class="bm-author" class="author"></span>
+				<span class="bm-isbn"></span>
+				<span class="bm-publisher"></span>
+				<span class="bm-categories" class="category"></span>
+				<span class="bm-description" class="text-container"></span>
+				<span class="bm-price"></span>
+				<input class="bm-buy-button button" value="Add to cart" type="button">
+			</div>
 		</div>
 	</div>
 

@@ -35,9 +35,9 @@
 		<section class="sb-container">
 			<h1 class="sb-heading">Search by our catalog</h1>
 			<form class="sb-form" action="/search" method="GET">
-				<input type="text" name="query" placeholder="Search for">
-				<button class="button">Let's found!</button>
-				<input type="hidden" name="searchType" value="search-full">
+				<input type="text" name="query" placeholder="Search for" required>
+				<button class="btn">Let's found!</button>
+				<input type="hidden" name="searchType" value="sp-full-search">
 			</form>
 
 			<span class="sb-all-link">Show me everything!</span>
@@ -131,7 +131,7 @@
 					<label>Your Email (required)<input type="e-mail" name="email" required></label>
 					<label>Subject<input type="text" name="subject"></label>
 					<label>Your Message<textarea name="message" rows="5"></textarea></label>
-					<button class="cu-form-send-button button">Send</button>
+					<button class="cu-form-send-btn btn">Send</button>
 				</form>
 			</div>
 		</div>

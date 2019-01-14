@@ -10,26 +10,34 @@
 */
 
 function updateAllGoodsTotal(goodsInCart){
-	let temp = 0;
-	for (let item of goodsInCart){
-		temp += item.total;
-	}
-
-	document.getElementsByClassName('cm-all-total')[0].textContent = '$' + temp.toFixed(2);
+	let priceTotal = goodsInCart.reduce((acc, item) => acc + item.total, 0);
+	document.getElementsByClassName('cm-all-items-total')[0].textContent = '$' + priceTotal.toFixed(2);
 
 	allGoodsCount();   
 
 	function allGoodsCount(){
-		let allTotal = 0;
-		for (let item of goodsInCart){
-			allTotal += item.count;
-		}
+		let countTotal = goodsInCart.reduce((acc, item) => acc + item.count, 0);
+		let countTotalContainer = document.getElementsByClassName('header-cart-count')[0];
 
-		let countInsideCart = document.getElementsByClassName('header-cart-count')[0];
-
-		if (allTotal == 0) countInsideCart.textContent = '';
-		else countInsideCart.textContent = ' (' + allTotal + ')';    
+		if (countTotal == 0) countTotalContainer.textContent = '';
+		else countTotalContainer.textContent = ' (' + countTotal + ')';    
 	} 
+}
+
+function getObjectFromUrlQuery(){
+	if (window.location.search.length != 0)
+		return window.location.search
+	  		.slice(1)
+			.split('&')
+			.map(p => p.split('='))
+			.reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
+	else return null;
+}
+
+function syncPriceInputs(hiddenInput, priceInput){
+	for (let item of hiddenInput){
+		item.value = priceInput.value;
+	}
 }
 
 /**
@@ -38,15 +46,16 @@ function updateAllGoodsTotal(goodsInCart){
 
 export default class ServerInteract{
 	/*Receives cart contents*/
-	getCart(inCart){
+	getCart(){
 		return new Promise(function(resolve, reject){
 			var xHr = new XMLHttpRequest(); //Create the object
 			xHr.open('post', '/getCart'); //initialization of query
+			xHr.setRequestHeader('Content-Type', 'application/json'); //setting HTTP header
 			xHr.send(); //send query
 
 			/*when the request has been processed*/
 			xHr.onload = function () {
-			   	inCart = JSON.parse(this.responseText); //save cart contents in variable
+			   	let inCart = JSON.parse(this.responseText); //save cart contents in variable
 			   	console.log(inCart);
 			   	updateAllGoodsTotal(inCart); //update count of goods inside cart
 			   	resolve(inCart); //returns variable with cart contents
@@ -123,6 +132,31 @@ export default class ServerInteract{
 			/*when the request has been processed return goods data*/
 			xHr.onload = () => resolve(JSON.parse(xHr.responseText));
 		});
+	}
+
+	/*Gets lowest and highest price in catalog*/
+	getLowHigh(lowInput, highInput){
+		var xHr = new XMLHttpRequest(); //Create the object
+		xHr.open('get', '/getLowHighPrice'); //initialization of query
+		xHr.send(); //send query 
+
+		/*when the request has been processed return goods data*/
+		xHr.onload = () => {
+			let prices = JSON.parse(xHr.responseText)[0];
+			let pageUrlObj = getObjectFromUrlQuery();
+
+			if (pageUrlObj.lowPrice){
+				lowInput.value = pageUrlObj.lowPrice;
+				syncPriceInputs(document.getElementsByClassName('sf-low-price'), lowInput);
+			} else 
+				lowInput.value = prices.low.toFixed(2);
+
+			if (pageUrlObj.highPrice){
+				highInput.value = pageUrlObj.highPrice;
+				syncPriceInputs(document.getElementsByClassName('sf-high-price'), highInput);
+			} else 	
+				highInput.value = prices.high.toFixed(2);
+		};
 	}
 
 	/*Send message to shop (form from contact modal)*/

@@ -4,7 +4,7 @@
   * btn - is short from 'button'
 **/
 
-.cm-wrapper{
+.cm-wrapper {
   display: none;
 }
 
@@ -13,7 +13,7 @@
   height: 50%;
 }
 
-.cm-title{
+.cm-title {
   display: flex; 
   font-family: 'Bree Serif', serif;
   margin: auto;
@@ -29,7 +29,8 @@
   font-family: initial;
 }
 
-.cm-remove-item:hover, .cm-remove-item:focus {
+.cm-remove-item:hover,
+.cm-remove-item:focus {
   color: black;
   transform: rotate(1turn);
 }
@@ -54,15 +55,19 @@
   top: 0; 
 }
 
-.cm-table-first-row, .cm-table-last-row {
+.cm-table-first-row,
+.cm-table-last-row {
   background-color: #e3e3e3; 
 }
 
-.cm-table-first-row span:first-child, .cm-table-last-row span:first-child {
+.cm-table-first-row span:first-child,
+.cm-table-last-row span:first-child {
   grid-column-start: 2; 
 }
 
-.cm-item-remove, .cart-plus, .cart-minus{
+.cm-item-remove,
+.cm-plus-btn,
+.cm-minus-btn {
   cursor: pointer;
 }
 
@@ -76,8 +81,9 @@
   width: 80%; 
 }
 
-.cm-item-total {
-  grid-column-start: 5; 
+.cm-item-total,
+.cm-all-items-total{
+  grid-column-start: 5;
 }
 
 .cm-btn {
@@ -92,7 +98,7 @@
   font-family: 'Tajawal', sans-serif;
   font-size: 1em; 
   overflow-y: auto;
-  display: grid;
+  display: none;
   grid-template-columns: 80% 20%;
   grid-auto-rows: 10%; 
 }
@@ -118,7 +124,7 @@
 .cm-confirmation-form-container {
   height: 80%;
   width: 70%;
-  display: grid;
+  display: none;
   margin: auto;
   justify-items: center;
 }
@@ -136,7 +142,7 @@
   color: #443f3f;
 }
 
-.cm-container input {
+.cm-confirmation-form-input {
   border: 0;
   padding: 4px 0;
   border-bottom: 1px solid #ccc;
@@ -150,51 +156,47 @@
   z-index: 10; 
 }
 
-.cm-container input:focus{
+.cm-confirmation-form-input:focus {
   outline: none; 
 }
 
-.cm-container input ~ .focus-border {
+.cm-confirmation-form-input ~ .focus-border {
   position: absolute;
   bottom: 7px;
   left: 50%;
   width: 0;
   height: 2px;
   background-color: #4caf50;
-  transition: 0.4s; }
+  transition: 0.4s; 
+}
 
-.cm-container input:focus ~ .focus-border {
+.cm-confirmation-form-input:focus ~ .focus-border {
   width: 100%;
   transition: 0.4s;
-  left: 0; }
+  left: 0; 
+}
 
-.cm-container label{
+.cm-confirmation-form-input:focus + label {
+  left: -150px;
+  font-size: 16px;
+  color: #4caf50;
+}
+
+.input label {
   position: absolute;
   transition: 0.5s;
   top: 9px;
   letter-spacing: 0.5px;
-}
-
-.input-label-no-focus{
   left: 0;  
 }
 
-.input-label-get-focus {
-  left: -150px;
-  font-size: 16px;
-}
-
-.color-green{
-  color: #4caf50 !important;
-}
-
-@media screen and (max-width: 600px){
+@media screen and (max-width: 600px) {
   .cm-container {
     width: 90%;
     height: 75%;
   }
 
-  .cm-title{
+  .cm-title {
     margin-bottom: 5px;
   }
 }

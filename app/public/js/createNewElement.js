@@ -1,34 +1,32 @@
 /**
- * Function for creating new DOM Elemnts
+ * Function for creating new DOM Elements
  *
  * @Author Oleh Yaroshchuk 
  * GitHub : https://github.com/Syarol
  */
 
 /** 
- * function 'createNewEl' creates and return new element with all-needed properties, include nested elements and callbacks
+ * function 'createNewEl' creates and returns new element with all-needed properties, include nested elements and callbacks
  * attr need to write in object view
- * appendTo need to write parent element of created element or 'false' if
+ * parent need to write parent element of created element or 'false' if
  * for adding text inside need to set 'content' property inside attr variable
  * nested elements allowed with setted 'nested' property
- * callback events allowed with setted 'callback' property and written in object view, like: callback:{eventName: {call: function(){}} //'call' property is required
+ * callback events allowed with setted 'callback' property and written in object view, like: callback:{eventName: function(){}}
  * Example : 
- *	createNewEl('span', false, {
+ *	createNewEl('span', {
  *		content:'hello',
  *		class: 'your-class', 
  *		nested: [createNewEl("span", false, {content: "World!"})],
- *		event: {click: {
- *			call : function(){console.log('Hello world!');}
- *		}}
+ *		event: {
+ 			click: function(){console.log('Hello world!');}
+ *		}
  *	});
  * In example was created span element that have 'your-class' class, 'hello' text inside tags, nested span element with 'World!' text and callback for 'click' event. Also, created element not appended to anyone
 */
 
-export default function createNewEl(tagNme, appendTo, ...attr){
+export default function createNewEl(tagNme, attr, parent = false){
 	let el = document.createElement(tagNme); //creates element
-	if (attr.length !=0){ //if attr not empty
-		attr = attr[0]; //move attr outside array
-
+	if (attr){ //if obj not empty
 		/*sets element properties for every key. Also appends child nodes and eventlisteners */
 		for (let key in attr) {
 			switch (key){
@@ -42,7 +40,7 @@ export default function createNewEl(tagNme, appendTo, ...attr){
 				break;
 			case 'event':
 				for (let callbackKey in attr.event) {
-					el.addEventListener(callbackKey, attr.event[callbackKey].call);
+					el.addEventListener(callbackKey, attr.event[callbackKey]);
 				}
 				break;
 			default:
@@ -53,8 +51,8 @@ export default function createNewEl(tagNme, appendTo, ...attr){
 	}
 
 	/*if parent setted then append*/
-	if (appendTo != false){ 
-		appendTo.appendChild(el);
+	if (parent){ 
+		parent.appendChild(el);
 	}
 	
 	return el;
