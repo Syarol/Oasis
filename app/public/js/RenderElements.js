@@ -11,7 +11,6 @@
 
 import createNewEl from './createNewElement.js'; //for creating new DOM elements
 import Carousel from './carousel.js'; //for creating carousel
-import ServerInteract from './ServerInteraction.js'; //for swap data between server and client
 
 /**
  * Functions
@@ -212,9 +211,16 @@ export default class RenderElements{
 	}
 
 	/*render aside checklist menu on search page*/
-	checkList(list, parent, column){
+	checkList(list, data, column){
+		let listStr = '';
+		if (data.list) {
+			listStr = typeof data.list == 'Array' ? data.list.join(', ') : data.list;
+		}
 		/*render checklist items one by one*/
 		for (let item of list){
+			let checkItem = '';
+			if (listStr.includes(item)) checkItem = 'checked';
+
 			/*render checkbox that contain main information*/
 			createNewEl('label', {
 				nested: [
@@ -222,15 +228,16 @@ export default class RenderElements{
 						type: 'checkbox',
 						name: item,
 						value: item,
+						checked: checkItem,
 						event: {
 							click: function (){
 								let hiddenInput = document.getElementsByClassName('sf-' + column); //get data of checked element
 								/*if element checked then add his data to search list element*/
-								for (let item of hiddenInput){
+								for (let hidden of hiddenInput){
 									if (this.checked) {
-										if (item.value === '') item.value += this.value;
-										else item.value += ', ' + this.value ;
-									} else item.value = item.value.replace(this.value + ', ', ''); //if false then remove from search list 
+										if (hidden.value === '') hidden.value += this.value;
+      									else hidden.value += ', ' + this.value;
+									} else hidden.value = hidden.value.replace(this.value + ', ', ''); //if false then remove from search list 
 								}
 						   	}
 					   	}
@@ -238,12 +245,16 @@ export default class RenderElements{
 					/*render checkbox label text*/
 					createNewEl('span', {
 						content: item
-					}, parent)
+					}, data.parent)
 				]
-			}, parent);
+			}, data.parent);
+		}
+			
+		if (listStr) {
+			let hiddenInput = document.getElementsByClassName('sf-' + column);
+			for (let hidden of hiddenInput){
+				hidden.value = typeof listStr == 'Array' ? listStr.join(', ') : listStr;
+			}
 		}
 	}
-
-
-
 }

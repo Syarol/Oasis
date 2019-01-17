@@ -9,7 +9,6 @@ app.use(session({
 }));
 
 function getCart(req, res){
-  console.log(req.session);
   if (!req.session.booksInCart){
   	req.session.booksInCart = [];
   } 

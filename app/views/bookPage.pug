@@ -6,7 +6,7 @@ main
   section.search-panel-wrapper
     form.search-panel-form(action='/search' method='GET')
       input(type='text' name='query' placeholder='Search for')
-      button.button Let's found!
+      button.btn Let's found!
       input(type='hidden' name='searchType' value='search-full')
   section.goods-photo-wrapper
     img(src= book.thumbnailUrl)
@@ -42,9 +42,9 @@ main
         span Price: 
         span= '$' + book.price
       if book.status == 'In Stock'
-        button.button.add-to-cart-button(title=book.title) Add to cart
+        button.add-to-cart-btn.btn(title=book.title) Add to cart
       else
-        button.button.add-to-cart-button(title=book.title + ' not available' disabled) Add to cart
+        button.add-to-cart-btn.btn(title=book.title + ' not available' disabled) Add to cart
 
   section.tabs-wrapper
     .tabs-container
@@ -87,9 +87,9 @@ main
           span.ymal-section-container-item-title= val.title
           span.ymal-section-container-item-author= 'by ' + val.author
           a(href= '/book/' + val.id)
-            button.ymal-section-container-item-button.button Buy
+            button.ymal-section-container-item-btn.btn Buy
     a(href= '/search?query=&searchType=search-full')
-      button.ymal-section-look-at-all-button.button Look at all
+      button.ymal-section-look-at-all-btn.btn Look at all
 
 include includes/footer.pug
 

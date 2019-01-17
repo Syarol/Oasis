@@ -33,21 +33,16 @@ var openCart = document.getElementsByClassName('header-cart-container')[0];
 var bookModal = document.getElementsByClassName('bm-wrapper')[0];
 var closeBookModal = bookModal.getElementsByClassName('close-modal')[0];
 var cart;
-var ServerInteraction;
 
 /**
  * Functions
 */
 
-function sidelistOnClick(list, maxHeight){
-	if (list.style.maxHeight == maxHeight || list.style.maxHeight == '') {
-		list.style.maxHeight = '0';
-	} else list.style.maxHeight = maxHeight;
+function operateSidebarFilter(list, maxHeight){
+	list.style.maxHeight = list.style.maxHeight == maxHeight || list.style.maxHeight == '' ? '0' : maxHeight;
 
-	let angleSvg = list.parentNode.getElementsByClassName('fas')[0];
-	if (angleSvg.style.transform == 'rotate(0deg)' || angleSvg.style.transform == ''){
-		angleSvg.style.transform = 'rotate(180deg)';
-	} else angleSvg.style.transform = 'rotate(0deg)';
+	let angleSvg = list.parentNode.getElementsByClassName('fa-angle-down')[0];
+	angleSvg.style.transform = angleSvg.style.transform == 'rotate(0deg)' || angleSvg.style.transform == '' ? 'rotate(180deg)' : 'rotate(0deg)';
 }
 
 function showSearchQuery(query, findedLength){
@@ -84,13 +79,12 @@ function syncPriceInputs(hiddenInput, priceInput){
 	}
 }
 
-function getObjectFromUrlQuery(){
-	if (window.location.search.length != 0)
-		return window.location.search
-	  		.slice(1)
+function getObjectFromUrlQuery(query){
+	if (query.length != 0)
+		return query.slice(1)
 			.split('&')
 			.map(p => p.split('='))
-			.reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
+			.reduce((obj, [key, value]) => ({...obj, [key]: decodeURIComponent(value.replace(/\+/g, ' '))}), {});
 	else return null;
 }
 
@@ -99,29 +93,27 @@ function getObjectFromUrlQuery(){
 */
 
 categoriesList.parentNode.getElementsByClassName('btn')[0].onclick = () => 
-	sidelistOnClick(categoriesList, '200px');
+	operateSidebarFilter(categoriesList, '200px');
 
 authorsList.parentNode.getElementsByClassName('btn')[0].onclick = () => 
-	sidelistOnClick(authorsList, '200px');
+	operateSidebarFilter(authorsList, '200px');
 
 publishersList.parentNode.getElementsByClassName('btn')[0].onclick = () => 
-	sidelistOnClick(publishersList, '200px');
+	operateSidebarFilter(publishersList, '200px');
 
 priceRangeContainer.parentNode.getElementsByClassName('btn')[0].onclick = () =>
-	sidelistOnClick(priceRangeContainer, '30px');
+	operateSidebarFilter(priceRangeContainer, '30px');
 
 document.addEventListener('DOMContentLoaded', () => {
 	cart = new Cart(openCart, document.getElementsByClassName('header-cart-count')[0]);
-
-	ServerInteraction = new ServerInteract();
 	let Render = new RenderElements(); 
 	
-	let query = getObjectFromUrlQuery();
+	let query = getObjectFromUrlQuery(window.location.search);
 	if(!query){
 		document.getElementById('search-text').textContent = 'You need to search first';
 	}
 
-	ServerInteraction.getFinded(query).then(
+	ServerInteract.getFinded(query).then(
 		function(res){
 			new Pagination(res, document.getElementsByClassName('pagination'), cart, document.getElementsByClassName('fi-per-page')[0]);
 
@@ -132,10 +124,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	);
 
-	ServerInteraction.getList('categories', categoriesList, Render.checkList);
-	ServerInteraction.getLowHigh(document.getElementsByClassName('sidebar-low-price')[0], document.getElementsByClassName('sidebar-high-price')[0]);
-	ServerInteraction.getList('author', authorsList, Render.checkList);
-	ServerInteraction.getList('publisher', publishersList, Render.checkList);
+	for (let i in query){
+		if (query[i].includes(','))	query[i] = query[i].split(', ');
+	}
+
+	ServerInteract.getList('categories', Render.checkList, {list: query.categories, parent: categoriesList})
+		.getLowHigh(document.getElementsByClassName('sidebar-low-price')[0], document.getElementsByClassName('sidebar-high-price')[0])
+		.getList('author', Render.checkList, {list: query.author, parent: authorsList})
+		.getList('publisher', Render.checkList, {list: query.publisher, parent: publishersList});
 
 	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location
 }); 
@@ -155,24 +151,24 @@ contactModalLink.onclick = () => contactModal.style.display = 'flex';
 
 closeContactModal.onclick = () => contactModal.style.display = 'none';
 
-document.getElementsByClassName('cu-form-send-btn')[0].onclick = () => ServerInteraction.sendMessage(document.getElementsByClassName('cu-form')[0]);
+document.getElementsByClassName('cu-form-send-btn')[0].onclick = () => ServerInteract.sendMessage(document.getElementsByClassName('cu-form')[0]);
 
 closeBookModal.onclick = () => bookModal.style.display = 'none';
 
-bookModal.getElementsByClassName('bm-buy-button')[0].onclick = function() {cart.add(JSON.parse(this.getAttribute('name')));}; 
+bookModal.getElementsByClassName('bm-buy-btn')[0].onclick = function() {cart.add(JSON.parse(this.getAttribute('name')));}; 
 
 document.getElementsByClassName('sidebar-open-btn')[0].onclick = () => sidebar.style.transform = 'translateX(100%)';
 
-document.getElementsByClassName('sidebar-hide-btn')[0].onclick = () => sidebar.style.transform = 'translateX(0)';
+sidebar.getElementsByClassName('sidebar-hide-btn')[0].onclick = () => sidebar.style.transform = 'translateX(0)';
 
 document.getElementsByClassName('big-search-form')[0].onsubmit = function(){clearEmptyInputs(this)};
 
 document.getElementsByClassName('header-search-form')[0].onsubmit = function(){clearEmptyInputs(this)};
 
-document.getElementsByClassName('sidebar-low-price')[0].onchange = function(){
+sidebar.getElementsByClassName('sidebar-low-price')[0].onchange = function(){
 	syncPriceInputs(document.getElementsByClassName('sf-low-price'), this);
 };
 
-document.getElementsByClassName('sidebar-high-price')[0].onchange = function(){
+sidebar.getElementsByClassName('sidebar-high-price')[0].onchange = function(){
 	syncPriceInputs(document.getElementsByClassName('sf-high-price'), this);
 };

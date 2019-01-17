@@ -55,8 +55,6 @@ export default class Carousel{
 
 	/*gets a count of visible items in the carousel. Based on CSS-properties*/
 	getPerPageCount(){
-		if (window.innnerWidth <= 600){
-			return 3;
-		} else return 4;
+		return window.innnerWidth <= 600 ? 3 : 4;
 	}
 }

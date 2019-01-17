@@ -19,8 +19,7 @@ function updateAllGoodsTotal(goodsInCart){
 		let countTotal = goodsInCart.reduce((acc, item) => acc + item.count, 0);
 		let countTotalContainer = document.getElementsByClassName('header-cart-count')[0];
 
-		if (countTotal == 0) countTotalContainer.textContent = '';
-		else countTotalContainer.textContent = ' (' + countTotal + ')';    
+		countTotalContainer.textContent = countTotal === 0 ? '' : ' (' + countTotal + ') ';  
 	} 
 }
 
@@ -46,7 +45,7 @@ function syncPriceInputs(hiddenInput, priceInput){
 
 export default class ServerInteract{
 	/*Receives cart contents*/
-	getCart(){
+	static getCart(){
 		return new Promise(function(resolve, reject){
 			var xHr = new XMLHttpRequest(); //Create the object
 			xHr.open('post', '/getCart'); //initialization of query
@@ -66,7 +65,7 @@ export default class ServerInteract{
 	}
 
 	/*Synchronizes cart beetwen client and server*/
-	syncCart(goodsInCart){
+	static syncCart(goodsInCart){
 		let goods = JSON.stringify(goodsInCart); //converts array to string
 
 		var xHr = new XMLHttpRequest(); //Create the object
@@ -82,7 +81,7 @@ export default class ServerInteract{
 	}
 
 	/*Find goods*/
-	getFinded(query){
+	static getFinded(query){
 		return new Promise(function(resolve, reject){
 			var xHr = new XMLHttpRequest(); //Create the object
 			xHr.open('post', '/getSearchResults'); //initialization of query
@@ -99,31 +98,35 @@ export default class ServerInteract{
 	}
 
 	/*Find and render goods details list by specified colum (categories, author, publiser)*/
-	getList(column, parent, renderFunction){
+	static getList(column, cb, cbData = null){
 		var xHr = new XMLHttpRequest(); //Create the object
 		xHr.open('get', '/getList?column=' + column); //initialization of query
 		xHr.send(); //send query 
 
 		/*when the request has been processed render finded*/
 		xHr.onload = function (){
-		   	renderFunction(JSON.parse(this.responseText), parent, column);
+		   	cb(JSON.parse(this.responseText), cbData, column);
 		};
+
+		return this;
 	}
 
 	/*Find and render special marked goods*/
-	getSpecialMarked(title, parent, renderFunction, cart){
+	static getSpecialMarked(title, parent, cb, cart){
 		var xHr = new XMLHttpRequest(); //Create the object
 		xHr.open('get', '/getBySimpleColumn?column=specialMark&title=' + title); //initialization of query
 		xHr.send(); //send query 
 
 		/*when the request has been processed render finded*/
 		xHr.onload = () => {
-	   		renderFunction(parent, JSON.parse(xHr.responseText), cart);
+	   		cb(parent, JSON.parse(xHr.responseText), cart);
 		};
+
+		return this;
 	}
 
 	/*Find goods by their title*/
-	getDataByTitle(title){
+	static getDataByTitle(title){
 		return new Promise(function(resolve, reject){
 			var xHr = new XMLHttpRequest(); //Create the object
 			xHr.open('get', '/getBySimpleColumn?column=title&title=' + title); //initialization of query
@@ -135,7 +138,7 @@ export default class ServerInteract{
 	}
 
 	/*Gets lowest and highest price in catalog*/
-	getLowHigh(lowInput, highInput){
+	static getLowHigh(lowInput, highInput){
 		var xHr = new XMLHttpRequest(); //Create the object
 		xHr.open('get', '/getLowHighPrice'); //initialization of query
 		xHr.send(); //send query 
@@ -157,20 +160,20 @@ export default class ServerInteract{
 			} else 	
 				highInput.value = prices.high.toFixed(2);
 		};
+
+		return this;
 	}
 
 	/*Send message to shop (form from contact modal)*/
-	sendMessage(parent){
-		let message = {}; //initialization of message object
+	static sendMessage(form){
+		if(form.querySelectorAll('input[required=""]').every(el => el.checkValidity())){
+			let message = {}; //initialization of message object
 
-		/*getting message main data*/
-		message.name = parent.querySelector('input[name=name]').value; 
-		message.email = parent.querySelector('input[name=email]').value;
-
-		/*if requested fields not empty then resume function*/
-		if (message.name != '' && message.email != '' && message.email.includes('@')) {
-			message.subject = parent.querySelector('input[name=subject]').value;
-			message.message = parent.querySelector('textarea[name=message]').value;
+			/*getting message main data*/
+			message.name = form.querySelector('input[name=name]').value; 
+			message.email = form.querySelector('input[name=email]').value;
+			message.subject = form.querySelector('input[name=subject]').value;
+			message.message = form.querySelector('textarea[name=message]').value;
 
 			var xHr = new XMLHttpRequest(); //Create the object
 			xHr.open('post', '/sendMessage'); //initialization of query
@@ -179,15 +182,15 @@ export default class ServerInteract{
 			
 			/*when the request has been processed, then clear the fields*/
 			xHr.onload = function () {
-			    console.log(this.responseText);
+				form.querySelector('input[name=name]').value = '';
+				form.querySelector('input[name=email]').value = '';
+				form.querySelector('input[name=subject]').value = '';
+				form.querySelector('textarea[name=message]').value = '';
 
-				parent.querySelector('input[name=name]').value = '';
-				parent.querySelector('input[name=email]').value = '';
-				parent.querySelector('input[name=subject]').value = '';
-				parent.querySelector('textarea[name=message]').value = '';
-
-				document.getElementById('about_section_wrapper').style.display = 'none';
+				document.getElementsByClassName('cu-modal-wrapper')[0].style.display = 'none';
 			};
 		}
+
+		return this;
 	}
 }

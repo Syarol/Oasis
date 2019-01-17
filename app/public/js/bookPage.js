@@ -24,7 +24,6 @@ var contactModalLink = document.getElementsByClassName('footer-contact')[0];
 var closeContactModal = document.getElementsByClassName('cu-modal-close')[0];
 var openCart = document.getElementsByClassName('header-cart-container')[0];
 var cart;
-var ServerInteraction;
 
 /**
  * Functions
@@ -46,10 +45,11 @@ for (let element of document.getElementsByClassName('input-number')){
 document.addEventListener('DOMContentLoaded', () => {
 	cart = new Cart(openCart);
 	
-	ServerInteraction = new ServerInteract();
-	let addToCartButton = document.getElementsByClassName('add-to-cart-button')[0];
-	ServerInteraction.getDataByTitle(addToCartButton.title).then(
+	let addToCartButton = document.getElementsByClassName('add-to-cart-btn')[0];
+	console.log(addToCartButton.title);
+	ServerInteract.getDataByTitle(addToCartButton.title).then(
 		function(res){
+			console.log(res);
 			addToCartButton.onclick = () => cart.add(res);
 		},
 		function(err){
@@ -69,5 +69,5 @@ contactModalLink.onclick = () => contactModal.style.display = 'flex';
 
 closeContactModal.onclick = () => contactModal.style.display = 'none';
 
-document.getElementsByClassName('cu-form-send-button')[0].onclick = () => ServerInteraction.sendMessage(document.getElementsByClassName('cu-form')[0]);
+document.getElementsByClassName('cu-form-send-btn')[0].onclick = () => ServerInteract.sendMessage(document.getElementsByClassName('cu-form')[0]);
 

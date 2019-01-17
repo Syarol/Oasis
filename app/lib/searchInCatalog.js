@@ -18,7 +18,7 @@ class searchInCatalog{
 		  sp - is short from 'Search page'
 		*/
 		switch (fields.searchType){
-		case 'sp-full-search':
+		case 'shp-full-search':
 			sql += '(title LIKE \'%' + fields.query + '%\') OR (author LIKE \'%' + fields.query + '%\') OR (description LIKE \'% ' + fields.query + ' %\') OR (categories LIKE \'%' + fields.query + '%\')';
 			break;
 		case 'hp-custom-search':
@@ -53,20 +53,19 @@ class searchInCatalog{
 		let sql = 'SELECT * FROM Catalog WHERE ';
 
 		for (let property in queryData){
-			if (queryData[property] != '') {
-				if(['title', 'author', 'description', 'categories', 'publisher'].includes(property)){
-					let queryPropertyArr = queryData[property].split(', ');
-					for (let arrItem of queryPropertyArr) {
-						sql = this.sqlIncludeOrNot(sql, ' OR ', '(' + property + ' LIKE \'%' + arrItem + '%\')');
-					}
-				} else if (property == 'query'){
-					let sqlForQuery = '((title LIKE \'%' + queryData.query + '%\') OR (author LIKE \'%' + queryData.query + '%\') OR (description LIKE \'% ' + queryData.query + ' %\') OR (categories LIKE \'%' + queryData.query + '%\'))';
-					sql = this.sqlIncludeOrNot(sql, ' OR ', sqlForQuery);
-				} else if (property == 'highPrice') {
-					sql = this.sqlIncludeOrNot(sql, ' AND ', '(price <= ' + queryData[property] + ')');
-				} else if (property == 'lowPrice') {
-					sql = this.sqlIncludeOrNot(sql, ' AND ', '(price >= ' + queryData[property] + ')');
+			console.log(queryData[property]);
+			if(['title', 'author', 'description', 'categories', 'publisher'].includes(property)){
+				let queryPropertyArr = queryData[property].split(', ');
+				for (let arrItem of queryPropertyArr) {
+					sql = this.sqlIncludeOrNot(sql, ' OR ', '(' + property + ' LIKE \'%' + arrItem + '%\')');
 				}
+			} else if (property == 'query'){
+				let sqlForQuery = '((title LIKE \'%' + queryData.query + '%\') OR (author LIKE \'%' + queryData.query + '%\') OR (description LIKE \'% ' + queryData.query + ' %\') OR (categories LIKE \'%' + queryData.query + '%\'))';
+				sql = this.sqlIncludeOrNot(sql, ' OR ', sqlForQuery);
+			} else if (property == 'highPrice') {
+				sql = this.sqlIncludeOrNot(sql, ' AND ', '(price <= ' + queryData[property] + ')');
+			} else if (property == 'lowPrice') {
+				sql = this.sqlIncludeOrNot(sql, ' AND ', '(price >= ' + queryData[property] + ')');
 			}
 		}
 

@@ -29,7 +29,6 @@ app.use(session({
 app.use(bodyParser.json());
 
 app.post('/getSearchResults', function(req, res){
-	console.log('50: ' + req.body);
 	searchInCatalog.full(req.body, res);
 });
 

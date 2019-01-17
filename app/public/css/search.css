@@ -186,8 +186,6 @@ a{
   }
 }
 
-
-
 main{
   display: grid;
   grid-row-start: 2;
@@ -351,6 +349,12 @@ main{
   font-size: 12px;
 }
 
+@media screen and (max-width: 600px){
+  .fi-items-container {
+    grid-gap: 5px;
+  }
+}
+
 /**
   * Sidebar
 **/
@@ -387,7 +391,7 @@ main{
   justify-self: baseline;
 }
 
-.sidebar-btn i{
+.sidebar-btn .fa-angle-down{
   align-self: center;
   color: #bcbcbc;
   transition: .5s;

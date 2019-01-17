@@ -9,12 +9,10 @@ const pool = require('./databasePool');
 **/
 
 class getCatalogItems{
-	
 	/*returns full item data*/
-	bySimpleColumn(query, res, callback){
+	bySimpleColumn(query, res, callback = false){
 		let sql = 'SELECT * FROM Catalog';
 		let column = Object.keys(query)[0];
-
 		//makes a query to db
 		pool.query(sql, function (err, result) {
 			if (err) throw err;
@@ -42,14 +40,11 @@ class getCatalogItems{
 		pool.query(sql, function (err, result) {
 		    if (err) throw err;
 			for (let item of result){
-				//console.log(item);
 				let splittedCategories;
 				switch(column){
 				case 'categories':
-					splittedCategories = item.categories.split(', ');
-					break;
 				case 'author':
-					splittedCategories = item.author.split(', ');
+					splittedCategories = item[column].split(', ');
 					break;
 				case 'publisher':
 					splittedCategories = item.publisher;

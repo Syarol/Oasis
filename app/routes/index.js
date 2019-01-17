@@ -36,7 +36,7 @@ router.get('/shop', function(req, res){
 });
 
 router.get('/search', function(req, res){
-  	res.sendFile(path.join(__dirname + '/../public/html/search.html'));
+  res.sendFile(path.join(__dirname + '/../public/html/search.html'));
 });
 
 /*router for dynamic pages*/

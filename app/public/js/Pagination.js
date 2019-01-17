@@ -147,14 +147,10 @@ export default class Pagination{
 			let pageNumbers = pagination.getElementsByClassName('pagination-page-number');
 
 	 		/*hide or show three dots after first page sign*/
-	 		if (this.openedPage - 3 <= 1) {
-	 			pagination.getElementsByClassName('three-dots-start')[0].style.display = 'none';
-	 		} else pagination.getElementsByClassName('three-dots-start')[0].style.display = 'block';
+	 		pagination.getElementsByClassName('three-dots-start')[0].style.display = this.openedPage - 3 <= 1 ? 'none' : 'block';
 
 	 		/*hide or show three dots before last page sign*/
-	 		if (this.openedPage + 3 >= this.pagesCount) {
-	 			pagination.getElementsByClassName('three-dots-end')[0].style.display = 'none';
-	 		} else pagination.getElementsByClassName('three-dots-end')[0].style.display = 'block';
+	 		pagination.getElementsByClassName('three-dots-end')[0].style.display = this.openedPage + 3 >= this.pagesCount ? 'none' : 'block';
 
 	 		/*checks every page block for show only in a range of 2 opened page*/
 	 		for (let i = 1; i < this.pagesCount - 1; i++){

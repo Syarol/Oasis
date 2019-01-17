@@ -13,20 +13,12 @@ import createNewEl from './createNewElement.js'; //for creating new DOM elements
 import ServerInteract from './ServerInteraction.js'; //for swap data between server and client
 
 /**
- * Variables
-*/
-
-var serverInteraction;
-
-/**
  * Functions
 */
 
 function checkRequiredInputsValidity(button, form){
 	let inputs = [...form.querySelectorAll('input[required=""]')];
-	if (inputs.every(el => el.checkValidity())){
-		button.disabled = false;
-	} else button.disabled = true; 
+	button.disabled = inputs.every(el => el.checkValidity()) ? false : true;
 }
 
 function createInputField(parent, attr){
@@ -54,10 +46,6 @@ function swapLastTwo(el){
 	elChild[elChild.length-1].after(elChild[elChild.length-2]);//swap the last two 
 }
 
-		
-serverInteraction = new ServerInteract();
-
-
 /**
  * Class
 */
@@ -67,7 +55,7 @@ export default class Cart{
 		this.countContainer = countContainer;
 		this.goodsInside = goodsInside;
 
-		serverInteraction.getCart().then(
+		ServerInteract.getCart().then(
 			function(res){
 				this.goodsInside = res;
 			},
@@ -164,7 +152,7 @@ export default class Cart{
 			newItemInCart(product);
 		}
 
-		serverInteraction.syncCart(this.goodsInside);	
+		ServerInteract.syncCart(this.goodsInside);	
 
 		return this;
 	}
@@ -228,7 +216,7 @@ export default class Cart{
 		      	this.openSentenceBanner('Oops! Your cart is empty(');
 		    }
 		} else console.log('Item didn\'t in the cart');
-		serverInteraction.syncCart(this.goodsInside);	
+		ServerInteract.syncCart(this.goodsInside);	
 
 		return this;
 	}
@@ -242,7 +230,7 @@ export default class Cart{
        		let cartItemIndex = this.goodsInside.map(el => el.id).indexOf(cartItem.id);
        		this.updateProductTotal(cartItemIndex, itemCountContainer.parentNode.parentNode);
 
-		    serverInteraction.syncCart(this.goodsInside);
+		    ServerInteract.syncCart(this.goodsInside);
 	    }
 
 	    return createNewEl('span', {
@@ -268,7 +256,7 @@ export default class Cart{
 		       	this.remove(itemCountContainer, itemCountContainer.parentNode.parentNode);
 		    }
 
-		    serverInteraction.syncCart(this.goodsInside);
+		    ServerInteract.syncCart(this.goodsInside);
 	    };
 
 	    return createNewEl('span', {
@@ -285,6 +273,7 @@ export default class Cart{
 		this.cartHeader.textContent = 'Cart';
 		this.cartModalTable.style.display = 'grid';
 
+		/*if table contains only header and footer rows then creates rows for items inside cart*/
 		if (this.cartModalTable.children.length === 2){
 			this.createGoodsTableItems(this.cartModalTable);
 		}
@@ -375,7 +364,7 @@ export default class Cart{
 	      	this.confirmButton = createNewEl('button', {
 	    		class: 'cm-btn btn',
 	    		content: 'Confirm',
-	    		disabled: true,
+	    		disabled: '',
 	    		event: {
 	    			click: () => {
 	    				this.confirmationFormContainer.style.display = 'none';
@@ -511,9 +500,7 @@ export default class Cart{
 	updateAllGoodsTotal(){
 		var allGoodsCount = () => {
 			let countTotal = this.goodsInside.reduce((acc, item) => acc + item.count, 0);
-
-			if (countTotal === 0) this.countContainer.textContent = '';
-			else this.countContainer.textContent = ' (' + countTotal + ') ';    
+			this.countContainer.textContent = countTotal === 0 ? '' : ' (' + countTotal + ') ';  
 		} 
 
 		let priceTotal = this.goodsInside.reduce((acc, item) => acc + item.total, 0);

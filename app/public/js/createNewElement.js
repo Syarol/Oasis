@@ -24,7 +24,7 @@
  * In example was created span element that have 'your-class' class, 'hello' text inside tags, nested span element with 'World!' text and callback for 'click' event. Also, created element not appended to anyone
 */
 
-export default function createNewEl(tagNme, attr, parent = false){
+export default function createNewEl(tagNme, attr = false, parent = false){
 	let el = document.createElement(tagNme); //creates element
 	if (attr){ //if obj not empty
 		/*sets element properties for every key. Also appends child nodes and eventlisteners */
@@ -43,6 +43,8 @@ export default function createNewEl(tagNme, attr, parent = false){
 					el.addEventListener(callbackKey, attr.event[callbackKey]);
 				}
 				break;
+			case 'checked':
+				el.checked = attr[key];
 			default:
 				el.setAttribute(key, attr[key]);
 				break;
