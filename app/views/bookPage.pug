@@ -42,7 +42,7 @@ main
         span Price: 
         span= '$' + book.price
       if book.status == 'In Stock'
-        button.add-to-cart-btn.btn(title=book.title) Add to cart
+        button.add-to-cart-btn.btn(title=book.title data-book-id=book.id) Add to cart
       else
         button.add-to-cart-btn.btn(title=book.title + ' not available' disabled) Add to cart
 

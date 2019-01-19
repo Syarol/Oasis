@@ -45,23 +45,16 @@ function syncPriceInputs(hiddenInput, priceInput){
 
 export default class ServerInteract{
 	/*Receives cart contents*/
-	static getCart(){
-		return new Promise(function(resolve, reject){
-			var xHr = new XMLHttpRequest(); //Create the object
-			xHr.open('post', '/getCart'); //initialization of query
-			xHr.setRequestHeader('Content-Type', 'application/json'); //setting HTTP header
-			xHr.send(); //send query
+	static getCart(cb, cbData){
+		var xHr = new XMLHttpRequest(); //Create the object
+		xHr.open('post', '/getCart'); //initialization of query
+		xHr.setRequestHeader('Content-Type', 'application/json'); //setting HTTP header
+		xHr.send(); //send query
 
-			/*when the request has been processed*/
-			xHr.onload = function () {
-			   	let inCart = JSON.parse(this.responseText); //save cart contents in variable
-			   	console.log(inCart);
-			   	updateAllGoodsTotal(inCart); //update count of goods inside cart
-			   	resolve(inCart); //returns variable with cart contents
-			};
-
-			xHr.onerror = (err) => reject(err); //on error return error message
-		});
+		/*execute callback when request will be processed*/
+		xHr.onload = function () {
+		   	cb(JSON.parse(this.responseText));
+		};
 	}
 
 	/*Synchronizes cart beetwen client and server*/
@@ -69,13 +62,12 @@ export default class ServerInteract{
 		let goods = JSON.stringify(goodsInCart); //converts array to string
 
 		var xHr = new XMLHttpRequest(); //Create the object
-		xHr.open('post', '/sameCart'); //initialization of query
+		xHr.open('post', '/setCart'); //initialization of query
 		xHr.setRequestHeader('Content-Type', 'application/json'); //setting HTTP header
 		xHr.send(goods); //send query 
 
 		/*when the request has been processed receive cart contents*/
 		xHr.onload = () => {
-		   	console.log(JSON.parse(xHr.responseText));
 		   	updateAllGoodsTotal(JSON.parse(xHr.responseText)); //update count of goods inside cart
 		};
 	}
@@ -112,29 +104,29 @@ export default class ServerInteract{
 	}
 
 	/*Find and render special marked goods*/
-	static getSpecialMarked(title, parent, cb, cart){
+	static getSpecialMarked(title, cb, cbData){
 		var xHr = new XMLHttpRequest(); //Create the object
-		xHr.open('get', '/getBySimpleColumn?column=specialMark&title=' + title); //initialization of query
+		xHr.open('get', '/getBySimpleColumn?column=specialMark&value=' + title); //initialization of query
 		xHr.send(); //send query 
 
 		/*when the request has been processed render finded*/
 		xHr.onload = () => {
-	   		cb(parent, JSON.parse(xHr.responseText), cart);
+	   		cb(cbData.parent, JSON.parse(xHr.responseText), cbData.cart);
 		};
 
 		return this;
 	}
 
 	/*Find goods by their title*/
-	static getDataByTitle(title){
-		return new Promise(function(resolve, reject){
-			var xHr = new XMLHttpRequest(); //Create the object
-			xHr.open('get', '/getBySimpleColumn?column=title&title=' + title); //initialization of query
-			xHr.send(); //send query 
+	static getDataById(id, cb){
+		var xHr = new XMLHttpRequest(); //Create the object
+		xHr.open('get', '/getBySimpleColumn?column=id&value=' + id); //initialization of query
+		xHr.send(); //send query 
 
-			/*when the request has been processed return goods data*/
-			xHr.onload = () => resolve(JSON.parse(xHr.responseText));
-		});
+		/*when the request has been processed return goods data*/
+		xHr.onload = () => {
+			cb(JSON.parse(xHr.responseText));
+		}
 	}
 
 	/*Gets lowest and highest price in catalog*/

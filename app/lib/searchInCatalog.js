@@ -2,7 +2,7 @@
   * Dependencies
 **/
 
-const pool = require('./databasePool');
+const pool = require('./db');
 
 /**
   * Class
@@ -33,7 +33,6 @@ class searchInCatalog{
 			break;
 		}
  		
-		console.log(sql);
 		if (sql == 'SELECT * FROM Catalog WHERE '){
 			sql = 'SELECT * FROM Catalog';
 		}
@@ -41,11 +40,7 @@ class searchInCatalog{
 		pool.query(sql, function(err, result){
 			if (err) throw err;
 
-			let foundedItems = [];
-			for (let item of result){
-				foundedItems.push(item);
-			}
-			res.send(JSON.stringify(foundedItems));
+			res.send(JSON.stringify(result));
 		});
 	}
 
@@ -53,7 +48,6 @@ class searchInCatalog{
 		let sql = 'SELECT * FROM Catalog WHERE ';
 
 		for (let property in queryData){
-			console.log(queryData[property]);
 			if(['title', 'author', 'description', 'categories', 'publisher'].includes(property)){
 				let queryPropertyArr = queryData[property].split(', ');
 				for (let arrItem of queryPropertyArr) {
@@ -88,6 +82,62 @@ class searchInCatalog{
 			if (err) throw err;
 
 			res.send(result);
+		});
+	}
+
+	/*returns full item data*/
+	bySimpleColumn(query, res, callback = false){
+		let column = Object.keys(query)[0];
+		let sql = 'SELECT * FROM Catalog where ' + column + ' = "' + query[column] + '"';
+
+		//makes a query to db
+		pool.query(sql, function (err, result) {
+			if (err) throw err;
+			if (result.length === 1) result = result[0];
+
+			//if callback function passed to function then executes it, else - sends the response to client
+			if(callback){
+				callback(err, result);
+			} else
+				res.send(JSON.stringify(result));
+		});
+	}
+
+	/*returns only one column data of item*/
+	byColumn(column, res){
+		let sql = 'SELECT ' + column + ' FROM Catalog';
+		let categoriesArray = [];
+		pool.query(sql, function (err, result) {
+		    if (err) throw err;
+			for (let item of result){
+				let splittedCategories;
+				switch(column){
+				case 'categories':
+				case 'author':
+					splittedCategories = item[column].split(', ');
+					break;
+				case 'publisher':
+					splittedCategories = item.publisher;
+					break;
+				}
+
+				if (typeof splittedCategories === 'object'){
+					for (let category of splittedCategories){
+						category.trim();
+						if (!categoriesArray.includes(category)){
+							categoriesArray.push(category);
+						}
+					}
+				} else{
+					if (!categoriesArray.includes(splittedCategories)){
+						categoriesArray.push(splittedCategories);
+					}
+				}
+			}
+
+			categoriesArray.sort();
+
+			res.send(JSON.stringify(categoriesArray));
 		});
 	}
 }

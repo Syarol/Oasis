@@ -20,7 +20,7 @@ export default class Carousel{
 
 		var carouselLenght = carousel.childNodes.length; //get cunt of carousel items
 
-		carousel.scrollLeft = carouselLenght/3 * (carousel.clientWidth/4); //set initial view position
+		carousel.scrollLeft = carousel.clientWidth; //set initial view position
 
 		/*on right button click move first carousel element to end and simulate swipe*/
 		rightButton.onclick = () => {

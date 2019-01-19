@@ -45,6 +45,7 @@ export default function createNewEl(tagNme, attr = false, parent = false){
 				break;
 			case 'checked':
 				el.checked = attr[key];
+				break;
 			default:
 				el.setAttribute(key, attr[key]);
 				break;

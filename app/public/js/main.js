@@ -35,13 +35,13 @@ var cart;
 function clearEmptyInputs(form){
 	let allInputs = form.getElementsByTagName('input');
 
-    for (var i = 0; i < allInputs.length; i++) {
-        var input = allInputs[i];
+	for (var i = 0; i < allInputs.length; i++) {
+		var input = allInputs[i];
 
-        if (input.name && !input.value) {
-            input.name = '';
-        }
-    }
+		if (input.name && !input.value) {
+			input.name = '';
+		}
+	}
 }
 
 /**
@@ -49,14 +49,24 @@ function clearEmptyInputs(form){
 */
 
 document.addEventListener('DOMContentLoaded', () => {
-	cart = new Cart(openCart);
+	cart = new Cart(openCart, document.getElementsByClassName('header-cart-count')[0]);
 	
 	let Render = new RenderElements(); 
 
-	ServerInteract.getSpecialMarked('ARRIVALS', arrivalCarouselSection, Render.carouselItems, cart)
-		.getSpecialMarked('BESTSELLER', [document.getElementsByClassName('bae-bestseller-container')[0], document.getElementsByClassName('bae-book-photo')[0]], Render.bestseller, cart)
-		.getSpecialMarked('EXCLUSIVE', document.getElementsByClassName('bae-exclusives-container')[0], Render.exclusiveBooks, cart)
-		.getList('categories', document.getElementsByClassName('sf-select')[0], Render.categoriesList);
+	ServerInteract
+		.getSpecialMarked('ARRIVALS', Render.carouselItems, {
+			parent: arrivalCarouselSection, 
+			cart: cart
+		})
+		.getSpecialMarked('BESTSELLER', Render.bestseller, {
+			parent: document.getElementsByClassName('bae-bestseller-container')[0],
+			cart: cart
+		})
+		.getSpecialMarked('EXCLUSIVE', Render.exclusiveBooks, {
+			parent: document.getElementsByClassName('bae-exclusives-container')[0], 
+			cart: cart
+		})
+		.getList('categories', Render.categoriesList, document.getElementsByClassName('sf-select')[0]);
 
 	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location
 });
@@ -79,4 +89,4 @@ closeContactModal.onclick = () => contactModal.style.display = 'none';
 
 document.getElementsByClassName('cu-form-send-btn')[0].onclick = () => ServerInteract.sendMessage(document.getElementsByClassName('cu-form')[0]);
 
-document.getElementsByClassName('sf')[0].onsubmit = function(){clearEmptyInputs(this)};
+document.getElementsByClassName('sf')[0].onsubmit = function(){clearEmptyInputs(this);};

@@ -55,16 +55,12 @@ export default class Cart{
 		this.countContainer = countContainer;
 		this.goodsInside = goodsInside;
 
-		ServerInteract.getCart().then(
-			function(res){
-				this.goodsInside = res;
-			},
-			function(err){
-				console.log(err);
-			}
-		);
+		ServerInteract.getCart(inCart => {
+			this.goodsInside = inCart;
+			this.setModal(openButton)
+				.updateAllGoodsTotal();
+		});
 
-		this.setModal(openButton);
 
 		return this;
 	}
@@ -133,7 +129,7 @@ export default class Cart{
 			item.count = 1;
 			item.total = item.price;
 			this.goodsInside.push(item);
-		}
+		};
 
 		if (this.goodsInside.length != 0) {
 			let found = false;
@@ -164,7 +160,7 @@ export default class Cart{
 
 	openModal(modalWrapper){
 		modalWrapper.style.display = 'flex';
-		
+		console.log(this.goodsInside);
 		if (this.goodsInside.length == 0) {
 			this.openSentenceBanner('Oops! Your cart is empty(');
 		} else {
@@ -231,7 +227,7 @@ export default class Cart{
        		this.updateProductTotal(cartItemIndex, itemCountContainer.parentNode.parentNode);
 
 		    ServerInteract.syncCart(this.goodsInside);
-	    }
+	    };
 
 	    return createNewEl('span', {
 	    	class : 'cm-plus-btn',
@@ -310,7 +306,7 @@ export default class Cart{
 		return this;
 	}
 
-	createButtons(parent, page, form = null){
+	createButtons(parent, page){
 	    this.buttonsContainer.style.display = 'flex';
 
 	    /*clears old buttons*/
@@ -411,7 +407,7 @@ export default class Cart{
 		if (this.confirmationFormContainer.children.length === 0){
 	    	this.createConfirmationForm(this.confirmationFormContainer);
 	    }
-		this.createButtons(this.buttonsContainer, 'contact', this.confirmationFormContainer);
+		this.createButtons(this.buttonsContainer, 'contact');
 
 		return this;
 	}
@@ -500,8 +496,8 @@ export default class Cart{
 	updateAllGoodsTotal(){
 		var allGoodsCount = () => {
 			let countTotal = this.goodsInside.reduce((acc, item) => acc + item.count, 0);
-			this.countContainer.textContent = countTotal === 0 ? '' : ' (' + countTotal + ') ';  
-		} 
+			this.countContainer.textContent = countTotal === 0 ? '' : ' (' + countTotal + ') '; 
+		}; 
 
 		let priceTotal = this.goodsInside.reduce((acc, item) => acc + item.total, 0);
 		this.allTotalPrice.textContent = '$' + priceTotal.toFixed(2);

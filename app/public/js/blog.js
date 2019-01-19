@@ -29,7 +29,7 @@ var openCart = document.getElementsByClassName('header-cart-container')[0];
 */
 
 document.addEventListener('DOMContentLoaded', () => {
-	new Cart(openCart);
+	new Cart(openCart, document.getElementsByClassName('header-cart-count')[0]);
 	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location
 });
 

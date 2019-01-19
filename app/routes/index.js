@@ -5,8 +5,8 @@
 const pug = require('pug');
 const path = require('path');
 const router = require('express').Router();
-const getCatalog = new (require('../lib/getCatalogItems'))(); 
-const pool = require('../lib/databasePool');
+const searchInCatalog = new (require('../lib/searchInCatalog'))(); 
+const pool = require('../lib/db');
 
 /**
   * Variables
@@ -41,7 +41,7 @@ router.get('/search', function(req, res){
 
 /*router for dynamic pages*/
 router.get('/book/:id', function(req, res){
-	getCatalog.bySimpleColumn({id: req.params.id}, res, function(err, result){
+	searchInCatalog.bySimpleColumn({id: req.params.id}, res, function(err, result){
 		if (err) throw err;
 
     let query = 'SELECT * FROM Catalog ORDER BY RAND() LIMIT ' + 4;
@@ -50,7 +50,7 @@ router.get('/book/:id', function(req, res){
       if (err) callback(err);
 
       res.render(path.join(__dirname + '/../views/bookPage.pug'), {
-        book: result[0],
+        book: result,
         ymalBooks: random
       });   
     });

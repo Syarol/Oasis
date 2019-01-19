@@ -6,7 +6,6 @@ const session	  = require('express-session');
 const getCart     = require('./lib/getCart');
 const sendMessage = require('./lib/sendMessage');
 const bodyParser  = require('body-parser');
-const getCatalog = new (require('./lib/getCatalogItems'))(); 
 const searchInCatalog = new (require('./lib/searchInCatalog'))();
 const router = require('./routes/index');
 const app = express();
@@ -14,7 +13,6 @@ const app = express();
 app.set('view engine', 'pug');
 app.set('views', __dirname + '/views');
 
-app.use(express.static(path.join(__dirname + '/public/html')));
 app.use(express.static(path.join(__dirname + '/public')));
 app.use(express.static(__dirname));
 app.use(router);
@@ -24,6 +22,7 @@ app.use(session({
   resave: true,
   secure: true,
   HttpOnly: true,
+  cookie: { maxAge: 24 * 60 * 60 * 1000 }, // 1 day
   saveUninitialized: true
 }));
 app.use(bodyParser.json());
@@ -33,13 +32,11 @@ app.post('/getSearchResults', function(req, res){
 });
 
 app.post('/getCart', function(req, res) {
-  getCart(req, res);
+  getCart.get(req, res);
 });
 
-app.post('/sameCart', function(req, res) {
-  let data = req.body;
-  req.session.booksInCart = data;
-  res.send(JSON.stringify(data));
+app.post('/setCart', function(req, res) {
+  getCart.set(req, res, req.body);
 });
 
 app.post('/sendMessage', function(req, res) {
@@ -48,11 +45,12 @@ app.post('/sendMessage', function(req, res) {
 });
 
 app.get('/getBySimpleColumn', function(req, res) {
-	getCatalog.bySimpleColumn({[req.query.column]: req.query.title}, res);
+  console.log(req.query);
+	searchInCatalog.bySimpleColumn({[req.query.column]: req.query.value}, res);
 });
 
 app.get('/getList', function(req, res){
-	getCatalog.byColumn(req.query.column, res);
+	searchInCatalog.byColumn(req.query.column, res);
 });
 
 app.get('/getLowHighPrice', function(req, res){
@@ -75,7 +73,6 @@ app.use(function(err, req, res, next) {
     description: 'Something broken!😥'
   });
 });
-
 
 app.listen(3000);
 

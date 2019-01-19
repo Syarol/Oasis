@@ -43,7 +43,7 @@ function itemHoverBlock(item, cart){
 				content: 'Read more'
 			})
 		]
-	})
+	});
 }
 
 function addToCartButton(item, cart){
@@ -55,7 +55,7 @@ function addToCartButton(item, cart){
 		event: {
 			click: () => cart.add(item)
 		}
-	})
+	});
 
 	if (item.status != 'In Stock'){
 		button.title = item.title + ' not available';
@@ -80,17 +80,17 @@ function bookModalData(data){
 	}
 
 	return {click: () => {						
-			document.getElementsByClassName('bm-wrapper')[0].style.display = 'flex'; //open modal window
-			document.getElementsByClassName('bm-heading')[0].textContent = data.title; //show goods title
-			document.getElementsByClassName('bm-image')[0].setAttribute('src', data.thumbnailUrl); //show goods image
-			document.getElementsByClassName('bm-author')[0].textContent = 'Author: ' + data.author; //show goods author
-			document.getElementsByClassName('bm-isbn')[0].textContent = 'ISBN: ' + data.isbn; //show goods isbn
-			document.getElementsByClassName('bm-publisher')[0].textContent  = 'Publisher: ' + data.publisher; //show goods prise
-			document.getElementsByClassName('bm-categories')[0].textContent = 'Categories: ' + data.categories; //show goods categories
-			document.getElementsByClassName('bm-description')[0].textContent = data.shortDescription; //show goods description
-			document.getElementsByClassName('bm-price')[0].textContent = 'Price: $' + data.price; //show goods prise
-			checkAvailability(data);//set goods data in 'add to cart' button (needs to addding to cart operation)
-		}
+		document.getElementsByClassName('bm-wrapper')[0].style.display = 'flex'; //open modal window
+		document.getElementsByClassName('bm-heading')[0].textContent = data.title; //show goods title
+		document.getElementsByClassName('bm-image')[0].setAttribute('src', data.thumbnailUrl); //show goods image
+		document.getElementsByClassName('bm-author')[0].textContent = 'Author: ' + data.author; //show goods author
+		document.getElementsByClassName('bm-isbn')[0].textContent = 'ISBN: ' + data.isbn; //show goods isbn
+		document.getElementsByClassName('bm-publisher')[0].textContent  = 'Publisher: ' + data.publisher; //show goods prise
+		document.getElementsByClassName('bm-categories')[0].textContent = 'Categories: ' + data.categories; //show goods categories
+		document.getElementsByClassName('bm-description')[0].textContent = data.shortDescription; //show goods description
+		document.getElementsByClassName('bm-price')[0].textContent = 'Price: $' + data.price; //show goods prise
+		checkAvailability(data);//set goods data in 'add to cart' button (needs to addding to cart operation)
+	}
 	};
 }
 
@@ -101,8 +101,8 @@ function bookModalData(data){
 export default class RenderElements{
 	/*render bestseller section of main page*/
 	bestseller(parent, data, cart){
-	   	bestsellerPreview(parent[0], data[0]);
-	   	document.getElementsByClassName('bm-buy-btn')[0].onclick = () => cart.add(data[0]);
+	   	bestsellerPreview(parent, data);
+	   	document.getElementsByClassName('bm-buy-btn')[0].onclick = () => cart.add(data);
 
 	   	/*render short information in section of main page*/
 		function bestsellerPreview(parent, data){
