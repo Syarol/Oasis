@@ -61,7 +61,6 @@ export default class Cart{
 				.updateAllGoodsTotal();
 		});
 
-
 		return this;
 	}
 

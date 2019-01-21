@@ -81,7 +81,7 @@ class searchInCatalog{
 		pool.query(sql, function(err, result){
 			if (err) throw err;
 
-			res.send(result);
+			res.send(JSON.stringify(result));
 		});
 	}
 

@@ -23,38 +23,21 @@ function updateAllGoodsTotal(goodsInCart){
 	} 
 }
 
-function getObjectFromUrlQuery(){
-	if (window.location.search.length != 0)
-		return window.location.search
-	  		.slice(1)
-			.split('&')
-			.map(p => p.split('='))
-			.reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
-	else return null;
-}
-
-function syncPriceInputs(hiddenInput, priceInput){
-	for (let item of hiddenInput){
-		item.value = priceInput.value;
-	}
-}
-
 /**
  * Class
 */
 
 export default class ServerInteract{
 	/*Receives cart contents*/
-	static getCart(cb, cbData){
-		var xHr = new XMLHttpRequest(); //Create the object
-		xHr.open('post', '/getCart'); //initialization of query
-		xHr.setRequestHeader('Content-Type', 'application/json'); //setting HTTP header
-		xHr.send(); //send query
+	static getCart(cb){
+		fetch('/getCart', {
+			method: 'POST'
+		})
+			.then(res => res.json())
+			.then(json => cb(json))
+			.catch(err => console.log(err));
 
-		/*execute callback when request will be processed*/
-		xHr.onload = function () {
-		   	cb(JSON.parse(this.responseText));
-		};
+		return this;
 	}
 
 	/*Synchronizes cart beetwen client and server*/
@@ -73,92 +56,68 @@ export default class ServerInteract{
 	}
 
 	/*Find goods*/
-	static getFinded(query){
-		return new Promise(function(resolve, reject){
-			var xHr = new XMLHttpRequest(); //Create the object
-			xHr.open('post', '/getSearchResults'); //initialization of query
-			xHr.setRequestHeader('Content-Type', 'application/json');
-			xHr.send(JSON.stringify(query)); //send query 
+	static getFinded(query, cb){
+		fetch('/getSearchResults', {
+			method: 'POST',
+			body: query
+		})
+			.then(res => res.json())
+			.then(json => cb(json))
+			.catch(err => console.log(err));
 
-			/*when the request has been processed send finded*/
-			xHr.onload = () => {
-			   	resolve(JSON.parse(xHr.responseText)); //returns variable with finded items
-			};
-
-			xHr.onerror = (err) => reject(err); //on error return error message
-		});
+		return this;
 	}
 
 	/*Find and render goods details list by specified colum (categories, author, publiser)*/
 	static getList(column, cb, cbData = null){
-		var xHr = new XMLHttpRequest(); //Create the object
-		xHr.open('get', '/getList?column=' + column); //initialization of query
-		xHr.send(); //send query 
-
-		/*when the request has been processed render finded*/
-		xHr.onload = function (){
-		   	cb(JSON.parse(this.responseText), cbData, column);
-		};
-
+		fetch('/getList?column=' + column, {
+			method: 'GET'
+		})
+			.then(res => res.json())
+			.then(json => cb(json, cbData, column))
+			.catch(err => console.log(err));
+		
 		return this;
 	}
 
 	/*Find and render special marked goods*/
 	static getSpecialMarked(title, cb, cbData){
-		var xHr = new XMLHttpRequest(); //Create the object
-		xHr.open('get', '/getBySimpleColumn?column=specialMark&value=' + title); //initialization of query
-		xHr.send(); //send query 
-
-		/*when the request has been processed render finded*/
-		xHr.onload = () => {
-	   		cb(cbData.parent, JSON.parse(xHr.responseText), cbData.cart);
-		};
-
+		fetch('/getBySimpleColumn?column=specialMark&value=' + title, {
+			method: 'GET'
+		})
+			.then(res => res.json())
+			.then(json => cb(cbData.parent, json, cbData.cart))
+			.catch(err => console.log(err));
+		
 		return this;
 	}
 
 	/*Find goods by their title*/
 	static getDataById(id, cb){
-		var xHr = new XMLHttpRequest(); //Create the object
-		xHr.open('get', '/getBySimpleColumn?column=id&value=' + id); //initialization of query
-		xHr.send(); //send query 
-
-		/*when the request has been processed return goods data*/
-		xHr.onload = () => {
-			cb(JSON.parse(xHr.responseText));
-		}
+		fetch('/getBySimpleColumn?column=id&value=' + id, {
+			method: 'GET'
+		})
+			.then(res => res.json())
+			.then(json => cb(json))
+			.catch(err => console.log(err));
+		
+		return this;
 	}
 
-	/*Gets lowest and highest price in catalog*/
-	static getLowHigh(lowInput, highInput){
-		var xHr = new XMLHttpRequest(); //Create the object
-		xHr.open('get', '/getLowHighPrice'); //initialization of query
-		xHr.send(); //send query 
-
-		/*when the request has been processed return goods data*/
-		xHr.onload = () => {
-			let prices = JSON.parse(xHr.responseText)[0];
-			let pageUrlObj = getObjectFromUrlQuery();
-
-			if (pageUrlObj.lowPrice){
-				lowInput.value = pageUrlObj.lowPrice;
-				syncPriceInputs(document.getElementsByClassName('sf-low-price'), lowInput);
-			} else 
-				lowInput.value = prices.low.toFixed(2);
-
-			if (pageUrlObj.highPrice){
-				highInput.value = pageUrlObj.highPrice;
-				syncPriceInputs(document.getElementsByClassName('sf-high-price'), highInput);
-			} else 	
-				highInput.value = prices.high.toFixed(2);
-		};
-
+	static getLowHigh(cb){
+		fetch('/getLowHighPrice', {
+			method: 'GET'
+		})
+			.then(res => res.json())
+			.then(json => cb(json))
+			.catch(err => console.log(err));
+		
 		return this;
 	}
 
 	/*Send message to shop (form from contact modal)*/
 	static sendMessage(form){
-		if(form.querySelectorAll('input[required=""]').every(el => el.checkValidity())){
+		if([...form.querySelectorAll('input[required=""]')].every(el => el.checkValidity())){
 			let message = {}; //initialization of message object
 
 			/*getting message main data*/

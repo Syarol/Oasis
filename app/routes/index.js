@@ -39,6 +39,14 @@ router.get('/search', function(req, res){
   res.sendFile(path.join(__dirname + '/../public/html/search.html'));
 });
 
+router.get('/login', function(req, res){
+  res.sendFile(path.join(__dirname + '/../public/html/login.html'));
+});
+
+router.get('/register', function(req, res){
+  res.sendFile(path.join(__dirname + '/../public/html/register.html'));
+});
+
 /*router for dynamic pages*/
 router.get('/book/:id', function(req, res){
 	searchInCatalog.bySimpleColumn({id: req.params.id}, res, function(err, result){

@@ -113,14 +113,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.getElementById('search-text').textContent = 'You need to search first';
 	}
 
-	ServerInteract.getFinded(query).then(
+	ServerInteract.getFinded(query,
 		function(res){
 			new Pagination(res, document.getElementsByClassName('pagination'), cart, document.getElementsByClassName('fi-per-page')[0]);
 
 			showSearchQuery(query, res.length);
-		},
-		function(err){
-			console.log(err);
 		}
 	);
 
@@ -129,7 +126,24 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	ServerInteract.getList('categories', Render.checkList, {list: query.categories, parent: categoriesList})
-		.getLowHigh(document.getElementsByClassName('sidebar-low-price')[0], document.getElementsByClassName('sidebar-high-price')[0])
+		.getLowHigh((prices) => {
+			let lowInput = document.getElementsByClassName('sidebar-low-price')[0];
+			let highInput = document.getElementsByClassName('sidebar-high-price')[0];
+			let pageUrlObj = getObjectFromUrlQuery(window.location.search);
+			prices = prices[0];
+			
+			if (pageUrlObj.lowPrice){
+				lowInput.value = pageUrlObj.lowPrice;
+				syncPriceInputs(document.getElementsByClassName('sf-low-price'), lowInput);
+			} else 
+				lowInput.value = prices.low.toFixed(2);
+
+			if (pageUrlObj.highPrice){
+				highInput.value = pageUrlObj.highPrice;
+				syncPriceInputs(document.getElementsByClassName('sf-high-price'), highInput);
+			} else 	
+				highInput.value = prices.high.toFixed(2);
+		})
 		.getList('author', Render.checkList, {list: query.author, parent: authorsList})
 		.getList('publisher', Render.checkList, {list: query.publisher, parent: publishersList});
 
