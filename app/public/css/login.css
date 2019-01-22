@@ -59,14 +59,18 @@ html, body, .page-background {
   height: 100%;
 }
 
-.login-form-input-container{
+/**
+ * ibb-ic - short form for 'Icon bottom-border input container'
+**/
+
+.ibb-ic{
   position: relative;
   border-bottom: 1px solid #b2aaaa;
   line-height: 100%;
 }
 
-.login-form-username-input, 
-.login-form-password-input{
+.ibb-ic-email, 
+.ibb-ic-password{
   width: 200px;
   height: 35px;
   border: 0;
@@ -75,7 +79,7 @@ html, body, .page-background {
   padding: 0 5px 0 20px;
 }
 
-.input-focus{
+.ibb-ic-focus{
   position: absolute;
   bottom: 0;
   left: 0;
@@ -84,7 +88,7 @@ html, body, .page-background {
   pointer-events: none;
 }
 
-.input-focus:before{
+.ibb-ic-focus:before{
   background: #262626;
   content: "";
   display: block;
@@ -96,7 +100,7 @@ html, body, .page-background {
   transition: .7s;
 }
 
-.input-focus:after{
+.ibb-ic-focus:after{
   font-family: "Font Awesome 5 Free";
   content: attr(data-symbol);
   position: absolute;
@@ -111,8 +115,8 @@ html, body, .page-background {
   position: absolute;
 }
 
-.login-form-username-input:focus + .input-focus:before, 
-.login-form-password-input:focus + .input-focus:before{
+.ibb-ic-email:focus + .ibb-ic-focus:before, 
+.ibb-ic-password:focus + .ibb-ic-focus:before{
   width: 100%;
 }
 
