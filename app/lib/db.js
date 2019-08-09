@@ -1,14 +1,17 @@
-// Load module
+// Load db module
 var mysql = require('mysql');
+
+// Loads connection configs
+const {host, user, password, db} = require('./config.js');
 
 // Initialize pool
 var pool = mysql.createPool({
 	connectionLimit : 10,
-	host     : 'localhost',
-	user     : 'root',
-	password : '',
-	database : 'Oasis',
-	debug    :  false
+	host     : host,
+	user     : user,
+	password : password,
+	database : db,
+	debug:  false
 });    
 
 module.exports = pool;

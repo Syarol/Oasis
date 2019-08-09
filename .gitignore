@@ -5,3 +5,4 @@ nodemon.json
 findUnusedCss.json
 app/public/css/min/
 app/public/css/bundles/
+.env
