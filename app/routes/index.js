@@ -24,27 +24,39 @@ const compiledBookPage = pug.compileFile(bookPagePath, bookOptionsObject);
 
 /*router for static pages*/
 router.get('/', function(req, res){
-	res.sendFile(path.join(__dirname + '/../public/html/index.html'));
+  res.sendFile('index.html', {
+    root: path.join(__dirname + '/../public/html')
+  });
 });
 
 router.get('/blog', function(req, res){
-  res.sendFile(path.join(__dirname + '/../public/html/blog.html'));
+  res.sendFile('blog.html', {
+    root: path.join(__dirname + '/../public/html')
+  });
 });
 
 router.get('/shop', function(req, res){
-  res.sendFile(path.join(__dirname + '/../public/html/shop.html'));
+  res.sendFile('shop.html', {
+    root: path.join(__dirname + '/../public/html')
+  });
 });
 
 router.get('/search', function(req, res){
-  res.sendFile(path.join(__dirname + '/../public/html/search.html'));
+  res.sendFile('search.html', {
+    root: path.join(__dirname + '/../public/html')
+  });
 });
 
 router.get('/login', function(req, res){
-  res.sendFile(path.join(__dirname + '/../public/html/login.html'));
+  res.sendFile('login.html', {
+    root: path.join(__dirname + '/../public/html')
+  });
 });
 
 router.get('/register', function(req, res){
-  res.sendFile(path.join(__dirname + '/../public/html/register.html'));
+  res.sendFile('register.html', {
+    root: path.join(__dirname + '/../public/html')
+  });
 });
 
 /*router for dynamic pages*/

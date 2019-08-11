@@ -10,8 +10,9 @@
 
 module.exports = {
 	port: process.env.PORT,
-	host: process.env.DB_HOST,
-	user: process.env.DB_USER,
-	password: process.env.DB_PASSWORD,
-	db: process.env.DB_NAME
+	dbHost: process.env.DB_HOST,
+	dbUser: process.env.DB_USER,
+	dbPassword: process.env.DB_PASSWORD,
+	db: process.env.DB_NAME,
+	redisUrl: process.env.REDIS_URL
 };
