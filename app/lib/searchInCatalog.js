@@ -17,6 +17,7 @@ class searchInCatalog{
 		  hp - is short from 'Home page'
 		  sp - is short from 'Search page'
 		*/
+
 		switch (fields.searchType){
 		case 'shp-full-search':
 			sql += '(title LIKE \'%' + fields.query + '%\') OR (author LIKE \'%' + fields.query + '%\') OR (description LIKE \'% ' + fields.query + ' %\') OR (categories LIKE \'%' + fields.query + '%\')';
@@ -141,5 +142,9 @@ class searchInCatalog{
 		});
 	}
 }
+
+/**
+  * Export
+**/
 
 module.exports = searchInCatalog;

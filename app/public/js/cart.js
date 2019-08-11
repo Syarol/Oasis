@@ -52,7 +52,6 @@ function swapLastTwo(el){
 
 export default class Cart{
 	constructor(openButton, goodsInside = []){
-		console.log(openButton);
 		this.openButton = openButton;
 		this.goodsInside = goodsInside;
 
@@ -60,6 +59,8 @@ export default class Cart{
 			this.goodsInside = inCart;
 			this.setModal(openButton)
 				.updateAllGoodsTotal();
+
+			console.log(inCart);
 		});
 
 		return this;
@@ -148,7 +149,8 @@ export default class Cart{
 			newItemInCart(product);
 		}
 
-		ServerInteract.syncCart(this.goodsInside);	
+		ServerInteract.setCart(this.goodsInside);
+		this.updateAllGoodsTotal();	
 
 		return this;
 	}
@@ -212,7 +214,8 @@ export default class Cart{
 		      	this.openSentenceBanner('Oops! Your cart is empty(');
 		    }
 		} else console.log('Item didn\'t in the cart');
-		ServerInteract.syncCart(this.goodsInside);	
+		ServerInteract.setCart(this.goodsInside);
+		this.updateAllGoodsTotal();
 
 		return this;
 	}
@@ -226,7 +229,8 @@ export default class Cart{
        		let cartItemIndex = this.goodsInside.map(el => el.id).indexOf(cartItem.id);
        		this.updateProductTotal(cartItemIndex, itemCountContainer.parentNode.parentNode);
 
-		    ServerInteract.syncCart(this.goodsInside);
+		    ServerInteract.setCart(this.goodsInside);
+		    this.updateAllGoodsTotal();
 	    };
 
 	    return createNewEl('span', {
@@ -252,7 +256,8 @@ export default class Cart{
 		       	this.remove(itemCountContainer, itemCountContainer.parentNode.parentNode);
 		    }
 
-		    ServerInteract.syncCart(this.goodsInside);
+		    ServerInteract.setCart(this.goodsInside);
+		    this.updateAllGoodsTotal();
 	    };
 
 	    return createNewEl('span', {

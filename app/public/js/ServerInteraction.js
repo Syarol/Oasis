@@ -6,24 +6,6 @@
  */
 
 /**
- * Functions
-*/
-
-function updateAllGoodsTotal(goodsInCart){
-	let priceTotal = goodsInCart.reduce((acc, item) => acc + item.total, 0);
-	document.getElementsByClassName('cm-all-items-total')[0].textContent = '$' + priceTotal.toFixed(2);
-
-	allGoodsCount();   
-
-	function allGoodsCount(){
-		let countTotal = goodsInCart.reduce((acc, item) => acc + item.count, 0);
-		let countTotalContainer = document.getElementsByClassName('header-cart-count')[0];
-
-		countTotalContainer.textContent = countTotal === 0 ? '' : ' (' + countTotal + ') ';  
-	} 
-}
-
-/**
  * Class
 */
 
@@ -41,25 +23,27 @@ export default class ServerInteract{
 	}
 
 	/*Synchronizes cart beetwen client and server*/
-	static syncCart(goodsInCart){
-		let goods = JSON.stringify(goodsInCart); //converts array to string
+	static setCart(goodsInCart){
+		fetch('/setCart', {
+			method: 'POST', //setting request method
+			headers: {
+	            'Content-Type': 'application/json', //setting HTTP header
+        	},
+			body: JSON.stringify(goodsInCart) //setting request body
+		})
+			.catch(err => console.log(err));
 
-		var xHr = new XMLHttpRequest(); //Create the object
-		xHr.open('post', '/setCart'); //initialization of query
-		xHr.setRequestHeader('Content-Type', 'application/json'); //setting HTTP header
-		xHr.send(goods); //send query 
-
-		/*when the request has been processed receive cart contents*/
-		xHr.onload = () => {
-		   	updateAllGoodsTotal(JSON.parse(xHr.responseText)); //update count of goods inside cart
-		};
+		return this;
 	}
 
 	/*Find goods*/
 	static getFinded(query, cb){
 		fetch('/getSearchResults', {
 			method: 'POST',
-			body: query
+			headers: {
+	            'Content-Type': 'application/json',
+        	},
+			body: JSON.stringify(query)
 		})
 			.then(res => res.json())
 			.then(json => cb(json))

@@ -18,5 +18,8 @@ function sendMessage(data){
 	return 'New record created successfully';
 }
 
+/**
+  * Export
+**/
 
 module.exports = sendMessage; 
