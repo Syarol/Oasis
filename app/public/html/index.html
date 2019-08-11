@@ -25,19 +25,31 @@
 
 <body>
 	<!-- Header -->
-	<header class="grid-center-items">
-		<span class="header-logo-container">
-			<a href="/">Oasis</a>
-		</span>
+	<header>
+		<a href="/" class="header-logo-wrapper">
+			<span>Oasis</span>
+		</a>
 		<nav class="grid-center-items">
 			<p class="header-nav-item"><a href="/">Home</a></p>
 			<p class="header-nav-item"><a href="/blog">Blog</a></p>
 			<p class="header-nav-item"><a href="/shop">Shop</a></p>
 		</nav>
-		<p class="header-cart-container" title="Click to open cart">
-			<i class="fas fa-shopping-cart"></i>
-			<span class="header-cart-count"></span>
+		<p class="header-cart-wrapper" title="Click to open cart">
+			<i class="fas fa-shopping-cart header-cart"></i>
 		</p>
+		<details>
+			<summary class="header-user">
+				<i class="fas fa-user"></i>
+				<i class="fas fa-sort-down"></i>
+			</summary>
+			<div class="header-user-details">
+				<span>Signed in as </span>
+				<a href="#">My profile</a>
+				<button>Night Mode</button>
+				<a href="#">Help</a>
+				<button>Log out</button>
+			</div>
+		</details>
 	</header> 
 
 	<main>
@@ -99,7 +111,7 @@
 				<form class="sf" action="/search" method="GET">
 					<div>
 						<label for="title">Book title</label>
-						<input type="text" name="title">
+						<input type="text" name="title" autocapitalize="none" autocorrect="off" spellcheck="false">
 					</div>
 					<div>
 						<label>Category</label>
@@ -109,7 +121,7 @@
 					</div>
 					<div>
 						<label for="author">Book author</label>
-						<input type="text" name="author">
+						<input type="text" name="author" autocapitalize="none" autocorrect="off" spellcheck="false">
 					</div>
 					<button class="sf-btn btn">Search</button>
 					<input type="hidden" name="searchType" value="hp-custom-search"/>
@@ -149,7 +161,7 @@
 				<span class="bm-categories" class="category"></span>
 				<span class="bm-description" class="text-container"></span>
 				<span class="bm-price"></span>
-				<input class="bm-buy-btn btn" value="Add to cart">
+				<button class="bm-buy-btn btn" value="Add to cart">
 			</div>
 		</div>
 	</div>
@@ -174,10 +186,10 @@
 					</div>
 				</div>
 				<form class="cu-form">
-					<label>Your name (required)<input type="text" name="name" required></label>
-					<label>Your Email (required)<input type="e-mail" name="email" required></label>
-					<label>Subject<input type="text" name="subject"></label>
-					<label>Your Message<textarea name="message" rows="5"></textarea></label>
+					<label>Your name (required)<input type="text" name="name" required  autocapitalize="none" autocorrect="off" spellcheck="false"></label>
+					<label>Your Email (required)<input type="e-mail" name="email" required  autocapitalize="none" autocorrect="off" spellcheck="false"></label>
+					<label>Subject<input type="text" name="subject"  autocapitalize="none" autocorrect="off" spellcheck="false"></label>
+					<label>Your Message<textarea name="message" rows="5"  autocapitalize="none" autocorrect="off" spellcheck="false"></textarea></label>
 					<button class="cu-form-send-btn btn">Send</button>
 				</form>
 			</div>

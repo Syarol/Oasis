@@ -23,7 +23,7 @@ import RenderElements from './RenderElements.js'; //for render DOM elements
 var contactModal = document.getElementsByClassName('cu-modal-wrapper')[0];
 var contactModalLink = document.getElementsByClassName('footer-contact')[0];
 var closeContactModal = document.getElementsByClassName('cu-modal-close')[0];
-var openCart = document.getElementsByClassName('header-cart-container')[0];
+var openCart = document.getElementsByClassName('header-cart-wrapper')[0];
 
 /**
  * Event Listeners

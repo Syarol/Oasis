@@ -5,7 +5,7 @@
 var gulp = require('gulp');
 var csso = require('gulp-csso');
 var rename = require('gulp-rename');
-var browserSync = require('browser-sync');
+//var browserSync = require('browser-sync');
 var nodemon = require('gulp-nodemon');
 var concat = require('gulp-concat');
 
@@ -13,7 +13,7 @@ var concat = require('gulp-concat');
 	* Constant
 **/
 
-const BROWSER_SYNC_RELOAD_DELAY = 500;
+//const BROWSER_SYNC_RELOAD_DELAY = 500;
 
 /**
 	* Tasks
@@ -32,16 +32,16 @@ gulp.task('nodemon', function(cb) {
       if (!called) { cb(); }
       called = true;
     })
-    .on('restart', function onRestart() {
+    /*.on('restart', function onRestart() {
       setTimeout(function reload() {
         browserSync.reload({
           stream: false
         });
       }, BROWSER_SYNC_RELOAD_DELAY);
-    });
+    });*/
 });
 
-function initBrowserSync() {
+/*function initBrowserSync() {
   browserSync.init({
     proxy: 'http://localhost:3000',
     port: 4000,
@@ -49,7 +49,7 @@ function initBrowserSync() {
     open: "tunnel",
     tunnel: true
   });
-}
+}*/
 
 //minify CSS files
 function minifyCSS() {
@@ -59,9 +59,9 @@ function minifyCSS() {
         suffix: '.min'
     }))
     .pipe(gulp.dest('./app/public/css/min/'))
-    .pipe(browserSync.reload({
+    /*.pipe(browserSync.reload({
       stream: true
-    }))
+    }))*/
 }
 
 //watches files for changes
@@ -106,7 +106,7 @@ exports.default = gulp.series(
   makeCSSBundles,
 	minifyCSS,
 	gulp.parallel(
-		initBrowserSync,
+		//initBrowserSync,
 		nodemon,
 		watchAll
 	)

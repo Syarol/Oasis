@@ -51,8 +51,9 @@ function swapLastTwo(el){
 */
 
 export default class Cart{
-	constructor(openButton, countContainer, goodsInside = []){
-		this.countContainer = countContainer;
+	constructor(openButton, goodsInside = []){
+		console.log(openButton);
+		this.openButton = openButton;
 		this.goodsInside = goodsInside;
 
 		ServerInteract.getCart(inCart => {
@@ -495,7 +496,7 @@ export default class Cart{
 	updateAllGoodsTotal(){
 		var allGoodsCount = () => {
 			let countTotal = this.goodsInside.reduce((acc, item) => acc + item.count, 0);
-			this.countContainer.textContent = countTotal === 0 ? '' : ' (' + countTotal + ') '; 
+			this.openButton.style.color = countTotal === 0 ? 'black' : '#128937';
 		}; 
 
 		let priceTotal = this.goodsInside.reduce((acc, item) => acc + item.total, 0);

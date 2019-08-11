@@ -33,12 +33,12 @@
 				<input class="sf-publisher" type="hidden" name="publisher" value="">
 				<input class="sf-low-price" type="hidden" name="low-price" value="">
 				<input class="sf-high-price" type="hidden" name="high-price" value="">
-				<input class="sf-query" type="text" name="query" placeholder="Search for">
+				<input class="sf-query" type="text" name="query" placeholder="Search for" autocapitalize="none" autocorrect="off" spellcheck="false">
 				<button class="btn">Search</button>
 				<input type="hidden" name="searchType" value="sp-search">
 			</form>
 		</nav>
-		<p class="header-cart-container" title="Click to open cart">
+		<p class="header-cart-wrapper" title="Click to open cart">
 			<i class="fas fa-shopping-cart"></i>
 			<span class="header-cart-count"></span>
 		</p>
@@ -57,7 +57,7 @@
 				<input class="sf-publisher" type="hidden" name="publisher" value="">
 				<input class="sf-low-price" type="hidden" name="lowPrice" value="">
 				<input class="sf-high-price" type="hidden" name="highPrice" value="">
-				<input class="sf-query" type="text" name="query" placeholder="Search for">
+				<input class="sf-query" type="text" name="query" placeholder="Search for" autocapitalize="none" autocorrect="off" spellcheck="false">
 				<button class="btn">Search</button>
 				<input type="hidden" name="searchType" value="sp-search">
 			</form>
@@ -193,10 +193,10 @@
 					</div>
 				</div>
 				<form class="cu-form">
-					<label>Your name (required)<input type="text" name="name" required></label>
-					<label>Your Email (required)<input type="e-mail" name="email" required></label>
-					<label>Subject<input type="text" name="subject"></label>
-					<label>Your Message<textarea name="message" rows="5"></textarea></label>
+					<label>Your name (required)<input type="text" name="name" required  autocapitalize="none" autocorrect="off" spellcheck="false"></label>
+					<label>Your Email (required)<input type="e-mail" name="email" required  autocapitalize="none" autocorrect="off" spellcheck="false"></label>
+					<label>Subject<input type="text" name="subject"  autocapitalize="none" autocorrect="off" spellcheck="false"></label>
+					<label>Your Message<textarea name="message" rows="5"  autocapitalize="none" autocorrect="off" spellcheck="false"></textarea></label>
 					<button class="cu-form-send-btn btn">Send</button>
 				</form>
 			</div>
@@ -217,7 +217,7 @@
 				<span class="bm-categories" class="category"></span>
 				<span class="bm-description" class="text-container"></span>
 				<span class="bm-price"></span>
-				<input class="bm-buy-btn btn" value="Add to cart">
+				<button class="bm-buy-btn btn" value="Add to cart">
 			</div>
 		</div>
 	</div>

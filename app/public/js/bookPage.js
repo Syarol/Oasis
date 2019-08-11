@@ -22,7 +22,7 @@ import ServerInteract from './ServerInteraction.js';
 var contactModal = document.getElementsByClassName('cu-modal-wrapper')[0];
 var contactModalLink = document.getElementsByClassName('footer-contact')[0];
 var closeContactModal = document.getElementsByClassName('cu-modal-close')[0];
-var openCart = document.getElementsByClassName('header-cart-container')[0];
+var openCart = document.getElementsByClassName('header-cart-wrapper')[0];
 
 /**
  * Functions

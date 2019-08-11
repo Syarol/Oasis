@@ -15,20 +15,20 @@
 </head>
 <body>
 	<!-- Header -->
-	<header class="grid-center-items">
-		<span class="header-logo-container">
-			<a href="/">Oasis</a>
-		</span>
+	<header>
+		<a href="/" class="header-logo-wrapper">
+			<span>Oasis</span>
+		</a>
 		<nav class="grid-center-items">
 			<p class="header-nav-item"><a href="/">Home</a></p>
 			<p class="header-nav-item"><a href="/blog">Blog</a></p>
 			<p class="header-nav-item"><a href="/shop">Shop</a></p>
 		</nav>
-		<p class="header-cart-container" title="Click to open cart">
+		<p class="header-cart-wrapper" title="Click to open cart">
 			<i class="fas fa-shopping-cart"></i>
 			<span class="header-cart-count"></span>
 		</p>
-	</header> 
+	</header>  
 
 	<main>
 		<div class="pagination">
@@ -147,10 +147,10 @@
 					</div>
 				</div>
 				<form class="cu-form">
-					<label>Your name (required)<input type="text" name="name" required></label>
-					<label>Your Email (required)<input type="e-mail" name="email" required></label>
-					<label>Subject<input type="text" name="subject"></label>
-					<label>Your Message<textarea name="message" rows="5"></textarea></label>
+					<label>Your name (required)<input type="text" name="name" required  autocapitalize="none" autocorrect="off" spellcheck="false"></label>
+					<label>Your Email (required)<input type="e-mail" name="email" required  autocapitalize="none" autocorrect="off" spellcheck="false"></label>
+					<label>Subject<input type="text" name="subject"  autocapitalize="none" autocorrect="off" spellcheck="false"></label>
+					<label>Your Message<textarea name="message" rows="5"  autocapitalize="none" autocorrect="off" spellcheck="false"></textarea></label>
 					<button class="cu-form-send-btn btn">Send</button>
 				</form>
 			</div>

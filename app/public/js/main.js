@@ -25,7 +25,7 @@ var contactModal = document.getElementsByClassName('cu-modal-wrapper')[0];
 var contactModalLink = document.getElementsByClassName('footer-contact')[0];
 var closeContactModal = document.getElementsByClassName('cu-modal-close')[0];
 var bestsellerModalWrapper = document.getElementsByClassName('bm-wrapper')[0];
-var openCart = document.getElementsByClassName('header-cart-container')[0];
+var openCart = document.getElementsByClassName('header-cart-wrapper')[0];
 var cart;
 
 /**
@@ -49,7 +49,7 @@ function clearEmptyInputs(form){
 */
 
 document.addEventListener('DOMContentLoaded', () => {
-	cart = new Cart(openCart, document.getElementsByClassName('header-cart-count')[0]);
+	cart = new Cart(openCart);
 	
 	let Render = new RenderElements(); 
 
