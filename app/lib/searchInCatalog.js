@@ -108,8 +108,9 @@ class searchInCatalog{
 	byColumn(column, res){
 		let sql = 'SELECT ' + column + ' FROM Catalog';
 		let categoriesArray = [];
+		
 		pool.query(sql, function (err, result) {
-		    if (err) throw err;
+		  if (err) throw err;
 			for (let item of result){
 				let splittedCategories;
 				switch(column){

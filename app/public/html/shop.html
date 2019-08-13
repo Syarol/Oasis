@@ -126,12 +126,12 @@
 						<span>Everyday 10am - 6pm</span>
 					</div>
 				</div>
-				<form class="cu-form">
-					<label>Your name (required)<input type="text" name="name" required  autocapitalize="none" autocorrect="off" spellcheck="false"></label>
-					<label>Your Email (required)<input type="e-mail" name="email" required  autocapitalize="none" autocorrect="off" spellcheck="false"></label>
-					<label>Subject<input type="text" name="subject"  autocapitalize="none" autocorrect="off" spellcheck="false"></label>
-					<label>Your Message<textarea name="message" rows="5"  autocapitalize="none" autocorrect="off" spellcheck="false"></textarea></label>
-					<button class="cu-form-send-btn btn">Send</button>
+				<form class="cu-form" action="/sendMessage" method="POST">
+					<label>Your name (required)<input type="text" name="name" required></label>
+					<label>Your Email (required)<input type="email" name="email" required  autocapitalize="none"></label>
+					<label>Subject<input type="text" name="subject"></label>
+					<label>Your Message<textarea name="message" rows="5"></textarea></label>
+					<button class="cu-form-send-btn btn" type="submit" formnovalidate>Send</button>
 				</form>
 			</div>
 		</div>

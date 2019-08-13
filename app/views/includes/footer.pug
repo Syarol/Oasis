@@ -35,20 +35,18 @@ section.cu-modal-wrapper.modal-wrapper
         .cu-time
           i.far.fa-clock
           span Everyday 10am - 6pm
-      form.cu-form
+      form.cu-form(action='/sendMessage' method='POST')
         label
           | Your name (required)
           input(type='text' name='name' required='')
         label
           | Your Email (required)
-          input(type='e-mail' name='email' required='')
+          input(type='e-mail' name='email' required='' autocapitalize='none')
         label
           | Subject
           input(type='text' name='subject')
         label
           | Your Message
           textarea(name='message' rows='5')
-        button.cu-form-send-btn.btn Send
-
-
+        button.cu-form-send-btn.btn(type='submit' formnovalidate) Send
 

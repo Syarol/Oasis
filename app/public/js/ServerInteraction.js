@@ -101,30 +101,24 @@ export default class ServerInteract{
 
 	/*Send message to shop (form from contact modal)*/
 	static sendMessage(form){
-		if([...form.querySelectorAll('input[required=""]')].every(el => el.checkValidity())){
-			let message = {}; //initialization of message object
-
-			/*getting message main data*/
-			message.name = form.querySelector('input[name=name]').value; 
-			message.email = form.querySelector('input[name=email]').value;
-			message.subject = form.querySelector('input[name=subject]').value;
-			message.message = form.querySelector('textarea[name=message]').value;
-
-			var xHr = new XMLHttpRequest(); //Create the object
-			xHr.open('post', '/sendMessage'); //initialization of query
-			xHr.setRequestHeader('Content-Type', 'application/json'); //setting HTTP header
-			xHr.send(JSON.stringify(message)); //send query
-			
-			/*when the request has been processed, then clear the fields*/
-			xHr.onload = function () {
-				form.querySelector('input[name=name]').value = '';
-				form.querySelector('input[name=email]').value = '';
-				form.querySelector('input[name=subject]').value = '';
-				form.querySelector('textarea[name=message]').value = '';
-
-				document.getElementsByClassName('cu-modal-wrapper')[0].style.display = 'none';
-			};
-		}
+		fetch('/sendMessage', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			//setting values that passed to server
+			body: JSON.stringify({
+				name: form.querySelector('input[name=name]').value, 
+				email: form.querySelector('input[name=email]').value,
+				subject: form.querySelector('input[name=subject]').value,
+				message: form.querySelector('textarea[name=message]').value
+			})
+		})
+			.then(() => {
+				form.reset(); //restores default value of input fields
+				document.getElementsByClassName('cu-modal-wrapper')[0].style.display = 'none'; //closes modal window
+			})
+			.catch(err => console.log(err));
 
 		return this;
 	}

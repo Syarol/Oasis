@@ -7,7 +7,7 @@ const path   	  = require('path');
 const session	  = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const cart = new (require('./lib/cart'))();
-const sendMessage = require('./lib/sendMessage');
+const Message = require('./lib/Message');
 //const User = require('./lib/User');
 const bodyParser  = require('body-parser');
 const searchInCatalog = new (require('./lib/searchInCatalog'))();
@@ -47,8 +47,8 @@ app.post('/setCart', function(req, res) {
 });
 
 app.post('/sendMessage', function(req, res) {
-  let message = req.body;
-  res.send(sendMessage(message));
+  Message.send(req.body)
+    .then(() => res.send());
 });
 
 /*app.post('/regNewUser', function(req, res){

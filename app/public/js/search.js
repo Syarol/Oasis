@@ -165,7 +165,10 @@ contactModalLink.onclick = () => contactModal.style.display = 'flex';
 
 closeContactModal.onclick = () => contactModal.style.display = 'none';
 
-document.getElementsByClassName('cu-form-send-btn')[0].onclick = () => ServerInteract.sendMessage(document.getElementsByClassName('cu-form')[0]);
+document.getElementsByClassName('cu-form-send-btn')[0].onclick = () => {
+	ServerInteract.sendMessage(document.getElementsByClassName('cu-form')[0]);
+	return false; //prevents page reload
+};
 
 closeBookModal.onclick = () => bookModal.style.display = 'none';
 
