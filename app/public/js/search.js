@@ -17,6 +17,8 @@ import ServerInteract from './ServerInteraction.js';
 import RenderElements from './RenderElements.js';
 import Pagination from './Pagination.js';
 
+import contactModal from './contactModal.js'; 
+
 /**
  * Global variables
 */
@@ -26,9 +28,8 @@ var categoriesList = document.getElementsByClassName('sidebar-categories-list')[
 var priceRangeContainer = document.getElementsByClassName('sidebar-price-range-container')[0];
 var authorsList = document.getElementsByClassName('sidebar-authors-list')[0];
 var publishersList = document.getElementsByClassName('sidebar-publishers-list')[0];
-var contactModal = document.getElementsByClassName('cu-modal-wrapper')[0];
-var contactModalLink = document.getElementsByClassName('footer-contact')[0];
-var closeContactModal = document.getElementsByClassName('cu-modal-close')[0];
+var contact = document.getElementsByClassName('cu-modal-wrapper')[0];
+var contactLink = document.getElementsByClassName('footer-contact')[0];
 var openCart = document.getElementsByClassName('header-cart-wrapper')[0];
 var bookModal = document.getElementsByClassName('bm-wrapper')[0];
 var closeBookModal = bookModal.getElementsByClassName('close-modal')[0];
@@ -147,27 +148,15 @@ document.addEventListener('DOMContentLoaded', () => {
 		.getList('author', Render.checkList, {list: query.author, parent: authorsList})
 		.getList('publisher', Render.checkList, {list: query.publisher, parent: publishersList});
 
+	new contactModal(contact, contactLink); //logic of contact modal
 	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location
 }); 
 
 /*hides modal windows*/
 document.onclick = function(e) {
-	if (e.target == contactModal) {
-		contactModal.style.display = 'none';
-	}
-
 	if (e.target == bookModal) {
 		bookModal.style.display = 'none';
 	}
-};
-
-contactModalLink.onclick = () => contactModal.style.display = 'flex';
-
-closeContactModal.onclick = () => contactModal.style.display = 'none';
-
-document.getElementsByClassName('cu-form-send-btn')[0].onclick = () => {
-	ServerInteract.sendMessage(document.getElementsByClassName('cu-form')[0]);
-	return false; //prevents page reload
 };
 
 closeBookModal.onclick = () => bookModal.style.display = 'none';

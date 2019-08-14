@@ -100,7 +100,7 @@ export default class ServerInteract{
 	}
 
 	/*Send message to shop (form from contact modal)*/
-	static sendMessage(form){
+	static sendMessage(form, modal = null){
 		fetch('/sendMessage', {
 			method: 'POST',
 			headers: {
@@ -116,7 +116,8 @@ export default class ServerInteract{
 		})
 			.then(() => {
 				form.reset(); //restores default value of input fields
-				document.getElementsByClassName('cu-modal-wrapper')[0].style.display = 'none'; //closes modal window
+				if (modal) modal.style.display = 'none'; //closes modal window
+				//document.getElementsByClassName('cu-modal-wrapper')[0].style.display = 'none'; //closes modal window
 			})
 			.catch(err => console.log(err));
 

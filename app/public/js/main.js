@@ -16,14 +16,15 @@ import GoogleMap from './googleMap.js';
 import ServerInteract from './ServerInteraction.js';
 import RenderElements from './RenderElements.js';
 
+import contactModal from './contactModal.js'; 
+
 /**
  * Global variables
 */
 
 var arrivalCarouselSection = document.getElementsByClassName('cr-arrivals-section')[0];
-var contactModal = document.getElementsByClassName('cu-modal-wrapper')[0];
-var contactModalLink = document.getElementsByClassName('footer-contact')[0];
-var closeContactModal = document.getElementsByClassName('cu-modal-close')[0];
+var contact = document.getElementsByClassName('cu-modal-wrapper')[0];
+var contactLink = document.getElementsByClassName('footer-contact')[0];
 var bestsellerModalWrapper = document.getElementsByClassName('bm-wrapper')[0];
 var openCart = document.getElementsByClassName('header-cart-wrapper')[0];
 var cart;
@@ -68,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		})
 		.getList('categories', Render.categoriesList, document.getElementsByClassName('sf-select')[0]);
 
+	new contactModal(contact, contactLink); //logic of contact modal
 	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location
 });
 
@@ -77,19 +79,6 @@ document.onclick = function(e) {
 	if (e.target == bestsellerModalWrapper) {
 		bestsellerModalWrapper.style.display = 'none';
 	}
-
-	if (e.target == contactModal) {
-		contactModal.style.display = 'none';
-	}
-};
-
-contactModalLink.onclick = () => contactModal.style.display = 'flex';
-
-closeContactModal.onclick = () => contactModal.style.display = 'none';
-
-document.getElementsByClassName('cu-form-send-btn')[0].onclick = () => {
-	ServerInteract.sendMessage(document.getElementsByClassName('cu-form')[0]);
-	return false; //prevents page reload
 };
 
 document.getElementsByClassName('sf')[0].onsubmit = function(){clearEmptyInputs(this);};
