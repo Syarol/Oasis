@@ -11,6 +11,8 @@
 
 export default class Carousel{
 	constructor (rightButton, leftButton, carousel){
+		this.carousel = carousel;
+
 		/*deletes unneeded '#text' node from childNodes list*/
  		for (let child of carousel.childNodes){ //check every child of carousel
  			if (child.nodeType == 3) { //if needed then delete
@@ -38,17 +40,17 @@ export default class Carousel{
 	}
 
 	/*carousel horizontal scroll to right side*/
-	scrollToRight(carousel){
-		carousel.scrollBy({ 
-			left: carousel.clientWidth/this.getPerPageCount(), //scroll pixels count
+	scrollToRight(){
+		this.carousel.scrollBy({ 
+			left: this.carousel.clientWidth/this.getPerPageCount(), //scroll pixels count
 			behavior: 'smooth' //scroll type
 		});
 	}
 
 	/*carousel horizontal scroll to left side*/
-	scrollToLeft(carousel){
-		carousel.scrollBy({ 
-			left: -carousel.clientWidth/this.getPerPageCount(), //scroll pixels count
+	scrollToLeft(){
+		this.carousel.scrollBy({ 
+			left: -this.carousel.clientWidth/this.getPerPageCount(), //scroll pixels count
 			behavior: 'smooth' //scroll type
 		});
 	}

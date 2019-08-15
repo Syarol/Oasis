@@ -68,8 +68,8 @@
 		</section>
 
 		<!-- Arrivals carousel -->
-		<section class="cr-arrivals-section cr-items-container grid-center-items">
-			<div class="cr-controls-container grid-center-items">
+		<section class="cr-arrivals-section cr-items-container">
+			<div class="cr-controls-container">
 				<span class="cr-control cr-left-control">
 					<i class="fas fa-angle-left fa-lg"></i>
 				</span>
@@ -89,9 +89,8 @@
 				<div class="bae-bestseller-title-wrapper title-wrapper flex-center-items">
 					<span>BEST SELLING BOOK</span>
 				</div>
-				<div class="bae-bestseller-container grid-center-items">
+				<div class="bae-bestseller-container flex-center-items">
 					<span class="on-sale-sign">SALE!</span>
-
 				</div>
 			</div>
 			<div class="bae-item-container">
@@ -105,66 +104,47 @@
 		</section>
 
 		<!-- Search form -->
-		<section class="sf-wrapper grid-center-items">
-			<div class="sf-container grid-center-items">
-				<span>NEED TO FIND PARTICULAR PRODUCTS?</span>
-				<form class="sf" action="/search" method="GET">
-					<div>
-						<label for="title">Book title</label>
-						<input type="text" name="title" autocapitalize="none" autocorrect="off" spellcheck="false">
-					</div>
-					<div>
-						<label>Category</label>
-						<select name="categories" class="sf-select">
-							<option disabled selected>Choose category</option>
-						</select>
-					</div>
-					<div>
-						<label for="author">Book author</label>
-						<input type="text" name="author" autocapitalize="none" autocorrect="off" spellcheck="false">
-					</div>
-					<button class="sf-btn btn">Search</button>
-					<input type="hidden" name="searchType" value="hp-custom-search"/>
-				</form>
-			</div>
+		<section class="sf-container flex-center-items">
+			<span class="sf-header">NEED TO FIND PARTICULAR PRODUCTS?</span>
+			<form class="sf" action="/search" method="GET">
+				<div>
+					<label for="title">Book title</label>
+					<input type="text" name="title" autocapitalize="none" autocorrect="off" spellcheck="false">
+				</div>
+				<div>
+					<label for="author">Book author</label>
+					<input type="text" name="author" autocapitalize="none" autocorrect="off" spellcheck="false">
+				</div>
+				<div>
+					<label>Category</label>
+					<select name="categories" class="sf-select">
+						<option disabled selected>Choose category</option>
+					</select>
+				</div>
+				<button class="sf-btn btn">Search</button>
+				<input type="hidden" name="searchType" value="hp-custom-search"/>
+			</form>
 		</section>
 	</main>
 
 	<!-- Footer -->
-	<footer class="grid-center-items">
+	<footer class="footer">
 		<span class="footer-copyright">Copyright - Oleh Yaroshchuk 2018</span>
 
-		<a href="https://www.facebook.com/oleh.yaroshchuk" target="_blank"><i class="fab fa-facebook-f"></i></a>
-		<a href="https://twitter.com/Oleh_Yaroshchuk" target="_blank" ><i class="fab fa-twitter"></i></a>
-		<a href="mailto:1oleq25@gmail.com" target="_blank" ><i class="fas fa-envelope"></i></a>
-		<a href="https://github.com/Syarol" target="_blank" ><i class="fab fa-github"></i></a>
-		<a href="https://www.t.me/Oleh_Yaroshchuk" target="_blank" ><i class="fab fa-telegram-plane"></i></a>
-		<a href="https://www.instagram.com/oleh_yaroshchuk" target="_blank" ><i class="fab fa-instagram"></i></a>
+		<span class="footer-social">
+			<a href="https://www.facebook.com/oleh.yaroshchuk" target="_blank"><i class="fab fa-facebook-f"></i></a>
+			<a href="https://twitter.com/Oleh_Yaroshchuk" target="_blank" ><i class="fab fa-twitter"></i></a>
+			<a href="mailto:oleh.yaroshchuk@yahoo.com" target="_blank" ><i class="fas fa-envelope"></i></a>
+			<a href="https://github.com/Syarol" target="_blank" ><i class="fab fa-github"></i></a>
+		</span>
 
-		<a href="/"><span>Home</span></a>
-		<a href="/shop"><span>Shop</span></a>
-		<a href="/blog"><span>Blog</span></a>
-		<span class="footer-contact">Contact</span>
+		<nav class="footer-nav">
+			<span><a href="/">Home</a></span>
+			<span><a href="/shop">Shop</a></span>
+			<span><a href="/blog">Blog</a></span>
+			<span class="footer-contact">Contact</span>
+		</nav>
 	</footer>
-
-	<!-- Book modal -->
-	<div class="bm-wrapper modal-wrapper">
-		<div class="bm-container modal-container grid-center-items">
-			<span class="close-modal" title="Close">×</span>
-
-			<h3 class="bm-heading"></h3>
-			<img class="bm-image">
-			<div class="bm-data grid-center-items">
-				<span class="bm-author" class="author"></span>
-				<span class="bm-isbn"></span>
-				<span class="bm-publisher"></span>
-				<span class="bm-categories" class="category"></span>
-				<span class="bm-description" class="text-container"></span>
-				<span class="bm-price"></span>
-				<button class="bm-buy-btn btn" value="Add to cart">
-			</div>
-		</div>
-	</div>
 
 	<!-- Contact us modal -->
 	<section class="cu-modal-wrapper modal-wrapper">

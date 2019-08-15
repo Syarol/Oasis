@@ -23,7 +23,7 @@ import contactModal from './contactModal.js';
  * Global variables
 */
 
-let sidebar = document.getElementsByClassName('sidebar-container')[0];
+var sidebar = document.getElementsByClassName('sidebar-container')[0];
 var categoriesList = document.getElementsByClassName('sidebar-categories-list')[0];
 var priceRangeContainer = document.getElementsByClassName('sidebar-price-range-container')[0];
 var authorsList = document.getElementsByClassName('sidebar-authors-list')[0];

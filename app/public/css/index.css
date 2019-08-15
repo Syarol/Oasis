@@ -1,22 +1,15 @@
 html {
+  height: 100%;
   overflow-x: hidden; 
 }
 
 body {
   margin: 0;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 10% 290% 15%; 
-}
-
-@media screen and (max-width: 600px){
-  body{
-    grid-template-rows:10% 300% 15%;
-  }
+  display: flex;
+  flex-direction: column;
 }
 
 html, body {
-  height: 100%;
   width: 100%; 
 }
 
@@ -38,7 +31,7 @@ html, body {
   border: 0;
   padding: 5px;
   font-size: 1em;
-	font-family:  'Tajawal', sans-serif;
+	font-family: var(--btn-font);
 	background-color: #CCCFCDE6;	
   text-align: center;
 }
@@ -101,18 +94,10 @@ html, body {
 }
 
 main{
-  display: grid;
-  grid-row-start: 2;
-  grid-template-columns: 1fr;
-  grid-template-rows: 31.03% 10.34% 17.24% 31.03% 10.34%;
-  grid-template-areas: "head-banner" "welсome-sign" "arrivals-carousel" "best-and-exclusive-section" "search-panel";
+  flex: 1 0 auto;
+  padding-top: 60px;
 }
 
-@media screen and (max-width: 600px){
-  main{
-    grid-template-rows: 30% 10% 15% 35% 10%;
-  }
-}
 
 /**
   * Top banner
@@ -120,7 +105,7 @@ main{
 **/
 
 .tp-container{
-  grid-area: head-banner;
+  height: calc(100vh - 60px);
 	background-image: url(/assets/images/books-bookstore-book-reading-159711.jpeg); 
   flex-direction: column;
 }
@@ -128,7 +113,7 @@ main{
 .tp-heading{
   width: 95%;
 	font-size: 4em;
-	font-family:  'Black Han Sans', sans-serif;
+	font-family:  var(--titles-font-alt);
 	color: white;
   text-shadow: 1px 1px 1px #000;
   text-align: center;
@@ -139,39 +124,36 @@ main{
 	width: 200px;
 }
 
+@media screen and (max-width: 480px){
+  .tp-heading{
+    font-size: 3em;
+  }
+}
+
 /**
   * Welcome text
   * wt - is short from 'welcome text'
 **/
 
-.wt-wrapper{
-  grid-area: welсome-sign;
-}
-
 .wt-container{
-	height: 80%;
 	width: 80%;
-  margin: auto;
+  max-width: 37.5em;
+  margin: 2em 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
 	background-color: #f2f2f2;
-	grid-template-columns: 1fr;
-	grid-template-rows: 5% 35% 40% 5%;
-  grid-gap: 5%;	
 	box-shadow:  0 0 2px #C0D1C4;
 }
 
 .wt-heading{
 	margin: 0;
 	font-size: 2em;
-	grid-row-start: 2;
-	align-self: end;
-	font-family: 'Bree Serif', serif;
+	font-family: var(--titles-font);
 }
 
 .wt-paragraph{
-	grid-row-start: 3;
-	text-align: center;
-	font-family: 'Tajawal', sans-serif;
-  width: 95%;
+	font-family: var(--text-font);
 }
 
 @media screen and (max-width: 600px){
@@ -185,9 +167,6 @@ main{
   * cr - is short from 'carousel'
 **/
 
-.cr-arrivals-section{
-  grid-area: arrivals-carousel;
-}
 
 /**
   * Best and exclusive section
@@ -195,24 +174,21 @@ main{
 **/
 
 .bae-container{
-  grid-area: best-and-exclusive-section;
   display: flex;
-}
-
-.bae-item-container{
-  width: 50%;
-  height: 100%;
+  justify-content: center;
+  max-width: 50em;
+  margin: auto;
 }
 
 .bae-container .title-wrapper{
-  height: 15%;
+  height: 60px;
   width: 100%;
-	font-family: 'Black Han Sans', sans-serif;
+	font-family: var(--titles-font-alt);
 }
 
 .bae-exclusive-title-wrapper{
   background-color: black;
-  color: white;
+  color: #fff;
 }
 
 .bae-bestseller-title-wrapper{
@@ -221,89 +197,85 @@ main{
 }
 
 .bae-bestseller-container{
-  height: 85%;
+  height: calc(100vh - 120px);
+  max-height: 35em;
   position: relative;
-  grid-template-columns: 1fr;
-  grid-template-rows: 60% 30% 10%;
+  flex-direction: column;
 }
 
 .bae-bestseller-container .btn{
 	font-size: 1.3em;
 	width: 140px;
+  margin-bottom: 15px;
 }
 
 .bae-book-photo{
 	object-fit: contain;
-  height: 100%;
-	width: 100%;
 }
 
 .bae-bestseller-container .text-container{
 	width: 90%;
+  margin: 15px 0;
 	text-align: justify;
-	font-family: 'Tajawal', sans-serif;
+	font-family: var(--text-font);
 }
 
 .bae-exclusives-container{
-  height: 85%;
+  height: calc(100vh - 120px);
+  max-height: 35em;
 	display: grid;
 	grid-template-rows: 1fr 1fr;
-	grid-template-columns: 1fr 1fr; 
+	grid-template-columns: 1fr 1fr;
 }
 
-@media screen and (max-width: 600px){
+.bae-exclusives-container .cr-el:before{
+  content: "SALE!";
+  position: absolute;
+  left: -25px;
+  top: 10px;
+  transform: rotate(-45deg);
+  background: #000;
+  font-family: var(--label-font);
+  font-weight: 700;
+  padding: 3px 30px;
+  font-size: 15px;
+  color: #fff;
+  z-index: 9;
+  clip-path: polygon(26% 0,65% -5px,100% 125%,0% 107%);
+}
+
+@media screen and (max-width: 480px){
   .bae-container{
-    display: grid;
-    grid-template-rows: 40% 60%;
+    flex-direction: column;
   }
+}
 
-  .bae-item-container {
-    width: 100%;
-    display: grid;
-    grid-template-rows: 3.5em 1fr;
-  }
-
-  .bae-container .title-wrapper{
-    height: 100%;
-  }
-
-  .bae-bestseller-container {
-    height: 100%;
-    grid-template-columns: 40% 60%;
-    grid-template-rows: 80% 20%;
-    overflow: hidden;
-    font-size: .9em;
-  }
-
-  .bae-book-photo {
-    height: 95%;
-    grid-row-start: 1;
-    grid-row-end: 3;
-  }
-
-  .bae-bestseller-container .text-container{
-    font-size: .9em;
-  }
-
-  .bae-bestseller-container .btn{
-    grid-column: 2;
-    grid-row: 2;
-    font-size: 1em;
-    width: 100px;
-  }
-
-  .bae-exclusives-container {
-    height: 100%;
-  }
-
-  .bae-exclusives-container .cr-el-slider{
-    display: flex;
-    justify-content: center;
+@media screen and (min-width: 481px) and (max-width: 768px){
+  .bae-container{
     flex-direction: column;
   }
 
-  .bae-exclusives-container-container .btn{
-    margin: 2%;
+  .bae-bestseller-container {
+    overflow: hidden;
+    font-size: 1em;
+  }
+
+  .bae-bestseller-container .text-container{
+  }
+
+  .bae-bestseller-container .btn{
+    font-size: 1.1em;
+    width: 100px;
+  }
+
+  .bae-exclusives-container .cr-el-slider{
+  }
+}
+
+@media screen and (min-width: 769px){
+  .bae-item-container {
+    width: 50%;
+    max-width: 25em;
   }
 }
 
@@ -312,32 +284,36 @@ main{
   * sf - is short from 'search form'
 **/
 
-.sf-wrapper{
-  grid-area: search-panel;
-}
-
 .sf-container{
-	height: 80%;
-	width: 80%;
-	grid-template-columns: 1fr;
-	grid-template-rows: 40% 1fr;
+  max-width: 35em;
+  flex-direction: column;
+  margin: 2em auto;
+  padding: 20px;
 	background-color: #f2f2f2;
 	box-shadow: 0 0 2px #C0D1C4;
-	font-family: 'Tajawal', sans-serif;
 	font-size: 1.3em;
 }
 
+.sf-header {
+  font-family: var(--titles-font);
+  text-align: center;
+}
+
 .sf{
-	grid-row-start: 2;
-	display: grid;
-	grid-template-columns: repeat(3, 1fr) 12.5%;
-  grid-gap: 30px;
+  display: flex;
+  flex-direction: column;
+	font-family: var(--text-font);
 	width: 85%;
 	font-size: .8em;
 }
 
+.sf div {
+  margin: 5px 0;
+}
+
 .sf label{
 	font-size: 0.7em;
+  text-align: start;
 }
 
 .sf input[type=text], .sf select {
@@ -361,6 +337,8 @@ main{
 .sf-btn{
 	height: 35px;
 	width: 100%;
+  max-width: 200px;
+  margin-top: 10px;
   align-self: center;
 }
 
@@ -389,13 +367,24 @@ main{
    	calc(100% - 10px) calc(1em - 5px);
 }
 
-@media screen and (max-width: 600px){
-  .sf-container{
-    width: 95%;
-  }
+@media screen and (max-width: 480px){
 
-  .sf {
-    width: 95%;
-    grid-gap: 10px;
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px){
+
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px){
+  .sf-container{
+    margin: 2em 4em;
   }
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1280px){
+
+}
+
+@media screen and (min-width: 1281px){
+
 }

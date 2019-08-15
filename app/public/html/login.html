@@ -10,22 +10,23 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 	<link href="css/min/login.min.css" rel="stylesheet">
 </head>
-<body class="grid-center-items">
+<body>
 	<section class="page-background"></section>
 	<section class="login-wrapper">
 		<div class="login-container grid-center-items">
 			<h1 class="login-title">LOG IN</h1>
 			<form class="login-form grid-center-items">
-				<div class="ibb-ic">
-					<input class="ibb-ic-email" type="email" name="email" placeholder="E-mail">
+				<div class="ibb-ic ibb-ic-email-container">
+					<input class="ibb-ic-email" type="email" name="email" placeholder="E-mail" autocapitalize="none" autocorrect="off" spellcheck="false" required>
 					<span class="ibb-ic-focus" data-symbol=""></span>
 				</div>
-				<div class="ibb-ic">
-					<input class="ibb-ic-password" type="password" name="password" placeholder="Password">
+				<div class="ibb-ic ibb-ic-password-container">
+					<input class="ibb-ic-password" type="password" name="password" placeholder="Password" required>
 					<span class="ibb-ic-focus" data-symbol=""></span>
 				</div>
+				<span class="login-error-text">Incorrect email or password.</span>
 				<span class="login-form-forgot">Forgot password?</span>
-				<button class="login-form-btn">Login</button>
+				<button class="login-form-btn" type="button">Login</button>
 			</form>
 
 			<span class="log-in-using-text">Or Log In Using</span>
@@ -42,5 +43,9 @@
 			</div>
 		</div>
 	</section>
+
+	<p class="create-account-callout">New here? <a href="/register">Create an account.</a></p>
+
+	<script type="module" src="../js/loginPage.js"></script>
 </body>
 </html>

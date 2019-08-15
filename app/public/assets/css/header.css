@@ -8,7 +8,7 @@ header{
   padding: 0 30px;
   box-sizing: border-box;
   width: 100%;
-  height: 70px;
+  height: 60px;
   position: fixed;
   background-color: #FFF;
   opacity: 0.9;
@@ -92,7 +92,13 @@ details{
   border-bottom-color: #c6c6c6;
 }
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 480px){
+  header{
+    padding: 0 10px;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px){
   header{
     grid-template-columns: 2fr 3fr 1fr;
   }
@@ -108,4 +114,16 @@ details{
   .header-cart-container i{
     margin-left: initial;
   }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px){
+
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1280px){
+
+}
+
+@media screen and (min-width: 1281px){
+
 }

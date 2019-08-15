@@ -18,7 +18,7 @@ import Carousel from './carousel.js'; //for creating carousel
 
 function itemHoverBlock(item, cart){
 	return createNewEl('div', {
-		class: 'cr-el-slider grid-center-items',
+		class: 'cr-el-slider',
 		nested: [
 			/*goods title*/
 			createNewEl('h3', {
@@ -31,10 +31,6 @@ function itemHoverBlock(item, cart){
 			/*goods price*/
 			createNewEl('span', {
 				content: '$' + item.price
-			}),
-			/*goods categories*/
-			createNewEl('span', {
-				content: item.categories
 			}),
 			/*button of adding to cart (on click)*/
 			addToCartButton(item, cart),
@@ -100,9 +96,8 @@ function bookModalData(data){
 
 export default class RenderElements{
 	/*render bestseller section of main page*/
-	bestseller(parent, data, cart){
+	bestseller(parent, data){
 	   	bestsellerPreview(parent, data);
-	   	document.getElementsByClassName('bm-buy-btn')[0].onclick = () => cart.add(data);
 
 	   	/*render short information in section of main page*/
 		function bestsellerPreview(parent, data){
@@ -117,10 +112,10 @@ export default class RenderElements{
 				content: data.shortDescription
 			}, parent);
 			/*button that opens modal window on click */
-			createNewEl('span', {
+			createNewEl('a', {
 				class: 'btn',
-				content: 'Quick view',
-				event: bookModalData(data)
+				content: 'Read more',
+				href: `/book/${data.id}`
 			}, parent);
 		}
 	}
@@ -136,11 +131,6 @@ export default class RenderElements{
 				nested: [
 					/*block that wrapped main information*/
 					itemHoverBlock(item, cart),
-					/*special label*/
-					createNewEl('span', {
-						class: 'on-sale-sign',
-						content: 'SALE!'
-					})
 				]
 			}, parent);
 		}

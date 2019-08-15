@@ -25,7 +25,6 @@ import contactModal from './contactModal.js';
 var arrivalCarouselSection = document.getElementsByClassName('cr-arrivals-section')[0];
 var contact = document.getElementsByClassName('cu-modal-wrapper')[0];
 var contactLink = document.getElementsByClassName('footer-contact')[0];
-var bestsellerModalWrapper = document.getElementsByClassName('bm-wrapper')[0];
 var openCart = document.getElementsByClassName('header-cart-wrapper')[0];
 var cart;
 
@@ -60,8 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			cart: cart
 		})
 		.getSpecialMarked('BESTSELLER', Render.bestseller, {
-			parent: document.getElementsByClassName('bae-bestseller-container')[0],
-			cart: cart
+			parent: document.getElementsByClassName('bae-bestseller-container')[0]
 		})
 		.getSpecialMarked('EXCLUSIVE', Render.exclusiveBooks, {
 			parent: document.getElementsByClassName('bae-exclusives-container')[0], 
@@ -72,8 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	new contactModal(contact, contactLink); //logic of contact modal
 	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location
 });
-
-bestsellerModalWrapper.getElementsByClassName('close-modal')[0].onclick = () => bestsellerModalWrapper.style.display = 'none';
 
 document.onclick = function(e) {
 	if (e.target == bestsellerModalWrapper) {
