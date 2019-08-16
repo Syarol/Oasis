@@ -163,9 +163,17 @@ closeBookModal.onclick = () => bookModal.style.display = 'none';
 
 bookModal.getElementsByClassName('bm-buy-btn')[0].onclick = function() {cart.add(JSON.parse(this.getAttribute('name')));}; 
 
-document.getElementsByClassName('sidebar-open-btn')[0].onclick = () => sidebar.style.transform = 'translateX(100%)';
+document.getElementsByClassName('sidebar-open-btn')[0].onclick = () => {
+	document.body.classList.add('scroll-disabled');
+	sidebar.classList.add('sidebar-open');
+	sidebar.classList.remove('sidebar-hide');
+};
 
-sidebar.getElementsByClassName('sidebar-hide-btn')[0].onclick = () => sidebar.style.transform = 'translateX(0)';
+sidebar.getElementsByClassName('sidebar-hide-btn')[0].onclick = () => {
+	document.body.classList.remove('scroll-disabled');
+	sidebar.classList.remove('sidebar-open');
+	sidebar.classList.add('sidebar-hide');
+};
 
 document.getElementsByClassName('big-search-form')[0].onsubmit = function(){clearEmptyInputs(this)};
 

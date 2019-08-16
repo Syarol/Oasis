@@ -6,3 +6,4 @@ findUnusedCss.json
 # app/public/css/min/
 app/public/css/bundles/
 .env
+app/public/css/min/variables.min.css

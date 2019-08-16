@@ -4,14 +4,13 @@ html {
 
 body {
   margin: 0;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 10% 240% 15%; 
+  display: flex;
+  flex-direction: column;
 }
 
 html, body {
   height: 100%;
-  width: 100%; 
+  width: 100%;
 }
 
 .grid-center-items{
@@ -26,8 +25,9 @@ html, body {
   border: 0;
   padding: 5px;
   font-size: 1em;
-  font-family:  'Tajawal', sans-serif;
-  background-color: #CCCFCDE6;  
+  font-family: var(--btn-font);
+  background-color: #CCCFCDE6;
+  text-align: center;
 }
 
 .btn:disabled,
@@ -73,11 +73,8 @@ html, body {
 }
 
 main{
-  display: grid;
-  grid-row-start: 2;
-  grid-template-columns: 1fr;
-  grid-template-rows: 37.5% repeat(3, 1fr);
-  grid-template-areas: "search-banner" "recommends-carousel" "bestsellers-carousel" "arrivals-carousel";
+  flex: 1 0 auto;
+  padding-top: 60px;
 }
 
 /**
@@ -86,7 +83,7 @@ main{
 **/
 
 .sb-container{
-  grid-area: search-banner;
+  height: calc(100vh - 60px);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -101,7 +98,7 @@ main{
   margin-top: 0;
   font-size: 4em;
   color: #242222;
-  font-family: 'Bree Serif', serif;
+  font-family: var(--titles-font);
   text-align: center;
 }
 
@@ -123,8 +120,9 @@ main{
   color: white;
 }
 
-.sb-form button{
+.sb-form .btn{
   font-size: 1.2em;
+  max-width: 200px;
 }
 
 .sb-all-link{
@@ -132,13 +130,42 @@ main{
   color: #f6f6f6;
   font-weight: bold;
   margin-top: 5%;
-  font-family: 'Bree Serif',serif;
+  font-family: var(--titles-font);
   text-shadow: 1px 1px #818181;
   cursor: pointer;
 }
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 480px){
+  .sb-heading {
+    font-size: 3em;
+  }
+
+  .sb-form {
+    grid-template-columns: 1fr;
+    grid-row-gap: 15px;
+  }
+
+  .sb-form .btn {
+    align-self: center;
+    justify-self: center;
+    padding: 5px 20px;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px){
   .sb-form {
     width: 85%;
   }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px){
+
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1280px){
+
+}
+
+@media screen and (min-width: 1281px){
+
 }

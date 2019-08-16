@@ -13,11 +13,13 @@
 	<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
 	<link rel="icon" href="images/favicon.png" type="image/x-icon">
 
-	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Bree+Serif|Hind|Cabin|Muli" rel="stylesheet">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Bree+Serif|Hind|Cabin" rel="stylesheet">
 	<link rel="stylesheet" href="css/min/search-bundle.min.css">
+
+	<script src="https://kit.fontawesome.com/05d8a5315c.js"></script>
 </head>
-<body>
+
+<body ontouchstart="">
 	<!-- Header -->
 	<header class="search-page-header grid-center-items">
 		<span class="header-logo-container">
@@ -47,29 +49,25 @@
 	<main>
 		<section class="search-text-wrapper">
 		</section>
-			<span id="search-text"></span>
+			<span id="search-text"></span> <!-- After closing for preventing blur effect on text -->
 
 		<!-- Search form (for small dispays only) -->
-		<div class="big-search-form-wrapper">
-			<form class="big-search-form grid-center-items" action="/search" method="GET">
-				<input class="sf-categories" type="hidden" name="categories" value="">
-				<input class="sf-author" type="hidden" name="author" value="">
-				<input class="sf-publisher" type="hidden" name="publisher" value="">
-				<input class="sf-low-price" type="hidden" name="lowPrice" value="">
-				<input class="sf-high-price" type="hidden" name="highPrice" value="">
-				<input class="sf-query" type="text" name="query" placeholder="Search for" autocapitalize="none" autocorrect="off" spellcheck="false">
-				<button class="btn">Search</button>
-				<input type="hidden" name="searchType" value="sp-search">
-			</form>
-		</div>
+		<form class="big-search-form" action="/search" method="GET">
+			<input class="sf-categories" type="hidden" name="categories" value="">
+			<input class="sf-author" type="hidden" name="author" value="">
+			<input class="sf-publisher" type="hidden" name="publisher" value="">
+			<input class="sf-low-price" type="hidden" name="lowPrice" value="">
+			<input class="sf-high-price" type="hidden" name="highPrice" value="">
+			<input class="sf-query" type="text" name="query" placeholder="Search for" autocapitalize="none" autocorrect="off" spellcheck="false">
+			<button class="btn">Search</button>
+			<input type="hidden" name="searchType" value="sp-search">
+		</form>
 
 		<!-- Open sidebar button (for small dispays only) -->
-		<div class="sidebar-open-container">
-			<button class="sidebar-open-btn btn">
-				<i class="fas fa-bars"></i>
-				<span>Filters</span>
-			</button>
-		</div>
+		<button class="sidebar-open-btn btn">
+			<i class="fas fa-bars"></i>
+			<span class="btn-text">Filters</span>
+		</button>
 
 		<!-- Finded items -->
 		<section class="fi-container grid-center-items">
@@ -101,7 +99,7 @@
 		</section>
 	
 		<!-- Sidebar -->
-		<div class="sidebar-container">
+		<div class="sidebar-container sidebar-hide">
 			<header class="sidebar-header">
 				<span class="sidebar-hide-btn">
 					<i class="fas fa-arrow-left"></i>
@@ -126,12 +124,10 @@
 				<div class="sidebar-price-range-container grid-center-items">
 					<div class="low-price-container price-container">
 						<input class='sidebar-low-price input-number' lang="en" type="number" name="lowPrice" min="0" step=".01" form="search-form">
-						<span>$</span>
 					</div>
 					<span class="sidebar-mdash">&mdash;</span>
 					<div class="high-price-container price-container">
 						<input class='sidebar-high-price input-number' lang="en" type="number" name="highPrice" min="0" step=".01" form="search-form">
-						<span>$</span>
 					</div>
 				</div>
 			</div>

@@ -29,6 +29,7 @@ html, body {
   font-size: 1em;
   font-family:  'Tajawal', sans-serif;
   background-color: #CCCFCDE6;  
+  text-align: center;
 }
 
 .btn:disabled,
