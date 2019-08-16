@@ -4,7 +4,7 @@
 
 .footer{
   height: 90px;
-  padding: 0 2.5%;
+  padding: 5px 2.5% 0 2.5%;
 	background-color: #3C3C3C;
 	color: #dcdcdc;
   display: flex;
@@ -50,6 +50,10 @@
   .footer-social i {
     margin: 0 10px;
   }
+
+  .footer-social{
+    margin: 5px 0;
+  }
 }
 
 @media screen and (min-width: 481px) and (max-width: 768px){
@@ -57,11 +61,16 @@
   .footer-social i {
     margin: 0 15px;
   }
+
+  .footer-social{
+    margin: 5px 0;
+  }
 }
 
 @media screen and (min-width: 769px){
   .footer{
     height: 60px;
+    min-height: 60px;
     flex-direction: row;
     justify-content: space-between;
   }

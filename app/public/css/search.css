@@ -354,6 +354,7 @@ main{
   flex-direction: column;
   justify-content: space-evenly;
   max-height: 500px;
+  cursor: pointer;
 }
 
 .fi:hover{

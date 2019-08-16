@@ -61,35 +61,6 @@ function addToCartButton(item, cart){
 	return button;
 }
 
-function bookModalData(data){
-	function checkAvailability(data){
-		let button = document.getElementsByClassName('bm-buy-btn')[0];
-		button.name = JSON.stringify(data);
-		if (data.status === 'In Stock'){
-			button.title = data.title;
-			button.disabled = false;
-		}else{
-			button.title = data.title + ' not available';
-			button.disabled = true;
-		}
-		return button;
-	}
-
-	return {click: () => {						
-		document.getElementsByClassName('bm-wrapper')[0].style.display = 'flex'; //open modal window
-		document.getElementsByClassName('bm-heading')[0].textContent = data.title; //show goods title
-		document.getElementsByClassName('bm-image')[0].setAttribute('src', data.thumbnailUrl); //show goods image
-		document.getElementsByClassName('bm-author')[0].textContent = 'Author: ' + data.author; //show goods author
-		document.getElementsByClassName('bm-isbn')[0].textContent = 'ISBN: ' + data.isbn; //show goods isbn
-		document.getElementsByClassName('bm-publisher')[0].textContent  = 'Publisher: ' + data.publisher; //show goods prise
-		document.getElementsByClassName('bm-categories')[0].textContent = 'Categories: ' + data.categories; //show goods categories
-		document.getElementsByClassName('bm-description')[0].textContent = data.shortDescription; //show goods description
-		document.getElementsByClassName('bm-price')[0].textContent = 'Price: $' + data.price; //show goods prise
-		checkAvailability(data);//set goods data in 'add to cart' button (needs to addding to cart operation)
-	}
-	};
-}
-
 /**
  * Class
 */
@@ -172,14 +143,19 @@ export default class RenderElements{
 		/*goods wrapper block*/
 		createNewEl('div', {
 	 		class: 'fi grid-center-items', 
+	 		event: {
+	 			click: (e) => {
+	 				if (!e.target.classList.contains('btn')) 
+	 					window.location.href = `/book/${item.id}`;
+	 			}
+	 		},
+	 		title: 'Click to open page of goods',
 	 		nested: [
 	 			/*goods image*/
 	 			createNewEl('img', {
 	 				class: 'fi-photo',
 	 				pseudo: item.title,
-	 				src: item.thumbnailUrl,
-	 				/*on photo click open modal window with information about goods*/
-	 				event: bookModalData(item)
+	 				src: item.thumbnailUrl
 	 			}),
 	 			/*goods title*/
 	 			createNewEl('h3', {

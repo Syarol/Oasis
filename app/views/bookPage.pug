@@ -86,10 +86,8 @@ main
           img.ymal-section-container-item-image(src= val.thumbnailUrl)
           span.ymal-section-container-item-title= val.title
           span.ymal-section-container-item-author= 'by ' + val.author
-          a(href= '/book/' + val.id)
-            button.ymal-section-container-item-btn.btn Buy
-    a(href= '/search?query=&searchType=search-full')
-      button.ymal-section-look-at-all-btn.btn Look at all
+          a.btn(href= '/book/' + val.id) Read more
+    a.ymal-section-look-at-all-btn.btn(href= '/search?query=&searchType=search-full') Look at all
 
 include includes/footer.pug
 

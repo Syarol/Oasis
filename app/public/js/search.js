@@ -31,8 +31,6 @@ var publishersList = document.getElementsByClassName('sidebar-publishers-list')[
 var contact = document.getElementsByClassName('cu-modal-wrapper')[0];
 var contactLink = document.getElementsByClassName('footer-contact')[0];
 var openCart = document.getElementsByClassName('header-cart-wrapper')[0];
-var bookModal = document.getElementsByClassName('bm-wrapper')[0];
-var closeBookModal = bookModal.getElementsByClassName('close-modal')[0];
 var cart;
 
 /**
@@ -151,17 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	new contactModal(contact, contactLink); //logic of contact modal
 	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location
 }); 
-
-/*hides modal windows*/
-document.onclick = function(e) {
-	if (e.target == bookModal) {
-		bookModal.style.display = 'none';
-	}
-};
-
-closeBookModal.onclick = () => bookModal.style.display = 'none';
-
-bookModal.getElementsByClassName('bm-buy-btn')[0].onclick = function() {cart.add(JSON.parse(this.getAttribute('name')));}; 
 
 document.getElementsByClassName('sidebar-open-btn')[0].onclick = () => {
 	document.body.classList.add('scroll-disabled');

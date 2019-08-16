@@ -82,7 +82,7 @@ function makeCSSBundles(){
     .pipe(concat('blog-bundle.css'))
     .pipe(gulp.dest('./app/public/css/bundles/'));
 
-  gulp.src(['./app/public/assets/css/variables.css', './app/public/css/search.css', './app/public/assets/css/footer.css', './app/public/assets/css/cart-modal.css', './app/public/assets/css/contact-modal.css', './app/public/assets/css/book-modal.css'])
+  gulp.src(['./app/public/assets/css/variables.css', './app/public/css/search.css', './app/public/assets/css/footer.css', './app/public/assets/css/cart-modal.css', './app/public/assets/css/contact-modal.css'])
     .pipe(concat('search-bundle.css'))
     .pipe(gulp.dest('./app/public/css/bundles/'));
 
@@ -92,7 +92,7 @@ function makeCSSBundles(){
   gulp.src('./app/public/assets/css/variables.css', './app/public/css/register.css')
     .pipe(gulp.dest('./app/public/css/bundles/'));
 
-  return gulp.src(['./app/public/assets/css/variables.css', './app/public/css/index.css', './app/public/assets/css/header.css', './app/public/assets/css/carousel.css', './app/public/assets/css/footer.css', './app/public/assets/css/cart-modal.css', './app/public/assets/css/contact-modal.css', './app/public/assets/css/book-modal.css'])
+  return gulp.src(['./app/public/assets/css/variables.css', './app/public/css/index.css', './app/public/assets/css/header.css', './app/public/assets/css/carousel.css', './app/public/assets/css/footer.css', './app/public/assets/css/cart-modal.css', './app/public/assets/css/contact-modal.css'])
     .pipe(concat('index-bundle.css'))
     .pipe(gulp.dest('./app/public/css/bundles/'));
 }

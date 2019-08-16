@@ -1,13 +1,22 @@
-header.grid-center-items
-  span.header-logo-container 
-    a(href='/') Oasis
-  nav.grid-center-items
-    p.header-nav-item
-      a(href='/') Home
-    p.header-nav-item
-      a(href='/blog') Blog
-    p.header-nav-item
-      a(href='/shop') Shop
-  p.header-cart-container(title='Click to open cart')
-    i.fas.fa-shopping-cart
-    span.header-cart-count
+header
+	span.header-logo-container 
+		a.header-logo-wrapper(href='/') Oasis
+	nav.grid-center-items
+		p.header-nav-item
+			a(href='/') Home
+		p.header-nav-item
+			a(href='/blog') Blog
+		p.header-nav-item
+			a(href='/shop') Shop
+	p.header-cart-wrapper(title='Click to open cart')
+		i.fas.fa-shopping-cart.header-cart
+	details
+		summary.header-user
+			i.fas.fa-user
+			i.fas.fa-sort-down
+		div.header-user-details
+			span Signed in as
+			a(href='#') My profile
+			button Night mode
+			a(href='#') Help
+			button Log out
