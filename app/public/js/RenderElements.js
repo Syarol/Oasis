@@ -142,7 +142,7 @@ export default class RenderElements{
 	finded(item, cart){
 		/*goods wrapper block*/
 		createNewEl('div', {
-	 		class: 'fi grid-center-items', 
+	 		class: 'fi', 
 	 		event: {
 	 			click: (e) => {
 	 				if (!e.target.classList.contains('btn')) 

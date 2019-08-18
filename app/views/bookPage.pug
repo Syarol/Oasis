@@ -3,91 +3,86 @@ include includes/head.pug
 include includes/header.pug
 
 main
-  section.search-panel-wrapper
-    form.search-panel-form(action='/search' method='GET')
-      input(type='text' name='query' placeholder='Search for')
-      button.btn Let's found!
-      input(type='hidden' name='searchType' value='search-full')
-  section.goods-photo-wrapper
-    img(src= book.thumbnailUrl)
-  section.goods-short-info-wrapper
-    h1= title
-    p
-      span Author: 
-      span= book.author
-    p
-      span Publisher: 
-      span= book.publisher
-    p
-      span Page count: 
-      span= book.pageCount + ' pages'
-    p
-      span Publishing year: 
-      span= book.publishedYear
+	form.search-panel-form(action='/search' method='GET')
+		input(type='text' name='query' placeholder='Search for')
+		button.btn Let's found!
+		input(type='hidden' name='searchType' value='search-full')
 
-  section.goods-buy-wrapper
-    .goods-buy-container
-      p.goods-buy-container-header Buy book
-      if book.status == 'In Stock'
-        p.goods-buy-container-is-avaible
-          span
-            i.far.fa-check-circle
-            span  Available
-      else
-        p.goods-buy-container-not-avaible
-          span
-            i.far.fa-times-circle
-            span  Not Available
-      p.goods-buy-container-price
-        span Price: 
-        span= '$' + book.price
-      if book.status == 'In Stock'
-        button.add-to-cart-btn.btn(title=book.title data-book-id=book.id) Add to cart
-      else
-        button.add-to-cart-btn.btn(title=book.title + ' not available' disabled) Add to cart
+	img.goods-photo(src= book.thumbnailUrl)
 
-  section.tabs-wrapper
-    .tabs-container
-      .tab
-        input#tab-1(type='radio' name='tabgroup' checked='')
-        label#tabs-first-label(for='tab-1') Description
-        .tab-content
-          span= book.description
-      .tab
-        input#tab-2(type='radio' name='tabgroup')
-        label(for='tab-2') Detail information
-        .tab-content
-          .goods-information
-            span Title:
-            span= book.title
-            span Author:
-            span= book.author
-            span Publisher:
-            span= book.publisher
-            span Publishing year:
-            span= book.publishedYear
-            span Pages count:
-            span= book.pageCount + ' pages'
-            span ISBN:
-            span= book.isbn
-            span Price:
-            span= '$' + book.price
-      .tab
-        input#tab-3(type='radio' name='tabgroup')
-        label(for='tab-3') Reviews
-        .tab-content
-          p Here must to be reviews
+	section.info-container
+		h1= book.title
+		p
+			span Author: 
+			span= book.author
+		p
+			span Publisher: 
+			span= book.publisher
+		p
+			span Page count: 
+			span= book.pageCount + ' pages'
+		p
+			span Publishing year: 
+			span= book.publishedYear
 
-  section.ymal-section
-    h2.ymal-section-header You may also like
-    .ymal-section-container
-      each val in ymalBooks
-        .ymal-section-container-item
-          img.ymal-section-container-item-image(src= val.thumbnailUrl)
-          span.ymal-section-container-item-title= val.title
-          span.ymal-section-container-item-author= 'by ' + val.author
-          a.btn(href= '/book/' + val.id) Read more
-    a.ymal-section-look-at-all-btn.btn(href= '/search?query=&searchType=search-full') Look at all
+	section.buy-container
+		p.buy-container-header= 'Buy \'' + book.title + '\''
+		if book.status == 'In Stock'
+			p.buy-container-is-avaible
+				span
+					i.far.fa-check-circle
+					span  Available
+		else
+			p.buy-container-not-avaible
+				span
+					i.far.fa-times-circle
+					span  Not Available
+		p.buy-container-price
+			span Price: 
+			span= '$' + book.price
+		if book.status == 'In Stock'
+			button.add-to-cart-btn.btn(title=book.title data-book-id=book.id) Add to cart
+		else
+			button.add-to-cart-btn.btn(title=book.title + ' not available' disabled) Add to cart
+
+	section.tabs-container
+		input#tab-1(type='radio' name='tabgroup' checked)
+		label(for='tab-1') Description
+		.tab-content
+			span= book.description
+		input#tab-2(type='radio' name='tabgroup')
+		label(for='tab-2') Detail information
+		.tab-content
+			.goods-information
+				span Title:
+				span= book.title
+				span Author:
+				span= book.author
+				span Publisher:
+				span= book.publisher
+				span Publishing year:
+				span= book.publishedYear
+				span Pages count:
+				span= book.pageCount + ' pages'
+				span ISBN:
+				span= book.isbn
+				span Price:
+				span= '$' + book.price
+		input#tab-3(type='radio' name='tabgroup')
+		label(for='tab-3') Reviews
+		.tab-content
+			p Here must to be reviews
+
+	section.ymal-section
+		h2.ymal-section-header You may also like
+		.ymal-section-container
+			each val in ymalBooks
+				.goods-card
+					img.goods-card-image(src= val.thumbnailUrl)
+					h3.goods-card-title= val.title
+					span.goods-card-author= 'by ' + val.author
+					a.btn(href= '/book/' + val.id) Read more
+		a.ymal-section-look-at-all-btn.btn(href= '/search?query=&searchType=search-full') Look at all
 
 include includes/footer.pug
 

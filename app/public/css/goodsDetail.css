@@ -26,7 +26,7 @@ html, body {
   border: 0;
   padding: 5px;
   font-size: 1em;
-  font-family:  'Tajawal', sans-serif;
+  font-family: var(--btn-font);
   background-color: #CCCFCDE6;  
   text-align: center;
 }
@@ -76,82 +76,90 @@ html, body {
 main{
   display: grid;
   grid-template-columns:  4fr 5fr 3fr;
-  grid-template-rows: 60px 350px 150px 1fr 1fr;
-  grid-template-areas: "search-panel search-panel search-panel" "goods-photo goods-short-info goods-buy-panel" "goods-photo goods-short-info none" "tabs tabs none" "ymal ymal ymal";
+  grid-template-rows: 60px auto;
+  grid-auto-rows: minmax(min-content, max-content);	
+  grid-template-areas: "search-panel search-panel search-panel" "goods-photo goods-info buy-panel" "goods-photo goods-info none" "tabs tabs none" "ymal ymal ymal";
   grid-gap: 10px;
   margin: 60px 15px 0 15px;
-}
-
-.search-panel-wrapper{
-  grid-area: search-panel;
-  display: flex;
+  max-width: 60em;
+  justify-self: center;
+  align-self: center;
 }
 
 .search-panel-form{
-  margin: auto;
-  height: 60%;
-  display: grid;
-  grid-template-columns: 70% 30%;
-  width: 60%;
+	grid-area: search-panel;
+	display: flex;
+	height: 40px;
+	width: 95%;
+	max-width: 500px;
+	margin: auto;
+	justify-content: center;
 }
 
 .search-panel-form input[name=query]{
-  border: 1px solid #c4c1c1;
-  padding-left: 5px;
+	-webkit-flex: 1;
+	flex: 1;
+	border: 1px solid #c4c1c1;
+	padding: 0 5px;
 }
 
+.search-panel-form .btn{
+	padding: 5px 15px;
+}
 
-@media screen and (max-width: 600px){
-  main{
-    grid-template-columns:  3fr 5fr;
-    grid-template-rows: 60px 400px 185px 1fr 1fr;
-    grid-template-areas: "search-panel search-panel" "goods-photo goods-short-info" "goods-buy-panel goods-buy-panel" "tabs tabs" "ymal ymal";
+@media screen and (max-width: 768px){
+	main{
+		grid-template-columns: 1fr;
+		grid-template-areas: "search-panel" "goods-photo" "buy-panel" "goods-info" "tabs" "ymal";
+		grid-gap: 15px;
+		margin: 75px 15px 0;
+	}
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px){
+	main{
+		grid-template-columns: 5fr 2fr;
+		grid-template-areas: "search-panel search-panel" "goods-photo buy-panel" "goods-info none" "tabs tabs" "ymal ymal";
+	}
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1280px){
+
+}
+
+@media screen and (min-width: 1281px){
+
+}
+
+.goods-photo{
+	grid-area: goods-photo;
+	object-fit: contain;
+	height: 100%;
+	justify-self: center;
+	align-self: center;
+}
+
+@media screen and (min-width: 1025px){
+  .goods-photo{
+    height: 90%;
   }
-
-  .search-panel-form{
-    grid-template-columns: 1fr 105px;
-    width: 95%;
-  }
 }
 
-.goods-photo-wrapper{
-  grid-area: goods-photo;
-  display: flex;
+.info-container{
+  grid-area: goods-info;
+  font-family: var(--text-font);
+  margin: 0 20px;
 }
 
-.goods-photo-wrapper img{
-  object-fit: contain;
-  height: 90%;
-  width: 90%;
-  margin: auto;
-}
-
-.goods-short-info-wrapper{
-  grid-area: goods-short-info;
-  font-family:  'Tajawal', sans-serif;
-  padding: 0 20px;
-}
-
-.goods-short-info-wrapper h1{
-  /*font-size: 2em;*/
-}
-
-.goods-short-info-wrapper p{
-  /*font-size: 1.3em;*/
-}
-
-.goods-buy-wrapper{
-  grid-area: goods-buy-panel;
-  display: flex;
-  padding: 0 30px;
-}
-
-.goods-buy-container{
-  font-family:  'Tajawal', sans-serif;
+.buy-container{
+	grid-area: buy-panel;
+	justify-self: center;
+	align-self: center;
+  font-family: var(--text-font);
   margin: auto;
   width: 90%;
-  height: 95%;
-  padding: 0 10px;
+  max-width: 350px;
+  padding: 10px;
   border: 1px solid #eaeaea;
   background-color: #fff;
   border-top-color: grey;
@@ -159,57 +167,40 @@ main{
   flex-direction: column;
 }
 
-.goods-buy-container-header{
-  line-height: 100%;
-  padding: 5px;
+.buy-container-header{
   font-size: 1.4em;
-  margin: 10px auto;
+  margin: 5px auto;
 }
 
-.goods-buy-container-is-avaible{
+.buy-container-is-avaible{
   color: green;  
   margin: 5px 0;
 }
 
-.goods-buy-container-not-avaible{
+.buy-container-not-avaible{
   color: #ed0000;  
   margin: 5px 0;
 }
 
-.goods-buy-container-price{
-  margin: 15px 0 0 0;
+.buy-container-price{
+  margin: 5px 0;
 }
 
-.goods-buy-container button{
-  margin: 10px auto;
-  width: 150px;
-}
-
-.tabs-wrapper{
-  grid-area: tabs;
-  padding: 20px 20px 0 20px;
-}
-
-.tabs-wrapper p{
-  margin: 0;
+.buy-container .btn{
+	padding: 5px 15px;
+  margin: 5px auto;
 }
 
 .tabs-container {
-  position: relative;  
+  grid-area: tabs;
+  display: flex;
+  flex-wrap: wrap;
+  font-family: var(--text-font);
+  justify-content: center;
 }
 
-.tab{
-  float: left;
-  margin-top: 5px;
-  font-family:  'Tajawal', sans-serif;
-}
-
-.tab:first-child{
-  margin-left: 40px;
-}
-
-.tab label {
-  padding: 5px 20px;
+.tabs-container label {
+  padding: 5px 15px;
   border: 1px solid grey;
   border-left: 0;
   border-bottom: 0;
@@ -218,42 +209,36 @@ main{
   cursor: pointer;
 }
 
-#tabs-first-label{
+.tabs-container label:first-of-type{
   border-left: 1px solid grey;
 }
-
-.tab [type=radio]{
-  display: none;
-}
   
-.tab label:hover{
+.tabs-container label:hover{
   border-top-color: #ff4b4b;
 }
 
-.tab [type=radio]:checked + label{
+.tabs-container [type=radio]{
+  display: none;
+}
+
+.tabs-container [type=radio]:checked + label{
   border-top-color: #ffb600;
   background-color: #f1eab3;
 }
 
 .tab-content{
-  position: absolute;
-  top: 34px; 
-  left: 0; 
-  right: 0; 
-  opacity: 0;
-  border: 1px solid #eaeaea;
-  padding: 10px;
-  background-color: #fff;
-  border-top-color: grey;
+	display: none;
+	width: 100%;
+	max-width: 750px;
+	padding: 10px;
+	background-color: #fff;
+	border: 1px solid #eaeaea;
+	border-top-color: grey;
+	order: 99;
 }
 
-[type=radio]:checked ~ label {
-  z-index: 2;
-}
-
-[type=radio]:checked ~ label ~ .tab-content {
-  z-index: 1;
-  opacity: 1;
+[type=radio]:checked + label + .tab-content {
+  display: block;
 }
 
 .goods-information{
@@ -273,7 +258,7 @@ main{
   padding-left: 20px;
 }
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 768px){
   .goods-information{
     grid-template-columns: 1fr 2fr;
   }
@@ -292,53 +277,87 @@ main{
   grid-template-rows: 40px 1fr 50px;
   grid-row-gap: 5px;
   align-items: center;
-  font-family: 'Tajawal', sans-serif;
 }
 
 .ymal-section-header{
-  margin: 0;
-  height: 100%;
-  font-family: 'Bree Serif',serif;
+	margin: 0;
+	height: 100%;
+	font-family: var(--titles-font);
 }
 
 .ymal-section-container{
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
   grid-column-gap: 10px;
 }
 
-.ymal-section-container-item{
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  justify-content: center;
-  border: 1px solid #c8c6c6;
-  transition: .5s;
+.goods-card{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	max-height: 500px;
+	padding: 10px;
+	border: 1px solid #c8c6c6;
+	transition: .5s;
 }
 
-.ymal-section-container-item:hover{
-  box-shadow: 0 0 1em gray;
+.goods-card:hover{
+	box-shadow: 0 0 1em gray;
 }
 
-.ymal-section-container-item-image{
-  object-fit: contain;
-  width: 90%;
-  margin: auto;
+.goods-card span{
+	font-family: var(--text-font);
 }
 
-.ymal-section-container-item-title{
-  font-size: 20px;
-  font-weight: bold;
+.goods-card-image{
+	object-fit: contain;
+	width: 100%;
 }
 
-.ymal-section-container-item-author{
-  font-size: 13px;
-  color: #7b7b7b;
-  padding: 5px 0;
+.goods-card-title{
+	font-family: var(--card-title-font);
+	font-size: 1.2em;
+	margin: 5px 0 0 0;
+}
+
+.goods-card-author{
+	font-size: .75em;
+	color: #7b7b7b;
+	margin: 5px 0;
 }
 
 .ymal-section-look-at-all-btn{
   margin: auto;
   width: 100px;
   background-color: #49ea21e6;
+}
+
+@media screen and (max-width: 480px){
+  .ymal-section-container{
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 5px;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px){
+  .ymal-section-container{
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+  }
+
+  .ymal-section-container .goods-card:nth-of-type(4){
+  	display: none;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px){
+  .ymal-section-container{
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media screen and (min-width: 1025px){
+  .ymal-section-container{
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
