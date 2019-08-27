@@ -52,20 +52,41 @@ export default class ServerInteract{
 		return this;
 	}
 
-	/*Find and render goods details list by specified colum (categories, author, publiser)*/
-	static getList(column, cb, cbData = null){
-		fetch('/getList?column=' + column, {
+	static getPublishers(cb, cbData = null){
+		fetch('/getPublishers', {
 			method: 'GET'
 		})
 			.then(res => res.json())
-			.then(json => cb(json, cbData, column))
+			.then(json => cb(json, cbData))
+			.catch(err => console.log(err));
+		
+		return this;
+	}
+
+	static getAuthors(cb, cbData = null){
+		fetch('/getAuthors', {
+			method: 'GET'
+		})
+			.then(res => res.json())
+			.then(json => cb(json, cbData))
+			.catch(err => console.log(err));
+		
+		return this;
+	}
+
+	static getCategories(cb, cbData = null){
+		fetch('/getCategories', {
+			method: 'GET'
+		})
+			.then(res => res.json())
+			.then(json => cb(json, cbData))
 			.catch(err => console.log(err));
 		
 		return this;
 	}
 
 	/*Find and render special marked goods*/
-	static getSpecialMarked(title, cb, cbData){
+	static getMarked(title, cb, cbData){
 		fetch('/getBySimpleColumn?column=specialMark&value=' + title, {
 			method: 'GET'
 		})
@@ -117,7 +138,6 @@ export default class ServerInteract{
 			.then(() => {
 				form.reset(); //restores default value of input fields
 				if (modal) modal.style.display = 'none'; //closes modal window
-				//document.getElementsByClassName('cu-modal-wrapper')[0].style.display = 'none'; //closes modal window
 			})
 			.catch(err => console.log(err));
 

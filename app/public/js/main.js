@@ -54,18 +54,18 @@ document.addEventListener('DOMContentLoaded', () => {
 	let Render = new RenderElements(); 
 
 	ServerInteract
-		.getSpecialMarked('ARRIVALS', Render.carouselItems, {
+		.getMarked('ARRIVALS', Render.carouselItems, {
 			parent: arrivalCarouselSection, 
 			cart: cart
 		})
-		.getSpecialMarked('BESTSELLER', Render.bestseller, {
+		.getMarked('BESTSELLER', Render.bestseller, {
 			parent: document.getElementsByClassName('bae-bestseller-container')[0]
 		})
-		.getSpecialMarked('EXCLUSIVE', Render.exclusiveBooks, {
+		.getMarked('EXCLUSIVE', Render.exclusiveBooks, {
 			parent: document.getElementsByClassName('bae-exclusives-container')[0], 
 			cart: cart
 		})
-		.getList('categories', Render.categoriesList, document.getElementsByClassName('sf-select')[0]);
+		.getCategories(Render.categoriesList, document.getElementsByClassName('sf-select')[0]);
 
 	new contactModal(contact, contactLink); //logic of contact modal
 	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location

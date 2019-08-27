@@ -37,7 +37,7 @@ class Message {
 					resolve(data);
 				}
 			});
-    })
+		});
 	}
 }
 

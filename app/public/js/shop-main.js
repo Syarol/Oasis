@@ -35,15 +35,15 @@ document.addEventListener('DOMContentLoaded', () => {
 	let Render = new RenderElements(); 
 
 	ServerInteract
-		.getSpecialMarked('RECOMMEND', Render.carouselItems, {
+		.getMarked('RECOMMEND', Render.carouselItems, {
 			parent: document.getElementsByClassName('cr-recommends-section')[0], 
 			cart: cart
 		})
-		.getSpecialMarked('BESTSELLERS', Render.carouselItems, {
+		.getMarked('BESTSELLERS', Render.carouselItems, {
 			parent: document.getElementsByClassName('cr-bestsellers-section')[0], 
 			cart: cart
 		})
-		.getSpecialMarked('ARRIVALS', Render.carouselItems, {
+		.getMarked('ARRIVALS', Render.carouselItems, {
 			parent: document.getElementsByClassName('cr-arrivals-section')[0], 
 			cart: cart
 		});
@@ -53,5 +53,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.getElementsByClassName('sb-all-link')[0].onclick = () => {
-	window.location.href = '/search?query=&searchType=search-full';
+	window.location.href = '/search?query=&searchType=full-search';
 };

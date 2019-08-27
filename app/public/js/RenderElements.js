@@ -61,6 +61,39 @@ function addToCartButton(item, cart){
 	return button;
 }
 
+/*allows to sync data between hidden inputs of forms*/
+function syncHiddenIputs(className, checkbox){
+	let hiddenInput = document.getElementsByClassName(className); //inputs that stores data of checked element
+
+	let da = [];//array of checked elements
+
+	/*if element checked then add his data to search list element*/
+	if (hiddenInput[0].value) {
+		da = JSON.parse(hiddenInput[0].value);
+
+		if (checkbox.checked) {
+			if (!da.includes(checkbox.value))	da.push(checkbox.value);
+		} else {
+			da.splice(da.indexOf(checkbox.value), 1);
+
+			if (da.length == 0) da = '';
+		}
+	} else {
+		if (checkbox.checked) {
+			da.push(checkbox.value);
+		}
+	}
+
+	/*sync hidden inputs with data in forms*/
+	for (let hidden of hiddenInput){
+		if (da.length > 0) {
+			hidden.value = JSON.stringify(da);
+		} else hidden.value = '';
+
+		console.log(hidden.value);
+	}
+}
+
 /**
  * Class
 */
@@ -112,7 +145,8 @@ export default class RenderElements{
 		/*adds every category as option element*/
 		for (let item of list){
 		   	createNewEl('option', {
-		   		content: item
+		   		content: item.category,
+		   		value: item.id
 		   	}, parent);
 		}
 	}
@@ -163,7 +197,7 @@ export default class RenderElements{
 	 			}),
 	 			/*goods author*/
 	 			createNewEl('span', {
-	 				content: 'by ' + item.author
+	 				content: 'by ' + item.authors
 	 			}),
 	 			/*goods price*/
 	 			createNewEl('span', {
@@ -177,50 +211,46 @@ export default class RenderElements{
 	}
 
 	/*render aside checklist menu on search page*/
-	checkList(list, data, column){
-		let listStr = '';
-		if (data.list) {
-			listStr = typeof data.list == 'Array' ? data.list.join(', ') : data.list;
+	checkList(list, data){
+		let previousSearchList = [];
+
+		if (data.list){
+			previousSearchList = JSON.parse(data.list);
 		}
+
 		/*render checklist items one by one*/
 		for (let item of list){
 			let checkItem = '';
-			if (listStr.includes(item)) checkItem = 'checked';
 
+			let itemName = item.category || item.author || item.publisher || item;
+			let itemValue = String(item.id) || item.publisher || item;
+
+			/*if in previos search filters were used - then shows it*/
+			if (previousSearchList.includes(itemValue)) {
+				checkItem = 'checked';
+
+				syncHiddenIputs(data.class, {checked: checkItem, value: itemValue});
+			}
 			/*render checkbox that contain main information*/
 			createNewEl('label', {
 				nested: [
 					createNewEl('input', {
 						type: 'checkbox',
-						name: item,
-						value: item,
+						name: itemName,
+						value: itemValue,
 						checked: checkItem,
 						event: {
-							click: function (){
-								let hiddenInput = document.getElementsByClassName('sf-' + column); //get data of checked element
-								/*if element checked then add his data to search list element*/
-								for (let hidden of hiddenInput){
-									if (this.checked) {
-										if (hidden.value === '') hidden.value += this.value;
-      									else hidden.value += ', ' + this.value;
-									} else hidden.value = hidden.value.replace(this.value + ', ', ''); //if false then remove from search list 
-								}
-						   	}
+							click: function (e){
+								syncHiddenIputs(data.class, e.target);
 					   	}
+						}
 					}),
 					/*render checkbox label text*/
 					createNewEl('span', {
-						content: item
+						content: itemName
 					}, data.parent)
 				]
 			}, data.parent);
-		}
-			
-		if (listStr) {
-			let hiddenInput = document.getElementsByClassName('sf-' + column);
-			for (let hidden of hiddenInput){
-				hidden.value = typeof listStr == 'Array' ? listStr.join(', ') : listStr;
-			}
 		}
 	}
 }

@@ -10,7 +10,7 @@ const cart = new (require('./lib/cart'))();
 const Message = require('./lib/Message');
 //const User = require('./lib/User');
 const bodyParser  = require('body-parser');
-const searchInCatalog = new (require('./lib/searchInCatalog'))();
+const Catalog = new (require('./lib/Catalog'))();
 const router = require('./routes/index');
 const app = express();
 
@@ -34,7 +34,7 @@ app.use(bodyParser.json());
 
 app.post('/getSearchResults', function(req, res){
   console.log(req.body);
-	searchInCatalog.full(req.body, res);
+	Catalog.full(req.body, res);
 });
 
 app.post('/getCart', function(req, res) {
@@ -72,15 +72,31 @@ app.get('/logout', function(req, res){
 });*/
 
 app.get('/getBySimpleColumn', function(req, res) {
-	searchInCatalog.bySimpleColumn({[req.query.column]: req.query.value}, res);
+	Catalog.bySimpleColumn({[req.query.column]: req.query.value}, res);
 });
 
-app.get('/getList', function(req, res){
-	searchInCatalog.byColumn(req.query.column, res);
+app.get('/getCategories', function(req, res){
+  Catalog.getAllCategories()
+    .then(data => res.send(data));
+});
+
+app.get('/getAuthors', function(req, res){
+  Catalog.getAllAuthors()
+    .then(data => res.send(data));
+});
+
+app.get('/getCategories', function(req, res){
+  Catalog.getAllCategories()
+    .then(data => res.send(data));
+});
+
+app.get('/getPublishers', function(req, res){
+	Catalog.getAllPublishers()
+    .then(data => res.send(data));
 });
 
 app.get('/getLowHighPrice', function(req, res){
-  searchInCatalog.lowHighPrice(res);
+  Catalog.getlowHighPrice(res);
 });
 
 /**

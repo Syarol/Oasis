@@ -96,6 +96,7 @@ html, body {
 main{
   flex: 1 0 auto;
   padding-top: 60px;
+  min-height: calc(100% - 60px);
 }
 
 

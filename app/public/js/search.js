@@ -124,7 +124,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (query[i].includes(','))	query[i] = query[i].split(', ');
 	}
 
-	ServerInteract.getList('categories', Render.checkList, {list: query.categories, parent: categoriesList})
+	ServerInteract
+		.getCategories(Render.checkList, {list: query.categories, parent: categoriesList, class: 'sf-categories'})
 		.getLowHigh((prices) => {
 			let lowInput = document.getElementsByClassName('sidebar-low-price')[0];
 			let highInput = document.getElementsByClassName('sidebar-high-price')[0];
@@ -143,8 +144,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			} else 	
 				highInput.value = prices.high.toFixed(2);
 		})
-		.getList('author', Render.checkList, {list: query.author, parent: authorsList})
-		.getList('publisher', Render.checkList, {list: query.publisher, parent: publishersList});
+		.getAuthors(Render.checkList, {list: query.author, parent: authorsList, class: 'sf-author'})
+		.getPublishers(Render.checkList, {list: query.publisher, parent: publishersList, class: 'sf-publisher'});
 
 	new contactModal(contact, contactLink); //logic of contact modal
 	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location

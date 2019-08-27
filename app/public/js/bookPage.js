@@ -42,12 +42,6 @@ for (let element of document.getElementsByClassName('input-number')){
 	};
 }
 
-/*for (let radio of document.getElementsByClassName('tabs-container')[0].querySelectorAll('[type="radio"]')){
-	radio.onclick = function(){
-		if (this.checked) this.checked = false;
-	}
-}*/
-
 document.addEventListener('DOMContentLoaded', () => {
 	let cart = new Cart(openCart, document.getElementsByClassName('header-cart-count')[0]);
 	

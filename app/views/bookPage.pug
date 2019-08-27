@@ -6,7 +6,7 @@ main
 	form.search-panel-form(action='/search' method='GET')
 		input(type='text' name='query' placeholder='Search for')
 		button.btn Let's found!
-		input(type='hidden' name='searchType' value='search-full')
+		input(type='hidden' name='searchType' value='full-search')
 
 	img.goods-photo(src= book.thumbnailUrl)
 
@@ -14,10 +14,12 @@ main
 		h1= book.title
 		p
 			span Author: 
-			span= book.author
+			a(href= '/search?query=' + book.author + '&searchType=full-search')
+				span= book.author
 		p
 			span Publisher: 
-			span= book.publisher
+			a(href= '/search?query=' + book.publisher + '&searchType=full-search')
+				span= book.publisher
 		p
 			span Page count: 
 			span= book.pageCount + ' pages'
@@ -57,9 +59,11 @@ main
 				span Title:
 				span= book.title
 				span Author:
-				span= book.author
+				a(href= '/search?query=' + book.author + '&searchType=full-search')
+					span= book.author
 				span Publisher:
-				span= book.publisher
+				a(href= '/search?query=' + book.publisher + '&searchType=full-search')
+					span= book.publisher
 				span Publishing year:
 				span= book.publishedYear
 				span Pages count:
