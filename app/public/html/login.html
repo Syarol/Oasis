@@ -4,47 +4,46 @@
 	<title>Oasis | Log in</title>
 
 	<meta charset="UTF-8">
-	<meta name="viewport" content ="width=device-width, shrink-to-fit=no"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro|Poppins:700" rel="stylesheet"> 
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-	<link href="css/min/login.min.css" rel="stylesheet">
-</head>
-<body>
-	<section class="page-background"></section>
-	<section class="login-wrapper">
-		<div class="login-container grid-center-items">
-			<h1 class="login-title">LOG IN</h1>
-			<form class="login-form grid-center-items">
-				<div class="ibb-ic ibb-ic-email-container">
-					<input class="ibb-ic-email" type="email" name="email" placeholder="E-mail" autocapitalize="none" autocorrect="off" spellcheck="false" required>
-					<span class="ibb-ic-focus" data-symbol=""></span>
-				</div>
-				<div class="ibb-ic ibb-ic-password-container">
-					<input class="ibb-ic-password" type="password" name="password" placeholder="Password" required>
-					<span class="ibb-ic-focus" data-symbol=""></span>
-				</div>
-				<span class="login-error-text">Incorrect email or password.</span>
-				<span class="login-form-forgot">Forgot password?</span>
-				<button class="login-form-btn" type="button">Login</button>
-			</form>
+	<link href="./../css/min/login.min.css" rel="stylesheet">
 
-			<span class="log-in-using-text">Or Log In Using</span>
-			<div class="login-social-container">
-				<a href="#" class="login-social-item social-google">
-					<i class="fab fa-google"></i>
-				</a>
-				<a href="#" class="login-social-item social-twitter">
-					<i class="fab fa-twitter"></i>
-				</a>
-				<a href="#" class="login-social-item social-telegram">
-					<i class="fab fa-telegram-plane"></i>
-				</a>
+	<script src="https://kit.fontawesome.com/05d8a5315c.js"></script>
+</head>
+<body ontouchstart="">
+	<section class="page-background"></section>
+	<section class="login-container">
+		<h1 class="login-title">LOG IN</h1>
+		<form class="login-form grid-center-items">
+			<div class="ibb-ic ibb-ic-email-container">
+				<input class="ibb-ic-email" type="email" name="email" placeholder="E-mail" autocapitalize="none" autocorrect="off" spellcheck="false" required>
+				<span class="ibb-ic-focus" data-symbol=""></span>
 			</div>
+			<div class="ibb-ic ibb-ic-password-container">
+				<input class="ibb-ic-password" type="password" name="password" placeholder="Password" required>
+				<span class="ibb-ic-focus" data-symbol=""></span>
+			</div>
+			<span class="error-message hide-error">Incorrect email or password.</span>
+			<span class="login-form-forgot">Forgot password?</span>
+			<button class="login-form-btn" type="button">Login</button>
+		</form>
+
+		<span class="log-in-using-text">Or Log In Using</span>
+		<div class="social-container">
+			<a href="#" class="social-item social-google">
+				<i class="fab fa-google"></i>
+			</a>
+			<a href="#" class="social-item social-twitter">
+				<i class="fab fa-twitter"></i>
+			</a>
+			<a href="#" class="social-item social-telegram">
+				<i class="fab fa-telegram-plane"></i>
+			</a>
 		</div>
 	</section>
 
-	<p class="create-account-callout">New here? <a href="/register">Create an account.</a></p>
+	<section class="callout">New here? <a href="/register">Create an account.</a></section>
 
 	<script type="module" src="../js/loginPage.js"></script>
 </body>

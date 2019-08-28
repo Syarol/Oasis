@@ -143,4 +143,40 @@ export default class ServerInteract{
 
 		return this;
 	}
+
+	static registerNewUser(data){
+		return fetch('/regNewUser', {
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+		    },
+			method: 'POST',
+			body: JSON.stringify(data)
+		})
+			.catch(err => console.log(err));
+	}
+
+	static isEmailUsed(email){
+		return fetch('/isEmailUsed', {
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			}, 
+			method: 'POST',
+			body: JSON.stringify({email: email})
+		})
+			.catch(err => console.log(err))
+			.then(data => data.json());
+	}
+
+	static logInUser(data){
+		return fetch('/logInUser', {
+			headers: {
+		      'Authorization': 'Basic ' + btoa(JSON.stringify({[data.email]: data.password}))
+		    },
+			method: 'POST'
+		})
+			.catch(err => console.log(err))
+			.then(data => data.json());
+	}
 }

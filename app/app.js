@@ -8,7 +8,7 @@ const session	  = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const cart = new (require('./lib/cart'))();
 const Message = require('./lib/Message');
-//const User = require('./lib/User');
+const User = require('./lib/User');
 const bodyParser  = require('body-parser');
 const Catalog = new (require('./lib/Catalog'))();
 const router = require('./routes/index');
@@ -34,7 +34,7 @@ app.use(bodyParser.json());
 
 app.post('/getSearchResults', function(req, res){
   console.log(req.body);
-	Catalog.full(req.body, res);
+	Catalog.search(req.body, res);
 });
 
 app.post('/getCart', function(req, res) {
@@ -51,25 +51,6 @@ app.post('/sendMessage', function(req, res) {
     .then(() => res.send());
 });
 
-/*app.post('/regNewUser', function(req, res){
-  User.checkEmailAvailability(req.body.email)
-    .register(req.body);
-  let userData = req.body;
-  console.log(userData);
-});
-
-app.post('/logInUser', function(req, res){
-  User.logIn(req.headers.authorization, (user) => {
-    if (user[0]) {
-      req.session.user = user[0];
-      res.send({isAuth: true});
-    } else res.send({isAuth: false});
-  });
-});
-
-app.get('/logout', function(req, res){
-  User.logOut(req);
-});*/
 
 app.get('/getBySimpleColumn', function(req, res) {
 	Catalog.bySimpleColumn({[req.query.column]: req.query.value}, res);
@@ -97,6 +78,32 @@ app.get('/getPublishers', function(req, res){
 
 app.get('/getLowHighPrice', function(req, res){
   Catalog.getlowHighPrice(res);
+});
+
+/*User profile interaction*/
+
+app.post('/regNewUser', function(req, res){
+  User.isEmailUsed(req.body.email)
+    .then(() => User.register(req.body));
+});
+
+app.post('/logInUser', function(req, res){
+  User.logIn(req.headers.authorization)
+    .then((user) => {
+      if (user) {
+        req.session.user = user[0];
+        res.send(JSON.stringify({isAuth: true}));
+      } else res.send(JSON.stringify({isAuth: false}));
+    });
+});
+
+app.post('/isEmailUsed', function(req, res){
+  User.isEmailUsed(req.body.email)
+    .then(data => res.send(JSON.stringify({isUsed: data})));
+});
+
+app.get('/logout', function(req, res){
+  User.logOut(req);
 });
 
 /**

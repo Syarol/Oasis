@@ -9,7 +9,7 @@ const pool = require('./db');
 **/
 
 class Catalog{
-	full(fields, res){
+	search(fields, res){
 		let sql = 'SELECT * FROM Catalog WHERE ';
 
 		/*
@@ -252,42 +252,6 @@ class Catalog{
 				res.send(JSON.stringify(result));
 		});
 	}
-
-	/*returns only one column data of item*/
-	/*!!!!!!!!!NO NEED ANYMORE!!!!!!!!!!!!!!!DELETE!!!!!!!!!!!!*/
-/*	byColumn(column, res){
-		let sql = 'SELECT ' + column + ' FROM Catalog';
-		let categoriesArray = [];
-		
-		pool.query(sql, function (err, result) {
-		  if (err) throw err;
-			for (let item of result){
-				let splittedCategories;
-				switch(column){
-				case 'publisher':
-					splittedCategories = item.publisher;
-					break;
-				}
-
-				if (typeof splittedCategories === 'object'){
-					for (let category of splittedCategories){
-						category.trim();
-						if (!categoriesArray.includes(category)){
-							categoriesArray.push(category);
-						}
-					}
-				} else{
-					if (!categoriesArray.includes(splittedCategories)){
-						categoriesArray.push(splittedCategories);
-					}
-				}
-			}
-
-			categoriesArray.sort();
-
-			res.send(JSON.stringify(categoriesArray));
-		});
-	}*/
 
 	//gets array of all publishers
 	getAllPublishers(){
