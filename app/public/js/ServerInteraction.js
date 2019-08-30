@@ -179,4 +179,20 @@ export default class ServerInteract{
 			.catch(err => console.log(err))
 			.then(data => data.json());
 	}
+
+	static changePassword(oldPassword, newPassword){
+		return fetch('/changePassword', {
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			}, 
+			method: 'POST',
+			body: JSON.stringify({
+				old: oldPassword, 
+				new: newPassword
+			})
+		})
+			.catch(err => console.log(err))
+			.then(status => status.json());
+	}
 }

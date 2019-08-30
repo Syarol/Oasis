@@ -1,16 +1,25 @@
 doctype html
 head
-  title Oasis | #{book.title}
-  meta(charset='UTF-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1, viewport-fit=cover')
-  meta(name='title' content= book.title)
-  meta(name='Keywords' content='book bookstore store site cart lutsk volyn')
-  meta(name='description' content='Just bookstore')
-  // Google / Search Engine Tags
-  meta(itemprop='name' content='Oasis online-store')
-  meta(itemprop='description' content='Just bookstore')
-  link(rel='shortcut icon' href='images/favicon.png' type='image/x-icon')
-  link(rel='icon' href='images/favicon.png' type='image/x-icon')
-  link(href='https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Black+Han+Sans|Bree+Serif|Hind' rel='stylesheet')
-  link(rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css' integrity='sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ' crossorigin='anonymous')
-  link(href='/css/min/goods-details-bundle.min.css' rel='stylesheet')
+	if book
+		title Oasis | #{book.title}
+	else 
+		title Oasis | My Cabinet
+	meta(charset='UTF-8')
+	meta(name='viewport' content='width=device-width, initial-scale=1, viewport-fit=cover')
+	if book
+		meta(name='title' content= book.title)
+	else
+		meta(name='title' content='My Cabinet')
+	meta(name='Keywords' content='book bookstore store site cart lutsk volyn')
+	meta(name='description' content='Just bookstore')
+	// Google / Search Engine Tags
+	meta(itemprop='name' content='Oasis online-store')
+	meta(itemprop='description' content='Just bookstore')
+	link(rel='shortcut icon' href='images/favicon.png' type='image/x-icon')
+	link(rel='icon' href='images/favicon.png' type='image/x-icon')
+	link(href='https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Black+Han+Sans|Bree+Serif|Hind' rel='stylesheet')
+	link(rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css' integrity='sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ' crossorigin='anonymous')
+	if book
+		link(href='/css/min/goods-details-bundle.min.css' rel='stylesheet')
+	else
+		link(href='/css/min/profile-bundle.min.css' rel='stylesheet')

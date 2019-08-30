@@ -1,0 +1,114 @@
+html {
+  overflow-x: hidden; 
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+html, body {
+  height: 100%;
+  width: 100%; 
+}
+
+.grid-center-items{
+  display: grid;
+  align-items: center;
+  text-align: center;
+  justify-items: center;
+}
+
+.flex-center-items{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn{
+  cursor: pointer;
+  border: 0;
+  padding: 5px;
+  font-size: 1em;
+  font-family: var(--btn-font);
+  background-color: #CCCFCDE6;  
+  text-align: center;
+}
+
+.btn:disabled,
+.btn[disabled]{
+  background-color: #cccccc;
+  color: #666666;
+  cursor: no-drop;
+}
+
+/**
+ * 
+**/
+
+main{
+  margin-top: 60px;
+}
+
+
+
+
+
+
+
+
+
+/**
+ * Tabs 
+**/
+
+.tabs-container {
+  grid-area: tabs;
+  display: flex;
+  flex-wrap: wrap;
+  font-family: var(--text-font);
+  justify-content: center;
+}
+
+.tabs-container label {
+  padding: 5px 15px;
+  border: 1px solid grey;
+  border-left: 0;
+  border-bottom: 0;
+  transition: .7s;
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.tabs-container label:first-of-type{
+  border-left: 1px solid grey;
+}
+  
+.tabs-container label:hover{
+  border-top-color: #ff4b4b;
+}
+
+.tabs-container [type=radio]{
+  display: none;
+}
+
+.tabs-container [type=radio]:checked + label{
+  border-top-color: #ffb600;
+  background-color: #f1eab3;
+}
+
+.tab-content{
+	display: none;
+	width: 100%;
+	max-width: 750px;
+	padding: 10px;
+	background-color: #fff;
+	border: 1px solid #eaeaea;
+	border-top-color: grey;
+	order: 99;
+}
+
+[type=radio]:checked + label + .tab-content {
+  display: block;
+}

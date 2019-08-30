@@ -13,8 +13,6 @@
 
 import Cart from './cart.js';
 import GoogleMap from './googleMap.js';
-import ServerInteract from './ServerInteraction.js';
-
 import contactModal from './contactModal.js'; 
 
 /**

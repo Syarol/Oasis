@@ -71,10 +71,4 @@ document.addEventListener('DOMContentLoaded', () => {
 	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location
 });
 
-document.onclick = function(e) {
-	if (e.target == bestsellerModalWrapper) {
-		bestsellerModalWrapper.style.display = 'none';
-	}
-};
-
 document.getElementsByClassName('sf')[0].onsubmit = function(){clearEmptyInputs(this);};

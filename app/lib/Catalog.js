@@ -10,8 +10,6 @@ const pool = require('./db');
 
 class Catalog{
 	search(fields, res){
-		let sql = 'SELECT * FROM Catalog WHERE ';
-
 		/*
 		  hp - is short from 'Home page'
 		  sp - is short from 'Search page'
@@ -67,7 +65,7 @@ class Catalog{
 				}
 			});
 		})
-			.catch(err => console.log(err))
+			.catch(err => console.log(err));
 	}
 
 	hpSearch(fields){
@@ -127,7 +125,7 @@ class Catalog{
 				}
 			});
 		})
-			.catch(err => console.log(err))
+			.catch(err => console.log(err));
 	}
 
 	spSearch(fields){
@@ -148,7 +146,7 @@ class Catalog{
 		if (fields.query){
 			sql += `((b.title like '%${fields.query}%') or (b.description like '%${fields.query}%') `;
 			if (fields.author){
-				sql += `) and `;
+				sql += ') and ';
 			} else sql += `or (a.author like '%${fields.query}%')) and `;
 		}
 
@@ -157,7 +155,7 @@ class Catalog{
 			/*authors id's have to be passed inside array*/
 			if (Array.isArray(authorsQuery)){
 				if (authorsQuery.length > 1) {
-					sql += `(a.id in (?)) and `;
+					sql += '(a.id in (?)) and ';
 					queryArr.push(authorsQuery);
 				} else 
 					sql += `(a.id= ${authorsQuery}) and `;
@@ -169,7 +167,7 @@ class Catalog{
 			/*categories id's have to be passed inside array*/
 			if (Array.isArray(categoriesQuery)){
 				if (categoriesQuery.length > 1) {
-					sql += `(c.id in (?)) and `;
+					sql += '(c.id in (?)) and ';
 					queryArr.push(categoriesQuery);
 				} else 
 					sql += `(c.id= ${categoriesQuery}) and `;
@@ -181,7 +179,7 @@ class Catalog{
 			/*publishers names have to be passed inside array*/
 			if (Array.isArray(publisherQuery)){
 				if (publisherQuery.length > 1) {
-					sql += `(publisher in (?)) and `;
+					sql += '(publisher in (?)) and ';
 					queryArr.push(publisherQuery);
 				} else 
 					sql += `(publisher= '${publisherQuery}') and `;
@@ -221,7 +219,7 @@ class Catalog{
 				});
 			}
 		})
-			.catch(err => console.log(err))
+			.catch(err => console.log(err));
 	}
 
 	getlowHighPrice(res){
@@ -395,4 +393,4 @@ class Catalog{
   * Export
 **/
 
-module.exports = Catalog;
+module.exports = new Catalog();

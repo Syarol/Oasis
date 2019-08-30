@@ -1,35 +1,24 @@
 'use strict';
 
-const {port, secret} = require('./lib/config.js');
-const {redisClient} = require('./lib/redis.js');
+const {port} = require('./lib/config.js');
 const express	  = require('express');
 const path   	  = require('path');
-const session	  = require('express-session');
-const RedisStore = require('connect-redis')(session);
 const cart = new (require('./lib/cart'))();
 const Message = require('./lib/Message');
 const User = require('./lib/User');
 const bodyParser  = require('body-parser');
-const Catalog = new (require('./lib/Catalog'))();
+const Catalog = require('./lib/Catalog');
 const router = require('./routes/index');
 const app = express();
+const session = require('./lib/session.js');
 
 app.set('view engine', 'pug');
 app.set('views', __dirname + '/views');
 
 app.use(express.static(path.join(__dirname + '/public')));
 app.use(express.static(__dirname));
+app.use(session);
 app.use(router);
-
-app.use(session({
-  store: new RedisStore({client: redisClient}),
-  secret: secret,
-  resave: false,
-  secure: true,
-  HttpOnly: true,
-  cookie: { maxAge: 24 * 60 * 60 * 1000 }, // 1 day
-  saveUninitialized: false
-}));
 app.use(bodyParser.json());
 
 app.post('/getSearchResults', function(req, res){
@@ -91,7 +80,7 @@ app.post('/logInUser', function(req, res){
   User.logIn(req.headers.authorization)
     .then((user) => {
       if (user) {
-        req.session.user = user[0];
+        req.session.user = user;
         res.send(JSON.stringify({isAuth: true}));
       } else res.send(JSON.stringify({isAuth: false}));
     });
@@ -104,6 +93,16 @@ app.post('/isEmailUsed', function(req, res){
 
 app.get('/logout', function(req, res){
   User.logOut(req);
+});
+
+app.get('/getUserData', function(req, res){
+  User.getAllData(req.session.user)
+    .then(data => res.send(JSON.stringify(data)));
+});
+
+app.post('/changePassword', function(req, res){
+  User.changePassword(req, req.body)
+    .then(isOK => res.send(JSON.stringify({status: isOK})));
 });
 
 /**

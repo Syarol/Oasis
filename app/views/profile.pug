@@ -1,0 +1,61 @@
+include includes/head.pug
+
+include includes/header.pug
+
+main
+	h2.page-title My cabinet
+
+	section.tabs-container
+		input#tab-1(type='radio' name='tabgroup' checked)
+		label(for='tab-1') Profile
+		.tab-content
+			.info-container
+				h3.title Account details
+				form.user-data-form
+					.form-row
+						label.form-label First Name
+						span.required-text Required 
+						input(type='text' name='first-name' value= user.firstName required)
+					.form-row
+						label.form-label Last Name
+						span.required-text Required 
+						input(type='text' name='last-name' value= user.lastName required)
+					.form-row
+						label.form-label Email
+						span.required-text Required 
+						input(type='email' name='email' value= user.email required)
+					.form-row
+						label.form-label Login
+						span.explain-text (Optional) Can be used for authorisation instead email
+						input(type='text' name='login' value= user.login)
+					.form-row
+						label.form-label Phone
+						span.explain-text (Optional) Can be used to contact with You by store worker
+						input(type='number' name='phone' value= user.phone)
+					button.update-data-btn.btn(type='button') Update data
+
+			.info-container
+				h3.title Change Password
+				form.password-form
+					.form-row
+						label.form-label Old password
+						span.required-text Required 
+						input(type='text' name='old-password' required)
+					.form-row
+						label.form-label New password
+						span.required-text Required 
+						input(type='text' name='new-password' placeholder='Minimum 6 symbols' required)
+					.form-row
+						label.form-label Please, repeat new password
+						span.required-text Required 
+						input(type='text' name='new-password-repeat' placeholder='Minimum 6 symbols' required)
+					span.password-form-message
+					button.change-password-btn.btn(type='button') Change Password
+
+		input#tab-2(type='radio' name='tabgroup' checked)
+		label(for='tab-2') Orders
+		.tab-content
+
+include includes/footer.pug
+
+script(src='/js/profile.js' type='module')

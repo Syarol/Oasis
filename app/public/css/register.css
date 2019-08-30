@@ -35,8 +35,10 @@ html, body, .page-background {
   display: flex;
   flex-direction: column;
   background-color: white;
-  width: calc(350px - 4em);
+  /*width: calc(350px - 4em);*/
+  min-width: calc(350px - 4em);
   padding: 3em 2em; 
+  margin: 1em 0 0 0;
   box-shadow: 2px 2px 15px #929292;
   border-radius: 5px;
   font-family: 'Source Sans Pro', sans-serif;
@@ -63,11 +65,36 @@ html, body, .page-background {
   grid-template-rows: repeat(3, 1fr) .5fr 1fr;
 }
 
+@media screen and (max-width: 480px){
+  .register-container{
+    padding: 2em 2em; 
+  }
+
+  .register-title{
+    margin: 0 auto .5em auto;
+  }
+
+  .register-form{
+    grid-template-columns: 1fr;
+    grid-template-areas: "first-name" "last-name" "email" "password" "password-repeat" "error" "confirm-btn";
+  }
+
+  .form-no-error{
+    grid-template-rows: repeat(5, 1fr) 0 1fr;
+  }
+
+  .form-error{
+    grid-template-rows: repeat(5, 1fr) .5fr 1fr;
+  }
+}
+
 /**
  * bb-ic - short form for 'bottom-border input container'
 **/
 
 .bb-ic{
+  width: 100%;
+  min-width: 150px;
   position: relative;
   margin: .5em 0;
   border-bottom: 1px solid #b2aaaa;
@@ -150,7 +177,7 @@ html, body, .page-background {
 .register-btn{
   grid-area: confirm-btn;
   position: relative;
-  width: calc(45%);
+  width: 150px;
   height: 40px;
   font-size: 13px;
   font-weight: bold;

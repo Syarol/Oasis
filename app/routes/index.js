@@ -5,18 +5,20 @@
 const pug = require('pug');
 const path = require('path');
 const router = require('express').Router();
-const Catalog = new (require('../lib/Catalog'))(); 
+const Catalog = require('../lib/Catalog'); 
+const User = require('./../lib/User');
 const pool = require('../lib/db');
 
 /**
   * Variables
 **/
 
-var bookPagePath = path.join(__dirname + '/../views/bookPage.pug');//path to template
+const profilePath = path.join(__dirname + './../views/profile.pug'); //
+const bookPagePath = path.join(__dirname + '/../views/bookPage.pug');//path to template
 var bookOptionsObject = {}; //template locals option
 
 // Compile the source code
-const compiledBookPage = pug.compileFile(bookPagePath, bookOptionsObject);
+//const compiledBookPage = pug.compileFile(bookPagePath, bookOptionsObject);
 
 /**
   * Routes
@@ -69,13 +71,20 @@ router.get('/book/:id', function(req, res){
     pool.query(query, function (err, random) {
       if (err) callback(err);
 
-      res.render(path.join(__dirname + '/../views/bookPage.pug'), {
+      res.render(bookPagePath, {
         book: result,
         ymalBooks: random
       });   
     });
 
 	});
+});
+
+router.get('/profile', function(req, res){
+	User.getAllData(req.session.user)
+		.then(user => {
+			res.render(profilePath, {user: user});
+		});
 });
 
 router.get('/404', function(req, res){
@@ -92,5 +101,8 @@ router.get('/500', function(req, res){
   });
 });
 
+/**
+  * Export
+**/
 
 module.exports = router;

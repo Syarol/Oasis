@@ -46,12 +46,16 @@ function hideError(){
 */
 
 formConfirmBtn.onclick = () => {
-	if (passwordField.value.lenght < 6) {
+	if (!passwordField.value && !passwordRepeatField.value && !passwordField.value && !nameField.value && !surnameField.value) {
+		showError('Please, fill the fields above!');
+	} else if (!nameField || !surnameField){
+		showError('Please, enter your name!');
+	} else if (!passwordField.value || !passwordRepeatField.value){
+		showError('Please, write a password!');
+	} else if (passwordField.value.lenght < 6) {
 		showError('Your password too short!');
 	} else if (passwordField.value !== passwordRepeatField.value){
 		showError('Passwords not matches!');
-	} else if (!nameField || !surnameField){
-		showError('Please, enter your name!');
 	} else{
 		ServerInteract.registerNewUser({
 			firstName: nameField.value,
@@ -71,5 +75,5 @@ emailField.oninput = () => {
 			} else {
 				hideError();
 			}
-		})
-}
+		});
+};
