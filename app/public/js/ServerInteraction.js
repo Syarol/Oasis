@@ -195,4 +195,28 @@ export default class ServerInteract{
 			.catch(err => console.log(err))
 			.then(status => status.json());
 	}
+
+	static isThisUser(email, password){
+		return fetch('/isThisUser', {
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			}, 
+			method: 'POST',
+			body: JSON.stringify({
+				email: email,
+				password: password
+			})
+		})
+			.catch(err => console.log(err))
+			.then(isOK => isOK.json());
+	}
+
+	static deleteUserAccount(){
+		return fetch('/deleteAccount', {
+			method: 'get'
+		})
+			.catch(err => console.log(err))
+			.then(isOK => isOK.json());
+	}
 }

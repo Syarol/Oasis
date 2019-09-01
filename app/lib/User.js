@@ -134,6 +134,38 @@ class User{
 				}
 			})
 	}
+
+	static isThisUser(id, user){
+		return new Promise((resolve, reject) => {
+			let sql = `select 1 from users where id=${id} and email='${user.email}' and password=${user.password}`;
+			pool.query(sql, (err, result) => {
+				if (err){
+					reject(err);
+				} else{
+					if (result.length > 0){
+						resolve(true);
+					} else resolve(false);
+				}
+			});
+		})
+			.catch(err => console.log(err));
+	}
+
+	static delete(id){
+		return new Promise((resolve, reject) => {
+			let sql = `delete from users where id=${id}`;
+			pool.query(sql, (err, result) => {
+				if (err){
+					reject(err);
+				} else{
+					if (result.affectedRows > 0){
+						resolve(true);
+					} else resolve(false);
+				}
+			});
+		})
+			.catch(err => console.log(err));
+	}
 }
 
 /**

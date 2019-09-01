@@ -69,7 +69,7 @@ app.get('/getLowHighPrice', function(req, res){
   Catalog.getlowHighPrice(res);
 });
 
-/*User profile interaction*/
+/* User profile interaction */
 
 app.post('/regNewUser', function(req, res){
   User.isEmailUsed(req.body.email)
@@ -78,11 +78,25 @@ app.post('/regNewUser', function(req, res){
 
 app.post('/logInUser', function(req, res){
   User.logIn(req.headers.authorization)
-    .then((user) => {
+    .then(user => {
       if (user) {
         req.session.user = user;
         res.send(JSON.stringify({isAuth: true}));
       } else res.send(JSON.stringify({isAuth: false}));
+    });
+});
+
+app.post('/isThisUser', function(req, res){
+  User.isThisUser(req.session.user, req.body)
+    .then(isOK => {
+      res.send(JSON.stringify({isOK: isOK}));
+    });
+});
+
+app.get('/deleteAccount', function(req, res){
+  User.delete(req.session.user)
+    .then(isOK => {
+      res.send(JSON.stringify({isOK: isOK}));
     });
 });
 

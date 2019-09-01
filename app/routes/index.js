@@ -81,10 +81,14 @@ router.get('/book/:id', function(req, res){
 });
 
 router.get('/profile', function(req, res){
-	User.getAllData(req.session.user)
-		.then(user => {
-			res.render(profilePath, {user: user});
-		});
+  if (req.session.user){
+  	User.getAllData(req.session.user)
+  		.then(user => {
+  			res.render(profilePath, {user: user});
+  		});
+    } else {
+      res.redirect('/login');
+    }
 });
 
 router.get('/404', function(req, res){

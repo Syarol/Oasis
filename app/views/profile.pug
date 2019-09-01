@@ -40,21 +40,42 @@ main
 					.form-row
 						label.form-label Old password
 						span.required-text Required 
-						input(type='text' name='old-password' required)
+						input(type='password' name='old-password' required)
 					.form-row
 						label.form-label New password
 						span.required-text Required 
-						input(type='text' name='new-password' placeholder='Minimum 6 symbols' required)
+						input(type='password' name='new-password' placeholder='Minimum 6 symbols' required)
 					.form-row
 						label.form-label Please, repeat new password
 						span.required-text Required 
-						input(type='text' name='new-password-repeat' placeholder='Minimum 6 symbols' required)
+						input(type='password' name='new-password-repeat' placeholder='Minimum 6 symbols' required)
 					span.password-form-message
 					button.change-password-btn.btn(type='button') Change Password
+
+				.info-container
+					h3.title Delete Account
+					span Once you delete your account, all your data will be lost. Be careful!
+					button.delete-account-btn.btn.warning(type='button') Delete my account
 
 		input#tab-2(type='radio' name='tabgroup' checked)
 		label(for='tab-2') Orders
 		.tab-content
+
+		dialog.delete-account-dialog
+			h3 Are you sure?
+			span We will immediately delete of your data, including your purchase history.
+			span Your login will became available to anyone again. 
+			form.delete-account-form
+				.form-row
+					label.form-label Your email
+					span.required-text Required 
+					input(type='text' name='delete-email' required)
+				.form-row
+					label.form-label Your password
+					span.required-text Required 
+					input(type='password' name='delete-password' placeholder='Minimum 6 symbols' required)
+				span.delete-account-form-message
+				button.confirm-account-delete-btn.btn.warning(type='button') Delete this account
 
 include includes/footer.pug
 
