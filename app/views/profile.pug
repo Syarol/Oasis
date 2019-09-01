@@ -31,7 +31,8 @@ main
 					.form-row
 						label.form-label Phone
 						span.explain-text (Optional) Can be used to contact with You by store worker
-						input(type='number' name='phone' value= user.phone)
+						input(type='tel' name='phone' value= user.phone pattern='[0-9]+')
+					span.user-data-message
 					button.update-data-btn.btn(type='button') Update data
 
 			.info-container
@@ -76,6 +77,10 @@ main
 					input(type='password' name='delete-password' placeholder='Minimum 6 symbols' required)
 				span.delete-account-form-message
 				button.confirm-account-delete-btn.btn.warning(type='button') Delete this account
+
+		dialog.info-dialog
+			span.info-dialog-text
+			button.info-dialog-btn.btn Ok
 
 include includes/footer.pug
 

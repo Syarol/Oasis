@@ -48,7 +48,7 @@ function hideError(){
 formConfirmBtn.onclick = () => {
 	if (!passwordField.value && !passwordRepeatField.value && !passwordField.value && !nameField.value && !surnameField.value) {
 		showError('Please, fill the fields above!');
-	} else if (!nameField || !surnameField){
+	} else if (!nameField.value || !surnameField.value){
 		showError('Please, enter your name!');
 	} else if (!passwordField.value || !passwordRepeatField.value){
 		showError('Please, write a password!');

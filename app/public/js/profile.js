@@ -16,6 +16,10 @@ import ServerInteract from './ServerInteraction.js';
  * Global variables
 */
 
+/* Dialog windows */
+const deleteAccountDialog = document.getElementsByClassName('delete-account-dialog')[0];
+const infoDialog = document.getElementsByClassName('info-dialog')[0];
+
 /* Forms */
 const dataForm = document.getElementsByClassName('user-data-form')[0];
 const passwordForm = document.getElementsByClassName('password-form')[0];
@@ -38,13 +42,13 @@ const updateDataBtn = dataForm.getElementsByClassName('update-data-btn')[0];
 const changePasswordBtn = passwordForm.getElementsByClassName('change-password-btn')[0];
 const deleteAccountBtn = document.getElementsByClassName('delete-account-btn')[0];
 const confirmDeleteAccountBtn = deleteAccountFrom.getElementsByClassName('confirm-account-delete-btn')[0];
+const infoDialogBtn = infoDialog.getElementsByClassName('info-dialog-btn')[0];
 
 /* Message texts */
+const dataMessage = dataForm.getElementsByClassName('user-data-message')[0];
 const passwordFormMessage = passwordForm.getElementsByClassName('password-form-message')[0];
 const deleteAccountMessage = deleteAccountFrom.getElementsByClassName('delete-account-form-message')[0];
-
-/* Dialog windows */
-const deleteAccountDialog = document.getElementsByClassName('delete-account-dialog')[0];
+const infoDialogMessage = infoDialog.getElementsByClassName('info-dialog-text')[0];
 
 /**
  * Functions
@@ -63,9 +67,46 @@ function formMessage(field, isError, message){
 	field.textContent = message;
 }
 
+function hideMessage(field){
+	field.classList.remove('warning');
+	field.classList.remove('success');	
+	field.textContent = '';
+}
+
 /**
  * Event Listeners
 */
+
+login.oninput = () => {
+	ServerInteract.isLoginUsed(login.value)
+		.then(data => {
+			if (data.isUsed){
+				formMessage(dataMessage, true, 'Ooops! Login already used!');
+			} else {
+				hideMessage(dataMessage);
+			}
+		});
+};
+
+updateDataBtn.onclick = () => {
+	if (firstName.value === '' || lastName.value === '' || email.value === ''){
+		formMessage(dataMessage, true, 'Required fields shouldn\'t be empty!');
+	} else {
+		ServerInteract.updateUserData({
+			firstName: firstName.value,
+			lastName: lastName.value,
+			email: email.value,
+			login: login.value,
+			phone: phone.value
+		})
+			.then(status => {
+				if (status){
+					formMessage(dataMessage, true, 'Information successfully updated!');
+				} else 
+					formMessage(dataMessage, true, 'Some error occured. Please, try again later');
+			})
+	}
+}
 
 changePasswordBtn.onclick = () => {
 	if (newPassword.value != newPasswordRepeat.value){
@@ -94,26 +135,17 @@ deleteAccountBtn.onclick = () => {
 		} else if (deletePassword.value.length < 6){
 			formMessage(deleteAccountMessage, true, 'Password too short!');
 		} else {
-			ServerInteract.isThisUser(deleteEmail.value, deletePassword.value)
-				.then(isOK => {
-					console.log(isOK.isOK);
-					if (isOK.isOK) {
-						ServerInteract.deleteUserAccount()
-							.then(isDeleted => {
-								if (isDeleted.isOK) {
-									/*should change to informaitve window about success*/
-									window.location.href = '/login';
-								} else {
-									formMessage(deleteAccountMessage, true, 'Something went wrong. Try again later!');
-								}
-							});
-					}  else
-						formMessage(deleteAccountMessage, true, 'Password and/or email not matches!');
-				})
-
+			ServerInteract.checkAndDeleteUser(deleteEmail.value, deletePassword.value)
+				.then(result => {
+					if (result.error){
+						formMessage(deleteAccountMessage, true, result.message);
+					} else {
+						infoDialog.setAttribute('open', '');
+						infoDialogMessage.textContent = result.message;
+						infoDialogBtn.onclick = () => window.location.href = '/login';
+					}
+				});
 		}
 	}
-
-
-
 }
+

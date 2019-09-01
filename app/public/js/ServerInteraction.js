@@ -169,6 +169,19 @@ export default class ServerInteract{
 			.then(data => data.json());
 	}
 
+	static isLoginUsed(login){
+		return fetch('/isLoginUsed', {
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			}, 
+			method: 'POST',
+			body: JSON.stringify({login: login})
+		})
+			.catch(err => console.log(err))
+			.then(data => data.json());
+	}
+
 	static logInUser(data){
 		return fetch('/logInUser', {
 			headers: {
@@ -196,27 +209,34 @@ export default class ServerInteract{
 			.then(status => status.json());
 	}
 
-	static isThisUser(email, password){
-		return fetch('/isThisUser', {
+	static checkAndDeleteUser(email, password){
+		return fetch('/checkAndDelete', {
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			}, 
-			method: 'POST',
+			method: 'post',
 			body: JSON.stringify({
 				email: email,
 				password: password
 			})
 		})
 			.catch(err => console.log(err))
-			.then(isOK => isOK.json());
+			.then(result => result.json());
 	}
 
-	static deleteUserAccount(){
-		return fetch('/deleteAccount', {
-			method: 'get'
+	static updateUserData(data){
+		return fetch('/updateUserData', {
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			}, 
+			method: 'post',
+			body: JSON.stringify({
+				data: data
+			})
 		})
 			.catch(err => console.log(err))
-			.then(isOK => isOK.json());
+			.then(result => result.json());
 	}
 }

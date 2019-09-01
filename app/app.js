@@ -72,7 +72,7 @@ app.get('/getLowHighPrice', function(req, res){
 /* User profile interaction */
 
 app.post('/regNewUser', function(req, res){
-  User.isEmailUsed(req.body.email)
+  User.isUniqueUsed('email', req.body.email)
     .then(() => User.register(req.body));
 });
 
@@ -100,8 +100,39 @@ app.get('/deleteAccount', function(req, res){
     });
 });
 
+app.post('/checkAndDelete', function(req, res){
+  User.isCurrent(req.session.user, req.body)
+    .then(isOK => {
+      if (isOK) {
+        User.delete(req.session.user)
+          .then(isDeleted => {
+            if (isDeleted){
+              res.send(JSON.stringify({
+                error: false,
+                message: 'Account successfully deleted!'
+              }));
+            } else{
+              res.send(JSON.stringofy({
+                error: true,
+                message: 'Something went wrong. Try again later!'
+              }));
+            }
+          })
+      } else res.send(JSON.stringify({
+        error: true,
+        message: 'Password and/or email not matches!'
+      }));
+    });
+});
+
+
 app.post('/isEmailUsed', function(req, res){
-  User.isEmailUsed(req.body.email)
+  User.isUniqueUsed('email', req.body.email)
+    .then(data => res.send(JSON.stringify({isUsed: data})));
+});
+
+app.post('/isLoginUsed', function(req, res){
+  User.isUniqueUsed('login', req.body.login)
     .then(data => res.send(JSON.stringify({isUsed: data})));
 });
 
@@ -116,6 +147,11 @@ app.get('/getUserData', function(req, res){
 
 app.post('/changePassword', function(req, res){
   User.changePassword(req, req.body)
+    .then(isOK => res.send(JSON.stringify({status: isOK})));
+});
+
+app.post('/updateUserData', function(req, res){
+  User.updateData(req.session.user, req.body.data)
     .then(isOK => res.send(JSON.stringify({status: isOK})));
 });
 

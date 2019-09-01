@@ -20,8 +20,8 @@ class User{
 		return this;
 	}
 
-	static isEmailUsed(email){
-		let sql = `SELECT 1 FROM Users WHERE email='${email}'`;
+	static isUniqueUsed(type, value){
+		let sql = `SELECT 1 FROM Users WHERE ${type}='${value}'`;
 		return new Promise(function(resolve, reject){
 			pool.query(sql, function (err, result) {
 			    if (err){
@@ -132,10 +132,10 @@ class User{
 				} else {
 					return false;
 				}
-			})
+			});
 	}
 
-	static isThisUser(id, user){
+	static isCurrent(id, user){
 		return new Promise((resolve, reject) => {
 			let sql = `select 1 from users where id=${id} and email='${user.email}' and password=${user.password}`;
 			pool.query(sql, (err, result) => {
@@ -165,6 +165,22 @@ class User{
 			});
 		})
 			.catch(err => console.log(err));
+	}
+
+	static updateData(userId, data){
+		console.log(data);
+		return new Promise((resolve, reject) => {
+			let sql = `update users set firstName='${data.firstName}', lastName='${data.lastName}', email='${data.email}', login='${data.login}', phone='${data.phone}' where id=${userId}`;
+			pool.query(sql, (err, result) => {
+				if (err){
+					reject(err);
+				} else{
+					if (result.affectedRows > 0){
+						resolve(true);
+					} else resolve(false);
+				}
+			});
+		});
 	}
 }
 
