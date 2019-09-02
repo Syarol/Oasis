@@ -112,13 +112,12 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.getElementById('search-text').textContent = 'You need to search first';
 	}
 
-	ServerInteract.getFinded(query,
-		function(res){
+	ServerInteract.getFinded(query)
+		.then(res => {
 			new Pagination(res, document.getElementsByClassName('pagination'), cart, document.getElementsByClassName('fi-per-page')[0]);
 
 			showSearchQuery(query, res.length);
-		}
-	);
+		});
 
 	for (let i in query){
 		if (query[i].includes(','))	query[i] = query[i].split(', ');

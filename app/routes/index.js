@@ -50,15 +50,23 @@ router.get('/search', function(req, res){
 });
 
 router.get('/login', function(req, res){
-  res.sendFile('login.html', {
-    root: path.join(__dirname + '/../public/html')
-  });
+  /*if user already authorized then redirects to homepage*/
+  if (req.session.user){
+    res.redirect('/');
+  } else
+    res.sendFile('login.html', {
+      root: path.join(__dirname + '/../public/html')
+    });
 });
 
 router.get('/register', function(req, res){
-  res.sendFile('register.html', {
-    root: path.join(__dirname + '/../public/html')
-  });
+  /*if user already authorized then redirects to homepage*/
+  if (req.session.user){
+    res.redirect('/');
+  } else
+    res.sendFile('register.html', {
+      root: path.join(__dirname + '/../public/html')
+    });
 });
 
 /*router for dynamic pages*/
@@ -66,7 +74,7 @@ router.get('/book/:id', function(req, res){
 	Catalog.bySimpleColumn({id: req.params.id}, res, function(err, result){
 		if (err) throw err;
 
-    let query = 'SELECT * FROM Catalog ORDER BY RAND() LIMIT ' + 4;
+    let query = 'SELECT * FROM Catalog ORDER BY RAND() LIMIT 4';
 
     pool.query(query, function (err, random) {
       if (err) callback(err);

@@ -78,7 +78,7 @@ function hideMessage(field){
 */
 
 login.oninput = () => {
-	ServerInteract.isLoginUsed(login.value)
+	ServerInteract.isUniqueUsed({login: login.value})
 		.then(data => {
 			if (data.isUsed){
 				formMessage(dataMessage, true, 'Ooops! Login already used!');

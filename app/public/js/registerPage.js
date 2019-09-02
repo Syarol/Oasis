@@ -68,8 +68,9 @@ formConfirmBtn.onclick = () => {
 };
 
 emailField.oninput = () => {
-	ServerInteract.isEmailUsed(emailField.value)
+	ServerInteract.isUniqueUsed({email: emailField.value})
 		.then(data => {
+			console.log(data);
 			if (data.isUsed){
 				showError('Ooops! Email already used!');
 			} else {

@@ -20,17 +20,19 @@ class User{
 		return this;
 	}
 
-	static isUniqueUsed(type, value){
-		let sql = `SELECT 1 FROM Users WHERE ${type}='${value}'`;
+	/* searches if unique value (email, login, phone number) already used excluding current user */
+	static isUniqueUsed(column, value, userId){
+		console.log(userId);
+		let sql = `SELECT 1 FROM Users WHERE ${column}='${value}' and not id=${userId}`;
+
 		return new Promise(function(resolve, reject){
 			pool.query(sql, function (err, result) {
 			    if (err){
 			    	reject(err);
-			    } else{
-					if (result[0]) {
-			    		resolve(true);
-					} else resolve(false);
 			    }
+				if (result[0]) {
+			    	resolve(true);
+				} else resolve(false);
 			});
 		})
 			.catch(err => console.log(err));
@@ -47,11 +49,11 @@ class User{
 			pool.query(sql, function (err, result) {
 			    if (err){
 			    	reject(err);
-			    } else{
-					if (result[0]) {
-						resolve(result[0].id);
-					} else resolve(false);
 			    }
+				
+				if (result[0]) {
+					resolve(result[0].id);
+				} else resolve(false);
 			});
 		})
 			.catch(err => console.log(err));
@@ -59,9 +61,7 @@ class User{
 
 	static logOut(req){
 		if (req.session) {
-		    req.session.destroy(function(err) {
-		      if(err) throw err;
-		    });
+		    req.session.destroy();
 		}
 	}
 
@@ -71,9 +71,9 @@ class User{
 			pool.query(sql, function(err, result){
 				if (err){
 					reject(err);
-				} else{
-					resolve(result[0]);
-				}
+				} 
+
+				resolve(result[0]);
 			});
 		})
 			.catch(err => console.log(err));
@@ -85,10 +85,10 @@ class User{
 			pool.query(sql, function(err, result){
 				if (err){
 					reject(err);
-				} else{
-					console.log(result);
-					resolve(result);
-				}
+				} 
+				
+				console.log(result);
+				resolve(result);
 			});
 		})
 			.catch(err => console.log(err));
@@ -101,9 +101,9 @@ class User{
 			pool.query(sql, function(err, result){
 				if (err){
 					reject(err);
-				} else{
-					resolve(result[0].password);
 				}
+				
+				resolve(result[0].password);
 			});
 		})
 			.catch(err => console.log(err));
@@ -122,9 +122,9 @@ class User{
 						pool.query(sql, (err, result) => {
 							if (err){
 								reject(err);
-							} else{
-								resolve(true);
-							}
+							} 
+							
+							resolve(true);
 						});
 					})
 						.catch(err => console.log(err));
@@ -141,11 +141,11 @@ class User{
 			pool.query(sql, (err, result) => {
 				if (err){
 					reject(err);
-				} else{
-					if (result.length > 0){
-						resolve(true);
-					} else resolve(false);
-				}
+				} 
+				
+				if (result.length > 0){
+					resolve(true);
+				} else resolve(false);
 			});
 		})
 			.catch(err => console.log(err));
@@ -157,11 +157,11 @@ class User{
 			pool.query(sql, (err, result) => {
 				if (err){
 					reject(err);
-				} else{
-					if (result.affectedRows > 0){
-						resolve(true);
-					} else resolve(false);
-				}
+				} 
+
+				if (result.affectedRows > 0){
+					resolve(true);
+				} else resolve(false);
 			});
 		})
 			.catch(err => console.log(err));
@@ -174,11 +174,11 @@ class User{
 			pool.query(sql, (err, result) => {
 				if (err){
 					reject(err);
-				} else{
-					if (result.affectedRows > 0){
-						resolve(true);
-					} else resolve(false);
-				}
+				} 
+
+				if (result.affectedRows > 0){
+					resolve(true);
+				} else resolve(false);
 			});
 		});
 	}

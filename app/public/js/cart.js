@@ -55,13 +55,14 @@ export default class Cart{
 		this.openButton = openButton;
 		this.goodsInside = goodsInside;
 
-		ServerInteract.getCart(inCart => {
-			this.goodsInside = inCart;
-			this.setModal(openButton)
-				.updateAllGoodsTotal();
+		ServerInteract.getCart()
+			.then(inCart => {
+				this.goodsInside = inCart;
+				this.setModal(openButton)
+					.updateAllGoodsTotal();
 
-			console.log(inCart);
-		});
+				console.log(inCart);
+			});
 
 		return this;
 	}

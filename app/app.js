@@ -125,14 +125,9 @@ app.post('/checkAndDelete', function(req, res){
     });
 });
 
-
-app.post('/isEmailUsed', function(req, res){
-  User.isUniqueUsed('email', req.body.email)
-    .then(data => res.send(JSON.stringify({isUsed: data})));
-});
-
-app.post('/isLoginUsed', function(req, res){
-  User.isUniqueUsed('login', req.body.login)
+app.post('/isUniqueUsed', function(req, res){
+  let key = Object.keys(req.body)[0]; //have to be passed onlu one key-value pair
+  User.isUniqueUsed(key, req.body[key], req.session.user)
     .then(data => res.send(JSON.stringify({isUsed: data})));
 });
 
@@ -151,7 +146,7 @@ app.post('/changePassword', function(req, res){
 });
 
 app.post('/updateUserData', function(req, res){
-  User.updateData(req.session.user, req.body.data)
+  User.updateData(req.session.user, req.body)
     .then(isOK => res.send(JSON.stringify({status: isOK})));
 });
 

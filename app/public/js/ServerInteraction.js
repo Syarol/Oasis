@@ -12,14 +12,11 @@
 export default class ServerInteract{
 	/*Receives cart contents*/
 	static getCart(cb){
-		fetch('/getCart', {
+		return fetch('/getCart', {
 			method: 'POST'
 		})
 			.then(res => res.json())
-			.then(json => cb(json))
 			.catch(err => console.log(err));
-
-		return this;
 	}
 
 	/*Synchronizes cart beetwen client and server*/
@@ -38,7 +35,7 @@ export default class ServerInteract{
 
 	/*Find goods*/
 	static getFinded(query, cb){
-		fetch('/getSearchResults', {
+		return fetch('/getSearchResults', {
 			method: 'POST',
 			headers: {
 	            'Content-Type': 'application/json',
@@ -46,10 +43,7 @@ export default class ServerInteract{
 			body: JSON.stringify(query)
 		})
 			.then(res => res.json())
-			.then(json => cb(json))
 			.catch(err => console.log(err));
-
-		return this;
 	}
 
 	static getPublishers(cb, cbData = null){
@@ -156,30 +150,17 @@ export default class ServerInteract{
 			.catch(err => console.log(err));
 	}
 
-	static isEmailUsed(email){
-		return fetch('/isEmailUsed', {
+	static isUniqueUsed(uniquePair){
+		return fetch('/isUniqueUsed', {
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			}, 
 			method: 'POST',
-			body: JSON.stringify({email: email})
+			body: JSON.stringify(uniquePair)
 		})
 			.catch(err => console.log(err))
-			.then(data => data.json());
-	}
-
-	static isLoginUsed(login){
-		return fetch('/isLoginUsed', {
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			}, 
-			method: 'POST',
-			body: JSON.stringify({login: login})
-		})
-			.catch(err => console.log(err))
-			.then(data => data.json());
+			.then(res => res.json());
 	}
 
 	static logInUser(data){
@@ -232,9 +213,7 @@ export default class ServerInteract{
 				'Content-Type': 'application/json'
 			}, 
 			method: 'post',
-			body: JSON.stringify({
-				data: data
-			})
+			body: JSON.stringify(data)
 		})
 			.catch(err => console.log(err))
 			.then(result => result.json());
