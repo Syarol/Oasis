@@ -21,16 +21,23 @@ class User{
 	}
 
 	/* searches if unique value (email, login, phone number) already used excluding current user */
-	static isUniqueUsed(column, value, userId){
-		console.log(userId);
-		let sql = `SELECT 1 FROM Users WHERE ${column}='${value}' and not id=${userId}`;
+	static isUniqueUsed(column, value, userId = null){
+		let sql;
+
+		/* if user not logged in (register page at example) then does not includes id comparing */
+		if (userId){
+			sql = `SELECT 1 FROM Users WHERE ${column}='${value}' and not id=${userId}`;
+		} else {
+			sql = `SELECT 1 FROM Users WHERE ${column}='${value}'`;
+		}
 
 		return new Promise(function(resolve, reject){
 			pool.query(sql, function (err, result) {
 			    if (err){
 			    	reject(err);
 			    }
-				if (result[0]) {
+
+				if (result && result.length) {
 			    	resolve(true);
 				} else resolve(false);
 			});
@@ -50,8 +57,8 @@ class User{
 			    if (err){
 			    	reject(err);
 			    }
-				
-				if (result[0]) {
+
+				if (result && result.length) {
 					resolve(result[0].id);
 				} else resolve(false);
 			});
@@ -143,7 +150,7 @@ class User{
 					reject(err);
 				} 
 				
-				if (result.length > 0){
+				if (result && result.length){
 					resolve(true);
 				} else resolve(false);
 			});
@@ -159,7 +166,7 @@ class User{
 					reject(err);
 				} 
 
-				if (result.affectedRows > 0){
+				if (result && result.affectedRows){
 					resolve(true);
 				} else resolve(false);
 			});
@@ -170,13 +177,21 @@ class User{
 	static updateData(userId, data){
 		console.log(data);
 		return new Promise((resolve, reject) => {
-			let sql = `update users set firstName='${data.firstName}', lastName='${data.lastName}', email='${data.email}', login='${data.login}', phone='${data.phone}' where id=${userId}`;
+			let sql;
+
+			/* if phone number not passed then does not includes id comparing */
+			if (data.phone) {
+				sql = `update users set firstName='${data.firstName}', lastName='${data.lastName}', email='${data.email}', login='${data.login}', phone='${data.phone}' where id=${userId}`;
+			} else{
+				sql = `update users set firstName='${data.firstName}', lastName='${data.lastName}', email='${data.email}', login='${data.login}' where id=${userId}`;
+			}
+
 			pool.query(sql, (err, result) => {
 				if (err){
 					reject(err);
 				} 
 
-				if (result.affectedRows > 0){
+				if (result && result.affectedRows > 0){
 					resolve(true);
 				} else resolve(false);
 			});

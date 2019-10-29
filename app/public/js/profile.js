@@ -10,11 +10,19 @@
  * Imports
 */
 
+import Cart from './cart.js';
 import ServerInteract from './ServerInteraction.js';
+import GoogleMap from './googleMap.js';
+import contactModal from './contactModal.js'; 
+
 
 /**
  * Global variables
 */
+
+var contact = document.getElementsByClassName('cu-modal-wrapper')[0];
+var contactLink = document.getElementsByClassName('footer-contact')[0];
+var openCart = document.getElementsByClassName('header-cart-wrapper')[0];
 
 /* Dialog windows */
 const deleteAccountDialog = document.getElementsByClassName('delete-account-dialog')[0];
@@ -77,6 +85,14 @@ function hideMessage(field){
  * Event Listeners
 */
 
+document.addEventListener('DOMContentLoaded', () => {
+	new Cart(openCart, document.getElementsByClassName('header-cart-count')[0]);
+	new contactModal(contact, contactLink); //logic of contact modal
+	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location
+
+}); 
+
+
 login.oninput = () => {
 	ServerInteract.isUniqueUsed({login: login.value})
 		.then(data => {
@@ -101,7 +117,7 @@ updateDataBtn.onclick = () => {
 		})
 			.then(status => {
 				if (status){
-					formMessage(dataMessage, true, 'Information successfully updated!');
+					formMessage(dataMessage, false, 'Information successfully updated!');
 				} else 
 					formMessage(dataMessage, true, 'Some error occured. Please, try again later');
 			})
@@ -109,7 +125,9 @@ updateDataBtn.onclick = () => {
 }
 
 changePasswordBtn.onclick = () => {
-	if (newPassword.value != newPasswordRepeat.value){
+	if (newPassword.value === ''){
+		formMessage(passwordFormMessage, true, 'Please, write a password!');
+	} else if (newPassword.value != newPasswordRepeat.value){
 		formMessage(passwordFormMessage, true, 'New password not matches!');
 	} else if (oldPassword.value === newPassword.value){
 		formMessage(passwordFormMessage, true, 'New password can\'t be same as old!');
@@ -127,12 +145,18 @@ changePasswordBtn.onclick = () => {
 }
 
 deleteAccountBtn.onclick = () => {
-	deleteAccountDialog.setAttribute('open', '');
+	deleteAccountDialog.classList.remove('hide');
+
+	deleteAccountDialog.getElementsByClassName('back-btn')[0].onclick = () => {
+		deleteAccountDialog.classList.add('hide');
+	}
 	
 	confirmDeleteAccountBtn.onclick = () => {
 		if (deleteEmail.value === '' || deletePassword.value === ''){
+			document.getElementsByClassName('delete-account-form-message')[0].classList.remove('hide');
 			formMessage(deleteAccountMessage, true, 'Fields can\'t be empty!');
 		} else if (deletePassword.value.length < 6){
+			document.getElementsByClassName('delete-account-form-message')[0].classList.remove('hide');
 			formMessage(deleteAccountMessage, true, 'Password too short!');
 		} else {
 			ServerInteract.checkAndDeleteUser(deleteEmail.value, deletePassword.value)
@@ -140,7 +164,7 @@ deleteAccountBtn.onclick = () => {
 					if (result.error){
 						formMessage(deleteAccountMessage, true, result.message);
 					} else {
-						infoDialog.setAttribute('open', '');
+						infoDialog.classList.remove('hide');
 						infoDialogMessage.textContent = result.message;
 						infoDialogBtn.onclick = () => window.location.href = '/login';
 					}

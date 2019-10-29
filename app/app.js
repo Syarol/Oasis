@@ -107,6 +107,7 @@ app.post('/checkAndDelete', function(req, res){
         User.delete(req.session.user)
           .then(isDeleted => {
             if (isDeleted){
+              req.session.destroy(); //clears session and opens login/register pages
               res.send(JSON.stringify({
                 error: false,
                 message: 'Account successfully deleted!'
