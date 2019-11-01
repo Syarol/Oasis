@@ -42,7 +42,8 @@ app.post('/sendMessage', function(req, res) {
 
 
 app.get('/getBySimpleColumn', function(req, res) {
-	Catalog.bySimpleColumn({[req.query.column]: req.query.value}, res);
+	Catalog.bySimpleColumn({[req.query.column]: req.query.value})
+    .then(result => res.send(JSON.stringify(result)));
 });
 
 app.get('/getCategories', function(req, res){

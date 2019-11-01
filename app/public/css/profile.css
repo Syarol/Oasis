@@ -1,23 +1,23 @@
 html {
-  overflow-x: hidden; 
+	overflow-x: hidden; 
 }
 
 body {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
 }
 
 html, body {
-  height: 100%;
-  width: 100%; 
+	height: 100%;
+	width: 100%; 
 }
 
 .grid-center-items{
-  display: grid;
-  align-items: center;
-  text-align: center;
-  justify-items: center;
+	display: grid;
+	align-items: center;
+	text-align: center;
+	justify-items: center;
 }
 
 .modal-wrapper{
@@ -33,45 +33,45 @@ html, body {
 }
 
 .modal-container{
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  position: relative;
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+	position: relative;
 }
 
 .close-modal {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-weight: bold;
-  text-decoration: none;
-  cursor: pointer; 
-  color: #aaa;
-  font-size: 28px;
-  transition: 1s; 
+	position: absolute;
+	top: 10px;
+	right: 20px;
+	font-weight: bold;
+	text-decoration: none;
+	cursor: pointer; 
+	color: #aaa;
+	font-size: 28px;
+	transition: 1s; 
 }
 
 .close-modal:hover, .close-modal:focus{
-  color: black;
+	color: black;
 }
 
 .btn{
-  cursor: pointer;
-  border: 0;
-  padding: 5px;
-  font-size: 1em;
-  font-family: var(--btn-font);
-  background-color: #CCCFCDE6;  
-  text-align: center;
+	cursor: pointer;
+	border: 0;
+	padding: 5px;
+	font-size: 1em;
+	font-family: var(--btn-font);
+	background-color: #CCCFCDE6;	
+	text-align: center;
 }
 
 .btn:disabled,
 .btn[disabled]{
-  background-color: #cccccc;
-  color: #666666;
-  cursor: no-drop;
+	background-color: #cccccc;
+	color: #666666;
+	cursor: no-drop;
 }
 
 /**
@@ -79,7 +79,7 @@ html, body {
 **/
 
 main{
-  margin-top: 60px;
+	margin-top: 60px;
 }
 
 .page-title {
@@ -101,12 +101,12 @@ main{
 **/
 
 .tabs-container {
-  grid-area: tabs;
-  display: flex;
-  flex-wrap: wrap;
-  width: calc(100% - 3em);
+	grid-area: tabs;
+	display: flex;
+	flex-wrap: wrap;
+	width: calc(100% - 3em);
 	margin: 0 auto 1em auto;
-  font-family: var(--text-font);
+	font-family: var(--text-font);
 }
 
 .tab-label {
@@ -125,22 +125,22 @@ main{
 }
 
 .tab-label:first-of-type{
-  border-left: 1px solid grey;
+	border-left: 1px solid grey;
 }
-  
+	
 /*.tab-label:hover{
-  border-top-color: #ff4b4b;
+	border-top-color: #ff4b4b;
 }
 */
 .tabs-container [type=radio]{
-  display: none;
+	display: none;
 }
 
 .tabs-container [type=radio]:checked + label{
 	font-weight: bold;
-/*  border-top-color: #ffb600;
-  background-color: #f1eab3;*/
-  z-index: 2;
+/*	border-top-color: #ffb600;
+	background-color: #f1eab3;*/
+	z-index: 2;
 }
 
 .tab-content{
@@ -155,8 +155,8 @@ main{
 }
 
 [type=radio]:checked + label + .tab-content {
-  display: block;
-  z-index: 1;
+	display: block;
+	z-index: 1;
 }
 
 .info-container{
@@ -237,6 +237,12 @@ main{
 
 .delete-account-form-message{
 	margin-bottom: 10px;
+}
+
+
+.delete-account-dialog .modal-container,
+.info-dialog .modal-container{
+	height: auto;
 }
 
 .dialog-header,

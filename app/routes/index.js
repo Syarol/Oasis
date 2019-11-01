@@ -71,20 +71,27 @@ router.get('/register', function(req, res){
 
 /*router for dynamic pages*/
 router.get('/book/:id', function(req, res){
-	Catalog.bySimpleColumn({id: req.params.id}, res, function(err, result){
-		if (err) throw err;
+	Catalog.bySimpleColumn({id: req.params.id})
+		.then(result => {
+			let query = `SELECT c.id, c.title, c.thumbnailUrl, group_concat(a.author) as author 
+			FROM oasis.catalog c
+			INNER JOIN oasis.BookAuthors ba
+				ON c.id = ba.bookId
+			INNER JOIN oasis.Authors a
+				ON ba.authorId= a.id 
+			group by c.title
+ 			ORDER BY RAND() LIMIT 4`;
 
-    let query = 'SELECT * FROM Catalog ORDER BY RAND() LIMIT 4';
+			pool.query(query, function (err, randomBooks) {
+				if (err) throw err;
 
-    pool.query(query, function (err, random) {
-      if (err) callback(err);
+				result.author = result.author.split(','); //splits string to array in case that book has more than one author 
 
-      res.render(bookPagePath, {
-        book: result,
-        ymalBooks: random
-      });   
-    });
-
+				res.render(bookPagePath, {
+					book: result,
+					ymalBooks: randomBooks
+				});   
+			});
 	});
 });
 

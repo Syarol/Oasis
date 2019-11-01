@@ -233,21 +233,30 @@ class Catalog{
 	}
 
 	/*returns full item data*/
-	bySimpleColumn(query, res, callback = false){
+	bySimpleColumn(query){
 		console.log(query);
 		let column = Object.keys(query)[0];
-		let sql = 'SELECT * FROM Catalog where ' + column + ' = "' + query[column] + '"';
 
-		//makes a query to db
-		pool.query(sql, function (err, result) {
-			if (err) throw err;
-			if (result.length === 1) result = result[0];
-
-			//if callback function passed to function then executes it, else - sends the response to client
-			if(callback){
-				callback(err, result);
-			} else
-				res.send(JSON.stringify(result));
+		let sql = `select 
+				c.*, group_concat(a.author) as author
+			FROM oasis.catalog c
+			INNER JOIN oasis.BookAuthors ba
+				ON c.id = ba.bookId
+			INNER JOIN oasis.Authors a
+				ON ba.authorId= a.id 
+			where c.${column} = "${query[column]}"
+			group by c.title`;
+		
+		return new Promise(function(resolve, reject){
+			//makes a query to db
+			pool.query(sql, function (err, result) {
+				if (err){
+					reject(err);
+				} else{
+					if (result.length === 1) result = result[0];
+					resolve(result);
+				}
+			});
 		});
 	}
 

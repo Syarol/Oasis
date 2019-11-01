@@ -14,8 +14,11 @@ main
 		h1= book.title
 		p
 			span Author: 
-			a(href= '/search?query=' + book.author + '&searchType=full-search')
-				span= book.author
+			each author, i in book.author
+				a(href= '/search?query=' + author + '&searchType=full-search')
+					span= author
+				if (i + 1 < book.author.length)
+					span , 
 		p
 			span Publisher: 
 			a(href= '/search?query=' + book.publisher + '&searchType=full-search')
