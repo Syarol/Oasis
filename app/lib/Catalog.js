@@ -239,10 +239,10 @@ class Catalog{
 
 		let sql = `select 
 				c.*, group_concat(a.author) as author
-			FROM oasis.catalog c
-			INNER JOIN oasis.BookAuthors ba
+			FROM catalog c
+			INNER JOIN BookAuthors ba
 				ON c.id = ba.bookId
-			INNER JOIN oasis.Authors a
+			INNER JOIN Authors a
 				ON ba.authorId= a.id 
 			where c.${column} = "${query[column]}"
 			group by c.title`;

@@ -72,6 +72,11 @@ app.get('/getLowHighPrice', function(req, res){
 
 /* User profile interaction */
 
+app.post('/isAuth', (req, res) => {
+  console.log(JSON.stringify({isAuth: isUserAuthorized(req)}));
+  res.send(JSON.stringify({isAuth: isUserAuthorized(req)}));
+});
+
 app.post('/regNewUser', function(req, res){
   User.isUniqueUsed('email', req.body.email)
     .then(() => User.register(req.body));
@@ -181,4 +186,10 @@ app.use(function(err, req, res, next) {
 
 app.listen(process.env.PORT || port);
 
-
+//returns boolean value of user authorization
+function isUserAuthorized(req){
+  if (req.session.user) 
+    return true;
+  else
+    return false;   
+}

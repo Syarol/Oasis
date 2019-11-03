@@ -218,4 +218,12 @@ export default class ServerInteract{
 			.catch(err => console.log(err))
 			.then(result => result.json());
 	}
+
+	static isUserAuthorized(){
+		return fetch('/isAuth', {
+			method: 'POST'
+		})
+			.catch(err => console.log(err))
+			.then(result => result.json());
+	}
 }

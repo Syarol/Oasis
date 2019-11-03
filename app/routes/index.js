@@ -74,10 +74,10 @@ router.get('/book/:id', function(req, res){
 	Catalog.bySimpleColumn({id: req.params.id})
 		.then(result => {
 			let query = `SELECT c.id, c.title, c.thumbnailUrl, group_concat(a.author) as author 
-			FROM oasis.catalog c
-			INNER JOIN oasis.BookAuthors ba
+			FROM catalog c
+			INNER JOIN BookAuthors ba
 				ON c.id = ba.bookId
-			INNER JOIN oasis.Authors a
+			INNER JOIN Authors a
 				ON ba.authorId= a.id 
 			group by c.title
  			ORDER BY RAND() LIMIT 4`;

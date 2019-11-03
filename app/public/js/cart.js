@@ -126,32 +126,29 @@ export default class Cart{
 		return this;
 	}
 
+	/*Adds goods to cart*/
 	add(product){
-		var newItemInCart = (item) => {
-			item.count = 1;
-			item.total = item.price;
-			this.goodsInside.push(item);
-		};
+		ServerInteract.isUserAuthorized()
+			.then(user => {
+				/*before buying user have be logged in*/
+				if (user.isAuth){
+					let item = this.goodsInside.find(el => el.id === product.id); //searches for an item in
 
-		if (this.goodsInside.length != 0) {
-			let found = false;
-			for (let item of this.goodsInside) {
-			    if (item.title == product.title) {
-		    		item.count++; 
-		    		item.total = item.price * item.count;
-			    	found = true;
-					break;
+					if (item) { //adds one more of specified item to cart
+						item.count++; 
+					  item.total = item.price * item.count;
+					} else { //adds new item to cart
+						item.count = 1;
+						item.total = product.price;
+						this.goodsInside.push(product);
+					}
+
+					ServerInteract.setCart(this.goodsInside);
+					this.updateAllGoodsTotal();	
+				} else {
+					window.location.href = '/login'; //redirects to login page
 				}
-			}
-			if (!found) {
-				newItemInCart(product);
-			}
-		} else {
-			newItemInCart(product);
-		}
-
-		ServerInteract.setCart(this.goodsInside);
-		this.updateAllGoodsTotal();	
+			});
 
 		return this;
 	}
