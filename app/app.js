@@ -138,12 +138,8 @@ app.post('/isUniqueUsed', function(req, res){
     .then(data => res.send(JSON.stringify({isUsed: data})));
 });
 
-app.get('/logout', function(req, res){
-  User.logOut(req);
-});
-
 app.get('/getUserData', function(req, res){
-  User.getAllData(req.session.user)
+  User.getAllData(req.session.user.id)
     .then(data => res.send(JSON.stringify(data)));
 });
 
@@ -191,5 +187,5 @@ function isUserAuthorized(req){
   if (req.session.user) 
     return true;
   else
-    return false;   
+    return false;  
 }

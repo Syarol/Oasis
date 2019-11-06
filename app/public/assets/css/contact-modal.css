@@ -3,8 +3,12 @@
   * cu - is short from 'Contact us'
 **/
 
+.hide{
+  display: none !important;
+}
+
 .cu-modal-wrapper{
-  display: none; 
+  display: flex; 
 }
 
 .cu-modal-container{

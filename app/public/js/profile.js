@@ -20,9 +20,13 @@ import contactModal from './contactModal.js';
  * Global variables
 */
 
+const details = document.getElementsByClassName('user-details')[0];
 var contact = document.getElementsByClassName('cu-modal-wrapper')[0];
 var contactLink = document.getElementsByClassName('footer-contact')[0];
-var openCart = document.getElementsByClassName('header-cart-wrapper')[0];
+const openCart = document.getElementsByClassName('cart-open-btn');
+const openSlider = document.getElementsByClassName('slide-open-menu')[0];
+const slider = document.getElementsByClassName('header-wide')[0];
+const closeSlider = document.getElementsByClassName('slide-close-menu')[0];
 
 /* Dialog windows */
 const deleteAccountDialog = document.getElementsByClassName('delete-account-dialog')[0];
@@ -86,12 +90,27 @@ function hideMessage(field){
 */
 
 document.addEventListener('DOMContentLoaded', () => {
-	new Cart(openCart, document.getElementsByClassName('header-cart-count')[0]);
+	new Cart(openCart);
 	new contactModal(contact, contactLink); //logic of contact modal
 	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location
-
 }); 
 
+details.ontoggle = function(){
+	if (this.open){
+		/*if click outside of menu then close it*/
+		document.onclick = e => {
+			let isClickInside = details.contains(e.target);
+
+			if (!isClickInside){
+				details.open = false;
+			}
+		}
+	}
+};
+
+openSlider.onclick = () => slider.classList.remove('slider-out');
+
+closeSlider.onclick = () => slider.classList.add('slider-out');
 
 login.oninput = () => {
 	ServerInteract.isUniqueUsed({login: login.value})

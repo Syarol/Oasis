@@ -25,13 +25,13 @@ export default class ContactModal{
 				
 		document.onclick = function(e) {
 			if (e.target == modal) {
-				modal.style.display = 'none';
+				modal.classList.add('hide');
 			}
 		};
 
-		openLink.onclick = () => modal.style.display = 'flex';
+		openLink.onclick = () => modal.classList.remove('hide');
 
-		closeBtn.onclick = () => modal.style.display = 'none';
+		closeBtn.onclick = () => modal.classList.add('hide');
 
 		formSendBtn.onclick = () => {
 			ServerInteract.sendMessage(form, modal);

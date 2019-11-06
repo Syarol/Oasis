@@ -13,23 +13,24 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "connect-redis": "^3.4.2",
+    "connect-redis": "^4.0.3",
+    "csso": "^4.0.2",
     "express": "^4.17.1",
-    "express-session": "^1.16.2",
+    "express-session": "^1.17.0",
     "mysql": "^2.17.1",
-    "npm": "^6.10.3",
+    "npm": "^6.12.1",
     "pug": "^2.0.4",
     "redis": "^2.8.0"
   },
   "devDependencies": {
-    "dotenv": "^8.0.0",
-    "eslint": "^4.19.1",
+    "dotenv": "^8.2.0",
+    "eslint": "^6.6.0",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
     "gulp-csso": "^3.0.1",
     "gulp-nodemon": "^2.4.2",
     "gulp-rename": "^1.4.0",
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.4"
   },
   "author": "Oleh Yaroshchuk",
   "license": "MIT",

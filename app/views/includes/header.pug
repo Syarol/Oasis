@@ -1,22 +1,44 @@
 header
-	span.header-logo-container 
-		a.header-logo-wrapper(href='/') Oasis
-	nav.grid-center-items
-		p.header-nav-item
-			a(href='/') Home
-		p.header-nav-item
-			a(href='/blog') Blog
-		p.header-nav-item
-			a(href='/shop') Shop
-	p.header-cart-wrapper(title='Click to open cart')
-		i.fas.fa-shopping-cart.header-cart
-	details
-		summary.header-user
-			i.fas.fa-user
-			i.fas.fa-sort-down
-		div.header-user-details
-			span Signed in as
-			a(href='#') My profile
-			button Night mode
-			a(href='#') Help
-			button Log out
+	.header-narrow
+		a.header-logo(href='/') Oasis
+		.header-narrow-menu
+			unless user 
+				a(href='/register').sign-up Sign up
+			button.slide-open-menu
+				i.fas.fa-bars
+	.header-wide.slider-out
+		.slide-menu
+			button.slide-close-menu(title='Close') &times;
+		nav
+			a.header-nav-item(href='/') Home
+			a.header-nav-item(href='/blog') Blog
+			a.header-nav-item(href='/shop') Shop
+		if user
+			.sidebar-user-menu
+				a.user-link(href='/profile')
+					i.fas.fa-user
+					span= user.firstName + ' ' + user.lastName 
+				span.cart-open-btn(title='Click to open cart')
+					i.fas.fa-shopping-cart
+					span My cart
+				a.log-out-link(href='/logOut')
+					i.fas.fa-sign-out-alt
+					span Sign out
+			details.user-details
+				summary.user-summary
+					i.fas.fa-user
+					i.fas.fa-sort-down
+				div.header-user-details
+					span.details-text Signed in as
+						b= ' ' + user.firstName + ' ' + user.lastName 
+					a.details-item(href='profile') My profile
+					span.details-item.cart-open-btn(title='Click to open cart')
+						i.fas.fa-shopping-cart
+						span My cart
+					a.details-item.log-out-link(href='/logout')
+						i.fas.fa-sign-out-alt
+						span Sign out
+		else
+			div.user-details
+				a(href='/login').log-in Log in
+				a(href='/register').sign-up Sign up

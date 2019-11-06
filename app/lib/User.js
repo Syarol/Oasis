@@ -59,7 +59,7 @@ class User{
 			    }
 
 				if (result && result.length) {
-					resolve(result[0].id);
+					resolve(result[0]);
 				} else resolve(false);
 			});
 		})
@@ -80,7 +80,7 @@ class User{
 					reject(err);
 				} 
 
-				resolve(result[0]);
+				resolve(result);
 			});
 		})
 			.catch(err => console.log(err));
@@ -94,7 +94,6 @@ class User{
 					reject(err);
 				} 
 				
-				console.log(result);
 				resolve(result);
 			});
 		})

@@ -52,13 +52,13 @@ function swapLastTwo(el){
 
 export default class Cart{
 	constructor(openButton, goodsInside = []){
-		this.openButton = openButton;
+		this.openButton = openButton.length > 1 ? Array.from(openButton) : openButton[0];
 		this.goodsInside = goodsInside;
 
 		ServerInteract.getCart()
 			.then(inCart => {
 				this.goodsInside = inCart;
-				this.setModal(openButton)
+				this.setModal()
 					.updateAllGoodsTotal();
 
 				console.log(inCart);
@@ -67,7 +67,7 @@ export default class Cart{
 		return this;
 	}
 
-	setModal(openButton){
+	setModal(){
 		let modalWrapper = createNewEl('section', {class: 'cm-wrapper modal-wrapper'}, document.body);
 		this.cartModalContainer = createNewEl('div', {
 			class: 'cm-container modal-container',
@@ -121,7 +121,10 @@ export default class Cart{
 			}
 		}; 
 
-		openButton.onclick = () => this.openModal(modalWrapper);
+		if (Array.isArray(this.openButton)){
+			this.openButton.map(btn => btn.onclick = () => this.openModal(modalWrapper));
+		} else
+			this.openButton.onclick = () => this.openModal(modalWrapper);
 
 		return this;
 	}
@@ -499,7 +502,11 @@ export default class Cart{
 	updateAllGoodsTotal(){
 		var allGoodsCount = () => {
 			let countTotal = this.goodsInside.reduce((acc, item) => acc + item.count, 0);
-			this.openButton.style.color = countTotal === 0 ? 'black' : '#128937';
+
+			if (Array.isArray(this.openButton)){
+				this.openButton.map(btn => btn.style.color = countTotal === 0 ? 'black' : '#128937');
+			} else 
+				this.openButton.style.color = countTotal === 0 ? 'black' : '#128937';
 		}; 
 
 		let priceTotal = this.goodsInside.reduce((acc, item) => acc + item.total, 0);

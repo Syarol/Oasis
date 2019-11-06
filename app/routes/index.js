@@ -1,5 +1,5 @@
 /**
-  * Dependencies
+	* Dependencies
 **/
 
 const pug = require('pug');
@@ -10,7 +10,7 @@ const User = require('./../lib/User');
 const pool = require('../lib/db');
 
 /**
-  * Variables
+	* Variables
 **/
 
 const profilePath = path.join(__dirname + './../views/profile.pug'); //
@@ -21,52 +21,52 @@ var bookOptionsObject = {}; //template locals option
 //const compiledBookPage = pug.compileFile(bookPagePath, bookOptionsObject);
 
 /**
-  * Routes
+	* Routes
 **/
 
 /*router for static pages*/
 router.get('/', function(req, res){
-    res.sendFile('index.html', {
-    root: path.join(__dirname + '/../public/html')
-  });
+		res.sendFile('index.html', {
+		root: path.join(__dirname + '/../public/html')
+	});
 });
 
 router.get('/blog', function(req, res){
-  res.sendFile('blog.html', {
-    root: path.join(__dirname + '/../public/html')
-  });
+	res.sendFile('blog.html', {
+		root: path.join(__dirname + '/../public/html')
+	});
 });
 
 router.get('/shop', function(req, res){
-  res.sendFile('shop.html', {
-    root: path.join(__dirname + '/../public/html')
-  });
+	res.sendFile('shop.html', {
+		root: path.join(__dirname + '/../public/html')
+	});
 });
 
 router.get('/search', function(req, res){
-  res.sendFile('search.html', {
-    root: path.join(__dirname + '/../public/html')
-  });
+	res.sendFile('search.html', {
+		root: path.join(__dirname + '/../public/html')
+	});
 });
 
 router.get('/login', function(req, res){
-  /*if user already authorized then redirects to homepage*/
-  if (req.session.user){
-    res.redirect('/');
-  } else
-    res.sendFile('login.html', {
-      root: path.join(__dirname + '/../public/html')
-    });
+	/*if user already authorized then redirects to homepage*/
+	if (req.session.user){
+		res.redirect('/');
+	} else
+		res.sendFile('login.html', {
+			root: path.join(__dirname + '/../public/html')
+		});
 });
 
 router.get('/register', function(req, res){
-  /*if user already authorized then redirects to homepage*/
-  if (req.session.user){
-    res.redirect('/');
-  } else
-    res.sendFile('register.html', {
-      root: path.join(__dirname + '/../public/html')
-    });
+	/*if user already authorized then redirects to homepage*/
+	if (req.session.user){
+		res.redirect('/');
+	} else
+		res.sendFile('register.html', {
+			root: path.join(__dirname + '/../public/html')
+		});
 });
 
 /*router for dynamic pages*/
@@ -84,44 +84,52 @@ router.get('/book/:id', function(req, res){
 
 			pool.query(query, function (err, randomBooks) {
 				if (err) throw err;
-
+ 
 				result.author = result.author.split(','); //splits string to array in case that book has more than one author 
 
 				res.render(bookPagePath, {
+					user: req.session.user,
 					book: result,
 					ymalBooks: randomBooks
-				});   
+				});	 
 			});
 	});
 });
 
 router.get('/profile', function(req, res){
-  if (req.session.user){
-  	User.getAllData(req.session.user)
-  		.then(user => {
-  			res.render(profilePath, {user: user});
-  		});
-    } else {
-      res.redirect('/login');
-    }
+	if (req.session.user){
+		User.getAllData(req.session.user.id)
+			.then(user => {
+				console.log(user[0]);
+				res.render(profilePath, {user: user[0]});
+			});
+		} else {
+			res.redirect('/login');
+		}
 });
 
+router.get('/logout', function(req, res){
+  User.logOut(req);
+  res.redirect('/login');
+});
+
+/*Error pages*/
 router.get('/404', function(req, res){
-  res.render(path.join(__dirname + '/../views/errorPage.pug'), {
-      code: 404,
-      description: 'Sorry, but page is not found 😥'
-    });
+	res.render(path.join(__dirname + '/../views/errorPage.pug'), {
+			code: 404,
+			description: 'Sorry, but page is not found 😥'
+		});
 });
 
 router.get('/500', function(req, res){
-  res.render(path.join(__dirname + '/../views/errorPage.pug'), {
-    code: 500,
-    description: 'Something broken!😥'
-  });
+	res.render(path.join(__dirname + '/../views/errorPage.pug'), {
+		code: 500,
+		description: 'Something broken!😥'
+	});
 });
 
 /**
-  * Export
+	* Export
 **/
 
 module.exports = router;
