@@ -11,7 +11,7 @@
 
 export default class ServerInteract{
 	/*Receives cart contents*/
-	static getCart(cb){
+	static getCart(){
 		return fetch('/getCart', {
 			method: 'POST'
 		})
@@ -79,29 +79,14 @@ export default class ServerInteract{
 		return this;
 	}
 
-	/*Find and render special marked goods*/
-	static getMarked(title, cb, cbData){
-		fetch('/getBySimpleColumn?column=specialMark&value=' + title, {
+	/*Find goods by one of columns*/
+	static getFromCatalog(column, value){
+		return fetch(`/getByColumn?column=${column}&value=` + value, {
 			method: 'GET'
 		})
 			.then(res => res.json())
-			.then(json => cb(cbData.parent, json, cbData.cart))
 			.catch(err => console.log(err));
-		
-		return this;
-	}
-
-	/*Find goods by their title*/
-	static getDataById(id, cb){
-		fetch('/getBySimpleColumn?column=id&value=' + id, {
-			method: 'GET'
-		})
-			.then(res => res.json())
-			.then(json => cb(json))
-			.catch(err => console.log(err));
-		
-		return this;
-	}
+	} 
 
 	static getLowHigh(cb){
 		fetch('/getLowHighPrice', {

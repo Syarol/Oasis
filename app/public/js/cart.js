@@ -52,19 +52,21 @@ function swapLastTwo(el){
 
 export default class Cart{
 	constructor(openButton, goodsInside = []){
-		this.openButton = openButton.length > 1 ? Array.from(openButton) : openButton[0];
-		this.goodsInside = goodsInside;
+		if (openButton){
+			this.openButton = openButton.length > 1 ? Array.from(openButton) : openButton[0];
+			this.goodsInside = goodsInside;
 
-		ServerInteract.getCart()
-			.then(inCart => {
-				this.goodsInside = inCart;
-				this.setModal()
-					.updateAllGoodsTotal();
+			ServerInteract.getCart()
+				.then(inCart => {
+					this.goodsInside = inCart;
+					this.setModal()
+						.updateAllGoodsTotal();
 
-				console.log(inCart);
-			});
+					console.log(inCart);
+				});
 
-		return this;
+			return this;
+		}
 	}
 
 	setModal(){
@@ -117,7 +119,7 @@ export default class Cart{
 
 		window.onclick = e => {
 			if (e.target == modalWrapper) {
-    			this.close(modalWrapper);
+				this.close(modalWrapper);
 			}
 		}; 
 
@@ -135,15 +137,16 @@ export default class Cart{
 			.then(user => {
 				/*before buying user have be logged in*/
 				if (user.isAuth){
-					let item = this.goodsInside.find(el => el.id === product.id); //searches for an item in
 
+					let item = this.goodsInside.find(el => el.id === product.id); //searches for an item in
 					if (item) { //adds one more of specified item to cart
 						item.count++; 
-					  item.total = item.price * item.count;
+						item.total = item.price * item.count;
 					} else { //adds new item to cart
+						item = product;
 						item.count = 1;
 						item.total = product.price;
-						this.goodsInside.push(product);
+						this.goodsInside.push(item);
 					}
 
 					ServerInteract.setCart(this.goodsInside);
@@ -198,8 +201,8 @@ export default class Cart{
 			content : '×',
 			event: { 
 				click: (button) => {
-				   	this.remove(button.target, button.target.parentNode)
-				   		.updateAllGoodsTotal();
+					this.remove(button.target, button.target.parentNode)
+						.updateAllGoodsTotal();
 				}
 			}
 		});

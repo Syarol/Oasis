@@ -1,95 +1,97 @@
 include includes/head.pug
+link(href='/css/min/profile-bundle.min.css' rel='stylesheet')
 
-include includes/header.pug
+body(ontouchstart='')
+	include includes/header.pug
 
-main
-	h2.page-title My cabinet
+	main
+		h2.page-title My cabinet
 
-	section.tabs-container
-		input#tab-1(type='radio' name='tabgroup' checked)
-		label.tab-label(for='tab-1') Profile
-		.tab-content
-			.info-container
-				h3.title Account details
-				form.user-data-form
-					.form-row
-						label.form-label First Name
-						span.required-text Required 
-						input(type='text' name='first-name' value= user.firstName required)
-					.form-row
-						label.form-label Last Name
-						span.required-text Required 
-						input(type='text' name='last-name' value= user.lastName required)
-					.form-row
-						label.form-label Email
-						span.required-text Required 
-						input(type='email' name='email' value= user.email required)
-					.form-row
-						label.form-label Login
-						span.explain-text Optional
-						input(type='text' name='login' value= user.login placeholder='Can be used for authorization instead email')
-					.form-row
-						label.form-label Phone
-						span.explain-text Optional
-						input(type='tel' name='phone' value= user.phone pattern='[0-9]+' placeholder='Can be used to contact with You by store worker')
+		section.tabs-container
+			input#tab-1(type='radio' name='tabgroup' checked)
+			label.tab-label(for='tab-1') Profile
+			.tab-content
+				.info-container
+					h3.title Account details
+					form.user-data-form
+						.form-row
+							label.form-label First Name
+							span.required-text Required 
+							input(type='text' name='first-name' value= user.firstName required)
+						.form-row
+							label.form-label Last Name
+							span.required-text Required 
+							input(type='text' name='last-name' value= user.lastName required)
+						.form-row
+							label.form-label Email
+							span.required-text Required 
+							input(type='email' name='email' value= user.email required)
+						.form-row
+							label.form-label Login
+							span.explain-text Optional
+							input(type='text' name='login' value= user.login placeholder='Can be used for authorization instead email')
+						.form-row
+							label.form-label Phone
+							span.explain-text Optional
+							input(type='tel' name='phone' value= user.phone pattern='[0-9]+' placeholder='Can be used to contact with You by store worker')
+						.row-container
+							span.user-data-message.form-message
+							button.update-data-btn.btn(type='button') Update data
+
+				.info-container
+					h3.title Change Password
+					form.password-form
+						.form-row
+							label.form-label Old password
+							span.required-text Required 
+							input(type='password' name='old-password' required)
+						.form-row
+							label.form-label New password
+							span.required-text Required 
+							input(type='password' name='new-password' placeholder='Minimum 6 symbols' required)
+						.form-row
+							label.form-label Please, repeat new password
+							span.required-text Required 
+							input(type='password' name='new-password-repeat' placeholder='Minimum 6 symbols' required)
+						.row-container
+							span.password-form-message.form-message
+							button.change-password-btn.btn(type='button') Change Password
+
+				.info-container
+					h3.title Delete Account
 					.row-container
-						span.user-data-message.form-message
-						button.update-data-btn.btn(type='button') Update data
+						span.form-message Once you delete your account, all your data will be lost. Be careful!
+						button.delete-account-btn.btn.warning(type='button') Delete my account
 
-			.info-container
-				h3.title Change Password
-				form.password-form
-					.form-row
-						label.form-label Old password
-						span.required-text Required 
-						input(type='password' name='old-password' required)
-					.form-row
-						label.form-label New password
-						span.required-text Required 
-						input(type='password' name='new-password' placeholder='Minimum 6 symbols' required)
-					.form-row
-						label.form-label Please, repeat new password
-						span.required-text Required 
-						input(type='password' name='new-password-repeat' placeholder='Minimum 6 symbols' required)
-					.row-container
-						span.password-form-message.form-message
-						button.change-password-btn.btn(type='button') Change Password
+			input#tab-2(type='radio' name='tabgroup')
+			label.tab-label(for='tab-2') Orders
+			.tab-content
 
-			.info-container
-				h3.title Delete Account
-				.row-container
-					span.form-message Once you delete your account, all your data will be lost. Be careful!
-					button.delete-account-btn.btn.warning(type='button') Delete my account
+			.modal-wrapper.hide.delete-account-dialog
+				.modal-container
+					h3.dialog-header Are you sure?
+					span We will immediately delete all of your data, including your purchase history.
+					span Your login will became available to anyone again. 
+					form.delete-account-form
+						.form-row
+							label.form-label Your email
+							span.required-text Required 
+							input(type='text' name='delete-email' required)
+						.form-row
+							label.form-label Your password
+							span.required-text Required 
+							input(type='password' name='delete-password' placeholder='Minimum 6 symbols' required)
+						.row-container
+							span.delete-account-form-message.hide
+						.row-container
+							button.back-btn.btn(type='button') I changed my mind!
+							button.confirm-account-delete-btn.btn.warning(type='button') Delete this account
 
-		input#tab-2(type='radio' name='tabgroup')
-		label.tab-label(for='tab-2') Orders
-		.tab-content
+			.modal-wrapper.hide.info-dialog
+				.modal-container
+					span.info-dialog-text
+					button.info-dialog-btn.btn Ok
 
-		.modal-wrapper.hide.delete-account-dialog
-			.modal-container
-				h3.dialog-header Are you sure?
-				span We will immediately delete all of your data, including your purchase history.
-				span Your login will became available to anyone again. 
-				form.delete-account-form
-					.form-row
-						label.form-label Your email
-						span.required-text Required 
-						input(type='text' name='delete-email' required)
-					.form-row
-						label.form-label Your password
-						span.required-text Required 
-						input(type='password' name='delete-password' placeholder='Minimum 6 symbols' required)
-					.row-container
-						span.delete-account-form-message.hide
-					.row-container
-						button.back-btn.btn(type='button') I changed my mind!
-						button.confirm-account-delete-btn.btn.warning(type='button') Delete this account
+	include includes/footer.pug
 
-		.modal-wrapper.hide.info-dialog
-			.modal-container
-				span.info-dialog-text
-				button.info-dialog-btn.btn Ok
-
-include includes/footer.pug
-
-script(src='/js/profile.js' type='module')
+	script(src='/js/profile.js' type='module')

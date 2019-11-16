@@ -51,7 +51,7 @@ class User{
 			let email = Object.keys(authData)[0];
 			let password = authData[Object.keys(authData)[0]];
 
-			let sql = `SELECT id FROM Users WHERE (email='${email}' and password='${password}')`;
+			let sql = `SELECT id, firstName, lastName FROM Users WHERE (email='${email}' and password='${password}')`;
 
 			pool.query(sql, function (err, result) {
 			    if (err){

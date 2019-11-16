@@ -1,0 +1,62 @@
+include includes/head.pug
+link(href='css/min/index-bundle.min.css' rel='stylesheet')
+
+body(ontouchstart='')
+	include includes/header.pug
+
+	main
+		section.tp-container.flex-center-items
+			h2.tp-heading Welcome at Oasis
+			a.tp-btn.btn(href='/shop') Shop now
+		
+		// Welcome text
+		section.wt-wrapper.flex-center-items
+			.wt-container.grid-center-items
+				h2.wt-heading Welcome to Oasis book store
+				p.wt-paragraph
+					| Tons of book collections you can choose from.
+					br
+					|  Books that don&rsquo;t suck, we ensure the quality of our books the best you can find anywhere.
+		
+		// Arrivals carousel
+		section.cr-arrivals-section.cr-items-container
+			.cr-controls-container
+				span.cr-control.cr-left-control
+					i.fas.fa-angle-left.fa-lg
+				h2  NEW ARRIVES
+				span.cr-control.cr-right-control
+					i.fas.fa-angle-right.fa-lg
+			.cr-container
+		
+		// Best and exclusive
+		section.bae-container
+			.bae-item-container
+				.bae-bestseller-title-wrapper.title-wrapper.flex-center-items
+					span BEST SELLING BOOK
+				.bae-bestseller-container.flex-center-items
+					span.on-sale-sign SALE!
+			.bae-item-container
+				.bae-exclusive-title-wrapper.title-wrapper.flex-center-items
+					span EXCLUSIVE THIS MONTH
+				.bae-exclusives-container
+		
+		// Search form
+		section.sf-container.flex-center-items
+			span.sf-header NEED TO FIND PARTICULAR PRODUCTS?
+			form.sf(action='/search' method='GET')
+				div
+					label(for='title') Book title
+					input(type='text' name='title' autocapitalize='none' autocorrect='off' spellcheck='false')
+				div
+					label(for='author') Book author
+					input(type='text' name='author' autocapitalize='none' autocorrect='off' spellcheck='false')
+				div
+					label Category
+					select.sf-select(name='category')
+						option(disabled='' selected='') Choose category
+				button.sf-btn.btn Search
+				input(type='hidden' name='searchType' value='hp-search')
+
+	include includes/footer.pug
+
+	script(src='/js/main.js' type='module')

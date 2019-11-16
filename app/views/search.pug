@@ -1,0 +1,81 @@
+include includes/head.pug
+link(href='css/min/search-bundle.min.css' rel='stylesheet')
+
+body(ontouchstart='')
+	include includes/header.pug
+
+	main
+		section.search-text-wrapper
+		span#search-text
+		// After closing for preventing blur effect on text
+
+		// Search form (for small dispays only)
+		form.big-search-form(action='/search' method='GET')
+			input.sf-categories(type='hidden' name='categories' value='')
+			input.sf-author(type='hidden' name='author' value='')
+			input.sf-publisher(type='hidden' name='publisher' value='')
+			input.sf-low-price(type='hidden' name='lowPrice' value='')
+			input.sf-high-price(type='hidden' name='highPrice' value='')
+			input.sf-query(type='text' name='query' placeholder='Search for' autocapitalize='none' autocorrect='off' spellcheck='false')
+			button.btn Search
+			input(type='hidden' name='searchType' value='sp-search')
+
+		// Open sidebar button (for small dispays only)
+		button.sidebar-open-btn.btn
+			i.fas.fa-bars
+			span.btn-text Filters
+			
+		// Finded items
+		section.fi-container.grid-center-items
+			.fi-top-container.grid-center-items
+				.fi-per-page-container
+					span Items per page: 
+					select.fi-per-page
+						option(value='9') 9
+						option(value='18') 18
+						option(value='36') 36
+						option(value='48') 48
+				.pagination
+					span#top-parination-left.pagination-arrow.pagination-arrow-left.fas &#xF060;
+					span#top-parination-right.pagination-arrow.pagination-arrow-right.fas &#xF061;
+			.fi-items-container
+				// Finded items renders here
+			.pagination
+				span#bottom-parination-left.pagination-arrow.pagination-arrow-left.fas &#xF060;
+				span#bottom-parination-right.pagination-arrow.pagination-arrow-right.fas &#xF061;
+		// Sidebar
+		.sidebar-container.sidebar-hide
+			header.sidebar-header
+				span.sidebar-hide-btn
+					i.fas.fa-arrow-left
+					span Back
+				span.sidebar-header-title Filters
+			.sidebar-item-container
+				button.sidebar-btn.btn
+					span Category
+					i.fas.fa-angle-down
+				.sidebar-items-container.sidebar-categories-list
+			.sidebar-item-container
+				button.sidebar-btn.btn
+					span Price
+					i.fas.fa-angle-down
+				.sidebar-price-range-container.grid-center-items
+					.low-price-container.price-container
+						input.sidebar-low-price.input-number(lang='en' type='number' name='lowPrice' min='0' step='.01' form='search-form')
+					span.sidebar-mdash &mdash;
+					.high-price-container.price-container
+						input.sidebar-high-price.input-number(lang='en' type='number' name='highPrice' min='0' step='.01' form='search-form')
+			.sidebar-item-container
+				button.sidebar-btn.btn
+					span Author
+					i.fas.fa-angle-down
+				.sidebar-items-container.sidebar-authors-list
+			.sidebar-item-container
+				button.sidebar-btn.btn
+					span Publisher
+					i.fas.fa-angle-down
+				.sidebar-items-container.sidebar-publishers-list
+
+	include includes/footer.pug
+
+	script(src='/js/search.js' type='module')

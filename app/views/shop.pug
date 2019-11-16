@@ -1,0 +1,45 @@
+include includes/head.pug
+link(href='css/min/shop-bundle.min.css' rel='stylesheet')
+
+body(ontouchstart='')
+	include includes/header.pug
+
+	main
+		// Search banner
+		section.sb-container
+			h1.sb-heading Search by our catalog
+			form.sb-form(action='/search' method='GET')
+				input(type='text' name='query' placeholder='Search for' required='' autocapitalize='none' autocorrect='off' spellcheck='false')
+				button.btn Let&apos;s found!
+				input(type='hidden' name='searchType' value='full-search')
+			span.sb-all-link Show me everything!
+
+		// Carousels
+		section.cr-recommends-section.cr-items-container
+			.cr-controls-container
+				span.cr-control.cr-left-control
+					i.fas.fa-angle-left
+				h2 WE RECOMMEND
+				span.cr-control.cr-right-control
+					i.fas.fa-angle-right
+			.cr-container
+		section.cr-bestsellers-section.cr-items-container
+			.cr-controls-container
+				span.cr-control.cr-left-control
+					i.fas.fa-angle-left
+				h2 BESTSELLERS
+				span.cr-control.cr-right-control
+					i.fas.fa-angle-right
+			.cr-container
+		section.cr-arrivals-section.cr-items-container
+			.cr-controls-container
+				span.cr-control.cr-left-control
+					i.fas.fa-angle-left
+				h2 NEW ARRIVES
+				span.cr-control.cr-right-control
+					i.fas.fa-angle-right
+			.cr-container
+
+	include includes/footer.pug
+
+	script(src='/js/shop-main.js' type='module')

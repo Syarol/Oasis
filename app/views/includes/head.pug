@@ -1,9 +1,6 @@
 doctype html
 head
-	if book
-		title Oasis | #{book.title}
-	else 
-		title Oasis | My Cabinet
+	title= pageTitle
 	meta(charset='UTF-8')
 	meta(name='viewport' content='width=device-width, initial-scale=1, viewport-fit=cover')
 	if book
@@ -17,9 +14,5 @@ head
 	meta(itemprop='description' content='Just bookstore')
 	link(rel='shortcut icon' href='images/favicon.png' type='image/x-icon')
 	link(rel='icon' href='images/favicon.png' type='image/x-icon')
-	link(href='https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Black+Han+Sans|Bree+Serif|Hind' rel='stylesheet')
-	link(rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css' integrity='sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ' crossorigin='anonymous')
-	if book
-		link(href='/css/min/goods-details-bundle.min.css' rel='stylesheet')
-	else
-		link(href='/css/min/profile-bundle.min.css' rel='stylesheet')
+	link(href='https://fonts.googleapis.com/css?family=Do+Hyeon|Tajawal|Black+Han+Sans|Bree+Serif|Hind|Muli' rel='stylesheet')
+	script(src="https://kit.fontawesome.com/05d8a5315c.js")

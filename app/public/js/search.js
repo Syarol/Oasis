@@ -23,6 +23,13 @@ import contactModal from './contactModal.js';
  * Global variables
 */
 
+/*header*/
+const details = document.getElementsByClassName('user-details')[0];
+const openCartBtn = document.getElementsByClassName('cart-open-btn');
+const openSlider = document.getElementsByClassName('slide-open-menu')[0];
+const slider = document.getElementsByClassName('header-wide')[0];
+const closeSlider = document.getElementsByClassName('slide-close-menu')[0];
+
 var sidebar = document.getElementsByClassName('sidebar-container')[0];
 var categoriesList = document.getElementsByClassName('sidebar-categories-list')[0];
 var priceRangeContainer = document.getElementsByClassName('sidebar-price-range-container')[0];
@@ -30,7 +37,6 @@ var authorsList = document.getElementsByClassName('sidebar-authors-list')[0];
 var publishersList = document.getElementsByClassName('sidebar-publishers-list')[0];
 var contact = document.getElementsByClassName('cu-modal-wrapper')[0];
 var contactLink = document.getElementsByClassName('footer-contact')[0];
-var openCart = document.getElementsByClassName('header-cart-wrapper')[0];
 var cart;
 
 /**
@@ -91,6 +97,25 @@ function getObjectFromUrlQuery(query){
  * Event Listeners
 */
 
+if (details){ //will work only for authorized users
+	details.ontoggle = function(){
+		if (this.open){
+			/*if click outside of menu then close it*/
+			document.onclick = e => {
+				let isClickInside = details.contains(e.target);
+
+				if (!isClickInside){
+					details.open = false;
+				}
+			}
+		}
+	};
+}
+
+openSlider.onclick = () => slider.classList.remove('slider-out');
+
+closeSlider.onclick = () => slider.classList.add('slider-out');
+
 categoriesList.parentNode.getElementsByClassName('btn')[0].onclick = () => 
 	operateSidebarFilter(categoriesList, '200px');
 
@@ -104,7 +129,25 @@ priceRangeContainer.parentNode.getElementsByClassName('btn')[0].onclick = () =>
 	operateSidebarFilter(priceRangeContainer, '30px');
 
 document.addEventListener('DOMContentLoaded', () => {
-	cart = new Cart(openCart, document.getElementsByClassName('header-cart-count')[0]);
+	//cart will work only if user is authorized
+	if (openCartBtn.length > 0) {
+		cart = new Cart(openCartBtn); 
+	
+		let addToCartButton = document.getElementsByClassName('add-to-cart-btn')[0];
+		if (addToCartButton){
+			ServerInteract.getFromCatalog({
+				column: 'id',
+				value: addToCartButton.getAttribute('data-book-id')
+			})
+				.then(res => {
+					console.log(res);
+					addToCartButton.onclick = () => cart.add(res);
+				});
+		}
+	} else{
+		cart = new Cart(null);	
+	}
+
 	let Render = new RenderElements(); 
 	
 	let query = getObjectFromUrlQuery(window.location.search);
@@ -164,7 +207,7 @@ sidebar.getElementsByClassName('sidebar-hide-btn')[0].onclick = () => {
 
 document.getElementsByClassName('big-search-form')[0].onsubmit = function(){clearEmptyInputs(this)};
 
-document.getElementsByClassName('header-search-form')[0].onsubmit = function(){clearEmptyInputs(this)};
+//document.getElementsByClassName('header-search-form')[0].onsubmit = function(){clearEmptyInputs(this)};
 
 sidebar.getElementsByClassName('sidebar-low-price')[0].onchange = function(){
 	syncPriceInputs(document.getElementsByClassName('sf-low-price'), this);

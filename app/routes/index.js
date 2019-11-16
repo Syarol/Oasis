@@ -13,12 +13,11 @@ const pool = require('../lib/db');
 	* Variables
 **/
 
-const profilePath = path.join(__dirname + './../views/profile.pug'); //
+const indexPagePath = path.join(__dirname + './../views/index.pug');//
+const searchPagePath = path.join(__dirname + './../views/search.pug');//
+const shopPagePath = path.join(__dirname + './../views/shop.pug');//
+const profilePath = path.join(__dirname + './../views/profile.pug');//
 const bookPagePath = path.join(__dirname + '/../views/bookPage.pug');//path to template
-var bookOptionsObject = {}; //template locals option
-
-// Compile the source code
-//const compiledBookPage = pug.compileFile(bookPagePath, bookOptionsObject);
 
 /**
 	* Routes
@@ -26,9 +25,10 @@ var bookOptionsObject = {}; //template locals option
 
 /*router for static pages*/
 router.get('/', function(req, res){
-		res.sendFile('index.html', {
-		root: path.join(__dirname + '/../public/html')
-	});
+	res.render(indexPagePath, {
+		user: req.session.user,
+		pageTitle: 'Oasis'
+	});	 
 });
 
 router.get('/blog', function(req, res){
@@ -38,15 +38,18 @@ router.get('/blog', function(req, res){
 });
 
 router.get('/shop', function(req, res){
-	res.sendFile('shop.html', {
-		root: path.join(__dirname + '/../public/html')
-	});
+	console.log(req.session.user);
+	res.render(shopPagePath, {
+		user: req.session.user,
+		pageTitle: 'Oasis online-store'
+	});	
 });
 
 router.get('/search', function(req, res){
-	res.sendFile('search.html', {
-		root: path.join(__dirname + '/../public/html')
-	});
+	res.render(searchPagePath, {
+		user: req.session.user,
+		pageTitle: 'Oasis online-store'
+	});	
 });
 
 router.get('/login', function(req, res){
@@ -71,7 +74,7 @@ router.get('/register', function(req, res){
 
 /*router for dynamic pages*/
 router.get('/book/:id', function(req, res){
-	Catalog.bySimpleColumn({id: req.params.id})
+	Catalog.getByColumn({id: req.params.id})
 		.then(result => {
 			let query = `SELECT c.id, c.title, c.thumbnailUrl, group_concat(a.author) as author 
 			FROM catalog c
@@ -89,6 +92,7 @@ router.get('/book/:id', function(req, res){
 
 				res.render(bookPagePath, {
 					user: req.session.user,
+					pageTitle: 'Oasis | ' + result.title,
 					book: result,
 					ymalBooks: randomBooks
 				});	 
@@ -101,7 +105,10 @@ router.get('/profile', function(req, res){
 		User.getAllData(req.session.user.id)
 			.then(user => {
 				console.log(user[0]);
-				res.render(profilePath, {user: user[0]});
+				res.render(profilePath, {
+					user: user[0],
+					pageTitle: 'Oasis | My Cabinet'
+				});
 			});
 		} else {
 			res.redirect('/login');

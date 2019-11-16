@@ -41,8 +41,8 @@ app.post('/sendMessage', function(req, res) {
 });
 
 
-app.get('/getBySimpleColumn', function(req, res) {
-	Catalog.bySimpleColumn({[req.query.column]: req.query.value})
+app.get('/getByColumn', function(req, res) {
+	Catalog.getByColumn({[req.query.column]: req.query.value})
     .then(result => res.send(JSON.stringify(result)));
 });
 

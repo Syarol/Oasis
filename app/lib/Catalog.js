@@ -133,14 +133,13 @@ class Catalog{
 		let sql = `SELECT b.title, b.thumbnailUrl, b.price, b.status, b.id, group_concat(a.author) AS authors
 			FROM Catalog b 
 			    INNER JOIN BookAuthors ba
-						ON b.id = ba.bookId
+					ON b.id = ba.bookId
 			    INNER JOIN Authors a
-						ON ba.authorId= a.id
-
-					INNER JOIN BookCategories bc
-						ON b.id = bc.bookId
+					ON ba.authorId= a.id
+				INNER JOIN BookCategories bc
+					ON b.id = bc.bookId
 			    INNER JOIN Categories c
-						ON bc.categoryId= c.id
+					ON bc.categoryId= c.id
 			where `;
 
 		if (fields.query){
@@ -233,7 +232,7 @@ class Catalog{
 	}
 
 	/*returns full item data*/
-	bySimpleColumn(query){
+	getByColumn(query){
 		console.log(query);
 		let column = Object.keys(query)[0];
 
