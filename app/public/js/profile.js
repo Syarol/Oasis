@@ -36,6 +36,7 @@ const infoDialog = document.getElementsByClassName('info-dialog')[0];
 const dataForm = document.getElementsByClassName('user-data-form')[0];
 const passwordForm = document.getElementsByClassName('password-form')[0];
 const deleteAccountFrom = document.getElementsByClassName('delete-account-form')[0];
+const addressForm = document.getElementsByClassName('address-form')[0];
 
 /* Input fields */
 const firstName = document.getElementsByName('first-name')[0];
@@ -48,6 +49,11 @@ const newPassword = document.getElementsByName('new-password')[0];
 const newPasswordRepeat = document.getElementsByName('new-password-repeat')[0];
 const deleteEmail = document.getElementsByName('delete-email')[0];
 const deletePassword = document.getElementsByName('delete-password')[0];
+const country = document.getElementsByName('country')[0];
+const region = document.getElementsByName('region')[0];
+const city = document.getElementsByName('city')[0];
+const address = document.getElementsByName('address')[0];
+const postal = document.getElementsByName('postal')[0];
 
 /* 'Confirm' buttons */
 const updateDataBtn = dataForm.getElementsByClassName('update-data-btn')[0];
@@ -55,12 +61,14 @@ const changePasswordBtn = passwordForm.getElementsByClassName('change-password-b
 const deleteAccountBtn = document.getElementsByClassName('delete-account-btn')[0];
 const confirmDeleteAccountBtn = deleteAccountFrom.getElementsByClassName('confirm-account-delete-btn')[0];
 const infoDialogBtn = infoDialog.getElementsByClassName('info-dialog-btn')[0];
+const addressBtn = addressForm.getElementsByClassName('update-address-btn')[0];
 
 /* Message texts */
 const dataMessage = dataForm.getElementsByClassName('user-data-message')[0];
 const passwordFormMessage = passwordForm.getElementsByClassName('password-form-message')[0];
 const deleteAccountMessage = deleteAccountFrom.getElementsByClassName('delete-account-form-message')[0];
 const infoDialogMessage = infoDialog.getElementsByClassName('info-dialog-text')[0];
+const addressMessage = addressForm.getElementsByClassName('user-address-message')[0];
 
 /**
  * Functions
@@ -93,6 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	new Cart(openCart);
 	new contactModal(contact, contactLink); //logic of contact modal
 	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location
+
+	ServerInteract.userOrders()
+		.then(res => console.log(res));
 }); 
 
 details.ontoggle = function(){
@@ -104,7 +115,7 @@ details.ontoggle = function(){
 			if (!isClickInside){
 				details.open = false;
 			}
-		}
+		};
 	}
 };
 
@@ -124,7 +135,7 @@ login.oninput = () => {
 };
 
 updateDataBtn.onclick = () => {
-	if (firstName.value === '' || lastName.value === '' || email.value === ''){
+	if (firstName.value.trim() === '' || lastName.value.trim() === '' || email.value.trim() === ''){
 		formMessage(dataMessage, true, 'Required fields shouldn\'t be empty!');
 	} else {
 		ServerInteract.updateUserData({
@@ -139,12 +150,33 @@ updateDataBtn.onclick = () => {
 					formMessage(dataMessage, false, 'Information successfully updated!');
 				} else 
 					formMessage(dataMessage, true, 'Some error occured. Please, try again later');
-			})
+			});
 	}
-}
+};
+
+addressBtn.onclick = () => {
+	if (country.value === null || region.value.trim() === '' || city.value.trim() === '' || address.value.trim() === '' || postal.value.trim() === '' ){
+		formMessage(addressMessage, true, 'Please, fill required fields!');
+	} else {
+		formMessage(addressMessage, false, 'Please, wait a second...');
+		ServerInteract.updateAddress({
+			country: country.value,
+			region: region.value,
+			city: city.value,
+			address: address.value,
+			postal: postal.value 
+		})
+			.then(status => {	
+				if (status){
+					formMessage(addressMessage, false, 'Address information successfully updated!');
+				} else 
+					formMessage(addressMessage, true, 'Some error occured. Please, try again later');
+			});
+	}
+};
 
 changePasswordBtn.onclick = () => {
-	if (newPassword.value === ''){
+	if (newPassword.value.trim() === ''){
 		formMessage(passwordFormMessage, true, 'Please, write a password!');
 	} else if (newPassword.value != newPasswordRepeat.value){
 		formMessage(passwordFormMessage, true, 'New password not matches!');
@@ -161,17 +193,17 @@ changePasswordBtn.onclick = () => {
 				}
 			});
 	}
-}
+};
 
 deleteAccountBtn.onclick = () => {
 	deleteAccountDialog.classList.remove('hide');
 
 	deleteAccountDialog.getElementsByClassName('back-btn')[0].onclick = () => {
 		deleteAccountDialog.classList.add('hide');
-	}
+	};
 	
 	confirmDeleteAccountBtn.onclick = () => {
-		if (deleteEmail.value === '' || deletePassword.value === ''){
+		if (deleteEmail.value.trim() === '' || deletePassword.value.trim() === ''){
 			document.getElementsByClassName('delete-account-form-message')[0].classList.remove('hide');
 			formMessage(deleteAccountMessage, true, 'Fields can\'t be empty!');
 		} else if (deletePassword.value.length < 6){
@@ -189,6 +221,6 @@ deleteAccountBtn.onclick = () => {
 					}
 				});
 		}
-	}
-}
+	};
+};
 

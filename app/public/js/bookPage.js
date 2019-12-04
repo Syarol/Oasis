@@ -57,7 +57,7 @@ if (details){ //will work only for authorized users
 				if (!isClickInside){
 					details.open = false;
 				}
-			}
+			};
 		}
 	};
 }
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	//cart will work only if user is authorized
 	if (openCartBtn.length > 0) {
 		let cart = new Cart(openCartBtn); 
-	
+		console.log('dew');
 		let addToCartButton = document.getElementsByClassName('add-to-cart-btn')[0];
 		ServerInteract.getFromCatalog({
 			column: 'id',

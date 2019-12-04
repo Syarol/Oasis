@@ -5,9 +5,11 @@
 const pug = require('pug');
 const path = require('path');
 const router = require('express').Router();
-const Catalog = require('../lib/Catalog'); 
+const Catalog = require('../lib/Catalog');
+const Address = require('../lib/Address'); 
 const User = require('./../lib/User');
 const pool = require('../lib/db');
+const Order = require('../lib/Order');
 
 /**
 	* Variables
@@ -103,10 +105,109 @@ router.get('/book/:id', function(req, res){
 router.get('/profile', function(req, res){
 	if (req.session.user){
 		User.getAllData(req.session.user.id)
-			.then(user => {
+			.then(async user => {
+				let countries = await Address.getAllCountries();
 				console.log(user[0]);
+				
+				let dat = await Order.getAll(req.session.user.id)
+    				.then(async result => {
+    					result = Array.from(result);
+
+    					let booksIdsArr = [];
+    					for(let item of result){
+    						if (booksIdsArr.includes(item.bookId)){
+    							continue;
+    						} else {
+    							booksIdsArr.push(item.bookId);
+    						}
+    					}
+
+
+    					let books = [];
+    					for (let book of booksIdsArr){
+    						let booksd = await Catalog.getBook(book);
+    						books.push({
+    							id: book,
+    							price: booksd.price,
+    							title: booksd.title,
+    							authors: booksd.authors
+    						}); 
+    					}
+    					console.log(books);
+
+    					let ordersIdsArr = [];
+    					for(let item of result){
+    						if (ordersIdsArr.includes(item.id)){
+    							continue;
+    						} else {
+    							ordersIdsArr.push({
+    								id: item.id,
+    								time: item.time,
+    								payment: item.payment,
+    								items: []
+    							});
+    						}
+    					}
+    				//	console.log(ordersIdsArr);;
+
+
+    					for(let item of ordersIdsArr){
+    						console.log(item);
+    						let orderItems = result.filter(el => el.id === item.id);
+
+    						if (ordersIdsArr.items && item.items.includes(orderItems[0].id === item.id)){
+    							console.log('de');
+    						} else {
+
+    							item.items = orderItems;
+    							console.log(item.items);
+    						}
+    					} 
+
+    					for(let item of ordersIdsArr){
+    						for(let i of item.items){
+    							delete i.id;
+    							delete i.userId;
+    							delete i.time;
+    							delete i.payment;
+
+    							let booksss = books.find(el => el.id === i.bookId);
+
+    							i.price = booksss.price;
+    							i.title = booksss.title;
+    							i.authors = booksss.authors;
+    						}
+    					console.log(item);
+    					}
+
+//console.log(ordersIdsArr);
+ordersIdsArr = ordersIdsArr.filter((thing, index, self) =>
+  index === self.findIndex((t) => (
+   t.id === thing.id
+  ))
+)
+
+    					return ordersIdsArr;
+
+
+
+
+    				});
+
+
+    				for (let item of dat){
+    					let total = 0;
+    					for (let book of item.items){
+    						total += book.price * book.count;
+    						console.log(total);
+    					}
+    					item.total = total;
+    				}
+
 				res.render(profilePath, {
 					user: user[0],
+					countries: countries,
+					orders: dat,
 					pageTitle: 'Oasis | My Cabinet'
 				});
 			});

@@ -196,6 +196,29 @@ class User{
 			});
 		});
 	}
+
+	static updateAddress(userId, data){
+		console.log(userId);
+		return new Promise((resolve, reject) => {
+			let sql;
+
+			sql = `INSERT INTO useraddress (user_id, country, region, city, address, postal) 
+			values (${userId}, ${data.country}, '${data.region}', '${data.city}', '${data.address}', '${data.postal}') 
+			ON DUPLICATE KEY UPDATE 
+			country = '${data.country}', region = '${data.region}', city = '${data.city}', address = '${data.address}', postal = '${data.postal}' where user_id = ${userId}`;
+
+			pool.query(sql, (err, result) => {
+				if (err){
+					reject(err);
+				} 
+
+				if (result && result.affectedRows > 0){
+					resolve(true);
+				} else resolve(false);
+			});
+		})
+			.catch(err => console.log(err));
+	}
 }
 
 /**

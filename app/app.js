@@ -1,8 +1,8 @@
 'use strict';
 
 const {port} = require('./lib/config.js');
-const express	  = require('express');
-const path   	  = require('path');
+const express = require('express');
+const path = require('path');
 const cart = new (require('./lib/cart'))();
 const Message = require('./lib/Message');
 const User = require('./lib/User');
@@ -11,6 +11,7 @@ const Catalog = require('./lib/Catalog');
 const router = require('./routes/index');
 const app = express();
 const session = require('./lib/session.js');
+const Order = require('./lib/Order');
 
 app.set('view engine', 'pug');
 app.set('views', __dirname + '/views');
@@ -40,6 +41,102 @@ app.post('/sendMessage', function(req, res) {
     .then(() => res.send());
 });
 
+app.post('/newOrder', function(req, res){
+  Order.new(req.session.user.id, req.body)
+    .then(result => res.send(JSON.stringify({isOK:result})));
+});
+
+app.post('/getOrders', function(req, res){
+ // Order.getAll(req.session.user.id)
+   // .then(result => res.send(JSON.stringify(result)));
+  Order.getAll(req.session.user.id)
+            .then(async result => {
+              result = Array.from(result);
+
+              let booksIdsArr = [];
+              for(let item of result){
+                if (booksIdsArr.includes(item.bookId)){
+                  continue;
+                } else {
+                  booksIdsArr.push(item.bookId);
+                }
+              }
+
+
+              let books = [];
+              for (let book of booksIdsArr){
+                let booksd = await Catalog.getBook(book);
+                books.push({
+                  id: book,
+                  price: booksd.price,
+                  title: booksd.title,
+                  authors: booksd.authors
+                }); 
+              }
+              console.log(books);
+
+              let ordersIdsArr = [];
+              for(let item of result){
+                if (ordersIdsArr.includes(item.id)){
+                  continue;
+                } else {
+                  ordersIdsArr.push({
+                    id: item.id,
+                    time: item.time,
+                    payment: item.payment,
+                    items: []
+                  });
+                }
+              }
+            //  console.log(ordersIdsArr);;
+
+
+              for(let item of ordersIdsArr){
+                console.log(item);
+                let orderItems = result.filter(el => el.id === item.id);
+
+                if (ordersIdsArr.items && item.items.includes(orderItems[0].id === item.id)){
+                  console.log('de');
+                } else {
+
+                  item.items = orderItems;
+                  console.log(item.items);
+                }
+              } 
+
+              for(let item of ordersIdsArr){
+                for(let i of item.items){
+                  delete i.id;
+                  delete i.userId;
+                  delete i.time;
+                  delete i.payment;
+
+                  let booksss = books.find(el => el.id === i.bookId);
+
+                  i.price = booksss.price;
+                  i.title = booksss.title;
+                  i.authors = booksss.authors;
+                }
+              console.log(item);
+              }
+
+//console.log(ordersIdsArr);
+
+ordersIdsArr = ordersIdsArr.filter((thing, index, self) =>
+  index === self.findIndex((t) => (
+   t.id === thing.id
+  ))
+)
+
+            //  ordersIdsArr.reduce((un, it) => un.includes(it) ? un : [...un, it]);
+
+              res.send(JSON.stringify(ordersIdsArr));
+
+
+
+
+            });
+});
 
 app.get('/getByColumn', function(req, res) {
 	Catalog.getByColumn({[req.query.column]: req.query.value})
@@ -53,11 +150,6 @@ app.get('/getCategories', function(req, res){
 
 app.get('/getAuthors', function(req, res){
   Catalog.getAllAuthors()
-    .then(data => res.send(data));
-});
-
-app.get('/getCategories', function(req, res){
-  Catalog.getAllCategories()
     .then(data => res.send(data));
 });
 
@@ -93,14 +185,14 @@ app.post('/logInUser', function(req, res){
 });
 
 app.post('/isThisUser', function(req, res){
-  User.isThisUser(req.session.user, req.body)
+  User.isCurrent(req.session.user.id, req.body)
     .then(isOK => {
       res.send(JSON.stringify({isOK: isOK}));
     });
 });
 
 app.get('/deleteAccount', function(req, res){
-  User.delete(req.session.user)
+  User.delete(req.session.user.id)
     .then(isOK => {
       res.send(JSON.stringify({isOK: isOK}));
     });
@@ -110,7 +202,7 @@ app.post('/checkAndDelete', function(req, res){
   User.isCurrent(req.session.user, req.body)
     .then(isOK => {
       if (isOK) {
-        User.delete(req.session.user)
+        User.delete(req.session.user.id)
           .then(isDeleted => {
             if (isDeleted){
               req.session.destroy(); //clears session and opens login/register pages
@@ -149,7 +241,12 @@ app.post('/changePassword', function(req, res){
 });
 
 app.post('/updateUserData', function(req, res){
-  User.updateData(req.session.user, req.body)
+  User.updateData(req.session.user.id, req.body)
+    .then(isOK => res.send(JSON.stringify({status: isOK})));
+});
+
+app.post('/updateAddress', function(req, res){
+  User.updateAddress(req.session.user.id, req.body)
     .then(isOK => res.send(JSON.stringify({status: isOK})));
 });
 

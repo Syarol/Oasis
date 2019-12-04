@@ -11,6 +11,7 @@ var pool = mysql.createPool({
 	user     : dbUser,
 	password : dbPassword,
 	database : db,
+	multipleStatements: true,
 	debug:  false
 });    
 

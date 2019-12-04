@@ -80,39 +80,25 @@ class Catalog{
 		let authorSQL, titleSQL, categorySQL;
 
 		if (fields.author) {
-			authorSQL = `b.id in (
-						select bookId from BookAuthors where BookAuthors.authorId in (
-							select id from Authors where author like '%${fields.author}%'
-						)
-					)`;
+			sql += `b.id in (
+				select bookId from BookAuthors where BookAuthors.authorId in (
+					select id from Authors where author like '%${fields.author}%'
+				)
+			) and`;
 		}
 
 		if (fields.title) {
-			titleSQL = `b.title like '%${fields.title}%'`;
+			sql += `b.title like '%${fields.title}%' and`;
 		}
 
 		if (fields.category) {
-			categorySQL = `b.id in (
-							select bookId from BookCategories where BookCategories.categoryId=${fields.category}
-						)`;
+			sql += `b.id in (
+				select bookId from BookCategories where BookCategories.categoryId=${fields.category}
+			) and`;
 		}
 
-
-		if (fields.author && fields.title && fields.category){
-			sql += `(${authorSQL}) and (${titleSQL}) and (${categorySQL})`;
-		} else if (fields.author && !fields.title && !fields.category) {
-			sql += authorSQL;
-		} else if (!fields.author && !fields.title && fields.category){
-			sql += categorySQL;
-		} else if (!fields.author && fields.title && !fields.category){
-			sql += titleSQL;
-		} else if (fields.author && fields.title && !fields.category) {
-			sql += `(${authorSQL}) and (${titleSQL})`;
-		} else if (fields.author && !fields.title && fields.category) {
-			sql += `(${authorSQL}) and (${categorySQL})`;
-		} else if (!fields.author && fields.title && fields.category) {
-			sql += ` (${titleSQL}) and (${categorySQL})`;
-		} 
+		if (sql.endsWith('and')) sql = sql.substring(0, sql.lastIndexOf('and'));
+		if (sql.endsWith('where ')) sql = sql.replace('where ', '');
 
 		sql += ' group by b.title;';
 
@@ -256,7 +242,8 @@ class Catalog{
 					resolve(result);
 				}
 			});
-		});
+		})
+			.catch(err => console.log(err));
 	}
 
 	//gets array of all publishers
@@ -394,6 +381,29 @@ class Catalog{
 	//gets array of book authors
 	getAuthor(authorId){
 		
+	}
+
+	getBook(id){
+		let sql = `SELECT b.id, b.title, b.price, group_concat(a.author) AS authors
+			FROM Catalog b 
+			    INNER JOIN BookAuthors ba
+					ON b.id = ba.bookId
+			    INNER JOIN Authors a
+					ON ba.authorId= a.id
+			where b.id=` + id;
+
+sql += ' group by b.title;';
+
+		return new Promise(function(resolve, reject){
+			pool.query(sql, (err, result) => {
+				if (err){
+					reject(err);
+				} else {
+					resolve(result[0]);
+				}
+			});
+		})
+			.catch(err => console.log(err));
 	}
 }
 

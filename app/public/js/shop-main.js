@@ -50,7 +50,7 @@ if (details){ //will work only for authorized users
 				if (!isClickInside){
 					details.open = false;
 				}
-			}
+			};
 		}
 	};
 }
@@ -83,12 +83,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	let Render = new RenderElements(); 
 
-	ServerInteract.getFromCatalog('specialMark', 'RECOMMEND')
-			.then(res => Render.carouselItems(recommendsSection, res, cart));
-	ServerInteract.getFromCatalog('specialMark', 'BESTSELLERS')
-			.then(res => Render.carouselItems(bestsellerSection, res, cart));
-	ServerInteract.getFromCatalog('specialMark', 'ARRIVALS')
-			.then(res => Render.carouselItems(arrivalsSection, res, cart));
+	ServerInteract.getFromCatalog({column:'specialMark', value:'RECOMMEND'})
+		.then(res => Render.carouselItems(recommendsSection, res, cart));
+	ServerInteract.getFromCatalog({column:'specialMark', value:'BESTSELLERS'})
+		.then(res => Render.carouselItems(bestsellerSection, res, cart));
+	ServerInteract.getFromCatalog({column:'specialMark', value:'ARRIVALS'})
+		.then(res => Render.carouselItems(arrivalsSection, res, cart));
 
 	new contactModal(contact, contactLink); //logic of contact modal
 	new GoogleMap(document.getElementsByClassName('cu-map-container')[0]);//connect and load map of shop location

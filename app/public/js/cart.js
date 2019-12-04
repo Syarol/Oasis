@@ -52,6 +52,7 @@ function swapLastTwo(el){
 
 export default class Cart{
 	constructor(openButton, goodsInside = []){
+		console.log(openButton);
 		if (openButton){
 			this.openButton = openButton.length > 1 ? Array.from(openButton) : openButton[0];
 			this.goodsInside = goodsInside;
@@ -64,7 +65,6 @@ export default class Cart{
 
 					console.log(inCart);
 				});
-
 			return this;
 		}
 	}
@@ -351,11 +351,12 @@ export default class Cart{
 	    		event: {
 	    			click: () => {
 	    				this.checkOutContainer.style.display = 'none';
-	    				this.openContactPage();
+	    				//this.openContactPage();
+	    				this.openPayment();
 	    			}
 	    		}
 	      	}, parent);
-	    } else if (page == 'contact'){
+	    /*} else if (page == 'contact'){
 	    	createNewEl('button', {
 	    		class: 'cm-btn btn',
 	    		content: 'Back',
@@ -376,8 +377,18 @@ export default class Cart{
 	    				this.openThanksPage();
 	    			}
 	    		}
-	      	}, parent);
-	    } 
+	      	}, parent);*/
+	      } else if (page == 'payment'){
+	      	createNewEl('button', {
+	    		class: 'cm-btn btn',
+	    		content: 'Later',
+	    		event: {
+	    			click: () => {
+	    				this.confirmationFormContainer.style.display = 'none';
+	    			}
+	    		}
+	      	}, parent);	
+	      }
 
 	    return this;
 	}
@@ -407,7 +418,7 @@ export default class Cart{
 	    return this;
 	}
 
-	openContactPage(){
+	/*openContactPage(){
 		this.cartHeader.textContent = 'Leave your contacts';
 		this.confirmationFormContainer.style.display = 'grid';
 
@@ -419,9 +430,9 @@ export default class Cart{
 		this.createButtons(this.buttonsContainer, 'contact');
 
 		return this;
-	}
+	}*/
 
-	createConfirmationForm(parent){
+	/*createConfirmationForm(parent){
 		createInputField(parent, {
 			input: {
 				type: 'text', 
@@ -466,6 +477,37 @@ export default class Cart{
 		}
 
 		return this;
+	}*/
+
+	openPayment(){
+		this.order();
+
+
+		//this.cartHeader.textContent = 'Choose payment method';	
+
+		this.cartModalContainer.innerHTML = `<span class="cm-close close-modal" title="Close">×</span>
+		<h2 class="cm-title">Choose payment method</h2>
+		<div class="payment-container">
+			<span><i class="fab fa-paypal"></i> PayPal</span>
+		</div>`;
+		//this.checkOutContainer.remove();
+		
+		this.createButtons(this.buttonsContainer, 'payment');
+	}
+
+	order(){
+		console.log(this.goodsInside);
+		ServerInteract.newOrder(this.goodsInside)
+			.then(res => {
+				console.log(res);
+				if (res) {
+					this.clearInside()
+						.updateAllGoodsTotal();
+					ServerInteract.setCart(this.goodsInside);
+				} else{
+					this.order();
+				}
+			});
 	}
 
 	openThanksPage(){
@@ -476,7 +518,7 @@ export default class Cart{
 		return this;
 	}
 
-	openSentenceBanner(sentence){
+	openSentenceBanner(sentence, buttons = null){
 		createNewEl('div', {
 		    class: 'cm-phrase-container grid-center-items',
 		    nested: [

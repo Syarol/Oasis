@@ -66,7 +66,7 @@ if (details){ //will work only for authorized users
 				if (!isClickInside){
 					details.open = false;
 				}
-			}
+			};
 		}
 	};
 }
@@ -99,11 +99,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	
 	let Render = new RenderElements(); 
 
-	ServerInteract.getFromCatalog('specialMark', 'ARRIVALS')
+	ServerInteract.getFromCatalog({column:'specialMark', value:'ARRIVALS'})
 		.then(res => Render.carouselItems(arrivalCarouselSection, res, cart));
-	ServerInteract.getFromCatalog('specialMark', 'BESTSELLER')
+	ServerInteract.getFromCatalog({column:'specialMark', value:'BESTSELLER'})
 		.then(res => Render.bestseller(bestsellerContainer, res));
-	ServerInteract.getFromCatalog('specialMark', 'EXCLUSIVE')
+	ServerInteract.getFromCatalog({column:'specialMark', value:'EXCLUSIVE'})
 		.then(res => Render.exclusiveBooks(exclusivesContainer, res, cart));
 
 	ServerInteract.getCategories(Render.categoriesList, document.getElementsByClassName('sf-select')[0]);

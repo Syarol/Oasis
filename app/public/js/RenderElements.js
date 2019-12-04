@@ -215,9 +215,12 @@ export default class RenderElements{
 		let previousSearchList = [];
 
 		if (data.list){
-			previousSearchList = JSON.parse(data.list);
+			try {
+				previousSearchList = JSON.parse(data.list);
+			} catch(ex) {
+				previousSearchList = data.list;
+			}
 		}
-
 		/*render checklist items one by one*/
 		for (let item of list){
 			let checkItem = '';
@@ -242,7 +245,7 @@ export default class RenderElements{
 						event: {
 							click: function (e){
 								syncHiddenIputs(data.class, e.target);
-					   	}
+							}
 						}
 					}),
 					/*render checkbox label text*/

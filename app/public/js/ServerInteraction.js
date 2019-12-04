@@ -34,7 +34,7 @@ export default class ServerInteract{
 	}
 
 	/*Find goods*/
-	static getFinded(query, cb){
+	static getFinded(query){
 		return fetch('/getSearchResults', {
 			method: 'POST',
 			headers: {
@@ -80,8 +80,9 @@ export default class ServerInteract{
 	}
 
 	/*Find goods by one of columns*/
-	static getFromCatalog(column, value){
-		return fetch(`/getByColumn?column=${column}&value=` + value, {
+	static getFromCatalog(data){
+		console.log(data);
+		return fetch(`/getByColumn?column=${data.column}&value=` + data.value, {
 			method: 'GET'
 		})
 			.then(res => res.json())
@@ -204,9 +205,43 @@ export default class ServerInteract{
 			.then(result => result.json());
 	}
 
+	static updateAddress(data){
+		return fetch('/updateAddress', {
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			}, 
+			method: 'post',
+			body: JSON.stringify(data)
+		})
+			.catch(err => console.log(err))
+			.then(result => result.json());
+	}
+
 	static isUserAuthorized(){
 		return fetch('/isAuth', {
 			method: 'POST'
+		})
+			.catch(err => console.log(err))
+			.then(result => result.json());
+	}
+
+	static newOrder(data){
+		return fetch('/newOrder', {
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			}, 
+			method: 'post',
+			body: JSON.stringify(data)
+		})
+			.catch(err => console.log(err))
+			.then(result => result.json());
+	}
+
+	static userOrders(){
+		return fetch('/getOrders', {
+			method: 'post'
 		})
 			.catch(err => console.log(err))
 			.then(result => result.json());

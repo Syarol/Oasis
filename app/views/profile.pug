@@ -39,6 +39,41 @@ body(ontouchstart='')
 							button.update-data-btn.btn(type='button') Update data
 
 				.info-container
+					h3.title Delivery Address
+					.row-container 
+						span.caution-message Be sure to fill this fields before your order!
+					form.address-form
+						.form-row
+							label.form-label Country
+							span.required-text Required
+							select(name='country' required)
+								option(value='') Choose Your country
+								each val in countries
+									if user.address != null
+										option(value= val.id selected)= val.name
+									else
+										option(value= val.id)= val.name 
+						.form-row
+							label.form-label Region
+							span.required-text Required
+							input(type='text' name='region' required)
+						.form-row
+							label.form-label City
+							span.required-text Required
+							input(type='text' name='city' required)
+						.form-row
+							label.form-label Address
+							span.required-text Required
+							input(type='text' name='address' placeholder='Street and house number' required)
+						.form-row
+							label.form-label Zip/Postal code
+							span.required-text Required
+							input(type='text' name='postal' maxlength=12 required)
+						.row-container
+							span.user-address-message.form-message
+							button.update-address-btn.btn(type='button') Update data
+
+				.info-container
 					h3.title Change Password
 					form.password-form
 						.form-row
@@ -57,7 +92,7 @@ body(ontouchstart='')
 							span.password-form-message.form-message
 							button.change-password-btn.btn(type='button') Change Password
 
-				.info-container
+				.info-container.delete-info-container
 					h3.title Delete Account
 					.row-container
 						span.form-message Once you delete your account, all your data will be lost. Be careful!
@@ -66,6 +101,20 @@ body(ontouchstart='')
 			input#tab-2(type='radio' name='tabgroup')
 			label.tab-label(for='tab-2') Orders
 			.tab-content
+				each item in orders
+					.order
+						span= item.id
+						if item.payment
+							span Payment status: Paid 
+						else
+							span Payment status: Not Paid
+						span Order time: #{item.time}
+						each book in item.items
+							span= book.title + ' by ' + book.authors
+							span= book.count + ' ✕ ' + book.price + '$'
+						span Total: #{item.total} $
+
+
 
 			.modal-wrapper.hide.delete-account-dialog
 				.modal-container

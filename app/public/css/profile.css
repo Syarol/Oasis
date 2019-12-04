@@ -35,7 +35,7 @@ html, body {
 .modal-container{
 	background-color: #fefefe;
 	margin: auto;
-	padding: 20px;
+	padding: calc(20px + .5em) 20px;
 	border: 1px solid #888;
 	width: 80%;
 	position: relative;
@@ -163,11 +163,24 @@ main{
 	margin-bottom: 1em;
 }
 
+.delete-info-container .title{
+	margin: .5em auto calc(1em - 5px) 0;
+}
+
+.delete-info-container .form-message{
+	margin-top: 5px;
+}
+
+.delete-info-container .delete-account-btn {
+	margin-left: auto;
+	margin-top: 5px;
+}
+
 .title{
 	width: max-content;
 	font-family: var(--titles-font);
 	margin: .5em auto 1em 0;
-	font-size: 1.3em;
+	font-size: 1.5em;
 	position: relative;
 }
 
@@ -206,7 +219,8 @@ main{
 	font-size: .8em;
 }
 
-.form-row input{
+.form-row input,
+.form-row select{
 	grid-column-start: 1;
 	grid-column-end: 3;
 	border-radius: 5px;
@@ -216,8 +230,14 @@ main{
 
 .row-container{
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: center;
+}
+
+.caution-message{
+	font-size: 1.2em;
+	margin-bottom: 1em;
 }
 
 .form-message{
@@ -225,6 +245,7 @@ main{
 }
 
 .update-data-btn,
+.update-address-btn,
 .change-password-btn,
 .delete-account-btn,
 .confirm-account-delete-btn,
@@ -249,7 +270,7 @@ main{
 .info-dialog-text{
 	text-align: center;
 	font-size: 1.5em;
-	margin: .5em auto 1em auto;
+	margin: 0 auto 1em auto;
 }
 
 
@@ -276,5 +297,6 @@ main{
 }
 
 .hide{
+	visibility: none !important;
 	display: none !important;
 }
